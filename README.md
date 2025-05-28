@@ -1,5 +1,25 @@
 # Everblack Go SDK
 
+The official Go SDK for Everblack services. Also, package `authn` is the reference implementation of authentication 
+mechanism, which is used internally in Everblack Cloud to verify signatures.
+
+## Versioning
+
+Each service is versioned independently of each other. Packages are organized by major versions. For example, Preview
+version of Moab API is available with `import moab "github.com/evrblk/evrblk-go/moab/preview"`, V1 version will be 
+available with `import moab "github.com/evrblk/evrblk-go/moab/v1"`, and so forth. It is guaranteed that all minor changes
+are backward compatible with old SDKs.
+
+Currently available versions:
+
+* Moab
+    * `preview`
+* Grackle
+    * `preview`
+* IAM
+    * `preview`
+* My Account
+    * `preview`
 
 ## Installing
 
@@ -22,7 +42,7 @@ privatePem := "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIN33cCNGxsuxwMaJ2jWvWcgxB
 
 signer := evrblk.NewAlfaRequestSigner(apiKeyId, privatePem)
 
-moabClient := moab.NewMoabPreviewGrpcClient("moab.us-east-2.api.evrblk.com", signer)
+moabClient := moab.NewMoabGrpcClient("moab.us-east-2.api.evrblk.com", signer)
 
 createQueueResp, err := moabClient.CreateQueue(context.Background(), &moab.CreateQueueRequest{
     Name:                      "my_queue_1",

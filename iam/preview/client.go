@@ -29,24 +29,24 @@ type IAMPreviewApi interface {
 	DeleteApiKey(ctx context.Context, request *DeleteApiKeyRequest) (*DeleteApiKeyResponse, error)
 }
 
-type IAMPreviewGrpcClient struct {
+type IAMGrpcClient struct {
 	grpc IamPreviewApiClient
 	conn *grpc.ClientConn
 
 	signer evrblk.RequestSigner
 }
 
-var _ IAMPreviewApi = &IAMPreviewGrpcClient{}
+var _ IAMPreviewApi = &IAMGrpcClient{}
 
-func (c *IAMPreviewGrpcClient) WithSigner(signer evrblk.RequestSigner) *IAMPreviewGrpcClient {
-	return &IAMPreviewGrpcClient{
+func (c *IAMGrpcClient) WithSigner(signer evrblk.RequestSigner) *IAMGrpcClient {
+	return &IAMGrpcClient{
 		grpc:   c.grpc,
 		conn:   c.conn,
 		signer: signer,
 	}
 }
 
-func (c *IAMPreviewGrpcClient) CreateRole(ctx context.Context, request *CreateRoleRequest) (*CreateRoleResponse, error) {
+func (c *IAMGrpcClient) CreateRole(ctx context.Context, request *CreateRoleRequest) (*CreateRoleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (c *IAMPreviewGrpcClient) CreateRole(ctx context.Context, request *CreateRo
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) GetRole(ctx context.Context, request *GetRoleRequest) (*GetRoleResponse, error) {
+func (c *IAMGrpcClient) GetRole(ctx context.Context, request *GetRoleRequest) (*GetRoleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (c *IAMPreviewGrpcClient) GetRole(ctx context.Context, request *GetRoleRequ
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) UpdateRole(ctx context.Context, request *UpdateRoleRequest) (*UpdateRoleResponse, error) {
+func (c *IAMGrpcClient) UpdateRole(ctx context.Context, request *UpdateRoleRequest) (*UpdateRoleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func (c *IAMPreviewGrpcClient) UpdateRole(ctx context.Context, request *UpdateRo
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) ListRoles(ctx context.Context, request *ListRolesRequest) (*ListRolesResponse, error) {
+func (c *IAMGrpcClient) ListRoles(ctx context.Context, request *ListRolesRequest) (*ListRolesResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (c *IAMPreviewGrpcClient) ListRoles(ctx context.Context, request *ListRoles
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) DeleteRole(ctx context.Context, request *DeleteRoleRequest) (*DeleteRoleResponse, error) {
+func (c *IAMGrpcClient) DeleteRole(ctx context.Context, request *DeleteRoleRequest) (*DeleteRoleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -101,9 +101,9 @@ func (c *IAMPreviewGrpcClient) DeleteRole(ctx context.Context, request *DeleteRo
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) CreateUser(ctx context.Context, request *CreateUserRequest) (*CreateUserResponse, error) {
+func (c *IAMGrpcClient) CreateUser(ctx context.Context, request *CreateUserRequest) (*CreateUserResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
-	if err != nil {
+	if err != nil {IAMGrpcClient
 		return nil, err
 	}
 
@@ -112,7 +112,7 @@ func (c *IAMPreviewGrpcClient) CreateUser(ctx context.Context, request *CreateUs
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) GetUser(ctx context.Context, request *GetUserRequest) (*GetUserResponse, error) {
+func (c *IAMGrpcClient) GetUser(ctx context.Context, request *GetUserRequest) (*GetUserResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -123,7 +123,7 @@ func (c *IAMPreviewGrpcClient) GetUser(ctx context.Context, request *GetUserRequ
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) UpdateUser(ctx context.Context, request *UpdateUserRequest) (*UpdateUserResponse, error) {
+func (c *IAMGrpcClient) UpdateUser(ctx context.Context, request *UpdateUserRequest) (*UpdateUserResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func (c *IAMPreviewGrpcClient) UpdateUser(ctx context.Context, request *UpdateUs
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {
+func (c *IAMGrpcClient) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (c *IAMPreviewGrpcClient) ListUsers(ctx context.Context, request *ListUsers
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) DeleteUser(ctx context.Context, request *DeleteUserRequest) (*DeleteUserResponse, error) {
+func (c *IAMGrpcClient) DeleteUser(ctx context.Context, request *DeleteUserRequest) (*DeleteUserResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (c *IAMPreviewGrpcClient) DeleteUser(ctx context.Context, request *DeleteUs
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) CreateApiKey(ctx context.Context, request *CreateApiKeyRequest) (*CreateApiKeyResponse, error) {
+func (c *IAMGrpcClient) CreateApiKey(ctx context.Context, request *CreateApiKeyRequest) (*CreateApiKeyResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -167,7 +167,7 @@ func (c *IAMPreviewGrpcClient) CreateApiKey(ctx context.Context, request *Create
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) GetApiKey(ctx context.Context, request *GetApiKeyRequest) (*GetApiKeyResponse, error) {
+func (c *IAMGrpcClient) GetApiKey(ctx context.Context, request *GetApiKeyRequest) (*GetApiKeyResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -178,7 +178,7 @@ func (c *IAMPreviewGrpcClient) GetApiKey(ctx context.Context, request *GetApiKey
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) ListApiKeys(ctx context.Context, request *ListApiKeysRequest) (*ListApiKeysResponse, error) {
+func (c *IAMGrpcClient) ListApiKeys(ctx context.Context, request *ListApiKeysRequest) (*ListApiKeysResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -189,7 +189,7 @@ func (c *IAMPreviewGrpcClient) ListApiKeys(ctx context.Context, request *ListApi
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) DeleteApiKey(ctx context.Context, request *DeleteApiKeyRequest) (*DeleteApiKeyResponse, error) {
+func (c *IAMGrpcClient) DeleteApiKey(ctx context.Context, request *DeleteApiKeyRequest) (*DeleteApiKeyResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -200,17 +200,17 @@ func (c *IAMPreviewGrpcClient) DeleteApiKey(ctx context.Context, request *Delete
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *IAMPreviewGrpcClient) Close() {
+func (c *IAMGrpcClient) Close() {
 	c.conn.Close()
 }
 
-func NewIAMPreviewGrpcClient(address string, signer evrblk.RequestSigner) *IAMPreviewGrpcClient {
+func NewIAMGrpcClient(address string, signer evrblk.RequestSigner) *IAMGrpcClient {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 
-	return &IAMPreviewGrpcClient{
+	return &IAMGrpcClient{
 		conn:   conn,
 		grpc:   NewIamPreviewApiClient(conn),
 		signer: signer,

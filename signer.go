@@ -3,6 +3,7 @@ package evrblk
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/evrblk/evrblk-go/authn"
@@ -45,6 +46,7 @@ func (s *alfaRequestSigner) Sign(ctx context.Context, request proto.Message) (co
 	return ctx, nil
 }
 
+// NewAlfaRequestSigner creates a new request signer for Alfa API keys.
 func NewAlfaRequestSigner(apiKeyId string, privatePem string) (RequestSigner, error) {
 	// TODO add validations: key is alfa, pem is valid
 	return &alfaRequestSigner{
@@ -78,10 +80,20 @@ func (s *bravoRequestSigner) Sign(ctx context.Context, request proto.Message) (c
 	return ctx, nil
 }
 
+// NewBravoRequestSigner creates a new request signer for Bravo API keys.
 func NewBravoRequestSigner(apiKeyId string, apiSecretKey string) (RequestSigner, error) {
 	// TODO add validations: key is bravo, secret is valid
 	return &bravoRequestSigner{
 		secret:   apiSecretKey,
 		apiKeyId: apiKeyId,
 	}, nil
+}
+
+// NewRequestSigner creates a new request signer for Alfa or Bravo API keys based on provided API key ID.
+func NewRequestSigner(apiKeyId string, apiSecretKey string) (RequestSigner, error) {
+	if strings.HasPrefix(apiKeyId, "key_alfa_") {
+		return NewAlfaRequestSigner(apiKeyId, apiSecretKey)
+	} else {
+		return NewBravoRequestSigner(apiKeyId, apiSecretKey)
+	}
 }

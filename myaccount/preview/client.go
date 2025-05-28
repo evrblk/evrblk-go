@@ -14,24 +14,24 @@ type MyAccountPreviewApi interface {
 	GetAccount(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error)
 }
 
-type MyAccountPreviewGrpcClient struct {
+type MyAccountGrpcClient struct {
 	grpc MyAccountPreviewApiClient
 	conn *grpc.ClientConn
 
 	signer evrblk.RequestSigner
 }
 
-var _ MyAccountPreviewApi = &MyAccountPreviewGrpcClient{}
+var _ MyAccountPreviewApi = &MyAccountGrpcClient{}
 
-func (c *MyAccountPreviewGrpcClient) WithSigner(signer evrblk.RequestSigner) *MyAccountPreviewGrpcClient {
-	return &MyAccountPreviewGrpcClient{
+func (c *MyAccountGrpcClient) WithSigner(signer evrblk.RequestSigner) *MyAccountGrpcClient {
+	return &MyAccountGrpcClient{
 		grpc:   c.grpc,
 		conn:   c.conn,
 		signer: signer,
 	}
 }
 
-func (c *MyAccountPreviewGrpcClient) GetAccount(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error) {
+func (c *MyAccountGrpcClient) GetAccount(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -42,17 +42,17 @@ func (c *MyAccountPreviewGrpcClient) GetAccount(ctx context.Context, request *Ge
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MyAccountPreviewGrpcClient) Close() {
+func (c *MyAccountGrpcClient) Close() {
 	c.conn.Close()
 }
 
-func NewMyAccountPreviewGrpcClient(address string, signer evrblk.RequestSigner) *MyAccountPreviewGrpcClient {
+func NewMyAccountGrpcClient(address string, signer evrblk.RequestSigner) *MyAccountGrpcClient {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 
-	return &MyAccountPreviewGrpcClient{
+	return &MyAccountGrpcClient{
 		conn:   conn,
 		grpc:   NewMyAccountPreviewApiClient(conn),
 		signer: signer,

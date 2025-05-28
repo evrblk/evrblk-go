@@ -34,24 +34,24 @@ type GracklePreviewApi interface {
 	DeleteLock(ctx context.Context, request *DeleteLockRequest) (*DeleteLockResponse, error)
 }
 
-type GracklePreviewGrpcClient struct {
+type GrackleGrpcClient struct {
 	grpc GracklePreviewApiClient
 	conn *grpc.ClientConn
 
 	signer evrblk.RequestSigner
 }
 
-func (c *GracklePreviewGrpcClient) WithSigner(signer evrblk.RequestSigner) *GracklePreviewGrpcClient {
-	return &GracklePreviewGrpcClient{
+func (c *GrackleGrpcClient) WithSigner(signer evrblk.RequestSigner) *GrackleGrpcClient {
+	return &GrackleGrpcClient{
 		grpc:   c.grpc,
 		conn:   c.conn,
 		signer: signer,
 	}
 }
 
-var _ GracklePreviewApi = &GracklePreviewGrpcClient{}
+var _ GracklePreviewApi = &GrackleGrpcClient{}
 
-func (c *GracklePreviewGrpcClient) CreateNamespace(ctx context.Context, request *CreateNamespaceRequest) (*CreateNamespaceResponse, error) {
+func (c *GrackleGrpcClient) CreateNamespace(ctx context.Context, request *CreateNamespaceRequest) (*CreateNamespaceResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (c *GracklePreviewGrpcClient) CreateNamespace(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) GetNamespace(ctx context.Context, request *GetNamespaceRequest) (*GetNamespaceResponse, error) {
+func (c *GrackleGrpcClient) GetNamespace(ctx context.Context, request *GetNamespaceRequest) (*GetNamespaceResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (c *GracklePreviewGrpcClient) GetNamespace(ctx context.Context, request *Ge
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) UpdateNamespace(ctx context.Context, request *UpdateNamespaceRequest) (*UpdateNamespaceResponse, error) {
+func (c *GrackleGrpcClient) UpdateNamespace(ctx context.Context, request *UpdateNamespaceRequest) (*UpdateNamespaceResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (c *GracklePreviewGrpcClient) UpdateNamespace(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) DeleteNamespace(ctx context.Context, request *DeleteNamespaceRequest) (*DeleteNamespaceResponse, error) {
+func (c *GrackleGrpcClient) DeleteNamespace(ctx context.Context, request *DeleteNamespaceRequest) (*DeleteNamespaceResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (c *GracklePreviewGrpcClient) DeleteNamespace(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) ListNamespaces(ctx context.Context, request *ListNamespacesRequest) (*ListNamespacesResponse, error) {
+func (c *GrackleGrpcClient) ListNamespaces(ctx context.Context, request *ListNamespacesRequest) (*ListNamespacesResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (c *GracklePreviewGrpcClient) ListNamespaces(ctx context.Context, request *
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) CreateSemaphore(ctx context.Context, request *CreateSemaphoreRequest) (*CreateSemaphoreResponse, error) {
+func (c *GrackleGrpcClient) CreateSemaphore(ctx context.Context, request *CreateSemaphoreRequest) (*CreateSemaphoreResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -117,7 +117,7 @@ func (c *GracklePreviewGrpcClient) CreateSemaphore(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) GetSemaphore(ctx context.Context, request *GetSemaphoreRequest) (*GetSemaphoreResponse, error) {
+func (c *GrackleGrpcClient) GetSemaphore(ctx context.Context, request *GetSemaphoreRequest) (*GetSemaphoreResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -128,7 +128,7 @@ func (c *GracklePreviewGrpcClient) GetSemaphore(ctx context.Context, request *Ge
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) UpdateSemaphore(ctx context.Context, request *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error) {
+func (c *GrackleGrpcClient) UpdateSemaphore(ctx context.Context, request *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -139,7 +139,7 @@ func (c *GracklePreviewGrpcClient) UpdateSemaphore(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) DeleteSemaphore(ctx context.Context, request *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error) {
+func (c *GrackleGrpcClient) DeleteSemaphore(ctx context.Context, request *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -150,7 +150,7 @@ func (c *GracklePreviewGrpcClient) DeleteSemaphore(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -161,7 +161,7 @@ func (c *GracklePreviewGrpcClient) CreateWaitGroup(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) GetWaitGroup(ctx context.Context, request *GetWaitGroupRequest) (*GetWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) GetWaitGroup(ctx context.Context, request *GetWaitGroupRequest) (*GetWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -172,7 +172,7 @@ func (c *GracklePreviewGrpcClient) GetWaitGroup(ctx context.Context, request *Ge
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) DeleteWaitGroup(ctx context.Context, request *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) DeleteWaitGroup(ctx context.Context, request *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -183,7 +183,7 @@ func (c *GracklePreviewGrpcClient) DeleteWaitGroup(ctx context.Context, request 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) AddJobToWaitGroup(ctx context.Context, request *AddJobToWaitGroupRequest) (*AddJobToWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) AddJobToWaitGroup(ctx context.Context, request *AddJobToWaitGroupRequest) (*AddJobToWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -194,7 +194,7 @@ func (c *GracklePreviewGrpcClient) AddJobToWaitGroup(ctx context.Context, reques
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) CompleteJobFromWaitGroup(ctx context.Context, request *CompleteJobFromWaitGroupRequest) (*CompleteJobFromWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) CompleteJobFromWaitGroup(ctx context.Context, request *CompleteJobFromWaitGroupRequest) (*CompleteJobFromWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -205,7 +205,7 @@ func (c *GracklePreviewGrpcClient) CompleteJobFromWaitGroup(ctx context.Context,
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) AcquireLock(ctx context.Context, request *AcquireLockRequest) (*AcquireLockResponse, error) {
+func (c *GrackleGrpcClient) AcquireLock(ctx context.Context, request *AcquireLockRequest) (*AcquireLockResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ func (c *GracklePreviewGrpcClient) AcquireLock(ctx context.Context, request *Acq
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) ReleaseLock(ctx context.Context, request *ReleaseLockRequest) (*ReleaseLockResponse, error) {
+func (c *GrackleGrpcClient) ReleaseLock(ctx context.Context, request *ReleaseLockRequest) (*ReleaseLockResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -227,7 +227,7 @@ func (c *GracklePreviewGrpcClient) ReleaseLock(ctx context.Context, request *Rel
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) GetLock(ctx context.Context, request *GetLockRequest) (*GetLockResponse, error) {
+func (c *GrackleGrpcClient) GetLock(ctx context.Context, request *GetLockRequest) (*GetLockResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -238,7 +238,7 @@ func (c *GracklePreviewGrpcClient) GetLock(ctx context.Context, request *GetLock
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) DeleteLock(ctx context.Context, request *DeleteLockRequest) (*DeleteLockResponse, error) {
+func (c *GrackleGrpcClient) DeleteLock(ctx context.Context, request *DeleteLockRequest) (*DeleteLockResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -249,17 +249,17 @@ func (c *GracklePreviewGrpcClient) DeleteLock(ctx context.Context, request *Dele
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GracklePreviewGrpcClient) Close() {
+func (c *GrackleGrpcClient) Close() {
 	c.conn.Close()
 }
 
-func NewGracklePreviewGrpcClient(address string, signer evrblk.RequestSigner) *GracklePreviewGrpcClient {
+func NewGrackleGrpcClient(address string, signer evrblk.RequestSigner) *GrackleGrpcClient {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 
-	return &GracklePreviewGrpcClient{
+	return &GrackleGrpcClient{
 		conn:   conn,
 		grpc:   NewGracklePreviewApiClient(conn),
 		signer: signer,

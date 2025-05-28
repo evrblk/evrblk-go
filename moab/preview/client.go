@@ -30,24 +30,24 @@ type MoabPreviewApi interface {
 	PurgeQueue(ctx context.Context, request *PurgeQueueRequest) (*PurgeQueueResponse, error)
 }
 
-type MoabPreviewGrpcClient struct {
+type MoabGrpcClient struct {
 	grpc MoabPreviewApiClient
 	conn *grpc.ClientConn
 
 	signer evrblk.RequestSigner
 }
 
-func (c *MoabPreviewGrpcClient) WithSigner(signer evrblk.RequestSigner) *MoabPreviewGrpcClient {
-	return &MoabPreviewGrpcClient{
+func (c *MoabGrpcClient) WithSigner(signer evrblk.RequestSigner) *MoabGrpcClient {
+	return &MoabGrpcClient{
 		grpc:   c.grpc,
 		conn:   c.conn,
 		signer: signer,
 	}
 }
 
-var _ MoabPreviewApi = &MoabPreviewGrpcClient{}
+var _ MoabPreviewApi = &MoabGrpcClient{}
 
-func (c *MoabPreviewGrpcClient) CreateQueue(ctx context.Context, request *CreateQueueRequest) (*CreateQueueResponse, error) {
+func (c *MoabGrpcClient) CreateQueue(ctx context.Context, request *CreateQueueRequest) (*CreateQueueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (c *MoabPreviewGrpcClient) CreateQueue(ctx context.Context, request *Create
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) GetQueue(ctx context.Context, request *GetQueueRequest) (*GetQueueResponse, error) {
+func (c *MoabGrpcClient) GetQueue(ctx context.Context, request *GetQueueRequest) (*GetQueueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ func (c *MoabPreviewGrpcClient) GetQueue(ctx context.Context, request *GetQueueR
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) UpdateQueue(ctx context.Context, request *UpdateQueueRequest) (*UpdateQueueResponse, error) {
+func (c *MoabGrpcClient) UpdateQueue(ctx context.Context, request *UpdateQueueRequest) (*UpdateQueueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (c *MoabPreviewGrpcClient) UpdateQueue(ctx context.Context, request *Update
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) DeleteQueue(ctx context.Context, request *DeleteQueueRequest) (*DeleteQueueResponse, error) {
+func (c *MoabGrpcClient) DeleteQueue(ctx context.Context, request *DeleteQueueRequest) (*DeleteQueueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ func (c *MoabPreviewGrpcClient) DeleteQueue(ctx context.Context, request *Delete
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) ListQueues(ctx context.Context, request *ListQueuesRequest) (*ListQueuesResponse, error) {
+func (c *MoabGrpcClient) ListQueues(ctx context.Context, request *ListQueuesRequest) (*ListQueuesResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func (c *MoabPreviewGrpcClient) ListQueues(ctx context.Context, request *ListQue
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) CreateSchedule(ctx context.Context, request *CreateScheduleRequest) (*CreateScheduleResponse, error) {
+func (c *MoabGrpcClient) CreateSchedule(ctx context.Context, request *CreateScheduleRequest) (*CreateScheduleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (c *MoabPreviewGrpcClient) CreateSchedule(ctx context.Context, request *Cre
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) GetSchedule(ctx context.Context, request *GetScheduleRequest) (*GetScheduleResponse, error) {
+func (c *MoabGrpcClient) GetSchedule(ctx context.Context, request *GetScheduleRequest) (*GetScheduleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (c *MoabPreviewGrpcClient) GetSchedule(ctx context.Context, request *GetSch
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) UpdateSchedule(ctx context.Context, request *UpdateScheduleRequest) (*UpdateScheduleResponse, error) {
+func (c *MoabGrpcClient) UpdateSchedule(ctx context.Context, request *UpdateScheduleRequest) (*UpdateScheduleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (c *MoabPreviewGrpcClient) UpdateSchedule(ctx context.Context, request *Upd
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) DeleteSchedule(ctx context.Context, request *DeleteScheduleRequest) (*DeleteScheduleResponse, error) {
+func (c *MoabGrpcClient) DeleteSchedule(ctx context.Context, request *DeleteScheduleRequest) (*DeleteScheduleResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (c *MoabPreviewGrpcClient) DeleteSchedule(ctx context.Context, request *Del
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) GetTask(ctx context.Context, request *GetTaskRequest) (*GetTaskResponse, error) {
+func (c *MoabGrpcClient) GetTask(ctx context.Context, request *GetTaskRequest) (*GetTaskResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -157,7 +157,7 @@ func (c *MoabPreviewGrpcClient) GetTask(ctx context.Context, request *GetTaskReq
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) Enqueue(ctx context.Context, request *EnqueueRequest) (*EnqueueResponse, error) {
+func (c *MoabGrpcClient) Enqueue(ctx context.Context, request *EnqueueRequest) (*EnqueueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -168,7 +168,7 @@ func (c *MoabPreviewGrpcClient) Enqueue(ctx context.Context, request *EnqueueReq
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) Dequeue(ctx context.Context, request *DequeueRequest) (*DequeueResponse, error) {
+func (c *MoabGrpcClient) Dequeue(ctx context.Context, request *DequeueRequest) (*DequeueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -179,7 +179,7 @@ func (c *MoabPreviewGrpcClient) Dequeue(ctx context.Context, request *DequeueReq
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) ReportStatus(ctx context.Context, request *ReportStatusRequest) (*ReportStatusResponse, error) {
+func (c *MoabGrpcClient) ReportStatus(ctx context.Context, request *ReportStatusRequest) (*ReportStatusResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -190,7 +190,7 @@ func (c *MoabPreviewGrpcClient) ReportStatus(ctx context.Context, request *Repor
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) DeleteTasks(ctx context.Context, request *DeleteTasksRequest) (*DeleteTasksResponse, error) {
+func (c *MoabGrpcClient) DeleteTasks(ctx context.Context, request *DeleteTasksRequest) (*DeleteTasksResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -201,7 +201,7 @@ func (c *MoabPreviewGrpcClient) DeleteTasks(ctx context.Context, request *Delete
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) RestartTasks(ctx context.Context, request *RestartTasksRequest) (*RestartTasksResponse, error) {
+func (c *MoabGrpcClient) RestartTasks(ctx context.Context, request *RestartTasksRequest) (*RestartTasksResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -212,7 +212,7 @@ func (c *MoabPreviewGrpcClient) RestartTasks(ctx context.Context, request *Resta
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) PurgeQueue(ctx context.Context, request *PurgeQueueRequest) (*PurgeQueueResponse, error) {
+func (c *MoabGrpcClient) PurgeQueue(ctx context.Context, request *PurgeQueueRequest) (*PurgeQueueResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
@@ -223,17 +223,17 @@ func (c *MoabPreviewGrpcClient) PurgeQueue(ctx context.Context, request *PurgeQu
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *MoabPreviewGrpcClient) Close() {
+func (c *MoabGrpcClient) Close() {
 	c.conn.Close()
 }
 
-func NewMoabPreviewGrpcClient(address string, signer evrblk.RequestSigner) *MoabPreviewGrpcClient {
+func NewMoabGrpcClient(address string, signer evrblk.RequestSigner) *MoabGrpcClient {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 
-	return &MoabPreviewGrpcClient{
+	return &MoabGrpcClient{
 		conn:   conn,
 		grpc:   NewMoabPreviewApiClient(conn),
 		signer: signer,
