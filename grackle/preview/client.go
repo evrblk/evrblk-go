@@ -25,8 +25,8 @@ type GracklePreviewApi interface {
 	CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
 	GetWaitGroup(ctx context.Context, request *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(ctx context.Context, request *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
-	AddJobToWaitGroup(ctx context.Context, request *AddJobToWaitGroupRequest) (*AddJobToWaitGroupResponse, error)
-	CompleteJobFromWaitGroup(ctx context.Context, request *CompleteJobFromWaitGroupRequest) (*CompleteJobFromWaitGroupResponse, error)
+	AddJobsToWaitGroup(ctx context.Context, request *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error)
+	CompleteJobsFromWaitGroup(ctx context.Context, request *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error)
 
 	AcquireLock(ctx context.Context, request *AcquireLockRequest) (*AcquireLockResponse, error)
 	ReleaseLock(ctx context.Context, request *ReleaseLockRequest) (*ReleaseLockResponse, error)

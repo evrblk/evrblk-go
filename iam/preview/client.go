@@ -103,7 +103,7 @@ func (c *IAMGrpcClient) DeleteRole(ctx context.Context, request *DeleteRoleReque
 
 func (c *IAMGrpcClient) CreateUser(ctx context.Context, request *CreateUserRequest) (*CreateUserResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
-	if err != nil {IAMGrpcClient
+	if err != nil {
 		return nil, err
 	}
 
