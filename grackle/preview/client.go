@@ -183,24 +183,24 @@ func (c *GrackleGrpcClient) DeleteWaitGroup(ctx context.Context, request *Delete
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GrackleGrpcClient) AddJobToWaitGroup(ctx context.Context, request *AddJobToWaitGroupRequest) (*AddJobToWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) AddJobsToWaitGroup(ctx context.Context, request *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := c.grpc.AddJobToWaitGroup(signedCtx, request)
+	resp, err := c.grpc.AddJobsToWaitGroup(signedCtx, request)
 
 	return resp, evrblk.FromRpcError(err)
 }
 
-func (c *GrackleGrpcClient) CompleteJobFromWaitGroup(ctx context.Context, request *CompleteJobFromWaitGroupRequest) (*CompleteJobFromWaitGroupResponse, error) {
+func (c *GrackleGrpcClient) CompleteJobsFromWaitGroup(ctx context.Context, request *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := c.grpc.CompleteJobFromWaitGroup(signedCtx, request)
+	resp, err := c.grpc.CompleteJobsFromWaitGroup(signedCtx, request)
 
 	return resp, evrblk.FromRpcError(err)
 }
