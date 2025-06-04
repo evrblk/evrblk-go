@@ -1,5 +1,7 @@
 # Everblack Go SDK
 
+[![Go](https://github.com/evrblk/evrblk-go/actions/workflows/go.yml/badge.svg)](https://github.com/evrblk/evrblk-go/actions/workflows/go.yml)
+
 The official Go SDK for Everblack services. Also, package `authn` is the reference implementation of authentication 
 mechanism, which is used internally in Everblack Cloud to verify signatures.
 
