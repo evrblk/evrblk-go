@@ -32,6 +32,7 @@ type GracklePreviewApi interface {
 	ReleaseLock(ctx context.Context, request *ReleaseLockRequest) (*ReleaseLockResponse, error)
 	GetLock(ctx context.Context, request *GetLockRequest) (*GetLockResponse, error)
 	DeleteLock(ctx context.Context, request *DeleteLockRequest) (*DeleteLockResponse, error)
+	ListLocks(ctx context.Context, request *ListLocksRequest) (*ListLocksResponse, error)
 }
 
 type GrackleGrpcClient struct {
@@ -128,6 +129,17 @@ func (c *GrackleGrpcClient) GetSemaphore(ctx context.Context, request *GetSemaph
 	return resp, evrblk.FromRpcError(err)
 }
 
+func (c *GrackleGrpcClient) ListSemaphores(ctx context.Context, request *ListSemaphoresRequest) (*ListSemaphoresResponse, error) {
+	signedCtx, err := c.signer.Sign(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListSemaphores(signedCtx, request)
+
+	return resp, evrblk.FromRpcError(err)
+}
+
 func (c *GrackleGrpcClient) UpdateSemaphore(ctx context.Context, request *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
@@ -168,6 +180,17 @@ func (c *GrackleGrpcClient) GetWaitGroup(ctx context.Context, request *GetWaitGr
 	}
 
 	resp, err := c.grpc.GetWaitGroup(signedCtx, request)
+
+	return resp, evrblk.FromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ListWaitGroups(ctx context.Context, request *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error) {
+	signedCtx, err := c.signer.Sign(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListWaitGroups(signedCtx, request)
 
 	return resp, evrblk.FromRpcError(err)
 }
@@ -245,6 +268,17 @@ func (c *GrackleGrpcClient) DeleteLock(ctx context.Context, request *DeleteLockR
 	}
 
 	resp, err := c.grpc.DeleteLock(signedCtx, request)
+
+	return resp, evrblk.FromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ListLocks(ctx context.Context, request *ListLocksRequest) (*ListLocksResponse, error) {
+	signedCtx, err := c.signer.Sign(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListLocks(signedCtx, request)
 
 	return resp, evrblk.FromRpcError(err)
 }
