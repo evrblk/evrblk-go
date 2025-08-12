@@ -162,6 +162,28 @@ func (c *GrackleGrpcClient) DeleteSemaphore(ctx context.Context, request *Delete
 	return resp, evrblk.FromRpcError(err)
 }
 
+func (c *GrackleGrpcClient) AcquireSemaphore(ctx context.Context, request *AcquireSemaphoreRequest) (*AcquireSemaphoreResponse, error) {
+	signedCtx, err := c.signer.Sign(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.AcquireSemaphore(signedCtx, request)
+
+	return resp, evrblk.FromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ReleaseSemaphore(ctx context.Context, request *ReleaseSemaphoreRequest) (*ReleaseSemaphoreResponse, error) {
+	signedCtx, err := c.signer.Sign(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ReleaseSemaphore(signedCtx, request)
+
+	return resp, evrblk.FromRpcError(err)
+}
+
 func (c *GrackleGrpcClient) CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
