@@ -53,6 +53,10 @@ func (c *GrackleGrpcClient) WithSigner(signer evrblk.RequestSigner) *GrackleGrpc
 var _ GracklePreviewApi = &GrackleGrpcClient{}
 
 func (c *GrackleGrpcClient) CreateNamespace(ctx context.Context, request *CreateNamespaceRequest) (*CreateNamespaceResponse, error) {
+	if c.signer == nil {
+		return nil, &evrblk.Error{Code: evrblk.Unauthenticated, Message: "unauthenticated: signer is not set"}
+	}
+
 	signedCtx, err := c.signer.Sign(ctx, request)
 	if err != nil {
 		return nil, err
