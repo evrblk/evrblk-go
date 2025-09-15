@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v6.32.0
-// source: evrblkapis/myaccount/preview/api.proto
+// source: proto/myaccount/preview/api.proto
 
 package myaccount
 
@@ -29,7 +29,7 @@ type GetAccountRequest struct {
 
 func (x *GetAccountRequest) Reset() {
 	*x = GetAccountRequest{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[0]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -41,7 +41,7 @@ func (x *GetAccountRequest) String() string {
 func (*GetAccountRequest) ProtoMessage() {}
 
 func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[0]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,7 +54,7 @@ func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccountRequest.ProtoReflect.Descriptor instead.
 func (*GetAccountRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{0}
 }
 
 type GetAccountResponse struct {
@@ -66,7 +66,7 @@ type GetAccountResponse struct {
 
 func (x *GetAccountResponse) Reset() {
 	*x = GetAccountResponse{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[1]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -78,7 +78,7 @@ func (x *GetAccountResponse) String() string {
 func (*GetAccountResponse) ProtoMessage() {}
 
 func (x *GetAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[1]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -91,7 +91,7 @@ func (x *GetAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccountResponse.ProtoReflect.Descriptor instead.
 func (*GetAccountResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{1}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetAccountResponse) GetAccount() *Account {
@@ -115,7 +115,7 @@ type Account struct {
 
 func (x *Account) Reset() {
 	*x = Account{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[2]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -127,7 +127,7 @@ func (x *Account) String() string {
 func (*Account) ProtoMessage() {}
 
 func (x *Account) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[2]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -140,7 +140,7 @@ func (x *Account) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Account.ProtoReflect.Descriptor instead.
 func (*Account) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{2}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Account) GetId() string {
@@ -196,7 +196,7 @@ type ServiceLimits struct {
 
 func (x *ServiceLimits) Reset() {
 	*x = ServiceLimits{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[3]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -208,7 +208,7 @@ func (x *ServiceLimits) String() string {
 func (*ServiceLimits) ProtoMessage() {}
 
 func (x *ServiceLimits) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[3]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -221,7 +221,7 @@ func (x *ServiceLimits) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceLimits.ProtoReflect.Descriptor instead.
 func (*ServiceLimits) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{3}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ServiceLimits) GetIamServiceLimits() *IAMServiceLimits {
@@ -258,7 +258,7 @@ type IAMServiceLimits struct {
 
 func (x *IAMServiceLimits) Reset() {
 	*x = IAMServiceLimits{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[4]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -270,7 +270,7 @@ func (x *IAMServiceLimits) String() string {
 func (*IAMServiceLimits) ProtoMessage() {}
 
 func (x *IAMServiceLimits) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[4]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -283,7 +283,7 @@ func (x *IAMServiceLimits) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IAMServiceLimits.ProtoReflect.Descriptor instead.
 func (*IAMServiceLimits) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{4}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *IAMServiceLimits) GetMaxNumberOfRoles() int64 {
@@ -340,7 +340,7 @@ type MoabServiceLimits struct {
 
 func (x *MoabServiceLimits) Reset() {
 	*x = MoabServiceLimits{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[5]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -352,7 +352,7 @@ func (x *MoabServiceLimits) String() string {
 func (*MoabServiceLimits) ProtoMessage() {}
 
 func (x *MoabServiceLimits) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[5]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +365,7 @@ func (x *MoabServiceLimits) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MoabServiceLimits.ProtoReflect.Descriptor instead.
 func (*MoabServiceLimits) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{5}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *MoabServiceLimits) GetMaxNumberOfQueues() int64 {
@@ -453,7 +453,7 @@ type BisonServiceLimits struct {
 
 func (x *BisonServiceLimits) Reset() {
 	*x = BisonServiceLimits{}
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[6]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -465,7 +465,7 @@ func (x *BisonServiceLimits) String() string {
 func (*BisonServiceLimits) ProtoMessage() {}
 
 func (x *BisonServiceLimits) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_myaccount_preview_api_proto_msgTypes[6]
+	mi := &file_proto_myaccount_preview_api_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,14 +478,14 @@ func (x *BisonServiceLimits) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BisonServiceLimits.ProtoReflect.Descriptor instead.
 func (*BisonServiceLimits) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP(), []int{6}
+	return file_proto_myaccount_preview_api_proto_rawDescGZIP(), []int{6}
 }
 
-var File_evrblkapis_myaccount_preview_api_proto protoreflect.FileDescriptor
+var File_proto_myaccount_preview_api_proto protoreflect.FileDescriptor
 
-const file_evrblkapis_myaccount_preview_api_proto_rawDesc = "" +
+const file_proto_myaccount_preview_api_proto_rawDesc = "" +
 	"\n" +
-	"&evrblkapis/myaccount/preview/api.proto\x12\x1ccom.evrblk.myaccount.preview\"\x13\n" +
+	"!proto/myaccount/preview/api.proto\x12\x1ccom.evrblk.myaccount.preview\"\x13\n" +
 	"\x11GetAccountRequest\"U\n" +
 	"\x12GetAccountResponse\x12?\n" +
 	"\aaccount\x18\x01 \x01(\v2%.com.evrblk.myaccount.preview.AccountR\aaccount\"\xdb\x01\n" +
@@ -524,22 +524,22 @@ const file_evrblkapis_myaccount_preview_api_proto_rawDesc = "" +
 	"\x12BisonServiceLimits2\x88\x01\n" +
 	"\x13MyAccountPreviewApi\x12q\n" +
 	"\n" +
-	"GetAccount\x12/.com.evrblk.myaccount.preview.GetAccountRequest\x1a0.com.evrblk.myaccount.preview.GetAccountResponse\"\x00B9Z7github.com/evrblk/evrblk-go/myaccount/preview;myaccountb\x06proto3"
+	"GetAccount\x12/.com.evrblk.myaccount.preview.GetAccountRequest\x1a0.com.evrblk.myaccount.preview.GetAccountResponse\"\x00BVZ7github.com/evrblk/evrblk-go/myaccount/preview;myaccount\xea\x02\x1aEvrblk::MyAccount::Previewb\x06proto3"
 
 var (
-	file_evrblkapis_myaccount_preview_api_proto_rawDescOnce sync.Once
-	file_evrblkapis_myaccount_preview_api_proto_rawDescData []byte
+	file_proto_myaccount_preview_api_proto_rawDescOnce sync.Once
+	file_proto_myaccount_preview_api_proto_rawDescData []byte
 )
 
-func file_evrblkapis_myaccount_preview_api_proto_rawDescGZIP() []byte {
-	file_evrblkapis_myaccount_preview_api_proto_rawDescOnce.Do(func() {
-		file_evrblkapis_myaccount_preview_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_evrblkapis_myaccount_preview_api_proto_rawDesc), len(file_evrblkapis_myaccount_preview_api_proto_rawDesc)))
+func file_proto_myaccount_preview_api_proto_rawDescGZIP() []byte {
+	file_proto_myaccount_preview_api_proto_rawDescOnce.Do(func() {
+		file_proto_myaccount_preview_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_myaccount_preview_api_proto_rawDesc), len(file_proto_myaccount_preview_api_proto_rawDesc)))
 	})
-	return file_evrblkapis_myaccount_preview_api_proto_rawDescData
+	return file_proto_myaccount_preview_api_proto_rawDescData
 }
 
-var file_evrblkapis_myaccount_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_evrblkapis_myaccount_preview_api_proto_goTypes = []any{
+var file_proto_myaccount_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_proto_myaccount_preview_api_proto_goTypes = []any{
 	(*GetAccountRequest)(nil),  // 0: com.evrblk.myaccount.preview.GetAccountRequest
 	(*GetAccountResponse)(nil), // 1: com.evrblk.myaccount.preview.GetAccountResponse
 	(*Account)(nil),            // 2: com.evrblk.myaccount.preview.Account
@@ -548,7 +548,7 @@ var file_evrblkapis_myaccount_preview_api_proto_goTypes = []any{
 	(*MoabServiceLimits)(nil),  // 5: com.evrblk.myaccount.preview.MoabServiceLimits
 	(*BisonServiceLimits)(nil), // 6: com.evrblk.myaccount.preview.BisonServiceLimits
 }
-var file_evrblkapis_myaccount_preview_api_proto_depIdxs = []int32{
+var file_proto_myaccount_preview_api_proto_depIdxs = []int32{
 	2, // 0: com.evrblk.myaccount.preview.GetAccountResponse.account:type_name -> com.evrblk.myaccount.preview.Account
 	3, // 1: com.evrblk.myaccount.preview.Account.service_limits:type_name -> com.evrblk.myaccount.preview.ServiceLimits
 	4, // 2: com.evrblk.myaccount.preview.ServiceLimits.iam_service_limits:type_name -> com.evrblk.myaccount.preview.IAMServiceLimits
@@ -563,26 +563,26 @@ var file_evrblkapis_myaccount_preview_api_proto_depIdxs = []int32{
 	0, // [0:5] is the sub-list for field type_name
 }
 
-func init() { file_evrblkapis_myaccount_preview_api_proto_init() }
-func file_evrblkapis_myaccount_preview_api_proto_init() {
-	if File_evrblkapis_myaccount_preview_api_proto != nil {
+func init() { file_proto_myaccount_preview_api_proto_init() }
+func file_proto_myaccount_preview_api_proto_init() {
+	if File_proto_myaccount_preview_api_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_evrblkapis_myaccount_preview_api_proto_rawDesc), len(file_evrblkapis_myaccount_preview_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_myaccount_preview_api_proto_rawDesc), len(file_proto_myaccount_preview_api_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_evrblkapis_myaccount_preview_api_proto_goTypes,
-		DependencyIndexes: file_evrblkapis_myaccount_preview_api_proto_depIdxs,
-		MessageInfos:      file_evrblkapis_myaccount_preview_api_proto_msgTypes,
+		GoTypes:           file_proto_myaccount_preview_api_proto_goTypes,
+		DependencyIndexes: file_proto_myaccount_preview_api_proto_depIdxs,
+		MessageInfos:      file_proto_myaccount_preview_api_proto_msgTypes,
 	}.Build()
-	File_evrblkapis_myaccount_preview_api_proto = out.File
-	file_evrblkapis_myaccount_preview_api_proto_goTypes = nil
-	file_evrblkapis_myaccount_preview_api_proto_depIdxs = nil
+	File_proto_myaccount_preview_api_proto = out.File
+	file_proto_myaccount_preview_api_proto_goTypes = nil
+	file_proto_myaccount_preview_api_proto_depIdxs = nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v6.32.0
-// source: evrblkapis/grackle/preview/api.proto
+// source: proto/grackle/preview/api.proto
 
 package grackle
 
@@ -54,11 +54,11 @@ func (x LockState) String() string {
 }
 
 func (LockState) Descriptor() protoreflect.EnumDescriptor {
-	return file_evrblkapis_grackle_preview_api_proto_enumTypes[0].Descriptor()
+	return file_proto_grackle_preview_api_proto_enumTypes[0].Descriptor()
 }
 
 func (LockState) Type() protoreflect.EnumType {
-	return &file_evrblkapis_grackle_preview_api_proto_enumTypes[0]
+	return &file_proto_grackle_preview_api_proto_enumTypes[0]
 }
 
 func (x LockState) Number() protoreflect.EnumNumber {
@@ -67,7 +67,7 @@ func (x LockState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LockState.Descriptor instead.
 func (LockState) EnumDescriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{0}
 }
 
 type CreateNamespaceRequest struct {
@@ -80,7 +80,7 @@ type CreateNamespaceRequest struct {
 
 func (x *CreateNamespaceRequest) Reset() {
 	*x = CreateNamespaceRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[0]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +92,7 @@ func (x *CreateNamespaceRequest) String() string {
 func (*CreateNamespaceRequest) ProtoMessage() {}
 
 func (x *CreateNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[0]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +105,7 @@ func (x *CreateNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*CreateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateNamespaceRequest) GetName() string {
@@ -131,7 +131,7 @@ type CreateNamespaceResponse struct {
 
 func (x *CreateNamespaceResponse) Reset() {
 	*x = CreateNamespaceResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[1]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +143,7 @@ func (x *CreateNamespaceResponse) String() string {
 func (*CreateNamespaceResponse) ProtoMessage() {}
 
 func (x *CreateNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[1]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +156,7 @@ func (x *CreateNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*CreateNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{1}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateNamespaceResponse) GetNamespace() *Namespace {
@@ -176,7 +176,7 @@ type ListNamespacesRequest struct {
 
 func (x *ListNamespacesRequest) Reset() {
 	*x = ListNamespacesRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[2]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -188,7 +188,7 @@ func (x *ListNamespacesRequest) String() string {
 func (*ListNamespacesRequest) ProtoMessage() {}
 
 func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[2]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -201,7 +201,7 @@ func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNamespacesRequest.ProtoReflect.Descriptor instead.
 func (*ListNamespacesRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{2}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListNamespacesRequest) GetPaginationToken() string {
@@ -229,7 +229,7 @@ type ListNamespacesResponse struct {
 
 func (x *ListNamespacesResponse) Reset() {
 	*x = ListNamespacesResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[3]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -241,7 +241,7 @@ func (x *ListNamespacesResponse) String() string {
 func (*ListNamespacesResponse) ProtoMessage() {}
 
 func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[3]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -254,7 +254,7 @@ func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNamespacesResponse.ProtoReflect.Descriptor instead.
 func (*ListNamespacesResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{3}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListNamespacesResponse) GetNamespaces() []*Namespace {
@@ -287,7 +287,7 @@ type GetNamespaceRequest struct {
 
 func (x *GetNamespaceRequest) Reset() {
 	*x = GetNamespaceRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[4]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +299,7 @@ func (x *GetNamespaceRequest) String() string {
 func (*GetNamespaceRequest) ProtoMessage() {}
 
 func (x *GetNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[4]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +312,7 @@ func (x *GetNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*GetNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{4}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetNamespaceRequest) GetNamespaceName() string {
@@ -331,7 +331,7 @@ type GetNamespaceResponse struct {
 
 func (x *GetNamespaceResponse) Reset() {
 	*x = GetNamespaceResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[5]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -343,7 +343,7 @@ func (x *GetNamespaceResponse) String() string {
 func (*GetNamespaceResponse) ProtoMessage() {}
 
 func (x *GetNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[5]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -356,7 +356,7 @@ func (x *GetNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*GetNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{5}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetNamespaceResponse) GetNamespace() *Namespace {
@@ -375,7 +375,7 @@ type DeleteNamespaceRequest struct {
 
 func (x *DeleteNamespaceRequest) Reset() {
 	*x = DeleteNamespaceRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[6]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -387,7 +387,7 @@ func (x *DeleteNamespaceRequest) String() string {
 func (*DeleteNamespaceRequest) ProtoMessage() {}
 
 func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[6]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -400,7 +400,7 @@ func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{6}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteNamespaceRequest) GetNamespaceName() string {
@@ -418,7 +418,7 @@ type DeleteNamespaceResponse struct {
 
 func (x *DeleteNamespaceResponse) Reset() {
 	*x = DeleteNamespaceResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[7]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -430,7 +430,7 @@ func (x *DeleteNamespaceResponse) String() string {
 func (*DeleteNamespaceResponse) ProtoMessage() {}
 
 func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[7]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -443,7 +443,7 @@ func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*DeleteNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{7}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{7}
 }
 
 type UpdateNamespaceRequest struct {
@@ -456,7 +456,7 @@ type UpdateNamespaceRequest struct {
 
 func (x *UpdateNamespaceRequest) Reset() {
 	*x = UpdateNamespaceRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[8]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -468,7 +468,7 @@ func (x *UpdateNamespaceRequest) String() string {
 func (*UpdateNamespaceRequest) ProtoMessage() {}
 
 func (x *UpdateNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[8]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -481,7 +481,7 @@ func (x *UpdateNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{8}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateNamespaceRequest) GetNamespaceName() string {
@@ -507,7 +507,7 @@ type UpdateNamespaceResponse struct {
 
 func (x *UpdateNamespaceResponse) Reset() {
 	*x = UpdateNamespaceResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[9]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -519,7 +519,7 @@ func (x *UpdateNamespaceResponse) String() string {
 func (*UpdateNamespaceResponse) ProtoMessage() {}
 
 func (x *UpdateNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[9]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -532,7 +532,7 @@ func (x *UpdateNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*UpdateNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{9}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateNamespaceResponse) GetNamespace() *Namespace {
@@ -554,7 +554,7 @@ type CreateSemaphoreRequest struct {
 
 func (x *CreateSemaphoreRequest) Reset() {
 	*x = CreateSemaphoreRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[10]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -566,7 +566,7 @@ func (x *CreateSemaphoreRequest) String() string {
 func (*CreateSemaphoreRequest) ProtoMessage() {}
 
 func (x *CreateSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[10]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -579,7 +579,7 @@ func (x *CreateSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*CreateSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{10}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CreateSemaphoreRequest) GetNamespaceName() string {
@@ -619,7 +619,7 @@ type CreateSemaphoreResponse struct {
 
 func (x *CreateSemaphoreResponse) Reset() {
 	*x = CreateSemaphoreResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[11]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -631,7 +631,7 @@ func (x *CreateSemaphoreResponse) String() string {
 func (*CreateSemaphoreResponse) ProtoMessage() {}
 
 func (x *CreateSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[11]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -644,7 +644,7 @@ func (x *CreateSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*CreateSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{11}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -665,7 +665,7 @@ type ListSemaphoresRequest struct {
 
 func (x *ListSemaphoresRequest) Reset() {
 	*x = ListSemaphoresRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[12]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -677,7 +677,7 @@ func (x *ListSemaphoresRequest) String() string {
 func (*ListSemaphoresRequest) ProtoMessage() {}
 
 func (x *ListSemaphoresRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[12]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -690,7 +690,7 @@ func (x *ListSemaphoresRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoresRequest.ProtoReflect.Descriptor instead.
 func (*ListSemaphoresRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{12}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListSemaphoresRequest) GetNamespaceName() string {
@@ -725,7 +725,7 @@ type ListSemaphoresResponse struct {
 
 func (x *ListSemaphoresResponse) Reset() {
 	*x = ListSemaphoresResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[13]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -737,7 +737,7 @@ func (x *ListSemaphoresResponse) String() string {
 func (*ListSemaphoresResponse) ProtoMessage() {}
 
 func (x *ListSemaphoresResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[13]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -750,7 +750,7 @@ func (x *ListSemaphoresResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoresResponse.ProtoReflect.Descriptor instead.
 func (*ListSemaphoresResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{13}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListSemaphoresResponse) GetSemaphores() []*Semaphore {
@@ -784,7 +784,7 @@ type GetSemaphoreRequest struct {
 
 func (x *GetSemaphoreRequest) Reset() {
 	*x = GetSemaphoreRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[14]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -796,7 +796,7 @@ func (x *GetSemaphoreRequest) String() string {
 func (*GetSemaphoreRequest) ProtoMessage() {}
 
 func (x *GetSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[14]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -809,7 +809,7 @@ func (x *GetSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*GetSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{14}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetSemaphoreRequest) GetNamespaceName() string {
@@ -835,7 +835,7 @@ type GetSemaphoreResponse struct {
 
 func (x *GetSemaphoreResponse) Reset() {
 	*x = GetSemaphoreResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[15]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -847,7 +847,7 @@ func (x *GetSemaphoreResponse) String() string {
 func (*GetSemaphoreResponse) ProtoMessage() {}
 
 func (x *GetSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[15]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -860,7 +860,7 @@ func (x *GetSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*GetSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{15}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -882,7 +882,7 @@ type AcquireSemaphoreRequest struct {
 
 func (x *AcquireSemaphoreRequest) Reset() {
 	*x = AcquireSemaphoreRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[16]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -894,7 +894,7 @@ func (x *AcquireSemaphoreRequest) String() string {
 func (*AcquireSemaphoreRequest) ProtoMessage() {}
 
 func (x *AcquireSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[16]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -907,7 +907,7 @@ func (x *AcquireSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*AcquireSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{16}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *AcquireSemaphoreRequest) GetNamespaceName() string {
@@ -948,7 +948,7 @@ type AcquireSemaphoreResponse struct {
 
 func (x *AcquireSemaphoreResponse) Reset() {
 	*x = AcquireSemaphoreResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[17]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -960,7 +960,7 @@ func (x *AcquireSemaphoreResponse) String() string {
 func (*AcquireSemaphoreResponse) ProtoMessage() {}
 
 func (x *AcquireSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[17]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -973,7 +973,7 @@ func (x *AcquireSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*AcquireSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{17}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *AcquireSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -1001,7 +1001,7 @@ type ReleaseSemaphoreRequest struct {
 
 func (x *ReleaseSemaphoreRequest) Reset() {
 	*x = ReleaseSemaphoreRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[18]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1013,7 +1013,7 @@ func (x *ReleaseSemaphoreRequest) String() string {
 func (*ReleaseSemaphoreRequest) ProtoMessage() {}
 
 func (x *ReleaseSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[18]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1026,7 +1026,7 @@ func (x *ReleaseSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*ReleaseSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{18}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ReleaseSemaphoreRequest) GetNamespaceName() string {
@@ -1059,7 +1059,7 @@ type ReleaseSemaphoreResponse struct {
 
 func (x *ReleaseSemaphoreResponse) Reset() {
 	*x = ReleaseSemaphoreResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[19]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1071,7 +1071,7 @@ func (x *ReleaseSemaphoreResponse) String() string {
 func (*ReleaseSemaphoreResponse) ProtoMessage() {}
 
 func (x *ReleaseSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[19]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1084,7 +1084,7 @@ func (x *ReleaseSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*ReleaseSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{19}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ReleaseSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -1106,7 +1106,7 @@ type UpdateSemaphoreRequest struct {
 
 func (x *UpdateSemaphoreRequest) Reset() {
 	*x = UpdateSemaphoreRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[20]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1118,7 +1118,7 @@ func (x *UpdateSemaphoreRequest) String() string {
 func (*UpdateSemaphoreRequest) ProtoMessage() {}
 
 func (x *UpdateSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[20]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1131,7 +1131,7 @@ func (x *UpdateSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*UpdateSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{20}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *UpdateSemaphoreRequest) GetNamespaceName() string {
@@ -1171,7 +1171,7 @@ type UpdateSemaphoreResponse struct {
 
 func (x *UpdateSemaphoreResponse) Reset() {
 	*x = UpdateSemaphoreResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[21]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1183,7 +1183,7 @@ func (x *UpdateSemaphoreResponse) String() string {
 func (*UpdateSemaphoreResponse) ProtoMessage() {}
 
 func (x *UpdateSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[21]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1196,7 +1196,7 @@ func (x *UpdateSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*UpdateSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{21}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *UpdateSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -1216,7 +1216,7 @@ type DeleteSemaphoreRequest struct {
 
 func (x *DeleteSemaphoreRequest) Reset() {
 	*x = DeleteSemaphoreRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[22]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1228,7 +1228,7 @@ func (x *DeleteSemaphoreRequest) String() string {
 func (*DeleteSemaphoreRequest) ProtoMessage() {}
 
 func (x *DeleteSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[22]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1241,7 +1241,7 @@ func (x *DeleteSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{22}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *DeleteSemaphoreRequest) GetNamespaceName() string {
@@ -1266,7 +1266,7 @@ type DeleteSemaphoreResponse struct {
 
 func (x *DeleteSemaphoreResponse) Reset() {
 	*x = DeleteSemaphoreResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[23]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1278,7 +1278,7 @@ func (x *DeleteSemaphoreResponse) String() string {
 func (*DeleteSemaphoreResponse) ProtoMessage() {}
 
 func (x *DeleteSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[23]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1291,7 +1291,7 @@ func (x *DeleteSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*DeleteSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{23}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{23}
 }
 
 type Semaphore struct {
@@ -1308,7 +1308,7 @@ type Semaphore struct {
 
 func (x *Semaphore) Reset() {
 	*x = Semaphore{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[24]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1320,7 +1320,7 @@ func (x *Semaphore) String() string {
 func (*Semaphore) ProtoMessage() {}
 
 func (x *Semaphore) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[24]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1333,7 +1333,7 @@ func (x *Semaphore) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Semaphore.ProtoReflect.Descriptor instead.
 func (*Semaphore) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{24}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *Semaphore) GetName() string {
@@ -1389,7 +1389,7 @@ type SemaphoreHolder struct {
 
 func (x *SemaphoreHolder) Reset() {
 	*x = SemaphoreHolder{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[25]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1401,7 +1401,7 @@ func (x *SemaphoreHolder) String() string {
 func (*SemaphoreHolder) ProtoMessage() {}
 
 func (x *SemaphoreHolder) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[25]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1414,7 +1414,7 @@ func (x *SemaphoreHolder) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SemaphoreHolder.ProtoReflect.Descriptor instead.
 func (*SemaphoreHolder) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{25}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *SemaphoreHolder) GetProcessId() string {
@@ -1451,7 +1451,7 @@ type CreateWaitGroupRequest struct {
 
 func (x *CreateWaitGroupRequest) Reset() {
 	*x = CreateWaitGroupRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[26]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1463,7 +1463,7 @@ func (x *CreateWaitGroupRequest) String() string {
 func (*CreateWaitGroupRequest) ProtoMessage() {}
 
 func (x *CreateWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[26]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1476,7 +1476,7 @@ func (x *CreateWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*CreateWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{26}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *CreateWaitGroupRequest) GetNamespaceName() string {
@@ -1523,7 +1523,7 @@ type CreateWaitGroupResponse struct {
 
 func (x *CreateWaitGroupResponse) Reset() {
 	*x = CreateWaitGroupResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[27]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1535,7 +1535,7 @@ func (x *CreateWaitGroupResponse) String() string {
 func (*CreateWaitGroupResponse) ProtoMessage() {}
 
 func (x *CreateWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[27]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1548,7 +1548,7 @@ func (x *CreateWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*CreateWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{27}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *CreateWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -1569,7 +1569,7 @@ type ListWaitGroupsRequest struct {
 
 func (x *ListWaitGroupsRequest) Reset() {
 	*x = ListWaitGroupsRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[28]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1581,7 +1581,7 @@ func (x *ListWaitGroupsRequest) String() string {
 func (*ListWaitGroupsRequest) ProtoMessage() {}
 
 func (x *ListWaitGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[28]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1594,7 +1594,7 @@ func (x *ListWaitGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListWaitGroupsRequest.ProtoReflect.Descriptor instead.
 func (*ListWaitGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{28}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ListWaitGroupsRequest) GetNamespaceName() string {
@@ -1629,7 +1629,7 @@ type ListWaitGroupsResponse struct {
 
 func (x *ListWaitGroupsResponse) Reset() {
 	*x = ListWaitGroupsResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[29]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1641,7 +1641,7 @@ func (x *ListWaitGroupsResponse) String() string {
 func (*ListWaitGroupsResponse) ProtoMessage() {}
 
 func (x *ListWaitGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[29]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1654,7 +1654,7 @@ func (x *ListWaitGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListWaitGroupsResponse.ProtoReflect.Descriptor instead.
 func (*ListWaitGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{29}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ListWaitGroupsResponse) GetWaitGroups() []*WaitGroup {
@@ -1688,7 +1688,7 @@ type GetWaitGroupRequest struct {
 
 func (x *GetWaitGroupRequest) Reset() {
 	*x = GetWaitGroupRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[30]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1700,7 +1700,7 @@ func (x *GetWaitGroupRequest) String() string {
 func (*GetWaitGroupRequest) ProtoMessage() {}
 
 func (x *GetWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[30]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1713,7 +1713,7 @@ func (x *GetWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{30}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *GetWaitGroupRequest) GetNamespaceName() string {
@@ -1739,7 +1739,7 @@ type GetWaitGroupResponse struct {
 
 func (x *GetWaitGroupResponse) Reset() {
 	*x = GetWaitGroupResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[31]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1751,7 +1751,7 @@ func (x *GetWaitGroupResponse) String() string {
 func (*GetWaitGroupResponse) ProtoMessage() {}
 
 func (x *GetWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[31]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1764,7 +1764,7 @@ func (x *GetWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*GetWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{31}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *GetWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -1784,7 +1784,7 @@ type DeleteWaitGroupRequest struct {
 
 func (x *DeleteWaitGroupRequest) Reset() {
 	*x = DeleteWaitGroupRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[32]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1796,7 +1796,7 @@ func (x *DeleteWaitGroupRequest) String() string {
 func (*DeleteWaitGroupRequest) ProtoMessage() {}
 
 func (x *DeleteWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[32]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1809,7 +1809,7 @@ func (x *DeleteWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*DeleteWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{32}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *DeleteWaitGroupRequest) GetNamespaceName() string {
@@ -1834,7 +1834,7 @@ type DeleteWaitGroupResponse struct {
 
 func (x *DeleteWaitGroupResponse) Reset() {
 	*x = DeleteWaitGroupResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[33]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1846,7 +1846,7 @@ func (x *DeleteWaitGroupResponse) String() string {
 func (*DeleteWaitGroupResponse) ProtoMessage() {}
 
 func (x *DeleteWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[33]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1859,7 +1859,7 @@ func (x *DeleteWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*DeleteWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{33}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{33}
 }
 
 type AddJobsToWaitGroupRequest struct {
@@ -1873,7 +1873,7 @@ type AddJobsToWaitGroupRequest struct {
 
 func (x *AddJobsToWaitGroupRequest) Reset() {
 	*x = AddJobsToWaitGroupRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[34]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1885,7 +1885,7 @@ func (x *AddJobsToWaitGroupRequest) String() string {
 func (*AddJobsToWaitGroupRequest) ProtoMessage() {}
 
 func (x *AddJobsToWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[34]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1898,7 +1898,7 @@ func (x *AddJobsToWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddJobsToWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*AddJobsToWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{34}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *AddJobsToWaitGroupRequest) GetNamespaceName() string {
@@ -1931,7 +1931,7 @@ type AddJobsToWaitGroupResponse struct {
 
 func (x *AddJobsToWaitGroupResponse) Reset() {
 	*x = AddJobsToWaitGroupResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[35]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1943,7 +1943,7 @@ func (x *AddJobsToWaitGroupResponse) String() string {
 func (*AddJobsToWaitGroupResponse) ProtoMessage() {}
 
 func (x *AddJobsToWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[35]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1956,7 +1956,7 @@ func (x *AddJobsToWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddJobsToWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*AddJobsToWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{35}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *AddJobsToWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -1977,7 +1977,7 @@ type CompleteJobsFromWaitGroupRequest struct {
 
 func (x *CompleteJobsFromWaitGroupRequest) Reset() {
 	*x = CompleteJobsFromWaitGroupRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[36]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1989,7 +1989,7 @@ func (x *CompleteJobsFromWaitGroupRequest) String() string {
 func (*CompleteJobsFromWaitGroupRequest) ProtoMessage() {}
 
 func (x *CompleteJobsFromWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[36]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2002,7 +2002,7 @@ func (x *CompleteJobsFromWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompleteJobsFromWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*CompleteJobsFromWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{36}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *CompleteJobsFromWaitGroupRequest) GetNamespaceName() string {
@@ -2035,7 +2035,7 @@ type CompleteJobsFromWaitGroupResponse struct {
 
 func (x *CompleteJobsFromWaitGroupResponse) Reset() {
 	*x = CompleteJobsFromWaitGroupResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[37]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2047,7 +2047,7 @@ func (x *CompleteJobsFromWaitGroupResponse) String() string {
 func (*CompleteJobsFromWaitGroupResponse) ProtoMessage() {}
 
 func (x *CompleteJobsFromWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[37]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2060,7 +2060,7 @@ func (x *CompleteJobsFromWaitGroupResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use CompleteJobsFromWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*CompleteJobsFromWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{37}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *CompleteJobsFromWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -2085,7 +2085,7 @@ type WaitGroup struct {
 
 func (x *WaitGroup) Reset() {
 	*x = WaitGroup{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[38]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2097,7 +2097,7 @@ func (x *WaitGroup) String() string {
 func (*WaitGroup) ProtoMessage() {}
 
 func (x *WaitGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[38]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2110,7 +2110,7 @@ func (x *WaitGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitGroup.ProtoReflect.Descriptor instead.
 func (*WaitGroup) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{38}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *WaitGroup) GetName() string {
@@ -2175,7 +2175,7 @@ type AcquireLockRequest struct {
 
 func (x *AcquireLockRequest) Reset() {
 	*x = AcquireLockRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[39]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2187,7 +2187,7 @@ func (x *AcquireLockRequest) String() string {
 func (*AcquireLockRequest) ProtoMessage() {}
 
 func (x *AcquireLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[39]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2200,7 +2200,7 @@ func (x *AcquireLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireLockRequest.ProtoReflect.Descriptor instead.
 func (*AcquireLockRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{39}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *AcquireLockRequest) GetNamespaceName() string {
@@ -2248,7 +2248,7 @@ type AcquireLockResponse struct {
 
 func (x *AcquireLockResponse) Reset() {
 	*x = AcquireLockResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[40]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2260,7 +2260,7 @@ func (x *AcquireLockResponse) String() string {
 func (*AcquireLockResponse) ProtoMessage() {}
 
 func (x *AcquireLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[40]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2273,7 +2273,7 @@ func (x *AcquireLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireLockResponse.ProtoReflect.Descriptor instead.
 func (*AcquireLockResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{40}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *AcquireLockResponse) GetLock() *Lock {
@@ -2301,7 +2301,7 @@ type ReleaseLockRequest struct {
 
 func (x *ReleaseLockRequest) Reset() {
 	*x = ReleaseLockRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[41]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2313,7 +2313,7 @@ func (x *ReleaseLockRequest) String() string {
 func (*ReleaseLockRequest) ProtoMessage() {}
 
 func (x *ReleaseLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[41]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2326,7 +2326,7 @@ func (x *ReleaseLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseLockRequest.ProtoReflect.Descriptor instead.
 func (*ReleaseLockRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{41}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *ReleaseLockRequest) GetNamespaceName() string {
@@ -2359,7 +2359,7 @@ type ReleaseLockResponse struct {
 
 func (x *ReleaseLockResponse) Reset() {
 	*x = ReleaseLockResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[42]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2371,7 +2371,7 @@ func (x *ReleaseLockResponse) String() string {
 func (*ReleaseLockResponse) ProtoMessage() {}
 
 func (x *ReleaseLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[42]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2384,7 +2384,7 @@ func (x *ReleaseLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseLockResponse.ProtoReflect.Descriptor instead.
 func (*ReleaseLockResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{42}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *ReleaseLockResponse) GetLock() *Lock {
@@ -2404,7 +2404,7 @@ type GetLockRequest struct {
 
 func (x *GetLockRequest) Reset() {
 	*x = GetLockRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[43]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2416,7 +2416,7 @@ func (x *GetLockRequest) String() string {
 func (*GetLockRequest) ProtoMessage() {}
 
 func (x *GetLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[43]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2429,7 +2429,7 @@ func (x *GetLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLockRequest.ProtoReflect.Descriptor instead.
 func (*GetLockRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{43}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *GetLockRequest) GetNamespaceName() string {
@@ -2455,7 +2455,7 @@ type GetLockResponse struct {
 
 func (x *GetLockResponse) Reset() {
 	*x = GetLockResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[44]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2467,7 +2467,7 @@ func (x *GetLockResponse) String() string {
 func (*GetLockResponse) ProtoMessage() {}
 
 func (x *GetLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[44]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2480,7 +2480,7 @@ func (x *GetLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLockResponse.ProtoReflect.Descriptor instead.
 func (*GetLockResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{44}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *GetLockResponse) GetLock() *Lock {
@@ -2500,7 +2500,7 @@ type DeleteLockRequest struct {
 
 func (x *DeleteLockRequest) Reset() {
 	*x = DeleteLockRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[45]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2512,7 +2512,7 @@ func (x *DeleteLockRequest) String() string {
 func (*DeleteLockRequest) ProtoMessage() {}
 
 func (x *DeleteLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[45]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2525,7 +2525,7 @@ func (x *DeleteLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLockRequest.ProtoReflect.Descriptor instead.
 func (*DeleteLockRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{45}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *DeleteLockRequest) GetNamespaceName() string {
@@ -2550,7 +2550,7 @@ type DeleteLockResponse struct {
 
 func (x *DeleteLockResponse) Reset() {
 	*x = DeleteLockResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[46]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2562,7 +2562,7 @@ func (x *DeleteLockResponse) String() string {
 func (*DeleteLockResponse) ProtoMessage() {}
 
 func (x *DeleteLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[46]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2575,7 +2575,7 @@ func (x *DeleteLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLockResponse.ProtoReflect.Descriptor instead.
 func (*DeleteLockResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{46}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{46}
 }
 
 type ListLocksRequest struct {
@@ -2589,7 +2589,7 @@ type ListLocksRequest struct {
 
 func (x *ListLocksRequest) Reset() {
 	*x = ListLocksRequest{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[47]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2601,7 +2601,7 @@ func (x *ListLocksRequest) String() string {
 func (*ListLocksRequest) ProtoMessage() {}
 
 func (x *ListLocksRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[47]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2614,7 +2614,7 @@ func (x *ListLocksRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLocksRequest.ProtoReflect.Descriptor instead.
 func (*ListLocksRequest) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{47}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *ListLocksRequest) GetNamespaceName() string {
@@ -2649,7 +2649,7 @@ type ListLocksResponse struct {
 
 func (x *ListLocksResponse) Reset() {
 	*x = ListLocksResponse{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[48]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2661,7 +2661,7 @@ func (x *ListLocksResponse) String() string {
 func (*ListLocksResponse) ProtoMessage() {}
 
 func (x *ListLocksResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[48]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2674,7 +2674,7 @@ func (x *ListLocksResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLocksResponse.ProtoReflect.Descriptor instead.
 func (*ListLocksResponse) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{48}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *ListLocksResponse) GetLocks() []*Lock {
@@ -2711,7 +2711,7 @@ type Lock struct {
 
 func (x *Lock) Reset() {
 	*x = Lock{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[49]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2723,7 +2723,7 @@ func (x *Lock) String() string {
 func (*Lock) ProtoMessage() {}
 
 func (x *Lock) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[49]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2736,7 +2736,7 @@ func (x *Lock) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Lock.ProtoReflect.Descriptor instead.
 func (*Lock) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{49}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *Lock) GetName() string {
@@ -2785,7 +2785,7 @@ type LockHolder struct {
 
 func (x *LockHolder) Reset() {
 	*x = LockHolder{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[50]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2797,7 +2797,7 @@ func (x *LockHolder) String() string {
 func (*LockHolder) ProtoMessage() {}
 
 func (x *LockHolder) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[50]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2810,7 +2810,7 @@ func (x *LockHolder) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LockHolder.ProtoReflect.Descriptor instead.
 func (*LockHolder) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{50}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *LockHolder) GetProcessId() string {
@@ -2846,7 +2846,7 @@ type Namespace struct {
 
 func (x *Namespace) Reset() {
 	*x = Namespace{}
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[51]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2858,7 +2858,7 @@ func (x *Namespace) String() string {
 func (*Namespace) ProtoMessage() {}
 
 func (x *Namespace) ProtoReflect() protoreflect.Message {
-	mi := &file_evrblkapis_grackle_preview_api_proto_msgTypes[51]
+	mi := &file_proto_grackle_preview_api_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2871,7 +2871,7 @@ func (x *Namespace) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Namespace.ProtoReflect.Descriptor instead.
 func (*Namespace) Descriptor() ([]byte, []int) {
-	return file_evrblkapis_grackle_preview_api_proto_rawDescGZIP(), []int{51}
+	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *Namespace) GetName() string {
@@ -2902,11 +2902,11 @@ func (x *Namespace) GetUpdatedAt() int64 {
 	return 0
 }
 
-var File_evrblkapis_grackle_preview_api_proto protoreflect.FileDescriptor
+var File_proto_grackle_preview_api_proto protoreflect.FileDescriptor
 
-const file_evrblkapis_grackle_preview_api_proto_rawDesc = "" +
+const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\n" +
-	"$evrblkapis/grackle/preview/api.proto\x12\x1acom.evrblk.grackle.preview\"N\n" +
+	"\x1fproto/grackle/preview/api.proto\x12\x1acom.evrblk.grackle.preview\"N\n" +
 	"\x16CreateNamespaceRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\"^\n" +
@@ -3137,23 +3137,23 @@ const file_evrblkapis_grackle_preview_api_proto_rawDesc = "" +
 	"\aGetLock\x12*.com.evrblk.grackle.preview.GetLockRequest\x1a+.com.evrblk.grackle.preview.GetLockResponse\"\x00\x12m\n" +
 	"\n" +
 	"DeleteLock\x12-.com.evrblk.grackle.preview.DeleteLockRequest\x1a..com.evrblk.grackle.preview.DeleteLockResponse\"\x00\x12j\n" +
-	"\tListLocks\x12,.com.evrblk.grackle.preview.ListLocksRequest\x1a-.com.evrblk.grackle.preview.ListLocksResponse\"\x00B5Z3github.com/evrblk/evrblk-go/grackle/preview;grackleb\x06proto3"
+	"\tListLocks\x12,.com.evrblk.grackle.preview.ListLocksRequest\x1a-.com.evrblk.grackle.preview.ListLocksResponse\"\x00BPZ3github.com/evrblk/evrblk-go/grackle/preview;grackle\xea\x02\x18Evrblk::Grackle::Previewb\x06proto3"
 
 var (
-	file_evrblkapis_grackle_preview_api_proto_rawDescOnce sync.Once
-	file_evrblkapis_grackle_preview_api_proto_rawDescData []byte
+	file_proto_grackle_preview_api_proto_rawDescOnce sync.Once
+	file_proto_grackle_preview_api_proto_rawDescData []byte
 )
 
-func file_evrblkapis_grackle_preview_api_proto_rawDescGZIP() []byte {
-	file_evrblkapis_grackle_preview_api_proto_rawDescOnce.Do(func() {
-		file_evrblkapis_grackle_preview_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_evrblkapis_grackle_preview_api_proto_rawDesc), len(file_evrblkapis_grackle_preview_api_proto_rawDesc)))
+func file_proto_grackle_preview_api_proto_rawDescGZIP() []byte {
+	file_proto_grackle_preview_api_proto_rawDescOnce.Do(func() {
+		file_proto_grackle_preview_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_grackle_preview_api_proto_rawDesc), len(file_proto_grackle_preview_api_proto_rawDesc)))
 	})
-	return file_evrblkapis_grackle_preview_api_proto_rawDescData
+	return file_proto_grackle_preview_api_proto_rawDescData
 }
 
-var file_evrblkapis_grackle_preview_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_evrblkapis_grackle_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
-var file_evrblkapis_grackle_preview_api_proto_goTypes = []any{
+var file_proto_grackle_preview_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_grackle_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
+var file_proto_grackle_preview_api_proto_goTypes = []any{
 	(LockState)(0),                            // 0: com.evrblk.grackle.preview.LockState
 	(*CreateNamespaceRequest)(nil),            // 1: com.evrblk.grackle.preview.CreateNamespaceRequest
 	(*CreateNamespaceResponse)(nil),           // 2: com.evrblk.grackle.preview.CreateNamespaceResponse
@@ -3208,7 +3208,7 @@ var file_evrblkapis_grackle_preview_api_proto_goTypes = []any{
 	(*LockHolder)(nil),                        // 51: com.evrblk.grackle.preview.LockHolder
 	(*Namespace)(nil),                         // 52: com.evrblk.grackle.preview.Namespace
 }
-var file_evrblkapis_grackle_preview_api_proto_depIdxs = []int32{
+var file_proto_grackle_preview_api_proto_depIdxs = []int32{
 	52, // 0: com.evrblk.grackle.preview.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.preview.Namespace
 	52, // 1: com.evrblk.grackle.preview.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.preview.Namespace
 	52, // 2: com.evrblk.grackle.preview.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.preview.Namespace
@@ -3285,27 +3285,27 @@ var file_evrblkapis_grackle_preview_api_proto_depIdxs = []int32{
 	0,  // [0:23] is the sub-list for field type_name
 }
 
-func init() { file_evrblkapis_grackle_preview_api_proto_init() }
-func file_evrblkapis_grackle_preview_api_proto_init() {
-	if File_evrblkapis_grackle_preview_api_proto != nil {
+func init() { file_proto_grackle_preview_api_proto_init() }
+func file_proto_grackle_preview_api_proto_init() {
+	if File_proto_grackle_preview_api_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_evrblkapis_grackle_preview_api_proto_rawDesc), len(file_evrblkapis_grackle_preview_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_grackle_preview_api_proto_rawDesc), len(file_proto_grackle_preview_api_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   52,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_evrblkapis_grackle_preview_api_proto_goTypes,
-		DependencyIndexes: file_evrblkapis_grackle_preview_api_proto_depIdxs,
-		EnumInfos:         file_evrblkapis_grackle_preview_api_proto_enumTypes,
-		MessageInfos:      file_evrblkapis_grackle_preview_api_proto_msgTypes,
+		GoTypes:           file_proto_grackle_preview_api_proto_goTypes,
+		DependencyIndexes: file_proto_grackle_preview_api_proto_depIdxs,
+		EnumInfos:         file_proto_grackle_preview_api_proto_enumTypes,
+		MessageInfos:      file_proto_grackle_preview_api_proto_msgTypes,
 	}.Build()
-	File_evrblkapis_grackle_preview_api_proto = out.File
-	file_evrblkapis_grackle_preview_api_proto_goTypes = nil
-	file_evrblkapis_grackle_preview_api_proto_depIdxs = nil
+	File_proto_grackle_preview_api_proto = out.File
+	file_proto_grackle_preview_api_proto_goTypes = nil
+	file_proto_grackle_preview_api_proto_depIdxs = nil
 }

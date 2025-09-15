@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.0
-// source: evrblkapis/grackle/preview/api.proto
+// source: proto/grackle/preview/api.proto
 
 package grackle
 
@@ -953,5 +953,5 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "evrblkapis/grackle/preview/api.proto",
+	Metadata: "proto/grackle/preview/api.proto",
 }
