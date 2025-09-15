@@ -7,15 +7,15 @@ import (
 )
 
 // HandlerFunc is used to define the Handler that is run on for each task
-type HandlerFuncPreview func(task *Task) error
+type HandlerFunc func(task *Task) error
 
 // HandleTask wraps a function for handling sqs messages
-func (f HandlerFuncPreview) HandleTask(task *Task) error {
+func (f HandlerFunc) HandleTask(task *Task) error {
 	return f(task)
 }
 
 // Handler interface
-type HandlerPreview interface {
+type Handler interface {
 	HandleTask(task *Task) error
 }
 
@@ -24,8 +24,8 @@ type taskCompletionStatus struct {
 	err    error
 }
 
-type MoabPreviewConsumer struct {
-	moabClient MoabPreviewApi
+type MoabConsumer struct {
+	moabClient MoabApi
 	queueName  string
 
 	inflightTasks map[string]*Task
@@ -35,7 +35,7 @@ type MoabPreviewConsumer struct {
 	numWorkers    int
 }
 
-func (c *MoabPreviewConsumer) Start(ctx context.Context, h HandlerPreview) {
+func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 	go func(ctx context.Context) {
 		entries := make([]*ReportStatusRequestEntry, 0)
 		for {
@@ -139,8 +139,8 @@ func (c *MoabPreviewConsumer) Start(ctx context.Context, h HandlerPreview) {
 	}
 }
 
-func NewMoabPreviewConsumer(moabClient MoabPreviewApi, queueName string) *MoabPreviewConsumer {
-	return &MoabPreviewConsumer{
+func NewMoabConsumer(moabClient MoabApi, queueName string) *MoabConsumer {
+	return &MoabConsumer{
 		moabClient:    moabClient,
 		queueName:     queueName,
 		inflightTasks: make(map[string]*Task),

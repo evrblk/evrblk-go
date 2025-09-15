@@ -1,0 +1,230 @@
+syntax = "proto3";
+
+option go_package = "github.com/evrblk/evrblk-go/iam/preview;iam";
+option ruby_package = "Evrblk::IAM::Preview";
+
+package com.evrblk.iam.preview;
+
+service IamPreviewApi {
+  rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse) {}
+  rpc GetRole(GetRoleRequest) returns (GetRoleResponse) {}
+  rpc UpdateRole(UpdateRoleRequest) returns (UpdateRoleResponse) {}
+  rpc ListRoles(ListRolesRequest) returns (ListRolesResponse) {}
+  rpc DeleteRole(DeleteRoleRequest) returns (DeleteRoleResponse) {}
+
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {}
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+
+  rpc CreateApiKey(CreateApiKeyRequest) returns (CreateApiKeyResponse) {}
+  rpc GetApiKey(GetApiKeyRequest) returns (GetApiKeyResponse) {}
+  rpc ListApiKeys(ListApiKeysRequest) returns (ListApiKeysResponse) {}
+  rpc DeleteApiKey(DeleteApiKeyRequest) returns (DeleteApiKeyResponse) {}
+}
+
+// roles
+
+message CreateRoleRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateRoleResponse {
+  Role role = 1;
+}
+
+message GetRoleRequest {
+  string role_id = 1;
+}
+
+message GetRoleResponse {
+  Role role = 1;
+}
+
+message UpdateRoleRequest {
+  string role_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message UpdateRoleResponse {
+  Role role = 1;
+}
+
+message ListRolesRequest {
+  string pagination_token = 1;
+  int32 limit = 2;
+}
+
+message ListRolesResponse {
+  repeated Role roles = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message DeleteRoleRequest {
+  string role_id = 1;
+}
+
+message DeleteRoleResponse {}
+
+// users
+
+message CreateUserRequest {
+  string name = 1;
+  string description = 2;
+  string email = 3;
+  string password = 4;
+  string role_id = 5;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  string user_id = 1;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}
+
+message ListUsersRequest {
+  string pagination_token = 1;
+  int32 limit = 2;
+}
+
+message ListUsersResponse {
+  repeated User users = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message DeleteUserRequest {
+  string user_id = 1;
+}
+
+message DeleteUserResponse {}
+
+// api keys
+
+message CreateApiKeyRequest {
+  string name = 1;
+  string description = 2;
+  string role_id = 3;
+  string user_id = 4;
+  int64 expires_at = 5;
+
+  oneof key_type {
+    CreateAlfaKeyRequest alfa = 6;
+    CreateBravoKeyRequest bravo = 7;
+    CreateCharlieKeyRequest charlie = 8;
+  }
+}
+
+message CreateAlfaKeyRequest {
+  string public_pem = 1;
+}
+
+message CreateBravoKeyRequest {}
+
+message CreateCharlieKeyRequest {}
+
+message CreateApiKeyResponse {
+  NewApiKey api_key = 1;
+}
+
+message NewApiKey {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  string role_id = 6;
+  string user_id = 7;
+  int64 expires_at = 8;
+
+  oneof key_type {
+    NewAlfaKey alfa = 9;
+    NewBravoKey bravo = 10;
+    NewCharlieKey charlie = 11;
+  }
+}
+
+message NewAlfaKey {
+  string public_pem = 1;
+}
+
+message NewBravoKey {
+  string secret = 1;
+}
+
+message NewCharlieKey {}
+
+message GetApiKeyRequest {
+  string api_key_id = 1;
+}
+
+message GetApiKeyResponse {
+  ApiKey api_key = 1;
+}
+
+message ListApiKeysRequest {
+  string pagination_token = 1;
+  int32 limit = 2;
+}
+
+message ListApiKeysResponse {
+  repeated ApiKey api_keys = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message DeleteApiKeyRequest {
+  string api_key_id = 1;
+}
+
+message DeleteApiKeyResponse {}
+
+// common
+
+message Role {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  string email = 6;
+  bool is_root = 9;
+  string role_id = 10;
+}
+
+message ApiKey {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  string role_id = 6;
+  string user_id = 7;
+  int64 expires_at = 8;
+}

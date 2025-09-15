@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option go_package = "github.com/evrblk/evrblk-go/myaccount/preview;myaccount";
+option ruby_package = "Evrblk::MyAccount::Preview";
+
+package com.evrblk.myaccount.preview;
+
+service MyAccountPreviewApi {
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {}
+  // request service limit increase
+  // update billing info
+  // update payment methods
+  // see billing statements
+  // update notification settings
+  //
+}
+
+message GetAccountRequest {
+
+}
+
+message GetAccountResponse {
+  Account account = 1;
+}
+
+// common
+
+message Account {
+  string id = 1;
+  string email = 2;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+  uint64 version = 5;
+  ServiceLimits service_limits = 7;
+}
+
+message ServiceLimits {
+  IAMServiceLimits iam_service_limits = 1;
+  MoabServiceLimits moab_service_limits = 2;
+  BisonServiceLimits bison_service_limits = 3;
+}
+
+message IAMServiceLimits {
+  int64 max_number_of_roles = 1;
+  int64 max_number_of_users = 2;
+  int64 max_number_of_api_keys = 3;
+  int64 control_plane_read_request_rate = 4;
+  int64 control_plane_update_request_rate = 5;
+  //  int64 data_plane_request_rate = 6;
+}
+
+message MoabServiceLimits {
+  int64 max_number_of_queues = 1;
+  int64 max_number_of_schedules_per_queue = 2;
+  int64 max_number_of_schedules = 3;
+  int64 enqueue_per_queue_request_rate = 4;
+  int64 dequeue_per_queue_request_rate = 5;
+  int64 max_enqueue_batch_size = 6;
+  int64 max_dequeue_batch_size = 7;
+  int64 control_plane_read_request_rate = 8;
+  int64 control_plane_update_request_rate = 9;
+  int64 data_plane_request_rate = 10;
+  int64 purge_queue_request_rate = 11;
+}
+
+message BisonServiceLimits {
+
+}

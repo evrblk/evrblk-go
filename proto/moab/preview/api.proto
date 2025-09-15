@@ -1,0 +1,307 @@
+syntax = "proto3";
+
+option go_package = "github.com/evrblk/evrblk-go/moab/preview;moab";
+option ruby_package = "Evrblk::Moab::Preview";
+
+package com.evrblk.moab.preview;
+
+service MoabPreviewApi {
+  rpc CreateQueue(CreateQueueRequest) returns (CreateQueueResponse) {}
+  rpc GetQueue(GetQueueRequest) returns (GetQueueResponse) {}
+  rpc UpdateQueue(UpdateQueueRequest) returns (UpdateQueueResponse) {}
+  rpc DeleteQueue(DeleteQueueRequest) returns (DeleteQueueResponse) {}
+  rpc ListQueues(ListQueuesRequest) returns (ListQueuesResponse) {}
+
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {}
+  rpc Enqueue(EnqueueRequest) returns (EnqueueResponse) {}
+  rpc Dequeue(DequeueRequest) returns (DequeueResponse) {}
+  rpc ReportStatus(ReportStatusRequest) returns (ReportStatusResponse) {}
+  rpc DeleteTasks(DeleteTasksRequest) returns (DeleteTasksResponse) {}
+  rpc RestartTasks(RestartTasksRequest) returns (RestartTasksResponse) {}
+  rpc PurgeQueue(PurgeQueueRequest) returns (PurgeQueueResponse) {}
+
+  rpc CreateSchedule(CreateScheduleRequest) returns (CreateScheduleResponse) {}
+  rpc GetSchedule(GetScheduleRequest) returns (GetScheduleResponse) {}
+  rpc UpdateSchedule(UpdateScheduleRequest) returns (UpdateScheduleResponse) {}
+  rpc DeleteSchedule(DeleteScheduleRequest) returns (DeleteScheduleResponse) {}
+}
+
+// Queues APIs
+
+message CreateQueueRequest {
+  string name = 1;
+  string description = 2;
+  int64 keepalive_timeout_in_seconds = 3;
+  RetryStrategy retry_strategy = 4;
+  DequeuingSettings dequeuing_settings = 5;
+  DeadLetterQueueConfig dead_letter_queue_config = 6;
+  int64 expires_in_seconds = 7;
+}
+
+message CreateQueueResponse {
+  Queue queue = 1;
+}
+
+message GetQueueRequest {
+  string queue_name = 1;
+}
+
+message GetQueueResponse {
+  Queue queue = 1;
+  repeated Schedule schedules = 2;
+  QueueStats stats = 3;
+}
+
+message UpdateQueueRequest {
+  string queue_name = 1;
+  string description = 2;
+  int64 keepalive_timeout_in_seconds = 3;
+  RetryStrategy retry_strategy = 4;
+  DequeuingSettings dequeuing_settings = 5;
+  DeadLetterQueueConfig dead_letter_queue_config = 6;
+  int64 expires_in_seconds = 7;
+}
+
+message UpdateQueueResponse {
+  Queue queue = 1;
+}
+
+message DeleteQueueRequest {
+  string queue_name = 1;
+}
+
+message DeleteQueueResponse {}
+
+message ListQueuesRequest {}
+
+message ListQueuesResponse {
+  repeated Queue queues = 1;
+}
+
+// Enqueue/Dequeue APIs
+
+message EnqueueRequest {
+  string queue_name = 1;
+  repeated EnqueueRequestEntry entries = 2;  // TODO rename to tasks?
+}
+
+message EnqueueRequestEntry {
+  enum OverwriteOnDuplicate {
+    OVERWRITE_ON_DUPLICATE_INVALID = 0;
+    OVERWRITE_ON_DUPLICATE_PAYLOAD = 1;
+    OVERWRITE_ON_DUPLICATE_SCHEDULED_AT = 2;
+    OVERWRITE_ON_DUPLICATE_EXPIRES_AT = 3;
+  }
+
+  bytes payload = 1;
+  int64 scheduled_at = 2;
+  int64 expires_at = 3;
+  string dedupe_key = 4;
+  int64 keepalive_timeout_in_seconds = 5;
+  RetryStrategy retry_strategy = 6;
+  repeated OverwriteOnDuplicate overwrite_on_duplicate = 7;
+  string thread_id = 8;
+}
+
+message EnqueueResponse {
+  repeated Task tasks = 1;
+}
+
+message DequeueRequest {
+  string queue_name = 1;
+  int64 batch_size = 2;
+}
+
+message DequeueResponse {
+  repeated Task tasks = 1;
+}
+
+message ReportStatusRequest {
+  string queue_name = 1;
+  repeated ReportStatusRequestEntry entries = 2;
+}
+
+message ReportStatusRequestEntry {
+  enum Status {
+    STATUS_INVALID = 0;
+    STATUS_SUCCEEDED = 1;
+    STATUS_INFLIGHT = 2;  // TODO rename PROCESSING?
+    STATUS_FAILED = 3;
+  }
+
+  string task_id = 1;
+  int32 attempt = 2;
+  Status status = 3;
+}
+
+message ReportStatusResponse {}
+
+message DeleteTasksRequest {
+  string queue_name = 1;
+  repeated string task_ids = 2;
+}
+
+message DeleteTasksResponse {}
+
+message GetTaskRequest {
+  string queue_name = 1;
+  string task_id = 2;
+}
+
+message GetTaskResponse {
+  Task task = 1;
+}
+
+message RestartTasksRequest {
+  string queue_name = 1;
+  repeated string task_ids = 2;
+}
+
+message RestartTasksResponse {}
+
+message PurgeQueueRequest {
+  string queue_name = 1;
+}
+
+message PurgeQueueResponse {}
+
+// Schedules APIs
+
+message CreateScheduleRequest {
+  string queue_name = 1;
+  string name = 2;
+  string description = 3;
+  string cron = 4;
+  bytes payload = 5;
+  string dedupe_key = 6;
+  int64 expires_in_seconds = 7;
+  int64 keepalive_timeout_in_seconds = 8;
+  RetryStrategy retry_strategy = 9;
+  string timezone = 10;
+}
+
+message CreateScheduleResponse {
+  Schedule schedule = 1;
+}
+
+message GetScheduleRequest {
+  string queue_name = 1;
+  string schedule_name = 2;
+}
+
+message GetScheduleResponse {
+  Schedule schedule = 1;
+}
+
+message UpdateScheduleRequest {
+  string queue_name = 1;
+  string schedule_name = 2;
+  string description = 3;
+  string cron = 4;
+  bytes payload = 5;
+  string dedupe_key = 6;
+  int64 expires_in_seconds = 7;
+  int64 keepalive_timeout_in_seconds = 8;
+  RetryStrategy retry_strategy = 9;
+  string timezone = 10;
+}
+
+message UpdateScheduleResponse {
+  Schedule schedule = 1;
+}
+
+message DeleteScheduleRequest {
+  string queue_name = 1;
+  string schedule_name = 2;
+}
+
+message DeleteScheduleResponse {}
+
+// Main models
+
+message Task {
+  string id = 1;
+  string queue_name = 2;
+  bytes payload = 3;
+  int64 created_at = 4;
+  int64 scheduled_at = 5;
+  int64 expires_at = 6;
+  string dedupe_key = 7;
+  int32 attempts = 8;
+  string thread_id = 9;
+  // debug info payload
+}
+
+message Schedule {
+  string name = 1;
+  string description = 2;
+  string queue_name = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  int64 version = 6;
+  string cron = 7;
+  bytes payload = 8;
+  string dedupe_key = 9;
+  int64 expires_in_seconds = 10;
+  int64 keepalive_timeout_in_seconds = 11;
+  RetryStrategy retry_strategy = 12;
+  string timezone = 13;
+}
+
+message RetryStrategy {
+  repeated int64 retry_intervals_in_seconds = 1;
+}
+
+message Queue {
+  string name = 1;
+  string description = 2;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+  int64 version = 5;
+
+  // default on queue level, override on task level
+  int64 keepalive_timeout_in_seconds = 6;
+  RetryStrategy retry_strategy = 7;
+  DequeuingSettings dequeuing_settings = 8;
+  DeadLetterQueueConfig dead_letter_queue_config = 9;
+
+  int64 expires_in_seconds = 10;
+}
+
+message DeadLetterQueueConfig {
+  bool enable = 1;
+  int64 max_size = 2;                     // 0 - unlimited
+  int64 retention_period_in_seconds = 3;  // TODO units? 0 - unlimited
+}
+
+// message CompletedTasksSetConfig {
+//   bool enable = 1;
+//   int64 max_size = 2; // 0 - unlimited
+//   int64 retention_period = 3; // TODO units? 0 - unlimited
+// }
+
+message DequeuingSettings {
+  int64 max_inflight_tasks = 1;
+  TokenBucketRateLimiting rate_limiting = 2;
+  bool dequeuing_paused = 3;
+}
+
+message TokenBucketRateLimiting {
+  int64 max_tokens = 1;
+  int64 interval = 2;
+  IntervalUnit interval_unit = 3;
+}
+
+message QueueStats {
+  uint64 enqueued_tasks_count = 1;
+  uint64 inflight_tasks_count = 2;
+  uint64 dead_tasks_count = 3;
+  int64 age_of_oldest_enqueued_task = 4;
+}
+
+enum IntervalUnit {
+  INTERVAL_UNIT_INVALID = 0;
+  INTERVAL_UNIT_SECONDS = 1;
+  INTERVAL_UNIT_MINUTES = 2;
+  INTERVAL_UNIT_HOURS = 3;
+}

@@ -97,3 +97,17 @@ func NewRequestSigner(apiKeyId string, apiSecretKey string) (RequestSigner, erro
 		return NewBravoRequestSigner(apiKeyId, apiSecretKey)
 	}
 }
+
+type noOpSigner struct {
+}
+
+var _ RequestSigner = &noOpSigner{}
+
+func (s *noOpSigner) Sign(ctx context.Context, request proto.Message) (context.Context, error) {
+	return ctx, nil
+}
+
+// NewNoOpSigner creates a new NoOp request signer
+func NewNoOpSigner() (RequestSigner, error) {
+	return &noOpSigner{}, nil
+}
