@@ -1,10 +1,10 @@
-.PHONY: build generate-proto
+.PHONY: build generate-proto generate-code
 
-build: generate-proto
-	@echo "Running code generate..."
-	go run ./cmd/codegen
+build: generate-proto generate-code
 	@echo "Running Go build..."
 	go build ./...
+	go fmt ./...
+	go vet ./...
 
 generate-proto:
 	@echo "Generating proto files..."
@@ -32,3 +32,30 @@ generate-proto:
 		--go-grpc_opt=module=github.com/evrblk/evrblk-go/myaccount/preview \
 		--go_opt=module=github.com/evrblk/evrblk-go/myaccount/preview \
 		./proto/myaccount/preview/*.proto
+
+generate-code:
+	@echo "Running code generate..."
+	go run ./cmd/codegen \
+		--service-name=Grackle \
+		--go-package-path=github.com/evrblk-go/grackle/preview \
+		--go-package-name=grackle \
+		--output-path=./grackle/preview/client.go \
+		--proto-file-path=./proto/grackle/preview/api.proto
+	go run ./cmd/codegen \
+		--service-name=IAM \
+		--go-package-path=github.com/evrblk-go/iam/preview \
+		--go-package-name=iam \
+		--output-path=./iam/preview/client.go \
+		--proto-file-path=./proto/iam/preview/api.proto
+	go run ./cmd/codegen \
+		--service-name=Moab \
+		--go-package-path=github.com/evrblk-go/moab/preview \
+		--go-package-name=moab \
+		--output-path=./moab/preview/client.go \
+		--proto-file-path=./proto/moab/preview/api.proto
+	go run ./cmd/codegen \
+		--service-name=MyAccount \
+		--go-package-path=github.com/evrblk-go/myaccount/preview \
+		--go-package-name=myaccount \
+		--output-path=./myaccount/preview/client.go \
+		--proto-file-path=./proto/myaccount/preview/api.proto

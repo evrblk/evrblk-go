@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -9,54 +10,31 @@ import (
 	. "github.com/dave/jennifer/jen"
 )
 
+var (
+	serviceName   = flag.String("service-name", "", "Everblack service name")
+	goPackagePath = flag.String("go-package-path", "", "Go package path of generated code")
+	goPackageName = flag.String("go-package-name", "", "Go package alias of generated code")
+	outputPath    = flag.String("output-path", "", "Output path for generated .go file")
+	protoFilePath = flag.String("proto-file-path", "", "Input .proto file with gRPC service definition")
+)
+
 func main() {
-	clients := []clientDesc{
-		{
-			serviceName:   "Grackle",
-			goPackagePath: "github.com/evrblk-go/grackle/preview",
-			goPackageName: "grackle",
-			outputPath:    "./grackle/preview/client.go",
-			protoFilePath: "./proto/grackle/preview/api.proto",
-		},
-		{
-			serviceName:   "IAM",
-			goPackagePath: "github.com/evrblk-go/iam/preview",
-			goPackageName: "iam",
-			outputPath:    "./iam/preview/client.go",
-			protoFilePath: "./proto/iam/preview/api.proto",
-		},
-		{
-			serviceName:   "Moab",
-			goPackagePath: "github.com/evrblk-go/moab/preview",
-			goPackageName: "moab",
-			outputPath:    "./moab/preview/client.go",
-			protoFilePath: "./proto/moab/preview/api.proto",
-		},
-		{
-			serviceName:   "MyAccount",
-			goPackagePath: "github.com/evrblk-go/myaccount/preview",
-			goPackageName: "myaccount",
-			outputPath:    "./myaccount/preview/client.go",
-			protoFilePath: "./proto/myaccount/preview/api.proto",
-		},
+	flag.Parse()
+
+	out, err := os.Create(*outputPath)
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
+	}
+	defer out.Close()
+
+	serviceDescs, err := ReadProtoFileAndExtractServices(*protoFilePath)
+	if err != nil {
+		log.Fatalf("Error: %v\n", err)
 	}
 
-	for _, client := range clients {
-		out, err := os.Create(client.outputPath)
-		if err != nil {
-			log.Fatalf("failed to create output file: %v", err)
-		}
-		defer out.Close()
-
-		serviceDescs, err := ReadProtoFileAndExtractServices(client.protoFilePath)
-		if err != nil {
-			log.Fatalf("Error: %v\n", err)
-		}
-
-		_, err = fmt.Fprint(out, generateClient(client.serviceName, client.goPackagePath, client.goPackageName, serviceDescs[0]))
-		if err != nil {
-			log.Fatalf("failed to generate client: %v", err)
-		}
+	_, err = fmt.Fprint(out, generateClient(*serviceName, *goPackagePath, *goPackageName, serviceDescs[0]))
+	if err != nil {
+		log.Fatalf("failed to generate client: %v", err)
 	}
 }
 
