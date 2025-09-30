@@ -125,7 +125,7 @@ message ReportStatusRequestEntry {
   enum Status {
     STATUS_INVALID = 0;
     STATUS_SUCCEEDED = 1;
-    STATUS_INFLIGHT = 2;  // TODO rename PROCESSING?
+    STATUS_IN_PROGRESS = 2;
     STATUS_FAILED = 3;
   }
 
@@ -281,7 +281,7 @@ message DeadLetterQueueConfig {
 // }
 
 message DequeuingSettings {
-  int64 max_inflight_tasks = 1;
+  int64 max_in_progress_tasks = 1;
   TokenBucketRateLimiting rate_limiting = 2;
   bool dequeuing_paused = 3;
 }
@@ -294,7 +294,7 @@ message TokenBucketRateLimiting {
 
 message QueueStats {
   uint64 enqueued_tasks_count = 1;
-  uint64 inflight_tasks_count = 2;
+  uint64 in_progress_tasks_count = 2;
   uint64 dead_tasks_count = 3;
   int64 age_of_oldest_enqueued_task = 4;
 }

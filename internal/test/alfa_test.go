@@ -32,7 +32,7 @@ func TestAlfaSignAndVerify(t *testing.T) {
 			RetryIntervalsInSeconds: []int64{1, 2, 3, 4, 5},
 		},
 		DequeuingSettings: &moab.DequeuingSettings{
-			MaxInflightTasks: 100,
+			MaxInProgressTasks: 100,
 			RateLimiting: &moab.TokenBucketRateLimiting{
 				MaxTokens:    1000,
 				Interval:     5,
@@ -84,7 +84,7 @@ func TestAlfaConsistent(t *testing.T) {
 			RetryIntervalsInSeconds: []int64{1, 2, 3, 4, 5},
 		},
 		DequeuingSettings: &moab.DequeuingSettings{
-			MaxInflightTasks: 100,
+			MaxInProgressTasks: 100,
 			RateLimiting: &moab.TokenBucketRateLimiting{
 				MaxTokens:    1000,
 				Interval:     5,

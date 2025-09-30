@@ -28,11 +28,11 @@ type MoabConsumer struct {
 	moabClient MoabApi
 	queueName  string
 
-	inflightTasks map[string]*Task
-	mu            sync.Mutex
-	bufCh         chan *Task
-	statusCh      chan taskCompletionStatus
-	numWorkers    int
+	inProgressTasks map[string]*Task
+	mu              sync.Mutex
+	bufCh           chan *Task
+	statusCh        chan taskCompletionStatus
+	numWorkers      int
 }
 
 func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
@@ -56,7 +56,7 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 				})
 
 				c.mu.Lock()
-				delete(c.inflightTasks, status.taskId)
+				delete(c.inProgressTasks, status.taskId)
 				c.mu.Unlock()
 
 				if len(entries) >= 10 {
@@ -124,7 +124,7 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 			if len(resp.Tasks) > 0 {
 				c.mu.Lock()
 				for i := range resp.Tasks {
-					c.inflightTasks[resp.Tasks[i].Id] = resp.Tasks[i]
+					c.inProgressTasks[resp.Tasks[i].Id] = resp.Tasks[i]
 				}
 				c.mu.Unlock()
 				for i := range resp.Tasks {
@@ -141,11 +141,11 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 
 func NewMoabConsumer(moabClient MoabApi, queueName string) *MoabConsumer {
 	return &MoabConsumer{
-		moabClient:    moabClient,
-		queueName:     queueName,
-		inflightTasks: make(map[string]*Task),
-		bufCh:         make(chan *Task, 32*16),
-		statusCh:      make(chan taskCompletionStatus),
-		numWorkers:    32,
+		moabClient:      moabClient,
+		queueName:       queueName,
+		inProgressTasks: make(map[string]*Task),
+		bufCh:           make(chan *Task, 32*16),
+		statusCh:        make(chan taskCompletionStatus),
+		numWorkers:      32,
 	}
 }
