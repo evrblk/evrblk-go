@@ -108,6 +108,6 @@ func (s *noOpSigner) Sign(ctx context.Context, request proto.Message) (context.C
 }
 
 // NewNoOpSigner creates a new NoOp request signer
-func NewNoOpSigner() (RequestSigner, error) {
-	return &noOpSigner{}, nil
+func NewNoOpSigner() RequestSigner {
+	return &noOpSigner{}
 }
