@@ -61,7 +61,7 @@ func (c *GrackleGrpcClient) CreateNamespace(ctx context.Context, request *Create
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateNamespace").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateNamespace"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CreateNamespace")
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (c *GrackleGrpcClient) ListNamespaces(ctx context.Context, request *ListNam
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListNamespaces").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListNamespaces"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListNamespaces")
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (c *GrackleGrpcClient) GetNamespace(ctx context.Context, request *GetNamesp
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetNamespace").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetNamespace"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetNamespace")
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func (c *GrackleGrpcClient) DeleteNamespace(ctx context.Context, request *Delete
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "DeleteNamespace").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "DeleteNamespace"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "DeleteNamespace")
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +129,7 @@ func (c *GrackleGrpcClient) UpdateNamespace(ctx context.Context, request *Update
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "UpdateNamespace").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "UpdateNamespace"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "UpdateNamespace")
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +146,7 @@ func (c *GrackleGrpcClient) CreateSemaphore(ctx context.Context, request *Create
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateSemaphore").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateSemaphore"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CreateSemaphore")
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func (c *GrackleGrpcClient) ListSemaphores(ctx context.Context, request *ListSem
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListSemaphores").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListSemaphores"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListSemaphores")
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +180,7 @@ func (c *GrackleGrpcClient) GetSemaphore(ctx context.Context, request *GetSemaph
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetSemaphore").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetSemaphore"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetSemaphore")
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +197,7 @@ func (c *GrackleGrpcClient) AcquireSemaphore(ctx context.Context, request *Acqui
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "AcquireSemaphore").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "AcquireSemaphore"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "AcquireSemaphore")
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +214,7 @@ func (c *GrackleGrpcClient) ReleaseSemaphore(ctx context.Context, request *Relea
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ReleaseSemaphore").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ReleaseSemaphore"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ReleaseSemaphore")
 	if err != nil {
 		return nil, err
 	}
@@ -231,7 +231,7 @@ func (c *GrackleGrpcClient) UpdateSemaphore(ctx context.Context, request *Update
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "UpdateSemaphore").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "UpdateSemaphore"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "UpdateSemaphore")
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func (c *GrackleGrpcClient) DeleteSemaphore(ctx context.Context, request *Delete
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "DeleteSemaphore").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "DeleteSemaphore"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "DeleteSemaphore")
 	if err != nil {
 		return nil, err
 	}
@@ -265,7 +265,7 @@ func (c *GrackleGrpcClient) CreateWaitGroup(ctx context.Context, request *Create
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateWaitGroup"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CreateWaitGroup")
 	if err != nil {
 		return nil, err
 	}
@@ -282,7 +282,7 @@ func (c *GrackleGrpcClient) ListWaitGroups(ctx context.Context, request *ListWai
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListWaitGroups").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListWaitGroups"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListWaitGroups")
 	if err != nil {
 		return nil, err
 	}
@@ -299,7 +299,7 @@ func (c *GrackleGrpcClient) GetWaitGroup(ctx context.Context, request *GetWaitGr
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetWaitGroup"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetWaitGroup")
 	if err != nil {
 		return nil, err
 	}
@@ -316,7 +316,7 @@ func (c *GrackleGrpcClient) DeleteWaitGroup(ctx context.Context, request *Delete
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "DeleteWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "DeleteWaitGroup"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "DeleteWaitGroup")
 	if err != nil {
 		return nil, err
 	}
@@ -333,7 +333,7 @@ func (c *GrackleGrpcClient) AddJobsToWaitGroup(ctx context.Context, request *Add
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "AddJobsToWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "AddJobsToWaitGroup"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "AddJobsToWaitGroup")
 	if err != nil {
 		return nil, err
 	}
@@ -350,7 +350,7 @@ func (c *GrackleGrpcClient) CompleteJobsFromWaitGroup(ctx context.Context, reque
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CompleteJobsFromWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CompleteJobsFromWaitGroup"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CompleteJobsFromWaitGroup")
 	if err != nil {
 		return nil, err
 	}
@@ -367,7 +367,7 @@ func (c *GrackleGrpcClient) AcquireLock(ctx context.Context, request *AcquireLoc
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "AcquireLock").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "AcquireLock"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "AcquireLock")
 	if err != nil {
 		return nil, err
 	}
@@ -384,7 +384,7 @@ func (c *GrackleGrpcClient) ReleaseLock(ctx context.Context, request *ReleaseLoc
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ReleaseLock").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ReleaseLock"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ReleaseLock")
 	if err != nil {
 		return nil, err
 	}
@@ -401,7 +401,7 @@ func (c *GrackleGrpcClient) GetLock(ctx context.Context, request *GetLockRequest
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetLock").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetLock"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetLock")
 	if err != nil {
 		return nil, err
 	}
@@ -418,7 +418,7 @@ func (c *GrackleGrpcClient) DeleteLock(ctx context.Context, request *DeleteLockR
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "DeleteLock").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "DeleteLock"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "DeleteLock")
 	if err != nil {
 		return nil, err
 	}
@@ -435,7 +435,7 @@ func (c *GrackleGrpcClient) ListLocks(ctx context.Context, request *ListLocksReq
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListLocks").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListLocks"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListLocks")
 	if err != nil {
 		return nil, err
 	}

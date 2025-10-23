@@ -6,12 +6,14 @@ import (
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/pem"
+	"fmt"
+	"time"
+
 	"github.com/go-errors/errors"
 	"google.golang.org/protobuf/proto"
-	"time"
 )
 
-func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time, publicPem string, request proto.Message) error {
+func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time, publicPem string, request proto.Message, service string, method string) error {
 	// Check timestamp for replays
 	ts := time.Unix(timestamp, 0)
 	if now.Add(time.Minute*5).Before(ts) || now.Add(time.Minute*-5).After(ts) {
@@ -30,7 +32,9 @@ func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time,
 		return err
 	}
 	timestampBytes := serializeTimestamp(timestamp)
-	data := append(timestampBytes, requestBytes...)
+
+	data := append(timestampBytes, []byte(fmt.Sprintf("%s.%s", service, method))...)
+	data = append(data, requestBytes...)
 
 	// Deserialize public PEM string
 	block, _ := pem.Decode([]byte(publicPem))
@@ -73,14 +77,16 @@ func GenerateAlfaKeys() (privatePem string, publicPem string, err error) {
 	return
 }
 
-func SignAlfa(timestamp int64, privatePem string, request proto.Message) (string, error) {
+func SignAlfa(timestamp int64, privatePem string, request proto.Message, service string, method string) (string, error) {
 	// Serialize timestamp and request body
 	requestBytes, err := serializeRequest(request)
 	if err != nil {
 		return "", err
 	}
 	timestampBytes := serializeTimestamp(timestamp)
-	data := append(timestampBytes, requestBytes...)
+
+	data := append(timestampBytes, []byte(fmt.Sprintf("%s.%s", service, method))...)
+	data = append(data, requestBytes...)
 
 	// Deserialize private PEM string
 	block, _ := pem.Decode([]byte(privatePem))

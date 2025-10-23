@@ -52,7 +52,7 @@ func (c *IAMGrpcClient) CreateRole(ctx context.Context, request *CreateRoleReque
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "CreateRole").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "CreateRole"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "CreateRole")
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (c *IAMGrpcClient) GetRole(ctx context.Context, request *GetRoleRequest) (*
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "GetRole").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "GetRole"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "GetRole")
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *IAMGrpcClient) UpdateRole(ctx context.Context, request *UpdateRoleReque
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "UpdateRole").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "UpdateRole"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "UpdateRole")
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (c *IAMGrpcClient) ListRoles(ctx context.Context, request *ListRolesRequest
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "ListRoles").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "ListRoles"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "ListRoles")
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func (c *IAMGrpcClient) DeleteRole(ctx context.Context, request *DeleteRoleReque
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "DeleteRole").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "DeleteRole"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "DeleteRole")
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +137,7 @@ func (c *IAMGrpcClient) CreateUser(ctx context.Context, request *CreateUserReque
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "CreateUser").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "CreateUser"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "CreateUser")
 	if err != nil {
 		return nil, err
 	}
@@ -154,7 +154,7 @@ func (c *IAMGrpcClient) GetUser(ctx context.Context, request *GetUserRequest) (*
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "GetUser").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "GetUser"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "GetUser")
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func (c *IAMGrpcClient) UpdateUser(ctx context.Context, request *UpdateUserReque
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "UpdateUser").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "UpdateUser"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "UpdateUser")
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +188,7 @@ func (c *IAMGrpcClient) ListUsers(ctx context.Context, request *ListUsersRequest
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "ListUsers").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "ListUsers"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "ListUsers")
 	if err != nil {
 		return nil, err
 	}
@@ -205,7 +205,7 @@ func (c *IAMGrpcClient) DeleteUser(ctx context.Context, request *DeleteUserReque
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "DeleteUser").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "DeleteUser"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "DeleteUser")
 	if err != nil {
 		return nil, err
 	}
@@ -222,7 +222,7 @@ func (c *IAMGrpcClient) CreateApiKey(ctx context.Context, request *CreateApiKeyR
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "CreateApiKey").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "CreateApiKey"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "CreateApiKey")
 	if err != nil {
 		return nil, err
 	}
@@ -239,7 +239,7 @@ func (c *IAMGrpcClient) GetApiKey(ctx context.Context, request *GetApiKeyRequest
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "GetApiKey").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "GetApiKey"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "GetApiKey")
 	if err != nil {
 		return nil, err
 	}
@@ -256,7 +256,7 @@ func (c *IAMGrpcClient) ListApiKeys(ctx context.Context, request *ListApiKeysReq
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "ListApiKeys").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "ListApiKeys"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "ListApiKeys")
 	if err != nil {
 		return nil, err
 	}
@@ -273,7 +273,7 @@ func (c *IAMGrpcClient) DeleteApiKey(ctx context.Context, request *DeleteApiKeyR
 	internal.TotalRequestsCounter.WithLabelValues("IAM", "DeleteApiKey").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("IAM", "DeleteApiKey"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "IAM", "DeleteApiKey")
 	if err != nil {
 		return nil, err
 	}

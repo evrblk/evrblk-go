@@ -54,7 +54,7 @@ func (c *MoabGrpcClient) CreateQueue(ctx context.Context, request *CreateQueueRe
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "CreateQueue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "CreateQueue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "CreateQueue")
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (c *MoabGrpcClient) GetQueue(ctx context.Context, request *GetQueueRequest)
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "GetQueue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "GetQueue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "GetQueue")
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (c *MoabGrpcClient) UpdateQueue(ctx context.Context, request *UpdateQueueRe
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "UpdateQueue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "UpdateQueue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "UpdateQueue")
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (c *MoabGrpcClient) DeleteQueue(ctx context.Context, request *DeleteQueueRe
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "DeleteQueue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "DeleteQueue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "DeleteQueue")
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func (c *MoabGrpcClient) ListQueues(ctx context.Context, request *ListQueuesRequ
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "ListQueues").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "ListQueues"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "ListQueues")
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func (c *MoabGrpcClient) GetTask(ctx context.Context, request *GetTaskRequest) (
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "GetTask").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "GetTask"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "GetTask")
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (c *MoabGrpcClient) Enqueue(ctx context.Context, request *EnqueueRequest) (
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "Enqueue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "Enqueue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "Enqueue")
 	if err != nil {
 		return nil, err
 	}
@@ -173,7 +173,7 @@ func (c *MoabGrpcClient) Dequeue(ctx context.Context, request *DequeueRequest) (
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "Dequeue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "Dequeue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "Dequeue")
 	if err != nil {
 		return nil, err
 	}
@@ -190,7 +190,7 @@ func (c *MoabGrpcClient) ReportStatus(ctx context.Context, request *ReportStatus
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "ReportStatus").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "ReportStatus"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "ReportStatus")
 	if err != nil {
 		return nil, err
 	}
@@ -207,7 +207,7 @@ func (c *MoabGrpcClient) DeleteTasks(ctx context.Context, request *DeleteTasksRe
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "DeleteTasks").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "DeleteTasks"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "DeleteTasks")
 	if err != nil {
 		return nil, err
 	}
@@ -224,7 +224,7 @@ func (c *MoabGrpcClient) RestartTasks(ctx context.Context, request *RestartTasks
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "RestartTasks").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "RestartTasks"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "RestartTasks")
 	if err != nil {
 		return nil, err
 	}
@@ -241,7 +241,7 @@ func (c *MoabGrpcClient) PurgeQueue(ctx context.Context, request *PurgeQueueRequ
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "PurgeQueue").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "PurgeQueue"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "PurgeQueue")
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +258,7 @@ func (c *MoabGrpcClient) CreateSchedule(ctx context.Context, request *CreateSche
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "CreateSchedule").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "CreateSchedule"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "CreateSchedule")
 	if err != nil {
 		return nil, err
 	}
@@ -275,7 +275,7 @@ func (c *MoabGrpcClient) GetSchedule(ctx context.Context, request *GetScheduleRe
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "GetSchedule").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "GetSchedule"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "GetSchedule")
 	if err != nil {
 		return nil, err
 	}
@@ -292,7 +292,7 @@ func (c *MoabGrpcClient) UpdateSchedule(ctx context.Context, request *UpdateSche
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "UpdateSchedule").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "UpdateSchedule"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "UpdateSchedule")
 	if err != nil {
 		return nil, err
 	}
@@ -309,7 +309,7 @@ func (c *MoabGrpcClient) DeleteSchedule(ctx context.Context, request *DeleteSche
 	internal.TotalRequestsCounter.WithLabelValues("Moab", "DeleteSchedule").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "DeleteSchedule"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "DeleteSchedule")
 	if err != nil {
 		return nil, err
 	}

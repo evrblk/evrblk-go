@@ -13,8 +13,6 @@ import (
 // TestBravoSignAndVerify tests Bravo signing mechanism on a random timestamp, request and secret. A signature should be
 // valid within 5 minutes time window.
 func TestBravoSignAndVerify(t *testing.T) {
-	require := require.New(t)
-
 	// Get current time
 	now := time.Now()
 	timestamp := now.Unix()
@@ -48,29 +46,35 @@ func TestBravoSignAndVerify(t *testing.T) {
 	}
 
 	// Sign the request
-	signature, err := authn.SignBravo(timestamp, secret, request)
-	require.NoError(err)
+	signature, err := authn.SignBravo(timestamp, secret, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
 
 	// Get hashed secret
 	date := authn.GetDateOfTimestamp(timestamp)
 	hashedSecret, err := authn.HashBravoSecretWithDate(secret, date)
-	require.NoError(err)
+	require.NoError(t, err)
 
 	// Check the signature within 5 minutes time window (timestamp = now)
-	err = authn.VerifyBravoSignature(signature, timestamp, now, hashedSecret, request)
-	require.NoError(err)
+	err = authn.VerifyBravoSignature(signature, timestamp, now, hashedSecret, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
 
 	// Check the signature outside 5 minutes time window (timestamp = now + 6 minutes)
-	err = authn.VerifyBravoSignature(signature, timestamp, now.Add(time.Minute*6), hashedSecret, request)
-	require.Error(err)
+	err = authn.VerifyBravoSignature(signature, timestamp, now.Add(time.Minute*6), hashedSecret, request, "Moab", "CreateQueueRequest")
+	require.Error(t, err)
+
+	// Check the signature for different service name
+	err = authn.VerifyBravoSignature(signature, timestamp, now.Add(time.Minute*6), hashedSecret, request, "Jakal", "CreateQueueRequest")
+	require.Error(t, err)
+
+	// Check the signature for different method name
+	err = authn.VerifyBravoSignature(signature, timestamp, now.Add(time.Minute*6), hashedSecret, request, "Moab", "DeleteQueueRequest")
+	require.Error(t, err)
 }
 
 // TestBravoConsistent tests that Bravo signing mechanism produces the same signature for a given timestamp, request,
 // and secret and does not change over time (degradation test). Also, all implementations on different languages should
 // produce the same signature given the same input.
 func TestBravoConsistent(t *testing.T) {
-	require := require.New(t)
-
 	// Given timestamp
 	timestamp := int64(1733240571)
 	now := time.Unix(1733240571, 0)
@@ -104,17 +108,21 @@ func TestBravoConsistent(t *testing.T) {
 	}
 
 	// Sign the request
-	signature, err := authn.SignBravo(timestamp, secret, request)
-	require.NoError(err)
+	signature, err := authn.SignBravo(timestamp, secret, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
 	// The same request, same timestamp, and same secret should always produce the same signature
-	require.Equal("d62fa28a563def1fcef0db8256f160555bf8ec5d79a66c9251222d0c7c12042a", signature)
+	require.Equal(t, "4b84547a1dd982dec9ffcea97940b92b48b00f3bf1be87336189cbcbc7f1f50c", signature)
 
 	// Get hashed secret
 	date := authn.GetDateOfTimestamp(timestamp)
 	hashedSecret, err := authn.HashBravoSecretWithDate(secret, date)
-	require.NoError(err)
+	require.NoError(t, err)
 
 	// Check that this signature can be successfully verified
-	err = authn.VerifyBravoSignature(signature, timestamp, now, hashedSecret, request)
-	require.NoError(err)
+	err = authn.VerifyBravoSignature(signature, timestamp, now, hashedSecret, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
+
+	// Check that this signature can not be verified for another service
+	err = authn.VerifyBravoSignature(signature, timestamp, now, hashedSecret, request, "Jakal", "CreateQueueRequest")
+	require.Error(t, err)
 }

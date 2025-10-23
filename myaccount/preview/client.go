@@ -39,7 +39,7 @@ func (c *MyAccountGrpcClient) GetAccount(ctx context.Context, request *GetAccoun
 	internal.TotalRequestsCounter.WithLabelValues("MyAccount", "GetAccount").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("MyAccount", "GetAccount"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request)
+	signedCtx, err := c.signer.Sign(ctx, request, "MyAccount", "GetAccount")
 	if err != nil {
 		return nil, err
 	}

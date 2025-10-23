@@ -13,15 +13,13 @@ import (
 // TestAlfaSignAndVerify tests Alfa signing mechanism on a random timestamp, request and secret. A signature should be
 // valid within 5 minutes time window.
 func TestAlfaSignAndVerify(t *testing.T) {
-	require := require.New(t)
-
 	// Get current time
 	now := time.Now()
 	timestamp := now.Unix()
 
 	// Generate a new Alfa key pair
 	privatePem, publicPem, err := authn.GenerateAlfaKeys()
-	require.NoError(err)
+	require.NoError(t, err)
 
 	// Build a random request with non-trivial values and nested objects
 	request := &moab.CreateQueueRequest{
@@ -49,24 +47,30 @@ func TestAlfaSignAndVerify(t *testing.T) {
 	}
 
 	// Sign the request
-	signature, err := authn.SignAlfa(timestamp, privatePem, request)
-	require.NoError(err)
+	signature, err := authn.SignAlfa(timestamp, privatePem, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
 
 	// Check the signature within 5 minutes time window (timestamp = now)
-	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request)
-	require.NoError(err)
+	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
 
 	// Check the signature outside 5 minutes time window (timestamp = now + 6 minutes)
-	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request)
-	require.Error(err)
+	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Moab", "CreateQueueRequest")
+	require.Error(t, err)
+
+	// Check the signature for different service name
+	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Jakal", "CreateQueueRequest")
+	require.Error(t, err)
+
+	// Check the signature for different method name
+	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Moab", "DeleteQueueRequest")
+	require.Error(t, err)
 }
 
 // TestAlfaConsistent tests that Alfa signing mechanism produces the same signature for a given timestamp, request,
 // and secret and does not change over time (degradation test). Also, all implementations on different languages should
 // produce the same signature given the same input.
 func TestAlfaConsistent(t *testing.T) {
-	require := require.New(t)
-
 	// Given timestamp
 	timestamp := int64(1733240571)
 	now := time.Unix(1733240571, 0)
@@ -101,20 +105,19 @@ func TestAlfaConsistent(t *testing.T) {
 	}
 
 	// Sign the request
-	signature, err := authn.SignAlfa(timestamp, privatePem, request)
-	require.NoError(err)
+	signature, err := authn.SignAlfa(timestamp, privatePem, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
 	// Unfortunately we cannot require that actual signature is equal to some expected value since ECDSA signatures are
 	// randomized. Here we only check that it was successfully signed.
 
-	// Signatures from Go SDK
-	//signature = "MEQCIHN0cbFwVqwE1Ds++OSIZAjqueLAnENzsNZXqeGTKID0AiBv7Vw2lUyWS9ekCS8s5nItXC35v5O1TFtAaLsvVj+iOw=="
-
-	// Signatures from Ruby SDK
-	signature = "MEYCIQCFkp55WmT7lgm+s/mDCxhymP/cGhYEehnpXkFxDawoTgIhAIVpuLVzqik3TkrTqH6aFuMWEUbVZqb1ZIT0tqi3+w5P"
-	//signature = "MEYCIQDCBaiHbs46AA5rIkigWChs7RkhrIGr3MbvO10EGipWXQIhAMMAcgpcW65ISe9u3hdBXzSS8J1zhqeGRMzUkpcV6Ila"
-	//signature = "MEYCIQDg3GwKSTXTOO23Ywcuz2O8UApVKhmQlc4ASpeyrZPM7QIhAJI2mz90OBtBeKGzg7ZD/Ho9ALOABIPFm78cSLTKH/Y3"
+	// Hardcode some signature and check that it is always valid
+	signature = "MEUCIQCHM+/NB19bHzyV7g5EXke/WoDTXXpNc6Q7UR98H+d81wIgWGS2mkYBgfmldU6GCFrOzQGKi4Qcs84Fu8WmgS0yzgM="
 
 	// Check that a given signature can be successfully verified
-	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request)
-	require.NoError(err)
+	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Moab", "CreateQueueRequest")
+	require.NoError(t, err)
+
+	// Check that a given signature can not be verified for another service
+	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Jakal", "CreateQueueRequest")
+	require.Error(t, err)
 }

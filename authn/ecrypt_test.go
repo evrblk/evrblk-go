@@ -1,24 +1,23 @@
 package authn
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestP256(t *testing.T) {
-	require := require.New(t)
-
 	privateKey, publicKey, err := GenerateP256KeyPair()
-	require.NoError(err)
+	require.NoError(t, err)
 
 	data := []byte("This is a sample text for testing.")
 	signature, err := SignP256(data, privateKey)
-	require.NoError(err)
+	require.NoError(t, err)
 
 	//fmt.Println("P256 signature:", signature)
 
 	err = VerifyP256(data, signature, publicKey)
-	require.NoError(err)
+	require.NoError(t, err)
 }
 
 func BenchmarkSignP256(b *testing.B) {
