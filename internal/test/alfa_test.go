@@ -47,23 +47,23 @@ func TestAlfaSignAndVerify(t *testing.T) {
 	}
 
 	// Sign the request
-	signature, err := authn.SignAlfa(timestamp, privatePem, request, "Moab", "CreateQueueRequest")
+	signature, err := authn.SignAlfa(timestamp, privatePem, request, "Moab", "CreateQueue")
 	require.NoError(t, err)
 
 	// Check the signature within 5 minutes time window (timestamp = now)
-	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Moab", "CreateQueueRequest")
+	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Moab", "CreateQueue")
 	require.NoError(t, err)
 
 	// Check the signature outside 5 minutes time window (timestamp = now + 6 minutes)
-	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Moab", "CreateQueueRequest")
+	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Moab", "CreateQueue")
 	require.Error(t, err)
 
 	// Check the signature for different service name
-	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Jakal", "CreateQueueRequest")
+	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Jakal", "CreateQueue")
 	require.Error(t, err)
 
 	// Check the signature for different method name
-	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Moab", "DeleteQueueRequest")
+	err = authn.VerifyAlfaSignature(signature, timestamp, now.Add(time.Minute*6), publicPem, request, "Moab", "DeleteQueue")
 	require.Error(t, err)
 }
 
@@ -105,19 +105,19 @@ func TestAlfaConsistent(t *testing.T) {
 	}
 
 	// Sign the request
-	signature, err := authn.SignAlfa(timestamp, privatePem, request, "Moab", "CreateQueueRequest")
+	signature, err := authn.SignAlfa(timestamp, privatePem, request, "Moab", "CreateQueue")
 	require.NoError(t, err)
 	// Unfortunately we cannot require that actual signature is equal to some expected value since ECDSA signatures are
 	// randomized. Here we only check that it was successfully signed.
 
 	// Hardcode some signature and check that it is always valid
-	signature = "MEUCIQCHM+/NB19bHzyV7g5EXke/WoDTXXpNc6Q7UR98H+d81wIgWGS2mkYBgfmldU6GCFrOzQGKi4Qcs84Fu8WmgS0yzgM="
+	signature = "MEUCIQDN35AnCfO+tMnS9w3ENCZUECYY+wIaIGqzCu0jiXE/YAIgTnsc8x0XC8FnkaP+9MrceDtOCAxtWcMvVimA1u4KJfQ="
 
 	// Check that a given signature can be successfully verified
-	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Moab", "CreateQueueRequest")
+	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Moab", "CreateQueue")
 	require.NoError(t, err)
 
 	// Check that a given signature can not be verified for another service
-	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Jakal", "CreateQueueRequest")
+	err = authn.VerifyAlfaSignature(signature, timestamp, now, publicPem, request, "Jakal", "CreateQueue")
 	require.Error(t, err)
 }
