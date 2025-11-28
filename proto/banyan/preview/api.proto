@@ -460,64 +460,64 @@ message Step {
   string queue_name = 2;
   
   oneof step_type {
-    Chain chain = 3;
-    FanOut fan_out = 4;
-    Choice choice = 5;
-    Multiple multiple = 6;
-    External external = 7;
+    ChainStep chain = 3;
+    FanOutStep fan_out = 4;
+    ChoiceStep choice = 5;
+    MultipleStep multiple = 6;
+    ExternalStep external = 7;
   }
 }
 
 message Condition {
-  message All {
-    repeated Condition conditions = 1;
-  }
-
-  message Any {
-    repeated Condition conditions = 1;
-  }
-  
-  message Chosen {
-    string task_name = 1;
-    string result = 2;
-  }
-
-  message Succeeded {
-    string task_name = 1;
-  }
-
-  message Failed {
-    string task_name = 1;
-  }
-
   oneof condition {
-    Succeeded succeeded = 1;
-    Failed failed = 2;
-    All all = 3;
-    Any any = 4;
-    Chosen chosen = 5;
+    PredicateSucceeded succeeded = 1;
+    PredicateFailed failed = 2;
+    PredicateAll all = 3;
+    PredicateAny any = 4;
+    PredicateChosen chosen = 5;
   }
 }
 
-message Chain {
+message PredicateAll {
+  repeated Condition conditions = 1;
+}
+
+message PredicateAny {
+  repeated Condition conditions = 1;
+}
+
+message PredicateChosen {
+  string step_name = 1;
+  string result = 2;
+}
+
+message PredicateSucceeded {
+  string step_name = 1;
+}
+
+message PredicateFailed {
+  string step_name = 1;
+}
+
+message ChainStep {
   Condition starts_when = 1;
 }
 
-message FanOut {
+message FanOutStep {
   Condition starts_when = 1;
 }
 
-message Choice {
+message ChoiceStep {
   Condition starts_when = 1;
-  repeated string choices = 2;
+  repeated string options = 2;
 }
 
-message Multiple {
+message MultipleStep {
   string fan_out_from = 1;
   bool start_only_when_all_subtasks_created = 2;
 }
 
-message External {
+message ExternalStep {
   Condition starts_when = 1;
 }
 

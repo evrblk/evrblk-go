@@ -7,11 +7,12 @@
 package banyan
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -4245,7 +4246,7 @@ func (x *Step) GetStepType() isStep_StepType {
 	return nil
 }
 
-func (x *Step) GetChain() *Chain {
+func (x *Step) GetChain() *ChainStep {
 	if x != nil {
 		if x, ok := x.StepType.(*Step_Chain); ok {
 			return x.Chain
@@ -4254,7 +4255,7 @@ func (x *Step) GetChain() *Chain {
 	return nil
 }
 
-func (x *Step) GetFanOut() *FanOut {
+func (x *Step) GetFanOut() *FanOutStep {
 	if x != nil {
 		if x, ok := x.StepType.(*Step_FanOut); ok {
 			return x.FanOut
@@ -4263,7 +4264,7 @@ func (x *Step) GetFanOut() *FanOut {
 	return nil
 }
 
-func (x *Step) GetChoice() *Choice {
+func (x *Step) GetChoice() *ChoiceStep {
 	if x != nil {
 		if x, ok := x.StepType.(*Step_Choice); ok {
 			return x.Choice
@@ -4272,7 +4273,7 @@ func (x *Step) GetChoice() *Choice {
 	return nil
 }
 
-func (x *Step) GetMultiple() *Multiple {
+func (x *Step) GetMultiple() *MultipleStep {
 	if x != nil {
 		if x, ok := x.StepType.(*Step_Multiple); ok {
 			return x.Multiple
@@ -4281,7 +4282,7 @@ func (x *Step) GetMultiple() *Multiple {
 	return nil
 }
 
-func (x *Step) GetExternal() *External {
+func (x *Step) GetExternal() *ExternalStep {
 	if x != nil {
 		if x, ok := x.StepType.(*Step_External); ok {
 			return x.External
@@ -4295,23 +4296,23 @@ type isStep_StepType interface {
 }
 
 type Step_Chain struct {
-	Chain *Chain `protobuf:"bytes,3,opt,name=chain,proto3,oneof"`
+	Chain *ChainStep `protobuf:"bytes,3,opt,name=chain,proto3,oneof"`
 }
 
 type Step_FanOut struct {
-	FanOut *FanOut `protobuf:"bytes,4,opt,name=fan_out,json=fanOut,proto3,oneof"`
+	FanOut *FanOutStep `protobuf:"bytes,4,opt,name=fan_out,json=fanOut,proto3,oneof"`
 }
 
 type Step_Choice struct {
-	Choice *Choice `protobuf:"bytes,5,opt,name=choice,proto3,oneof"`
+	Choice *ChoiceStep `protobuf:"bytes,5,opt,name=choice,proto3,oneof"`
 }
 
 type Step_Multiple struct {
-	Multiple *Multiple `protobuf:"bytes,6,opt,name=multiple,proto3,oneof"`
+	Multiple *MultipleStep `protobuf:"bytes,6,opt,name=multiple,proto3,oneof"`
 }
 
 type Step_External struct {
-	External *External `protobuf:"bytes,7,opt,name=external,proto3,oneof"`
+	External *ExternalStep `protobuf:"bytes,7,opt,name=external,proto3,oneof"`
 }
 
 func (*Step_Chain) isStep_StepType() {}
@@ -4328,11 +4329,11 @@ type Condition struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Condition:
 	//
-	//	*Condition_Succeeded_
-	//	*Condition_Failed_
-	//	*Condition_All_
-	//	*Condition_Any_
-	//	*Condition_Chosen_
+	//	*Condition_Succeeded
+	//	*Condition_Failed
+	//	*Condition_All
+	//	*Condition_Any
+	//	*Condition_Chosen
 	Condition     isCondition_Condition `protobuf_oneof:"condition"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -4375,45 +4376,45 @@ func (x *Condition) GetCondition() isCondition_Condition {
 	return nil
 }
 
-func (x *Condition) GetSucceeded() *Condition_Succeeded {
+func (x *Condition) GetSucceeded() *PredicateSucceeded {
 	if x != nil {
-		if x, ok := x.Condition.(*Condition_Succeeded_); ok {
+		if x, ok := x.Condition.(*Condition_Succeeded); ok {
 			return x.Succeeded
 		}
 	}
 	return nil
 }
 
-func (x *Condition) GetFailed() *Condition_Failed {
+func (x *Condition) GetFailed() *PredicateFailed {
 	if x != nil {
-		if x, ok := x.Condition.(*Condition_Failed_); ok {
+		if x, ok := x.Condition.(*Condition_Failed); ok {
 			return x.Failed
 		}
 	}
 	return nil
 }
 
-func (x *Condition) GetAll() *Condition_All {
+func (x *Condition) GetAll() *PredicateAll {
 	if x != nil {
-		if x, ok := x.Condition.(*Condition_All_); ok {
+		if x, ok := x.Condition.(*Condition_All); ok {
 			return x.All
 		}
 	}
 	return nil
 }
 
-func (x *Condition) GetAny() *Condition_Any {
+func (x *Condition) GetAny() *PredicateAny {
 	if x != nil {
-		if x, ok := x.Condition.(*Condition_Any_); ok {
+		if x, ok := x.Condition.(*Condition_Any); ok {
 			return x.Any
 		}
 	}
 	return nil
 }
 
-func (x *Condition) GetChosen() *Condition_Chosen {
+func (x *Condition) GetChosen() *PredicateChosen {
 	if x != nil {
-		if x, ok := x.Condition.(*Condition_Chosen_); ok {
+		if x, ok := x.Condition.(*Condition_Chosen); ok {
 			return x.Chosen
 		}
 	}
@@ -4424,57 +4425,57 @@ type isCondition_Condition interface {
 	isCondition_Condition()
 }
 
-type Condition_Succeeded_ struct {
-	Succeeded *Condition_Succeeded `protobuf:"bytes,1,opt,name=succeeded,proto3,oneof"`
+type Condition_Succeeded struct {
+	Succeeded *PredicateSucceeded `protobuf:"bytes,1,opt,name=succeeded,proto3,oneof"`
 }
 
-type Condition_Failed_ struct {
-	Failed *Condition_Failed `protobuf:"bytes,2,opt,name=failed,proto3,oneof"`
+type Condition_Failed struct {
+	Failed *PredicateFailed `protobuf:"bytes,2,opt,name=failed,proto3,oneof"`
 }
 
-type Condition_All_ struct {
-	All *Condition_All `protobuf:"bytes,3,opt,name=all,proto3,oneof"`
+type Condition_All struct {
+	All *PredicateAll `protobuf:"bytes,3,opt,name=all,proto3,oneof"`
 }
 
-type Condition_Any_ struct {
-	Any *Condition_Any `protobuf:"bytes,4,opt,name=any,proto3,oneof"`
+type Condition_Any struct {
+	Any *PredicateAny `protobuf:"bytes,4,opt,name=any,proto3,oneof"`
 }
 
-type Condition_Chosen_ struct {
-	Chosen *Condition_Chosen `protobuf:"bytes,5,opt,name=chosen,proto3,oneof"`
+type Condition_Chosen struct {
+	Chosen *PredicateChosen `protobuf:"bytes,5,opt,name=chosen,proto3,oneof"`
 }
 
-func (*Condition_Succeeded_) isCondition_Condition() {}
+func (*Condition_Succeeded) isCondition_Condition() {}
 
-func (*Condition_Failed_) isCondition_Condition() {}
+func (*Condition_Failed) isCondition_Condition() {}
 
-func (*Condition_All_) isCondition_Condition() {}
+func (*Condition_All) isCondition_Condition() {}
 
-func (*Condition_Any_) isCondition_Condition() {}
+func (*Condition_Any) isCondition_Condition() {}
 
-func (*Condition_Chosen_) isCondition_Condition() {}
+func (*Condition_Chosen) isCondition_Condition() {}
 
-type Chain struct {
+type PredicateAll struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
+	Conditions    []*Condition           `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Chain) Reset() {
-	*x = Chain{}
+func (x *PredicateAll) Reset() {
+	*x = PredicateAll{}
 	mi := &file_proto_banyan_preview_api_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Chain) String() string {
+func (x *PredicateAll) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Chain) ProtoMessage() {}
+func (*PredicateAll) ProtoMessage() {}
 
-func (x *Chain) ProtoReflect() protoreflect.Message {
+func (x *PredicateAll) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_banyan_preview_api_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4486,39 +4487,39 @@ func (x *Chain) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Chain.ProtoReflect.Descriptor instead.
-func (*Chain) Descriptor() ([]byte, []int) {
+// Deprecated: Use PredicateAll.ProtoReflect.Descriptor instead.
+func (*PredicateAll) Descriptor() ([]byte, []int) {
 	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{75}
 }
 
-func (x *Chain) GetStartsWhen() *Condition {
+func (x *PredicateAll) GetConditions() []*Condition {
 	if x != nil {
-		return x.StartsWhen
+		return x.Conditions
 	}
 	return nil
 }
 
-type FanOut struct {
+type PredicateAny struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
+	Conditions    []*Condition           `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FanOut) Reset() {
-	*x = FanOut{}
+func (x *PredicateAny) Reset() {
+	*x = PredicateAny{}
 	mi := &file_proto_banyan_preview_api_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FanOut) String() string {
+func (x *PredicateAny) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FanOut) ProtoMessage() {}
+func (*PredicateAny) ProtoMessage() {}
 
-func (x *FanOut) ProtoReflect() protoreflect.Message {
+func (x *PredicateAny) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_banyan_preview_api_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4530,40 +4531,40 @@ func (x *FanOut) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FanOut.ProtoReflect.Descriptor instead.
-func (*FanOut) Descriptor() ([]byte, []int) {
+// Deprecated: Use PredicateAny.ProtoReflect.Descriptor instead.
+func (*PredicateAny) Descriptor() ([]byte, []int) {
 	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{76}
 }
 
-func (x *FanOut) GetStartsWhen() *Condition {
+func (x *PredicateAny) GetConditions() []*Condition {
 	if x != nil {
-		return x.StartsWhen
+		return x.Conditions
 	}
 	return nil
 }
 
-type Choice struct {
+type PredicateChosen struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
-	Choices       []string               `protobuf:"bytes,2,rep,name=choices,proto3" json:"choices,omitempty"`
+	StepName      string                 `protobuf:"bytes,1,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
+	Result        string                 `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Choice) Reset() {
-	*x = Choice{}
+func (x *PredicateChosen) Reset() {
+	*x = PredicateChosen{}
 	mi := &file_proto_banyan_preview_api_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Choice) String() string {
+func (x *PredicateChosen) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Choice) ProtoMessage() {}
+func (*PredicateChosen) ProtoMessage() {}
 
-func (x *Choice) ProtoReflect() protoreflect.Message {
+func (x *PredicateChosen) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_banyan_preview_api_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4575,26 +4576,254 @@ func (x *Choice) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Choice.ProtoReflect.Descriptor instead.
-func (*Choice) Descriptor() ([]byte, []int) {
+// Deprecated: Use PredicateChosen.ProtoReflect.Descriptor instead.
+func (*PredicateChosen) Descriptor() ([]byte, []int) {
 	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{77}
 }
 
-func (x *Choice) GetStartsWhen() *Condition {
+func (x *PredicateChosen) GetStepName() string {
+	if x != nil {
+		return x.StepName
+	}
+	return ""
+}
+
+func (x *PredicateChosen) GetResult() string {
+	if x != nil {
+		return x.Result
+	}
+	return ""
+}
+
+type PredicateSucceeded struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StepName      string                 `protobuf:"bytes,1,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PredicateSucceeded) Reset() {
+	*x = PredicateSucceeded{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PredicateSucceeded) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PredicateSucceeded) ProtoMessage() {}
+
+func (x *PredicateSucceeded) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PredicateSucceeded.ProtoReflect.Descriptor instead.
+func (*PredicateSucceeded) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{78}
+}
+
+func (x *PredicateSucceeded) GetStepName() string {
+	if x != nil {
+		return x.StepName
+	}
+	return ""
+}
+
+type PredicateFailed struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StepName      string                 `protobuf:"bytes,1,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PredicateFailed) Reset() {
+	*x = PredicateFailed{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PredicateFailed) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PredicateFailed) ProtoMessage() {}
+
+func (x *PredicateFailed) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PredicateFailed.ProtoReflect.Descriptor instead.
+func (*PredicateFailed) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{79}
+}
+
+func (x *PredicateFailed) GetStepName() string {
+	if x != nil {
+		return x.StepName
+	}
+	return ""
+}
+
+type ChainStep struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChainStep) Reset() {
+	*x = ChainStep{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChainStep) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChainStep) ProtoMessage() {}
+
+func (x *ChainStep) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChainStep.ProtoReflect.Descriptor instead.
+func (*ChainStep) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{80}
+}
+
+func (x *ChainStep) GetStartsWhen() *Condition {
 	if x != nil {
 		return x.StartsWhen
 	}
 	return nil
 }
 
-func (x *Choice) GetChoices() []string {
+type FanOutStep struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FanOutStep) Reset() {
+	*x = FanOutStep{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FanOutStep) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FanOutStep) ProtoMessage() {}
+
+func (x *FanOutStep) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
 	if x != nil {
-		return x.Choices
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FanOutStep.ProtoReflect.Descriptor instead.
+func (*FanOutStep) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{81}
+}
+
+func (x *FanOutStep) GetStartsWhen() *Condition {
+	if x != nil {
+		return x.StartsWhen
 	}
 	return nil
 }
 
-type Multiple struct {
+type ChoiceStep struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
+	Options       []string               `protobuf:"bytes,2,rep,name=options,proto3" json:"options,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChoiceStep) Reset() {
+	*x = ChoiceStep{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChoiceStep) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChoiceStep) ProtoMessage() {}
+
+func (x *ChoiceStep) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChoiceStep.ProtoReflect.Descriptor instead.
+func (*ChoiceStep) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{82}
+}
+
+func (x *ChoiceStep) GetStartsWhen() *Condition {
+	if x != nil {
+		return x.StartsWhen
+	}
+	return nil
+}
+
+func (x *ChoiceStep) GetOptions() []string {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
+type MultipleStep struct {
 	state                           protoimpl.MessageState `protogen:"open.v1"`
 	FanOutFrom                      string                 `protobuf:"bytes,1,opt,name=fan_out_from,json=fanOutFrom,proto3" json:"fan_out_from,omitempty"`
 	StartOnlyWhenAllSubtasksCreated bool                   `protobuf:"varint,2,opt,name=start_only_when_all_subtasks_created,json=startOnlyWhenAllSubtasksCreated,proto3" json:"start_only_when_all_subtasks_created,omitempty"`
@@ -4602,21 +4831,21 @@ type Multiple struct {
 	sizeCache                       protoimpl.SizeCache
 }
 
-func (x *Multiple) Reset() {
-	*x = Multiple{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
+func (x *MultipleStep) Reset() {
+	*x = MultipleStep{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Multiple) String() string {
+func (x *MultipleStep) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Multiple) ProtoMessage() {}
+func (*MultipleStep) ProtoMessage() {}
 
-func (x *Multiple) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
+func (x *MultipleStep) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4627,47 +4856,47 @@ func (x *Multiple) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Multiple.ProtoReflect.Descriptor instead.
-func (*Multiple) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{78}
+// Deprecated: Use MultipleStep.ProtoReflect.Descriptor instead.
+func (*MultipleStep) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{83}
 }
 
-func (x *Multiple) GetFanOutFrom() string {
+func (x *MultipleStep) GetFanOutFrom() string {
 	if x != nil {
 		return x.FanOutFrom
 	}
 	return ""
 }
 
-func (x *Multiple) GetStartOnlyWhenAllSubtasksCreated() bool {
+func (x *MultipleStep) GetStartOnlyWhenAllSubtasksCreated() bool {
 	if x != nil {
 		return x.StartOnlyWhenAllSubtasksCreated
 	}
 	return false
 }
 
-type External struct {
+type ExternalStep struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StartsWhen    *Condition             `protobuf:"bytes,1,opt,name=starts_when,json=startsWhen,proto3" json:"starts_when,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *External) Reset() {
-	*x = External{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
+func (x *ExternalStep) Reset() {
+	*x = ExternalStep{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *External) String() string {
+func (x *ExternalStep) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*External) ProtoMessage() {}
+func (*ExternalStep) ProtoMessage() {}
 
-func (x *External) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
+func (x *ExternalStep) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4678,12 +4907,12 @@ func (x *External) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use External.ProtoReflect.Descriptor instead.
-func (*External) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{79}
+// Deprecated: Use ExternalStep.ProtoReflect.Descriptor instead.
+func (*ExternalStep) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{84}
 }
 
-func (x *External) GetStartsWhen() *Condition {
+func (x *ExternalStep) GetStartsWhen() *Condition {
 	if x != nil {
 		return x.StartsWhen
 	}
@@ -4704,7 +4933,7 @@ type WorkflowRun struct {
 
 func (x *WorkflowRun) Reset() {
 	*x = WorkflowRun{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4716,7 +4945,7 @@ func (x *WorkflowRun) String() string {
 func (*WorkflowRun) ProtoMessage() {}
 
 func (x *WorkflowRun) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4729,7 +4958,7 @@ func (x *WorkflowRun) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowRun.ProtoReflect.Descriptor instead.
 func (*WorkflowRun) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{80}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *WorkflowRun) GetId() string {
@@ -4772,234 +5001,6 @@ func (x *WorkflowRun) GetMetadata() []*Metadata {
 		return x.Metadata
 	}
 	return nil
-}
-
-type Condition_All struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Conditions    []*Condition           `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Condition_All) Reset() {
-	*x = Condition_All{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Condition_All) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Condition_All) ProtoMessage() {}
-
-func (x *Condition_All) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Condition_All.ProtoReflect.Descriptor instead.
-func (*Condition_All) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{74, 0}
-}
-
-func (x *Condition_All) GetConditions() []*Condition {
-	if x != nil {
-		return x.Conditions
-	}
-	return nil
-}
-
-type Condition_Any struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Conditions    []*Condition           `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Condition_Any) Reset() {
-	*x = Condition_Any{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Condition_Any) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Condition_Any) ProtoMessage() {}
-
-func (x *Condition_Any) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Condition_Any.ProtoReflect.Descriptor instead.
-func (*Condition_Any) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{74, 1}
-}
-
-func (x *Condition_Any) GetConditions() []*Condition {
-	if x != nil {
-		return x.Conditions
-	}
-	return nil
-}
-
-type Condition_Chosen struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskName      string                 `protobuf:"bytes,1,opt,name=task_name,json=taskName,proto3" json:"task_name,omitempty"`
-	Result        string                 `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Condition_Chosen) Reset() {
-	*x = Condition_Chosen{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Condition_Chosen) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Condition_Chosen) ProtoMessage() {}
-
-func (x *Condition_Chosen) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Condition_Chosen.ProtoReflect.Descriptor instead.
-func (*Condition_Chosen) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{74, 2}
-}
-
-func (x *Condition_Chosen) GetTaskName() string {
-	if x != nil {
-		return x.TaskName
-	}
-	return ""
-}
-
-func (x *Condition_Chosen) GetResult() string {
-	if x != nil {
-		return x.Result
-	}
-	return ""
-}
-
-type Condition_Succeeded struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskName      string                 `protobuf:"bytes,1,opt,name=task_name,json=taskName,proto3" json:"task_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Condition_Succeeded) Reset() {
-	*x = Condition_Succeeded{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Condition_Succeeded) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Condition_Succeeded) ProtoMessage() {}
-
-func (x *Condition_Succeeded) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Condition_Succeeded.ProtoReflect.Descriptor instead.
-func (*Condition_Succeeded) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{74, 3}
-}
-
-func (x *Condition_Succeeded) GetTaskName() string {
-	if x != nil {
-		return x.TaskName
-	}
-	return ""
-}
-
-type Condition_Failed struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskName      string                 `protobuf:"bytes,1,opt,name=task_name,json=taskName,proto3" json:"task_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Condition_Failed) Reset() {
-	*x = Condition_Failed{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Condition_Failed) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Condition_Failed) ProtoMessage() {}
-
-func (x *Condition_Failed) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Condition_Failed.ProtoReflect.Descriptor instead.
-func (*Condition_Failed) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{74, 4}
-}
-
-func (x *Condition_Failed) GetTaskName() string {
-	if x != nil {
-		return x.TaskName
-	}
-	return ""
 }
 
 var File_proto_banyan_preview_api_proto protoreflect.FileDescriptor
@@ -5275,54 +5276,56 @@ const file_proto_banyan_preview_api_proto_rawDesc = "" +
 	"\bmetadata\x18\a \x03(\v2#.com.evrblk.banyan.preview.MetadataR\bmetadata\"2\n" +
 	"\bMetadata\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value\"\x81\x03\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value\"\x95\x03\n" +
 	"\x04Step\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
-	"queue_name\x18\x02 \x01(\tR\tqueueName\x128\n" +
-	"\x05chain\x18\x03 \x01(\v2 .com.evrblk.banyan.preview.ChainH\x00R\x05chain\x12<\n" +
-	"\afan_out\x18\x04 \x01(\v2!.com.evrblk.banyan.preview.FanOutH\x00R\x06fanOut\x12;\n" +
-	"\x06choice\x18\x05 \x01(\v2!.com.evrblk.banyan.preview.ChoiceH\x00R\x06choice\x12A\n" +
-	"\bmultiple\x18\x06 \x01(\v2#.com.evrblk.banyan.preview.MultipleH\x00R\bmultiple\x12A\n" +
-	"\bexternal\x18\a \x01(\v2#.com.evrblk.banyan.preview.ExternalH\x00R\bexternalB\v\n" +
-	"\tstep_type\"\x9c\x05\n" +
-	"\tCondition\x12N\n" +
-	"\tsucceeded\x18\x01 \x01(\v2..com.evrblk.banyan.preview.Condition.SucceededH\x00R\tsucceeded\x12E\n" +
-	"\x06failed\x18\x02 \x01(\v2+.com.evrblk.banyan.preview.Condition.FailedH\x00R\x06failed\x12<\n" +
-	"\x03all\x18\x03 \x01(\v2(.com.evrblk.banyan.preview.Condition.AllH\x00R\x03all\x12<\n" +
-	"\x03any\x18\x04 \x01(\v2(.com.evrblk.banyan.preview.Condition.AnyH\x00R\x03any\x12E\n" +
-	"\x06chosen\x18\x05 \x01(\v2+.com.evrblk.banyan.preview.Condition.ChosenH\x00R\x06chosen\x1aK\n" +
-	"\x03All\x12D\n" +
+	"queue_name\x18\x02 \x01(\tR\tqueueName\x12<\n" +
+	"\x05chain\x18\x03 \x01(\v2$.com.evrblk.banyan.preview.ChainStepH\x00R\x05chain\x12@\n" +
+	"\afan_out\x18\x04 \x01(\v2%.com.evrblk.banyan.preview.FanOutStepH\x00R\x06fanOut\x12?\n" +
+	"\x06choice\x18\x05 \x01(\v2%.com.evrblk.banyan.preview.ChoiceStepH\x00R\x06choice\x12E\n" +
+	"\bmultiple\x18\x06 \x01(\v2'.com.evrblk.banyan.preview.MultipleStepH\x00R\bmultiple\x12E\n" +
+	"\bexternal\x18\a \x01(\v2'.com.evrblk.banyan.preview.ExternalStepH\x00R\bexternalB\v\n" +
+	"\tstep_type\"\xed\x02\n" +
+	"\tCondition\x12M\n" +
+	"\tsucceeded\x18\x01 \x01(\v2-.com.evrblk.banyan.preview.PredicateSucceededH\x00R\tsucceeded\x12D\n" +
+	"\x06failed\x18\x02 \x01(\v2*.com.evrblk.banyan.preview.PredicateFailedH\x00R\x06failed\x12;\n" +
+	"\x03all\x18\x03 \x01(\v2'.com.evrblk.banyan.preview.PredicateAllH\x00R\x03all\x12;\n" +
+	"\x03any\x18\x04 \x01(\v2'.com.evrblk.banyan.preview.PredicateAnyH\x00R\x03any\x12D\n" +
+	"\x06chosen\x18\x05 \x01(\v2*.com.evrblk.banyan.preview.PredicateChosenH\x00R\x06chosenB\v\n" +
+	"\tcondition\"T\n" +
+	"\fPredicateAll\x12D\n" +
 	"\n" +
 	"conditions\x18\x01 \x03(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
-	"conditions\x1aK\n" +
-	"\x03Any\x12D\n" +
+	"conditions\"T\n" +
+	"\fPredicateAny\x12D\n" +
 	"\n" +
 	"conditions\x18\x01 \x03(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
-	"conditions\x1a=\n" +
-	"\x06Chosen\x12\x1b\n" +
-	"\ttask_name\x18\x01 \x01(\tR\btaskName\x12\x16\n" +
-	"\x06result\x18\x02 \x01(\tR\x06result\x1a(\n" +
-	"\tSucceeded\x12\x1b\n" +
-	"\ttask_name\x18\x01 \x01(\tR\btaskName\x1a%\n" +
-	"\x06Failed\x12\x1b\n" +
-	"\ttask_name\x18\x01 \x01(\tR\btaskNameB\v\n" +
-	"\tcondition\"N\n" +
-	"\x05Chain\x12E\n" +
+	"conditions\"F\n" +
+	"\x0fPredicateChosen\x12\x1b\n" +
+	"\tstep_name\x18\x01 \x01(\tR\bstepName\x12\x16\n" +
+	"\x06result\x18\x02 \x01(\tR\x06result\"1\n" +
+	"\x12PredicateSucceeded\x12\x1b\n" +
+	"\tstep_name\x18\x01 \x01(\tR\bstepName\".\n" +
+	"\x0fPredicateFailed\x12\x1b\n" +
+	"\tstep_name\x18\x01 \x01(\tR\bstepName\"R\n" +
+	"\tChainStep\x12E\n" +
 	"\vstarts_when\x18\x01 \x01(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
-	"startsWhen\"O\n" +
-	"\x06FanOut\x12E\n" +
+	"startsWhen\"S\n" +
+	"\n" +
+	"FanOutStep\x12E\n" +
 	"\vstarts_when\x18\x01 \x01(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
-	"startsWhen\"i\n" +
-	"\x06Choice\x12E\n" +
+	"startsWhen\"m\n" +
+	"\n" +
+	"ChoiceStep\x12E\n" +
 	"\vstarts_when\x18\x01 \x01(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
 	"startsWhen\x12\x18\n" +
-	"\achoices\x18\x02 \x03(\tR\achoices\"{\n" +
-	"\bMultiple\x12 \n" +
+	"\aoptions\x18\x02 \x03(\tR\aoptions\"\x7f\n" +
+	"\fMultipleStep\x12 \n" +
 	"\ffan_out_from\x18\x01 \x01(\tR\n" +
 	"fanOutFrom\x12M\n" +
-	"$start_only_when_all_subtasks_created\x18\x02 \x01(\bR\x1fstartOnlyWhenAllSubtasksCreated\"Q\n" +
-	"\bExternal\x12E\n" +
+	"$start_only_when_all_subtasks_created\x18\x02 \x01(\bR\x1fstartOnlyWhenAllSubtasksCreated\"U\n" +
+	"\fExternalStep\x12E\n" +
 	"\vstarts_when\x18\x01 \x01(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
 	"startsWhen\"\x9e\x02\n" +
 	"\vWorkflowRun\x12\x0e\n" +
@@ -5477,17 +5480,17 @@ var file_proto_banyan_preview_api_proto_goTypes = []any{
 	(*Metadata)(nil),                     // 76: com.evrblk.banyan.preview.Metadata
 	(*Step)(nil),                         // 77: com.evrblk.banyan.preview.Step
 	(*Condition)(nil),                    // 78: com.evrblk.banyan.preview.Condition
-	(*Chain)(nil),                        // 79: com.evrblk.banyan.preview.Chain
-	(*FanOut)(nil),                       // 80: com.evrblk.banyan.preview.FanOut
-	(*Choice)(nil),                       // 81: com.evrblk.banyan.preview.Choice
-	(*Multiple)(nil),                     // 82: com.evrblk.banyan.preview.Multiple
-	(*External)(nil),                     // 83: com.evrblk.banyan.preview.External
-	(*WorkflowRun)(nil),                  // 84: com.evrblk.banyan.preview.WorkflowRun
-	(*Condition_All)(nil),                // 85: com.evrblk.banyan.preview.Condition.All
-	(*Condition_Any)(nil),                // 86: com.evrblk.banyan.preview.Condition.Any
-	(*Condition_Chosen)(nil),             // 87: com.evrblk.banyan.preview.Condition.Chosen
-	(*Condition_Succeeded)(nil),          // 88: com.evrblk.banyan.preview.Condition.Succeeded
-	(*Condition_Failed)(nil),             // 89: com.evrblk.banyan.preview.Condition.Failed
+	(*PredicateAll)(nil),                 // 79: com.evrblk.banyan.preview.PredicateAll
+	(*PredicateAny)(nil),                 // 80: com.evrblk.banyan.preview.PredicateAny
+	(*PredicateChosen)(nil),              // 81: com.evrblk.banyan.preview.PredicateChosen
+	(*PredicateSucceeded)(nil),           // 82: com.evrblk.banyan.preview.PredicateSucceeded
+	(*PredicateFailed)(nil),              // 83: com.evrblk.banyan.preview.PredicateFailed
+	(*ChainStep)(nil),                    // 84: com.evrblk.banyan.preview.ChainStep
+	(*FanOutStep)(nil),                   // 85: com.evrblk.banyan.preview.FanOutStep
+	(*ChoiceStep)(nil),                   // 86: com.evrblk.banyan.preview.ChoiceStep
+	(*MultipleStep)(nil),                 // 87: com.evrblk.banyan.preview.MultipleStep
+	(*ExternalStep)(nil),                 // 88: com.evrblk.banyan.preview.ExternalStep
+	(*WorkflowRun)(nil),                  // 89: com.evrblk.banyan.preview.WorkflowRun
 }
 var file_proto_banyan_preview_api_proto_depIdxs = []int32{
 	74, // 0: com.evrblk.banyan.preview.CreateNamespaceResponse.namespace:type_name -> com.evrblk.banyan.preview.Namespace
@@ -5520,9 +5523,9 @@ var file_proto_banyan_preview_api_proto_depIdxs = []int32{
 	68, // 27: com.evrblk.banyan.preview.GetScheduleResponse.schedule:type_name -> com.evrblk.banyan.preview.Schedule
 	69, // 28: com.evrblk.banyan.preview.UpdateScheduleRequest.retry_strategy:type_name -> com.evrblk.banyan.preview.RetryStrategy
 	68, // 29: com.evrblk.banyan.preview.UpdateScheduleResponse.schedule:type_name -> com.evrblk.banyan.preview.Schedule
-	84, // 30: com.evrblk.banyan.preview.StartWorkflowResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
-	84, // 31: com.evrblk.banyan.preview.GetWorkflowRunResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
-	84, // 32: com.evrblk.banyan.preview.ListWorkflowRunsResponse.workflow_runs:type_name -> com.evrblk.banyan.preview.WorkflowRun
+	89, // 30: com.evrblk.banyan.preview.StartWorkflowResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
+	89, // 31: com.evrblk.banyan.preview.GetWorkflowRunResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
+	89, // 32: com.evrblk.banyan.preview.ListWorkflowRunsResponse.workflow_runs:type_name -> com.evrblk.banyan.preview.WorkflowRun
 	0,  // 33: com.evrblk.banyan.preview.Task.state:type_name -> com.evrblk.banyan.preview.TaskState
 	69, // 34: com.evrblk.banyan.preview.Schedule.retry_strategy:type_name -> com.evrblk.banyan.preview.RetryStrategy
 	69, // 35: com.evrblk.banyan.preview.Queue.retry_strategy:type_name -> com.evrblk.banyan.preview.RetryStrategy
@@ -5531,25 +5534,25 @@ var file_proto_banyan_preview_api_proto_depIdxs = []int32{
 	1,  // 38: com.evrblk.banyan.preview.TokenBucketRateLimiting.interval_unit:type_name -> com.evrblk.banyan.preview.IntervalUnit
 	77, // 39: com.evrblk.banyan.preview.Workflow.steps:type_name -> com.evrblk.banyan.preview.Step
 	76, // 40: com.evrblk.banyan.preview.Workflow.metadata:type_name -> com.evrblk.banyan.preview.Metadata
-	79, // 41: com.evrblk.banyan.preview.Step.chain:type_name -> com.evrblk.banyan.preview.Chain
-	80, // 42: com.evrblk.banyan.preview.Step.fan_out:type_name -> com.evrblk.banyan.preview.FanOut
-	81, // 43: com.evrblk.banyan.preview.Step.choice:type_name -> com.evrblk.banyan.preview.Choice
-	82, // 44: com.evrblk.banyan.preview.Step.multiple:type_name -> com.evrblk.banyan.preview.Multiple
-	83, // 45: com.evrblk.banyan.preview.Step.external:type_name -> com.evrblk.banyan.preview.External
-	88, // 46: com.evrblk.banyan.preview.Condition.succeeded:type_name -> com.evrblk.banyan.preview.Condition.Succeeded
-	89, // 47: com.evrblk.banyan.preview.Condition.failed:type_name -> com.evrblk.banyan.preview.Condition.Failed
-	85, // 48: com.evrblk.banyan.preview.Condition.all:type_name -> com.evrblk.banyan.preview.Condition.All
-	86, // 49: com.evrblk.banyan.preview.Condition.any:type_name -> com.evrblk.banyan.preview.Condition.Any
-	87, // 50: com.evrblk.banyan.preview.Condition.chosen:type_name -> com.evrblk.banyan.preview.Condition.Chosen
-	78, // 51: com.evrblk.banyan.preview.Chain.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 52: com.evrblk.banyan.preview.FanOut.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 53: com.evrblk.banyan.preview.Choice.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 54: com.evrblk.banyan.preview.External.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	67, // 55: com.evrblk.banyan.preview.WorkflowRun.tasks:type_name -> com.evrblk.banyan.preview.Task
-	2,  // 56: com.evrblk.banyan.preview.WorkflowRun.status:type_name -> com.evrblk.banyan.preview.WorkflowRunStatus
-	76, // 57: com.evrblk.banyan.preview.WorkflowRun.metadata:type_name -> com.evrblk.banyan.preview.Metadata
-	78, // 58: com.evrblk.banyan.preview.Condition.All.conditions:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 59: com.evrblk.banyan.preview.Condition.Any.conditions:type_name -> com.evrblk.banyan.preview.Condition
+	84, // 41: com.evrblk.banyan.preview.Step.chain:type_name -> com.evrblk.banyan.preview.ChainStep
+	85, // 42: com.evrblk.banyan.preview.Step.fan_out:type_name -> com.evrblk.banyan.preview.FanOutStep
+	86, // 43: com.evrblk.banyan.preview.Step.choice:type_name -> com.evrblk.banyan.preview.ChoiceStep
+	87, // 44: com.evrblk.banyan.preview.Step.multiple:type_name -> com.evrblk.banyan.preview.MultipleStep
+	88, // 45: com.evrblk.banyan.preview.Step.external:type_name -> com.evrblk.banyan.preview.ExternalStep
+	82, // 46: com.evrblk.banyan.preview.Condition.succeeded:type_name -> com.evrblk.banyan.preview.PredicateSucceeded
+	83, // 47: com.evrblk.banyan.preview.Condition.failed:type_name -> com.evrblk.banyan.preview.PredicateFailed
+	79, // 48: com.evrblk.banyan.preview.Condition.all:type_name -> com.evrblk.banyan.preview.PredicateAll
+	80, // 49: com.evrblk.banyan.preview.Condition.any:type_name -> com.evrblk.banyan.preview.PredicateAny
+	81, // 50: com.evrblk.banyan.preview.Condition.chosen:type_name -> com.evrblk.banyan.preview.PredicateChosen
+	78, // 51: com.evrblk.banyan.preview.PredicateAll.conditions:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 52: com.evrblk.banyan.preview.PredicateAny.conditions:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 53: com.evrblk.banyan.preview.ChainStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 54: com.evrblk.banyan.preview.FanOutStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 55: com.evrblk.banyan.preview.ChoiceStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 56: com.evrblk.banyan.preview.ExternalStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	67, // 57: com.evrblk.banyan.preview.WorkflowRun.tasks:type_name -> com.evrblk.banyan.preview.Task
+	2,  // 58: com.evrblk.banyan.preview.WorkflowRun.status:type_name -> com.evrblk.banyan.preview.WorkflowRunStatus
+	76, // 59: com.evrblk.banyan.preview.WorkflowRun.metadata:type_name -> com.evrblk.banyan.preview.Metadata
 	4,  // 60: com.evrblk.banyan.preview.BanyanPreviewApi.CreateNamespace:input_type -> com.evrblk.banyan.preview.CreateNamespaceRequest
 	6,  // 61: com.evrblk.banyan.preview.BanyanPreviewApi.ListNamespaces:input_type -> com.evrblk.banyan.preview.ListNamespacesRequest
 	8,  // 62: com.evrblk.banyan.preview.BanyanPreviewApi.GetNamespace:input_type -> com.evrblk.banyan.preview.GetNamespaceRequest
@@ -5630,11 +5633,11 @@ func file_proto_banyan_preview_api_proto_init() {
 		(*Step_External)(nil),
 	}
 	file_proto_banyan_preview_api_proto_msgTypes[74].OneofWrappers = []any{
-		(*Condition_Succeeded_)(nil),
-		(*Condition_Failed_)(nil),
-		(*Condition_All_)(nil),
-		(*Condition_Any_)(nil),
-		(*Condition_Chosen_)(nil),
+		(*Condition_Succeeded)(nil),
+		(*Condition_Failed)(nil),
+		(*Condition_All)(nil),
+		(*Condition_Any)(nil),
+		(*Condition_Chosen)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
