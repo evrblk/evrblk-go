@@ -1,0 +1,538 @@
+syntax = "proto3";
+
+option go_package = "github.com/evrblk/evrblk-go/banyan/preview;banyan";
+option ruby_package = "Evrblk::Banyan::Preview";
+
+package com.evrblk.banyan.preview;
+
+service BanyanPreviewApi {
+  rpc CreateNamespace(CreateNamespaceRequest) returns (CreateNamespaceResponse) {}
+  rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse) {}
+  rpc GetNamespace(GetNamespaceRequest) returns (GetNamespaceResponse) {}
+  rpc DeleteNamespace(DeleteNamespaceRequest) returns (DeleteNamespaceResponse) {}
+  rpc UpdateNamespace(UpdateNamespaceRequest) returns (UpdateNamespaceResponse) {}
+
+  rpc CreateWorkflow(CreateWorkflowRequest) returns (CreateWorkflowResponse) {}
+  rpc ListWorkflows(ListWorkflowsRequest) returns (ListWorkflowsResponse) {}
+  rpc GetWorkflow(GetWorkflowRequest) returns (GetWorkflowResponse) {}
+  rpc DeleteWorkflow(DeleteWorkflowRequest) returns (DeleteWorkflowResponse) {}
+  rpc UpdateWorkflow(UpdateWorkflowRequest) returns (UpdateWorkflowResponse) {}
+
+  rpc CreateQueue(CreateQueueRequest) returns (CreateQueueResponse) {}
+  rpc GetQueue(GetQueueRequest) returns (GetQueueResponse) {}
+  rpc UpdateQueue(UpdateQueueRequest) returns (UpdateQueueResponse) {}
+  rpc DeleteQueue(DeleteQueueRequest) returns (DeleteQueueResponse) {}
+  rpc ListQueues(ListQueuesRequest) returns (ListQueuesResponse) {}
+
+  rpc Dequeue(DequeueRequest) returns (DequeueResponse) {}
+  rpc ReportStatus(ReportStatusRequest) returns (ReportStatusResponse) {}
+  rpc RestartTasks(RestartTasksRequest) returns (RestartTasksResponse) {}
+
+  rpc CreateSchedule(CreateScheduleRequest) returns (CreateScheduleResponse) {}
+  rpc ListSchedules(ListSchedulesRequest) returns (ListSchedulesResponse) {}
+  rpc GetSchedule(GetScheduleRequest) returns (GetScheduleResponse) {}
+  rpc UpdateSchedule(UpdateScheduleRequest) returns (UpdateScheduleResponse) {}
+  rpc DeleteSchedule(DeleteScheduleRequest) returns (DeleteScheduleResponse) {}
+
+  rpc StartWorkflow(StartWorkflowRequest) returns (StartWorkflowResponse) {}
+  rpc GetWorkflowRun(GetWorkflowRunRequest) returns (GetWorkflowRunResponse) {}
+  rpc ListWorkflowRuns(ListWorkflowRunsRequest) returns (ListWorkflowRunsResponse) {}
+  rpc DeleteWorkflowRun(DeleteWorkflowRunRequest) returns (DeleteWorkflowRunResponse) {}
+  rpc CancelWorkflowRun(CancelWorkflowRunRequest) returns (CancelWorkflowRunResponse) {}
+  rpc PauseWorkflowRun(PauseWorkflowRunRequest) returns (PauseWorkflowRunResponse) {}
+  rpc ResumeWorkflowRun(ResumeWorkflowRunRequest) returns (ResumeWorkflowRunResponse) {}
+}
+
+// Namespaces APIs
+
+message CreateNamespaceRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateNamespaceResponse {
+  Namespace namespace = 1;
+}
+
+message ListNamespacesRequest {
+  string pagination_token = 1;
+  int32 limit = 2;
+}
+
+message ListNamespacesResponse {
+  repeated Namespace namespaces = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message GetNamespaceRequest {
+  string namespace_name = 1;
+}
+
+message GetNamespaceResponse {
+  Namespace namespace = 1;
+}
+
+message DeleteNamespaceRequest {
+  string namespace_name = 1;
+}
+
+message DeleteNamespaceResponse {}
+
+message UpdateNamespaceRequest {
+  string namespace_name = 1;
+  string description = 2;
+}
+
+message UpdateNamespaceResponse {
+  Namespace namespace = 1;
+}
+
+// Workflows APIs
+
+message CreateWorkflowRequest {
+  string namespace_name = 1;
+  string workflow_name = 2;
+  string description = 3;
+  repeated Step steps = 4;
+  repeated Metadata metadata = 5;
+}
+
+message CreateWorkflowResponse {
+  Workflow workflow = 1;
+}
+
+message ListWorkflowsRequest {
+  string namespace_name = 1;
+}
+
+message ListWorkflowsResponse {
+  repeated Workflow workflows = 1;
+}
+
+message GetWorkflowRequest {
+  string namespace_name = 1;
+  string workflow_name = 2;
+}
+
+message GetWorkflowResponse {
+  Workflow workflow = 1;
+}
+
+message DeleteWorkflowRequest {
+  string namespace_name = 1;
+  string workflow_name = 2;
+}
+
+message DeleteWorkflowResponse {}
+
+message UpdateWorkflowRequest {
+  string namespace_name = 1;
+  string workflow_name = 2;
+  string description = 3;
+  repeated Step steps = 4;
+  repeated Metadata metadata = 5;
+}
+
+message UpdateWorkflowResponse {
+  Workflow workflow = 1;
+}
+
+// Queues APIs
+
+message CreateQueueRequest {
+  string namespace_name = 1;
+  string queue_name = 2;
+  string description = 3;
+  RetryStrategy retry_strategy = 4;
+  DequeuingSettings dequeuing_settings = 5;
+}
+
+message CreateQueueResponse {
+  Queue queue = 1;
+}
+
+message GetQueueRequest {
+  string namespace_name = 1;
+  string queue_name = 2;
+}
+
+message GetQueueResponse {
+  Queue queue = 1;
+  QueueStats stats = 2;
+}
+
+message UpdateQueueRequest {
+  string namespace_name = 1;
+  string queue_name = 2;
+  string description = 3;
+  RetryStrategy retry_strategy = 4;
+  DequeuingSettings dequeuing_settings = 5;
+}
+
+message UpdateQueueResponse {
+  Queue queue = 1;
+}
+
+message DeleteQueueRequest {
+  string namespace_name = 1;
+  string queue_name = 2;
+}
+
+message DeleteQueueResponse {}
+
+message ListQueuesRequest {
+  string namespace_name = 1;
+}
+
+message ListQueuesResponse {
+  repeated Queue queues = 1;
+}
+
+// Tasks APIs
+
+message DequeueRequest {
+  string namespace_name = 1;
+  string queue_name = 2;
+  int64 batch_size = 3;
+}
+
+message DequeueResponse {
+  repeated Task tasks = 1;
+}
+
+message ReportStatusRequest {
+  string namespace_name = 1;
+  string queue_name = 2;
+  repeated ReportStatusRequestEntry entries = 3;
+}
+
+message ReportStatusRequestEntry {
+  enum Status {
+    STATUS_INVALID = 0;
+    STATUS_SUCCEEDED = 1;
+    STATUS_IN_PROGRESS = 2;
+    STATUS_FAILED = 3;
+  }
+
+  string task_id = 1;
+  int32 attempt = 2;
+  Status status = 3;
+}
+
+message ReportStatusResponse {}
+
+message RestartTasksRequest {
+  string queue_name = 1;
+  repeated string task_ids = 2;
+}
+
+message RestartTasksResponse {}
+
+message PurgeQueueRequest {
+  string queue_name = 1;
+}
+
+message PurgeQueueResponse {}
+
+// Schedules APIs
+
+message CreateScheduleRequest {
+  string namespace_name = 1;
+  string schedule_name = 2;
+  string description = 3;
+  string cron = 4;
+  string timezone = 5;
+  bytes payload = 6;
+  RetryStrategy retry_strategy = 7;
+}
+
+message CreateScheduleResponse {
+  Schedule schedule = 1;
+}
+
+message ListSchedulesRequest {
+  string namespace_name = 1;
+}
+
+message ListSchedulesResponse {
+  repeated Schedule schedules = 1;
+}
+
+message GetScheduleRequest {
+  string namespace_name = 1;
+  string schedule_name = 2;
+}
+
+message GetScheduleResponse {
+  Schedule schedule = 1;
+}
+
+message UpdateScheduleRequest {
+  string namespace_name = 1;
+  string schedule_name = 2;
+  string description = 3;
+  string cron = 4;
+  bytes payload = 5;
+  string dedupe_key = 6;
+  int64 expires_in_seconds = 7;
+  int64 keepalive_timeout_in_seconds = 8;
+  RetryStrategy retry_strategy = 9;
+  string timezone = 10;
+}
+
+message UpdateScheduleResponse {
+  Schedule schedule = 1;
+}
+
+message DeleteScheduleRequest {
+  string namespace_name = 1;
+  string schedule_name = 2;
+}
+
+message DeleteScheduleResponse {}
+
+// Workflow Runs APIs
+
+message StartWorkflowRequest {
+  string namespace_name = 1;
+  string workflow_name = 2;
+  bytes arguments = 3;
+}
+
+message StartWorkflowResponse {
+  WorkflowRun workflow_run = 1;
+}
+
+message GetWorkflowRunRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+}
+
+message GetWorkflowRunResponse {
+  WorkflowRun workflow_run = 1;
+}
+
+message ListWorkflowRunsRequest {
+  string namespace_name = 1;
+  string workflow_name = 2;
+  string pagination_token = 3;
+  int32 limit = 4;
+}
+
+message ListWorkflowRunsResponse {
+  repeated WorkflowRun workflow_runs = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message DeleteWorkflowRunRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+}
+
+message DeleteWorkflowRunResponse {}
+
+message CancelWorkflowRunRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+}
+
+message CancelWorkflowRunResponse {}
+
+message PauseWorkflowRunRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+}
+
+message PauseWorkflowRunResponse {}
+
+message ResumeWorkflowRunRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+}
+
+message ResumeWorkflowRunResponse {}
+
+// Main models
+
+message Task {
+  string name = 1;
+  string workflow_run_id = 2;
+  int64 started_at = 3;
+  int64 completed_at = 4;
+  int64 expires_at = 5;
+  int64 scheduled_at = 6;
+  int64 visible_at = 7;
+  int32 attempts = 8;
+  TaskState state = 9;
+}
+
+enum TaskState {
+  TASK_STATE_INVALID = 0;
+  TASK_STATE_ENQUEUED = 1;
+  TASK_STATE_IN_PROGRESS = 2;
+  TASK_STATE_SUCCEEDED = 3;
+  TASK_STATE_FAILED = 4;
+  TASK_STATE_CANCELLED = 5;
+  TASK_STATE_EXPIRED = 6;
+}
+
+message Schedule {
+  string name = 1;
+  string description = 2;
+  string namespace_name = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  int64 version = 6;
+  string cron = 7;
+  string timezone = 8;
+  bytes payload = 9;
+  RetryStrategy retry_strategy = 10;
+}
+
+message RetryStrategy {
+  repeated int64 retry_intervals_in_seconds = 1;
+}
+
+message Queue {
+  string name = 1;
+  string description = 2;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+  int64 version = 5;
+
+  int64 keepalive_timeout_in_seconds = 6;
+  RetryStrategy retry_strategy = 7;
+  DequeuingSettings dequeuing_settings = 8;
+}
+
+message DequeuingSettings {
+  int64 max_in_progress_tasks = 1;
+  TokenBucketRateLimiting rate_limiting = 2;
+  // bool dequeuing_paused = 3;
+}
+
+message TokenBucketRateLimiting {
+  int64 max_tokens = 1;
+  int64 interval = 2;
+  IntervalUnit interval_unit = 3;
+}
+
+message QueueStats {
+  uint64 enqueued_tasks_count = 1;
+  uint64 in_progress_tasks_count = 2;
+  uint64 dead_tasks_count = 3;
+  int64 age_of_oldest_enqueued_task = 4;
+}
+
+enum IntervalUnit {
+  INTERVAL_UNIT_INVALID = 0;
+  INTERVAL_UNIT_SECONDS = 1;
+  INTERVAL_UNIT_MINUTES = 2;
+  INTERVAL_UNIT_HOURS = 3;
+}
+
+message Namespace {
+  string name = 1;
+  string description = 2;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+}
+
+message Workflow {
+  string name = 1;
+  string description = 2;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+  int64 version = 5;
+  repeated Step steps = 6;
+  repeated Metadata metadata = 7;
+}
+
+message Metadata {
+  string key = 1;
+  string value = 2;
+}
+
+message Step {
+  string name = 1;
+  string queue_name = 2;
+  
+  oneof step_type {
+    Chain chain = 3;
+    FanOut fan_out = 4;
+    Choice choice = 5;
+    Multiple multiple = 6;
+    External external = 7;
+  }
+}
+
+message Condition {
+  message All {
+    repeated Condition conditions = 1;
+  }
+
+  message Any {
+    repeated Condition conditions = 1;
+  }
+  
+  message Chosen {
+    string task_name = 1;
+    string result = 2;
+  }
+
+  message Succeeded {
+    string task_name = 1;
+  }
+
+  message Failed {
+    string task_name = 1;
+  }
+
+  oneof condition {
+    Succeeded succeeded = 1;
+    Failed failed = 2;
+    All all = 3;
+    Any any = 4;
+    Chosen chosen = 5;
+  }
+}
+
+message Chain {
+  Condition starts_when = 1;
+}
+
+message FanOut {
+  Condition starts_when = 1;
+}
+
+message Choice {
+  Condition starts_when = 1;
+  repeated string choices = 2;
+}
+
+message Multiple {
+  string fan_out_from = 1;
+  bool start_only_when_all_subtasks_created = 2;
+}
+
+message External {
+  Condition starts_when = 1;
+}
+
+message WorkflowRun {
+  string id = 1;
+  string workflow_name = 2;
+  repeated Task tasks = 3;
+  WorkflowRunStatus status = 4;
+  bytes arguments = 5;
+  repeated Metadata metadata = 6;
+}
+
+enum WorkflowRunStatus {
+  WORKFLOW_RUN_STATUS_INVALID = 0;
+  WORKFLOW_RUN_STATUS_RUNNING = 1;
+  WORKFLOW_RUN_STATUS_SUCCEEDED = 2;
+  WORKFLOW_RUN_STATUS_FAILED = 3;
+}

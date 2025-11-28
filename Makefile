@@ -15,6 +15,12 @@ generate-proto:
 		--go_opt=module=github.com/evrblk/evrblk-go/grackle/preview \
 		./proto/grackle/preview/*.proto
 	protoc --proto_path=. \
+		--go_out=./banyan/preview \
+		--go-grpc_out=./banyan/preview \
+		--go-grpc_opt=module=github.com/evrblk/evrblk-go/banyan/preview \
+		--go_opt=module=github.com/evrblk/evrblk-go/banyan/preview \
+		./proto/banyan/preview/*.proto
+	protoc --proto_path=. \
 		--go_out=./iam/preview \
 		--go-grpc_out=./iam/preview \
 		--go-grpc_opt=module=github.com/evrblk/evrblk-go/iam/preview \
@@ -41,6 +47,12 @@ generate-code:
 		--go-package-name=grackle \
 		--output-path=./grackle/preview/client.go \
 		--proto-file-path=./proto/grackle/preview/api.proto
+	go run ./cmd/codegen \
+		--service-name=Banyan \
+		--go-package-path=github.com/evrblk/evrblk-go/banyan/preview \
+		--go-package-name=banyan \
+		--output-path=./banyan/preview/client.go \
+		--proto-file-path=./proto/banyan/preview/api.proto
 	go run ./cmd/codegen \
 		--service-name=IAM \
 		--go-package-path=github.com/evrblk/evrblk-go/iam/preview \
