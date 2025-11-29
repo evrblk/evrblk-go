@@ -7,12 +7,11 @@
 package banyan
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -4188,7 +4187,7 @@ type Step struct {
 	//	*Step_Chain
 	//	*Step_FanOut
 	//	*Step_Choice
-	//	*Step_Multiple
+	//	*Step_Parallel
 	//	*Step_External
 	StepType      isStep_StepType `protobuf_oneof:"step_type"`
 	unknownFields protoimpl.UnknownFields
@@ -4273,10 +4272,10 @@ func (x *Step) GetChoice() *ChoiceStep {
 	return nil
 }
 
-func (x *Step) GetMultiple() *MultipleStep {
+func (x *Step) GetParallel() *ParallelStep {
 	if x != nil {
-		if x, ok := x.StepType.(*Step_Multiple); ok {
-			return x.Multiple
+		if x, ok := x.StepType.(*Step_Parallel); ok {
+			return x.Parallel
 		}
 	}
 	return nil
@@ -4307,8 +4306,8 @@ type Step_Choice struct {
 	Choice *ChoiceStep `protobuf:"bytes,5,opt,name=choice,proto3,oneof"`
 }
 
-type Step_Multiple struct {
-	Multiple *MultipleStep `protobuf:"bytes,6,opt,name=multiple,proto3,oneof"`
+type Step_Parallel struct {
+	Parallel *ParallelStep `protobuf:"bytes,6,opt,name=parallel,proto3,oneof"`
 }
 
 type Step_External struct {
@@ -4321,7 +4320,7 @@ func (*Step_FanOut) isStep_StepType() {}
 
 func (*Step_Choice) isStep_StepType() {}
 
-func (*Step_Multiple) isStep_StepType() {}
+func (*Step_Parallel) isStep_StepType() {}
 
 func (*Step_External) isStep_StepType() {}
 
@@ -4329,11 +4328,12 @@ type Condition struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Condition:
 	//
+	//	*Condition_Initial
 	//	*Condition_Succeeded
 	//	*Condition_Failed
+	//	*Condition_Chosen
 	//	*Condition_All
 	//	*Condition_Any
-	//	*Condition_Chosen
 	Condition     isCondition_Condition `protobuf_oneof:"condition"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -4376,6 +4376,15 @@ func (x *Condition) GetCondition() isCondition_Condition {
 	return nil
 }
 
+func (x *Condition) GetInitial() *PredicateInitial {
+	if x != nil {
+		if x, ok := x.Condition.(*Condition_Initial); ok {
+			return x.Initial
+		}
+	}
+	return nil
+}
+
 func (x *Condition) GetSucceeded() *PredicateSucceeded {
 	if x != nil {
 		if x, ok := x.Condition.(*Condition_Succeeded); ok {
@@ -4389,6 +4398,15 @@ func (x *Condition) GetFailed() *PredicateFailed {
 	if x != nil {
 		if x, ok := x.Condition.(*Condition_Failed); ok {
 			return x.Failed
+		}
+	}
+	return nil
+}
+
+func (x *Condition) GetChosen() *PredicateChosen {
+	if x != nil {
+		if x, ok := x.Condition.(*Condition_Chosen); ok {
+			return x.Chosen
 		}
 	}
 	return nil
@@ -4412,48 +4430,89 @@ func (x *Condition) GetAny() *PredicateAny {
 	return nil
 }
 
-func (x *Condition) GetChosen() *PredicateChosen {
-	if x != nil {
-		if x, ok := x.Condition.(*Condition_Chosen); ok {
-			return x.Chosen
-		}
-	}
-	return nil
-}
-
 type isCondition_Condition interface {
 	isCondition_Condition()
 }
 
+type Condition_Initial struct {
+	Initial *PredicateInitial `protobuf:"bytes,1,opt,name=initial,proto3,oneof"`
+}
+
 type Condition_Succeeded struct {
-	Succeeded *PredicateSucceeded `protobuf:"bytes,1,opt,name=succeeded,proto3,oneof"`
+	Succeeded *PredicateSucceeded `protobuf:"bytes,2,opt,name=succeeded,proto3,oneof"`
 }
 
 type Condition_Failed struct {
-	Failed *PredicateFailed `protobuf:"bytes,2,opt,name=failed,proto3,oneof"`
-}
-
-type Condition_All struct {
-	All *PredicateAll `protobuf:"bytes,3,opt,name=all,proto3,oneof"`
-}
-
-type Condition_Any struct {
-	Any *PredicateAny `protobuf:"bytes,4,opt,name=any,proto3,oneof"`
+	Failed *PredicateFailed `protobuf:"bytes,3,opt,name=failed,proto3,oneof"`
 }
 
 type Condition_Chosen struct {
-	Chosen *PredicateChosen `protobuf:"bytes,5,opt,name=chosen,proto3,oneof"`
+	Chosen *PredicateChosen `protobuf:"bytes,4,opt,name=chosen,proto3,oneof"`
 }
+
+type Condition_All struct {
+	All *PredicateAll `protobuf:"bytes,5,opt,name=all,proto3,oneof"`
+}
+
+type Condition_Any struct {
+	Any *PredicateAny `protobuf:"bytes,6,opt,name=any,proto3,oneof"`
+}
+
+func (*Condition_Initial) isCondition_Condition() {}
 
 func (*Condition_Succeeded) isCondition_Condition() {}
 
 func (*Condition_Failed) isCondition_Condition() {}
 
+func (*Condition_Chosen) isCondition_Condition() {}
+
 func (*Condition_All) isCondition_Condition() {}
 
 func (*Condition_Any) isCondition_Condition() {}
 
-func (*Condition_Chosen) isCondition_Condition() {}
+type PredicateInitial struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IsInitial     bool                   `protobuf:"varint,1,opt,name=is_initial,json=isInitial,proto3" json:"is_initial,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PredicateInitial) Reset() {
+	*x = PredicateInitial{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[75]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PredicateInitial) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PredicateInitial) ProtoMessage() {}
+
+func (x *PredicateInitial) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[75]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PredicateInitial.ProtoReflect.Descriptor instead.
+func (*PredicateInitial) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{75}
+}
+
+func (x *PredicateInitial) GetIsInitial() bool {
+	if x != nil {
+		return x.IsInitial
+	}
+	return false
+}
 
 type PredicateAll struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -4464,7 +4523,7 @@ type PredicateAll struct {
 
 func (x *PredicateAll) Reset() {
 	*x = PredicateAll{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[75]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4476,7 +4535,7 @@ func (x *PredicateAll) String() string {
 func (*PredicateAll) ProtoMessage() {}
 
 func (x *PredicateAll) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[75]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4489,7 +4548,7 @@ func (x *PredicateAll) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PredicateAll.ProtoReflect.Descriptor instead.
 func (*PredicateAll) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{75}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *PredicateAll) GetConditions() []*Condition {
@@ -4508,7 +4567,7 @@ type PredicateAny struct {
 
 func (x *PredicateAny) Reset() {
 	*x = PredicateAny{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[76]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4520,7 +4579,7 @@ func (x *PredicateAny) String() string {
 func (*PredicateAny) ProtoMessage() {}
 
 func (x *PredicateAny) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[76]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4533,7 +4592,7 @@ func (x *PredicateAny) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PredicateAny.ProtoReflect.Descriptor instead.
 func (*PredicateAny) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{76}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *PredicateAny) GetConditions() []*Condition {
@@ -4553,7 +4612,7 @@ type PredicateChosen struct {
 
 func (x *PredicateChosen) Reset() {
 	*x = PredicateChosen{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[77]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4565,7 +4624,7 @@ func (x *PredicateChosen) String() string {
 func (*PredicateChosen) ProtoMessage() {}
 
 func (x *PredicateChosen) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[77]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4578,7 +4637,7 @@ func (x *PredicateChosen) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PredicateChosen.ProtoReflect.Descriptor instead.
 func (*PredicateChosen) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{77}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *PredicateChosen) GetStepName() string {
@@ -4604,7 +4663,7 @@ type PredicateSucceeded struct {
 
 func (x *PredicateSucceeded) Reset() {
 	*x = PredicateSucceeded{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4616,7 +4675,7 @@ func (x *PredicateSucceeded) String() string {
 func (*PredicateSucceeded) ProtoMessage() {}
 
 func (x *PredicateSucceeded) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[78]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4629,7 +4688,7 @@ func (x *PredicateSucceeded) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PredicateSucceeded.ProtoReflect.Descriptor instead.
 func (*PredicateSucceeded) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{78}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *PredicateSucceeded) GetStepName() string {
@@ -4648,7 +4707,7 @@ type PredicateFailed struct {
 
 func (x *PredicateFailed) Reset() {
 	*x = PredicateFailed{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4660,7 +4719,7 @@ func (x *PredicateFailed) String() string {
 func (*PredicateFailed) ProtoMessage() {}
 
 func (x *PredicateFailed) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[79]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4673,7 +4732,7 @@ func (x *PredicateFailed) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PredicateFailed.ProtoReflect.Descriptor instead.
 func (*PredicateFailed) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{79}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *PredicateFailed) GetStepName() string {
@@ -4692,7 +4751,7 @@ type ChainStep struct {
 
 func (x *ChainStep) Reset() {
 	*x = ChainStep{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4704,7 +4763,7 @@ func (x *ChainStep) String() string {
 func (*ChainStep) ProtoMessage() {}
 
 func (x *ChainStep) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[80]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4717,7 +4776,7 @@ func (x *ChainStep) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChainStep.ProtoReflect.Descriptor instead.
 func (*ChainStep) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{80}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *ChainStep) GetStartsWhen() *Condition {
@@ -4736,7 +4795,7 @@ type FanOutStep struct {
 
 func (x *FanOutStep) Reset() {
 	*x = FanOutStep{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4748,7 +4807,7 @@ func (x *FanOutStep) String() string {
 func (*FanOutStep) ProtoMessage() {}
 
 func (x *FanOutStep) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[81]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4761,7 +4820,7 @@ func (x *FanOutStep) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FanOutStep.ProtoReflect.Descriptor instead.
 func (*FanOutStep) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{81}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{82}
 }
 
 func (x *FanOutStep) GetStartsWhen() *Condition {
@@ -4781,7 +4840,7 @@ type ChoiceStep struct {
 
 func (x *ChoiceStep) Reset() {
 	*x = ChoiceStep{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4793,7 +4852,7 @@ func (x *ChoiceStep) String() string {
 func (*ChoiceStep) ProtoMessage() {}
 
 func (x *ChoiceStep) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[82]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4806,7 +4865,7 @@ func (x *ChoiceStep) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChoiceStep.ProtoReflect.Descriptor instead.
 func (*ChoiceStep) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{82}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{83}
 }
 
 func (x *ChoiceStep) GetStartsWhen() *Condition {
@@ -4823,7 +4882,7 @@ func (x *ChoiceStep) GetOptions() []string {
 	return nil
 }
 
-type MultipleStep struct {
+type ParallelStep struct {
 	state                           protoimpl.MessageState `protogen:"open.v1"`
 	FanOutFrom                      string                 `protobuf:"bytes,1,opt,name=fan_out_from,json=fanOutFrom,proto3" json:"fan_out_from,omitempty"`
 	StartOnlyWhenAllSubtasksCreated bool                   `protobuf:"varint,2,opt,name=start_only_when_all_subtasks_created,json=startOnlyWhenAllSubtasksCreated,proto3" json:"start_only_when_all_subtasks_created,omitempty"`
@@ -4831,21 +4890,21 @@ type MultipleStep struct {
 	sizeCache                       protoimpl.SizeCache
 }
 
-func (x *MultipleStep) Reset() {
-	*x = MultipleStep{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
+func (x *ParallelStep) Reset() {
+	*x = ParallelStep{}
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MultipleStep) String() string {
+func (x *ParallelStep) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MultipleStep) ProtoMessage() {}
+func (*ParallelStep) ProtoMessage() {}
 
-func (x *MultipleStep) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[83]
+func (x *ParallelStep) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4856,19 +4915,19 @@ func (x *MultipleStep) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MultipleStep.ProtoReflect.Descriptor instead.
-func (*MultipleStep) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{83}
+// Deprecated: Use ParallelStep.ProtoReflect.Descriptor instead.
+func (*ParallelStep) Descriptor() ([]byte, []int) {
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{84}
 }
 
-func (x *MultipleStep) GetFanOutFrom() string {
+func (x *ParallelStep) GetFanOutFrom() string {
 	if x != nil {
 		return x.FanOutFrom
 	}
 	return ""
 }
 
-func (x *MultipleStep) GetStartOnlyWhenAllSubtasksCreated() bool {
+func (x *ParallelStep) GetStartOnlyWhenAllSubtasksCreated() bool {
 	if x != nil {
 		return x.StartOnlyWhenAllSubtasksCreated
 	}
@@ -4884,7 +4943,7 @@ type ExternalStep struct {
 
 func (x *ExternalStep) Reset() {
 	*x = ExternalStep{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4896,7 +4955,7 @@ func (x *ExternalStep) String() string {
 func (*ExternalStep) ProtoMessage() {}
 
 func (x *ExternalStep) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[84]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4909,7 +4968,7 @@ func (x *ExternalStep) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExternalStep.ProtoReflect.Descriptor instead.
 func (*ExternalStep) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{84}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *ExternalStep) GetStartsWhen() *Condition {
@@ -4933,7 +4992,7 @@ type WorkflowRun struct {
 
 func (x *WorkflowRun) Reset() {
 	*x = WorkflowRun{}
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[86]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4945,7 +5004,7 @@ func (x *WorkflowRun) String() string {
 func (*WorkflowRun) ProtoMessage() {}
 
 func (x *WorkflowRun) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_banyan_preview_api_proto_msgTypes[85]
+	mi := &file_proto_banyan_preview_api_proto_msgTypes[86]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4958,7 +5017,7 @@ func (x *WorkflowRun) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowRun.ProtoReflect.Descriptor instead.
 func (*WorkflowRun) Descriptor() ([]byte, []int) {
-	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{85}
+	return file_proto_banyan_preview_api_proto_rawDescGZIP(), []int{86}
 }
 
 func (x *WorkflowRun) GetId() string {
@@ -5284,16 +5343,20 @@ const file_proto_banyan_preview_api_proto_rawDesc = "" +
 	"\x05chain\x18\x03 \x01(\v2$.com.evrblk.banyan.preview.ChainStepH\x00R\x05chain\x12@\n" +
 	"\afan_out\x18\x04 \x01(\v2%.com.evrblk.banyan.preview.FanOutStepH\x00R\x06fanOut\x12?\n" +
 	"\x06choice\x18\x05 \x01(\v2%.com.evrblk.banyan.preview.ChoiceStepH\x00R\x06choice\x12E\n" +
-	"\bmultiple\x18\x06 \x01(\v2'.com.evrblk.banyan.preview.MultipleStepH\x00R\bmultiple\x12E\n" +
+	"\bparallel\x18\x06 \x01(\v2'.com.evrblk.banyan.preview.ParallelStepH\x00R\bparallel\x12E\n" +
 	"\bexternal\x18\a \x01(\v2'.com.evrblk.banyan.preview.ExternalStepH\x00R\bexternalB\v\n" +
-	"\tstep_type\"\xed\x02\n" +
-	"\tCondition\x12M\n" +
-	"\tsucceeded\x18\x01 \x01(\v2-.com.evrblk.banyan.preview.PredicateSucceededH\x00R\tsucceeded\x12D\n" +
-	"\x06failed\x18\x02 \x01(\v2*.com.evrblk.banyan.preview.PredicateFailedH\x00R\x06failed\x12;\n" +
-	"\x03all\x18\x03 \x01(\v2'.com.evrblk.banyan.preview.PredicateAllH\x00R\x03all\x12;\n" +
-	"\x03any\x18\x04 \x01(\v2'.com.evrblk.banyan.preview.PredicateAnyH\x00R\x03any\x12D\n" +
-	"\x06chosen\x18\x05 \x01(\v2*.com.evrblk.banyan.preview.PredicateChosenH\x00R\x06chosenB\v\n" +
-	"\tcondition\"T\n" +
+	"\tstep_type\"\xb6\x03\n" +
+	"\tCondition\x12G\n" +
+	"\ainitial\x18\x01 \x01(\v2+.com.evrblk.banyan.preview.PredicateInitialH\x00R\ainitial\x12M\n" +
+	"\tsucceeded\x18\x02 \x01(\v2-.com.evrblk.banyan.preview.PredicateSucceededH\x00R\tsucceeded\x12D\n" +
+	"\x06failed\x18\x03 \x01(\v2*.com.evrblk.banyan.preview.PredicateFailedH\x00R\x06failed\x12D\n" +
+	"\x06chosen\x18\x04 \x01(\v2*.com.evrblk.banyan.preview.PredicateChosenH\x00R\x06chosen\x12;\n" +
+	"\x03all\x18\x05 \x01(\v2'.com.evrblk.banyan.preview.PredicateAllH\x00R\x03all\x12;\n" +
+	"\x03any\x18\x06 \x01(\v2'.com.evrblk.banyan.preview.PredicateAnyH\x00R\x03anyB\v\n" +
+	"\tcondition\"1\n" +
+	"\x10PredicateInitial\x12\x1d\n" +
+	"\n" +
+	"is_initial\x18\x01 \x01(\bR\tisInitial\"T\n" +
 	"\fPredicateAll\x12D\n" +
 	"\n" +
 	"conditions\x18\x01 \x03(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
@@ -5321,7 +5384,7 @@ const file_proto_banyan_preview_api_proto_rawDesc = "" +
 	"\vstarts_when\x18\x01 \x01(\v2$.com.evrblk.banyan.preview.ConditionR\n" +
 	"startsWhen\x12\x18\n" +
 	"\aoptions\x18\x02 \x03(\tR\aoptions\"\x7f\n" +
-	"\fMultipleStep\x12 \n" +
+	"\fParallelStep\x12 \n" +
 	"\ffan_out_from\x18\x01 \x01(\tR\n" +
 	"fanOutFrom\x12M\n" +
 	"$start_only_when_all_subtasks_created\x18\x02 \x01(\bR\x1fstartOnlyWhenAllSubtasksCreated\"U\n" +
@@ -5399,7 +5462,7 @@ func file_proto_banyan_preview_api_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_banyan_preview_api_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_proto_banyan_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 86)
+var file_proto_banyan_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 87)
 var file_proto_banyan_preview_api_proto_goTypes = []any{
 	(TaskState)(0),                       // 0: com.evrblk.banyan.preview.TaskState
 	(IntervalUnit)(0),                    // 1: com.evrblk.banyan.preview.IntervalUnit
@@ -5480,17 +5543,18 @@ var file_proto_banyan_preview_api_proto_goTypes = []any{
 	(*Metadata)(nil),                     // 76: com.evrblk.banyan.preview.Metadata
 	(*Step)(nil),                         // 77: com.evrblk.banyan.preview.Step
 	(*Condition)(nil),                    // 78: com.evrblk.banyan.preview.Condition
-	(*PredicateAll)(nil),                 // 79: com.evrblk.banyan.preview.PredicateAll
-	(*PredicateAny)(nil),                 // 80: com.evrblk.banyan.preview.PredicateAny
-	(*PredicateChosen)(nil),              // 81: com.evrblk.banyan.preview.PredicateChosen
-	(*PredicateSucceeded)(nil),           // 82: com.evrblk.banyan.preview.PredicateSucceeded
-	(*PredicateFailed)(nil),              // 83: com.evrblk.banyan.preview.PredicateFailed
-	(*ChainStep)(nil),                    // 84: com.evrblk.banyan.preview.ChainStep
-	(*FanOutStep)(nil),                   // 85: com.evrblk.banyan.preview.FanOutStep
-	(*ChoiceStep)(nil),                   // 86: com.evrblk.banyan.preview.ChoiceStep
-	(*MultipleStep)(nil),                 // 87: com.evrblk.banyan.preview.MultipleStep
-	(*ExternalStep)(nil),                 // 88: com.evrblk.banyan.preview.ExternalStep
-	(*WorkflowRun)(nil),                  // 89: com.evrblk.banyan.preview.WorkflowRun
+	(*PredicateInitial)(nil),             // 79: com.evrblk.banyan.preview.PredicateInitial
+	(*PredicateAll)(nil),                 // 80: com.evrblk.banyan.preview.PredicateAll
+	(*PredicateAny)(nil),                 // 81: com.evrblk.banyan.preview.PredicateAny
+	(*PredicateChosen)(nil),              // 82: com.evrblk.banyan.preview.PredicateChosen
+	(*PredicateSucceeded)(nil),           // 83: com.evrblk.banyan.preview.PredicateSucceeded
+	(*PredicateFailed)(nil),              // 84: com.evrblk.banyan.preview.PredicateFailed
+	(*ChainStep)(nil),                    // 85: com.evrblk.banyan.preview.ChainStep
+	(*FanOutStep)(nil),                   // 86: com.evrblk.banyan.preview.FanOutStep
+	(*ChoiceStep)(nil),                   // 87: com.evrblk.banyan.preview.ChoiceStep
+	(*ParallelStep)(nil),                 // 88: com.evrblk.banyan.preview.ParallelStep
+	(*ExternalStep)(nil),                 // 89: com.evrblk.banyan.preview.ExternalStep
+	(*WorkflowRun)(nil),                  // 90: com.evrblk.banyan.preview.WorkflowRun
 }
 var file_proto_banyan_preview_api_proto_depIdxs = []int32{
 	74, // 0: com.evrblk.banyan.preview.CreateNamespaceResponse.namespace:type_name -> com.evrblk.banyan.preview.Namespace
@@ -5523,9 +5587,9 @@ var file_proto_banyan_preview_api_proto_depIdxs = []int32{
 	68, // 27: com.evrblk.banyan.preview.GetScheduleResponse.schedule:type_name -> com.evrblk.banyan.preview.Schedule
 	69, // 28: com.evrblk.banyan.preview.UpdateScheduleRequest.retry_strategy:type_name -> com.evrblk.banyan.preview.RetryStrategy
 	68, // 29: com.evrblk.banyan.preview.UpdateScheduleResponse.schedule:type_name -> com.evrblk.banyan.preview.Schedule
-	89, // 30: com.evrblk.banyan.preview.StartWorkflowResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
-	89, // 31: com.evrblk.banyan.preview.GetWorkflowRunResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
-	89, // 32: com.evrblk.banyan.preview.ListWorkflowRunsResponse.workflow_runs:type_name -> com.evrblk.banyan.preview.WorkflowRun
+	90, // 30: com.evrblk.banyan.preview.StartWorkflowResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
+	90, // 31: com.evrblk.banyan.preview.GetWorkflowRunResponse.workflow_run:type_name -> com.evrblk.banyan.preview.WorkflowRun
+	90, // 32: com.evrblk.banyan.preview.ListWorkflowRunsResponse.workflow_runs:type_name -> com.evrblk.banyan.preview.WorkflowRun
 	0,  // 33: com.evrblk.banyan.preview.Task.state:type_name -> com.evrblk.banyan.preview.TaskState
 	69, // 34: com.evrblk.banyan.preview.Schedule.retry_strategy:type_name -> com.evrblk.banyan.preview.RetryStrategy
 	69, // 35: com.evrblk.banyan.preview.Queue.retry_strategy:type_name -> com.evrblk.banyan.preview.RetryStrategy
@@ -5534,90 +5598,91 @@ var file_proto_banyan_preview_api_proto_depIdxs = []int32{
 	1,  // 38: com.evrblk.banyan.preview.TokenBucketRateLimiting.interval_unit:type_name -> com.evrblk.banyan.preview.IntervalUnit
 	77, // 39: com.evrblk.banyan.preview.Workflow.steps:type_name -> com.evrblk.banyan.preview.Step
 	76, // 40: com.evrblk.banyan.preview.Workflow.metadata:type_name -> com.evrblk.banyan.preview.Metadata
-	84, // 41: com.evrblk.banyan.preview.Step.chain:type_name -> com.evrblk.banyan.preview.ChainStep
-	85, // 42: com.evrblk.banyan.preview.Step.fan_out:type_name -> com.evrblk.banyan.preview.FanOutStep
-	86, // 43: com.evrblk.banyan.preview.Step.choice:type_name -> com.evrblk.banyan.preview.ChoiceStep
-	87, // 44: com.evrblk.banyan.preview.Step.multiple:type_name -> com.evrblk.banyan.preview.MultipleStep
-	88, // 45: com.evrblk.banyan.preview.Step.external:type_name -> com.evrblk.banyan.preview.ExternalStep
-	82, // 46: com.evrblk.banyan.preview.Condition.succeeded:type_name -> com.evrblk.banyan.preview.PredicateSucceeded
-	83, // 47: com.evrblk.banyan.preview.Condition.failed:type_name -> com.evrblk.banyan.preview.PredicateFailed
-	79, // 48: com.evrblk.banyan.preview.Condition.all:type_name -> com.evrblk.banyan.preview.PredicateAll
-	80, // 49: com.evrblk.banyan.preview.Condition.any:type_name -> com.evrblk.banyan.preview.PredicateAny
-	81, // 50: com.evrblk.banyan.preview.Condition.chosen:type_name -> com.evrblk.banyan.preview.PredicateChosen
-	78, // 51: com.evrblk.banyan.preview.PredicateAll.conditions:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 52: com.evrblk.banyan.preview.PredicateAny.conditions:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 53: com.evrblk.banyan.preview.ChainStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 54: com.evrblk.banyan.preview.FanOutStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 55: com.evrblk.banyan.preview.ChoiceStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	78, // 56: com.evrblk.banyan.preview.ExternalStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
-	67, // 57: com.evrblk.banyan.preview.WorkflowRun.tasks:type_name -> com.evrblk.banyan.preview.Task
-	2,  // 58: com.evrblk.banyan.preview.WorkflowRun.status:type_name -> com.evrblk.banyan.preview.WorkflowRunStatus
-	76, // 59: com.evrblk.banyan.preview.WorkflowRun.metadata:type_name -> com.evrblk.banyan.preview.Metadata
-	4,  // 60: com.evrblk.banyan.preview.BanyanPreviewApi.CreateNamespace:input_type -> com.evrblk.banyan.preview.CreateNamespaceRequest
-	6,  // 61: com.evrblk.banyan.preview.BanyanPreviewApi.ListNamespaces:input_type -> com.evrblk.banyan.preview.ListNamespacesRequest
-	8,  // 62: com.evrblk.banyan.preview.BanyanPreviewApi.GetNamespace:input_type -> com.evrblk.banyan.preview.GetNamespaceRequest
-	10, // 63: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteNamespace:input_type -> com.evrblk.banyan.preview.DeleteNamespaceRequest
-	12, // 64: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateNamespace:input_type -> com.evrblk.banyan.preview.UpdateNamespaceRequest
-	14, // 65: com.evrblk.banyan.preview.BanyanPreviewApi.CreateWorkflow:input_type -> com.evrblk.banyan.preview.CreateWorkflowRequest
-	16, // 66: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflows:input_type -> com.evrblk.banyan.preview.ListWorkflowsRequest
-	18, // 67: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflow:input_type -> com.evrblk.banyan.preview.GetWorkflowRequest
-	20, // 68: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflow:input_type -> com.evrblk.banyan.preview.DeleteWorkflowRequest
-	22, // 69: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateWorkflow:input_type -> com.evrblk.banyan.preview.UpdateWorkflowRequest
-	24, // 70: com.evrblk.banyan.preview.BanyanPreviewApi.CreateQueue:input_type -> com.evrblk.banyan.preview.CreateQueueRequest
-	26, // 71: com.evrblk.banyan.preview.BanyanPreviewApi.GetQueue:input_type -> com.evrblk.banyan.preview.GetQueueRequest
-	28, // 72: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateQueue:input_type -> com.evrblk.banyan.preview.UpdateQueueRequest
-	30, // 73: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteQueue:input_type -> com.evrblk.banyan.preview.DeleteQueueRequest
-	32, // 74: com.evrblk.banyan.preview.BanyanPreviewApi.ListQueues:input_type -> com.evrblk.banyan.preview.ListQueuesRequest
-	34, // 75: com.evrblk.banyan.preview.BanyanPreviewApi.Dequeue:input_type -> com.evrblk.banyan.preview.DequeueRequest
-	36, // 76: com.evrblk.banyan.preview.BanyanPreviewApi.ReportStatus:input_type -> com.evrblk.banyan.preview.ReportStatusRequest
-	39, // 77: com.evrblk.banyan.preview.BanyanPreviewApi.RestartTasks:input_type -> com.evrblk.banyan.preview.RestartTasksRequest
-	43, // 78: com.evrblk.banyan.preview.BanyanPreviewApi.CreateSchedule:input_type -> com.evrblk.banyan.preview.CreateScheduleRequest
-	45, // 79: com.evrblk.banyan.preview.BanyanPreviewApi.ListSchedules:input_type -> com.evrblk.banyan.preview.ListSchedulesRequest
-	47, // 80: com.evrblk.banyan.preview.BanyanPreviewApi.GetSchedule:input_type -> com.evrblk.banyan.preview.GetScheduleRequest
-	49, // 81: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateSchedule:input_type -> com.evrblk.banyan.preview.UpdateScheduleRequest
-	51, // 82: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteSchedule:input_type -> com.evrblk.banyan.preview.DeleteScheduleRequest
-	53, // 83: com.evrblk.banyan.preview.BanyanPreviewApi.StartWorkflow:input_type -> com.evrblk.banyan.preview.StartWorkflowRequest
-	55, // 84: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflowRun:input_type -> com.evrblk.banyan.preview.GetWorkflowRunRequest
-	57, // 85: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflowRuns:input_type -> com.evrblk.banyan.preview.ListWorkflowRunsRequest
-	59, // 86: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflowRun:input_type -> com.evrblk.banyan.preview.DeleteWorkflowRunRequest
-	61, // 87: com.evrblk.banyan.preview.BanyanPreviewApi.CancelWorkflowRun:input_type -> com.evrblk.banyan.preview.CancelWorkflowRunRequest
-	63, // 88: com.evrblk.banyan.preview.BanyanPreviewApi.PauseWorkflowRun:input_type -> com.evrblk.banyan.preview.PauseWorkflowRunRequest
-	65, // 89: com.evrblk.banyan.preview.BanyanPreviewApi.ResumeWorkflowRun:input_type -> com.evrblk.banyan.preview.ResumeWorkflowRunRequest
-	5,  // 90: com.evrblk.banyan.preview.BanyanPreviewApi.CreateNamespace:output_type -> com.evrblk.banyan.preview.CreateNamespaceResponse
-	7,  // 91: com.evrblk.banyan.preview.BanyanPreviewApi.ListNamespaces:output_type -> com.evrblk.banyan.preview.ListNamespacesResponse
-	9,  // 92: com.evrblk.banyan.preview.BanyanPreviewApi.GetNamespace:output_type -> com.evrblk.banyan.preview.GetNamespaceResponse
-	11, // 93: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteNamespace:output_type -> com.evrblk.banyan.preview.DeleteNamespaceResponse
-	13, // 94: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateNamespace:output_type -> com.evrblk.banyan.preview.UpdateNamespaceResponse
-	15, // 95: com.evrblk.banyan.preview.BanyanPreviewApi.CreateWorkflow:output_type -> com.evrblk.banyan.preview.CreateWorkflowResponse
-	17, // 96: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflows:output_type -> com.evrblk.banyan.preview.ListWorkflowsResponse
-	19, // 97: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflow:output_type -> com.evrblk.banyan.preview.GetWorkflowResponse
-	21, // 98: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflow:output_type -> com.evrblk.banyan.preview.DeleteWorkflowResponse
-	23, // 99: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateWorkflow:output_type -> com.evrblk.banyan.preview.UpdateWorkflowResponse
-	25, // 100: com.evrblk.banyan.preview.BanyanPreviewApi.CreateQueue:output_type -> com.evrblk.banyan.preview.CreateQueueResponse
-	27, // 101: com.evrblk.banyan.preview.BanyanPreviewApi.GetQueue:output_type -> com.evrblk.banyan.preview.GetQueueResponse
-	29, // 102: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateQueue:output_type -> com.evrblk.banyan.preview.UpdateQueueResponse
-	31, // 103: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteQueue:output_type -> com.evrblk.banyan.preview.DeleteQueueResponse
-	33, // 104: com.evrblk.banyan.preview.BanyanPreviewApi.ListQueues:output_type -> com.evrblk.banyan.preview.ListQueuesResponse
-	35, // 105: com.evrblk.banyan.preview.BanyanPreviewApi.Dequeue:output_type -> com.evrblk.banyan.preview.DequeueResponse
-	38, // 106: com.evrblk.banyan.preview.BanyanPreviewApi.ReportStatus:output_type -> com.evrblk.banyan.preview.ReportStatusResponse
-	40, // 107: com.evrblk.banyan.preview.BanyanPreviewApi.RestartTasks:output_type -> com.evrblk.banyan.preview.RestartTasksResponse
-	44, // 108: com.evrblk.banyan.preview.BanyanPreviewApi.CreateSchedule:output_type -> com.evrblk.banyan.preview.CreateScheduleResponse
-	46, // 109: com.evrblk.banyan.preview.BanyanPreviewApi.ListSchedules:output_type -> com.evrblk.banyan.preview.ListSchedulesResponse
-	48, // 110: com.evrblk.banyan.preview.BanyanPreviewApi.GetSchedule:output_type -> com.evrblk.banyan.preview.GetScheduleResponse
-	50, // 111: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateSchedule:output_type -> com.evrblk.banyan.preview.UpdateScheduleResponse
-	52, // 112: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteSchedule:output_type -> com.evrblk.banyan.preview.DeleteScheduleResponse
-	54, // 113: com.evrblk.banyan.preview.BanyanPreviewApi.StartWorkflow:output_type -> com.evrblk.banyan.preview.StartWorkflowResponse
-	56, // 114: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflowRun:output_type -> com.evrblk.banyan.preview.GetWorkflowRunResponse
-	58, // 115: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflowRuns:output_type -> com.evrblk.banyan.preview.ListWorkflowRunsResponse
-	60, // 116: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflowRun:output_type -> com.evrblk.banyan.preview.DeleteWorkflowRunResponse
-	62, // 117: com.evrblk.banyan.preview.BanyanPreviewApi.CancelWorkflowRun:output_type -> com.evrblk.banyan.preview.CancelWorkflowRunResponse
-	64, // 118: com.evrblk.banyan.preview.BanyanPreviewApi.PauseWorkflowRun:output_type -> com.evrblk.banyan.preview.PauseWorkflowRunResponse
-	66, // 119: com.evrblk.banyan.preview.BanyanPreviewApi.ResumeWorkflowRun:output_type -> com.evrblk.banyan.preview.ResumeWorkflowRunResponse
-	90, // [90:120] is the sub-list for method output_type
-	60, // [60:90] is the sub-list for method input_type
-	60, // [60:60] is the sub-list for extension type_name
-	60, // [60:60] is the sub-list for extension extendee
-	0,  // [0:60] is the sub-list for field type_name
+	85, // 41: com.evrblk.banyan.preview.Step.chain:type_name -> com.evrblk.banyan.preview.ChainStep
+	86, // 42: com.evrblk.banyan.preview.Step.fan_out:type_name -> com.evrblk.banyan.preview.FanOutStep
+	87, // 43: com.evrblk.banyan.preview.Step.choice:type_name -> com.evrblk.banyan.preview.ChoiceStep
+	88, // 44: com.evrblk.banyan.preview.Step.parallel:type_name -> com.evrblk.banyan.preview.ParallelStep
+	89, // 45: com.evrblk.banyan.preview.Step.external:type_name -> com.evrblk.banyan.preview.ExternalStep
+	79, // 46: com.evrblk.banyan.preview.Condition.initial:type_name -> com.evrblk.banyan.preview.PredicateInitial
+	83, // 47: com.evrblk.banyan.preview.Condition.succeeded:type_name -> com.evrblk.banyan.preview.PredicateSucceeded
+	84, // 48: com.evrblk.banyan.preview.Condition.failed:type_name -> com.evrblk.banyan.preview.PredicateFailed
+	82, // 49: com.evrblk.banyan.preview.Condition.chosen:type_name -> com.evrblk.banyan.preview.PredicateChosen
+	80, // 50: com.evrblk.banyan.preview.Condition.all:type_name -> com.evrblk.banyan.preview.PredicateAll
+	81, // 51: com.evrblk.banyan.preview.Condition.any:type_name -> com.evrblk.banyan.preview.PredicateAny
+	78, // 52: com.evrblk.banyan.preview.PredicateAll.conditions:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 53: com.evrblk.banyan.preview.PredicateAny.conditions:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 54: com.evrblk.banyan.preview.ChainStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 55: com.evrblk.banyan.preview.FanOutStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 56: com.evrblk.banyan.preview.ChoiceStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	78, // 57: com.evrblk.banyan.preview.ExternalStep.starts_when:type_name -> com.evrblk.banyan.preview.Condition
+	67, // 58: com.evrblk.banyan.preview.WorkflowRun.tasks:type_name -> com.evrblk.banyan.preview.Task
+	2,  // 59: com.evrblk.banyan.preview.WorkflowRun.status:type_name -> com.evrblk.banyan.preview.WorkflowRunStatus
+	76, // 60: com.evrblk.banyan.preview.WorkflowRun.metadata:type_name -> com.evrblk.banyan.preview.Metadata
+	4,  // 61: com.evrblk.banyan.preview.BanyanPreviewApi.CreateNamespace:input_type -> com.evrblk.banyan.preview.CreateNamespaceRequest
+	6,  // 62: com.evrblk.banyan.preview.BanyanPreviewApi.ListNamespaces:input_type -> com.evrblk.banyan.preview.ListNamespacesRequest
+	8,  // 63: com.evrblk.banyan.preview.BanyanPreviewApi.GetNamespace:input_type -> com.evrblk.banyan.preview.GetNamespaceRequest
+	10, // 64: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteNamespace:input_type -> com.evrblk.banyan.preview.DeleteNamespaceRequest
+	12, // 65: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateNamespace:input_type -> com.evrblk.banyan.preview.UpdateNamespaceRequest
+	14, // 66: com.evrblk.banyan.preview.BanyanPreviewApi.CreateWorkflow:input_type -> com.evrblk.banyan.preview.CreateWorkflowRequest
+	16, // 67: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflows:input_type -> com.evrblk.banyan.preview.ListWorkflowsRequest
+	18, // 68: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflow:input_type -> com.evrblk.banyan.preview.GetWorkflowRequest
+	20, // 69: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflow:input_type -> com.evrblk.banyan.preview.DeleteWorkflowRequest
+	22, // 70: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateWorkflow:input_type -> com.evrblk.banyan.preview.UpdateWorkflowRequest
+	24, // 71: com.evrblk.banyan.preview.BanyanPreviewApi.CreateQueue:input_type -> com.evrblk.banyan.preview.CreateQueueRequest
+	26, // 72: com.evrblk.banyan.preview.BanyanPreviewApi.GetQueue:input_type -> com.evrblk.banyan.preview.GetQueueRequest
+	28, // 73: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateQueue:input_type -> com.evrblk.banyan.preview.UpdateQueueRequest
+	30, // 74: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteQueue:input_type -> com.evrblk.banyan.preview.DeleteQueueRequest
+	32, // 75: com.evrblk.banyan.preview.BanyanPreviewApi.ListQueues:input_type -> com.evrblk.banyan.preview.ListQueuesRequest
+	34, // 76: com.evrblk.banyan.preview.BanyanPreviewApi.Dequeue:input_type -> com.evrblk.banyan.preview.DequeueRequest
+	36, // 77: com.evrblk.banyan.preview.BanyanPreviewApi.ReportStatus:input_type -> com.evrblk.banyan.preview.ReportStatusRequest
+	39, // 78: com.evrblk.banyan.preview.BanyanPreviewApi.RestartTasks:input_type -> com.evrblk.banyan.preview.RestartTasksRequest
+	43, // 79: com.evrblk.banyan.preview.BanyanPreviewApi.CreateSchedule:input_type -> com.evrblk.banyan.preview.CreateScheduleRequest
+	45, // 80: com.evrblk.banyan.preview.BanyanPreviewApi.ListSchedules:input_type -> com.evrblk.banyan.preview.ListSchedulesRequest
+	47, // 81: com.evrblk.banyan.preview.BanyanPreviewApi.GetSchedule:input_type -> com.evrblk.banyan.preview.GetScheduleRequest
+	49, // 82: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateSchedule:input_type -> com.evrblk.banyan.preview.UpdateScheduleRequest
+	51, // 83: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteSchedule:input_type -> com.evrblk.banyan.preview.DeleteScheduleRequest
+	53, // 84: com.evrblk.banyan.preview.BanyanPreviewApi.StartWorkflow:input_type -> com.evrblk.banyan.preview.StartWorkflowRequest
+	55, // 85: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflowRun:input_type -> com.evrblk.banyan.preview.GetWorkflowRunRequest
+	57, // 86: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflowRuns:input_type -> com.evrblk.banyan.preview.ListWorkflowRunsRequest
+	59, // 87: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflowRun:input_type -> com.evrblk.banyan.preview.DeleteWorkflowRunRequest
+	61, // 88: com.evrblk.banyan.preview.BanyanPreviewApi.CancelWorkflowRun:input_type -> com.evrblk.banyan.preview.CancelWorkflowRunRequest
+	63, // 89: com.evrblk.banyan.preview.BanyanPreviewApi.PauseWorkflowRun:input_type -> com.evrblk.banyan.preview.PauseWorkflowRunRequest
+	65, // 90: com.evrblk.banyan.preview.BanyanPreviewApi.ResumeWorkflowRun:input_type -> com.evrblk.banyan.preview.ResumeWorkflowRunRequest
+	5,  // 91: com.evrblk.banyan.preview.BanyanPreviewApi.CreateNamespace:output_type -> com.evrblk.banyan.preview.CreateNamespaceResponse
+	7,  // 92: com.evrblk.banyan.preview.BanyanPreviewApi.ListNamespaces:output_type -> com.evrblk.banyan.preview.ListNamespacesResponse
+	9,  // 93: com.evrblk.banyan.preview.BanyanPreviewApi.GetNamespace:output_type -> com.evrblk.banyan.preview.GetNamespaceResponse
+	11, // 94: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteNamespace:output_type -> com.evrblk.banyan.preview.DeleteNamespaceResponse
+	13, // 95: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateNamespace:output_type -> com.evrblk.banyan.preview.UpdateNamespaceResponse
+	15, // 96: com.evrblk.banyan.preview.BanyanPreviewApi.CreateWorkflow:output_type -> com.evrblk.banyan.preview.CreateWorkflowResponse
+	17, // 97: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflows:output_type -> com.evrblk.banyan.preview.ListWorkflowsResponse
+	19, // 98: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflow:output_type -> com.evrblk.banyan.preview.GetWorkflowResponse
+	21, // 99: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflow:output_type -> com.evrblk.banyan.preview.DeleteWorkflowResponse
+	23, // 100: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateWorkflow:output_type -> com.evrblk.banyan.preview.UpdateWorkflowResponse
+	25, // 101: com.evrblk.banyan.preview.BanyanPreviewApi.CreateQueue:output_type -> com.evrblk.banyan.preview.CreateQueueResponse
+	27, // 102: com.evrblk.banyan.preview.BanyanPreviewApi.GetQueue:output_type -> com.evrblk.banyan.preview.GetQueueResponse
+	29, // 103: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateQueue:output_type -> com.evrblk.banyan.preview.UpdateQueueResponse
+	31, // 104: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteQueue:output_type -> com.evrblk.banyan.preview.DeleteQueueResponse
+	33, // 105: com.evrblk.banyan.preview.BanyanPreviewApi.ListQueues:output_type -> com.evrblk.banyan.preview.ListQueuesResponse
+	35, // 106: com.evrblk.banyan.preview.BanyanPreviewApi.Dequeue:output_type -> com.evrblk.banyan.preview.DequeueResponse
+	38, // 107: com.evrblk.banyan.preview.BanyanPreviewApi.ReportStatus:output_type -> com.evrblk.banyan.preview.ReportStatusResponse
+	40, // 108: com.evrblk.banyan.preview.BanyanPreviewApi.RestartTasks:output_type -> com.evrblk.banyan.preview.RestartTasksResponse
+	44, // 109: com.evrblk.banyan.preview.BanyanPreviewApi.CreateSchedule:output_type -> com.evrblk.banyan.preview.CreateScheduleResponse
+	46, // 110: com.evrblk.banyan.preview.BanyanPreviewApi.ListSchedules:output_type -> com.evrblk.banyan.preview.ListSchedulesResponse
+	48, // 111: com.evrblk.banyan.preview.BanyanPreviewApi.GetSchedule:output_type -> com.evrblk.banyan.preview.GetScheduleResponse
+	50, // 112: com.evrblk.banyan.preview.BanyanPreviewApi.UpdateSchedule:output_type -> com.evrblk.banyan.preview.UpdateScheduleResponse
+	52, // 113: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteSchedule:output_type -> com.evrblk.banyan.preview.DeleteScheduleResponse
+	54, // 114: com.evrblk.banyan.preview.BanyanPreviewApi.StartWorkflow:output_type -> com.evrblk.banyan.preview.StartWorkflowResponse
+	56, // 115: com.evrblk.banyan.preview.BanyanPreviewApi.GetWorkflowRun:output_type -> com.evrblk.banyan.preview.GetWorkflowRunResponse
+	58, // 116: com.evrblk.banyan.preview.BanyanPreviewApi.ListWorkflowRuns:output_type -> com.evrblk.banyan.preview.ListWorkflowRunsResponse
+	60, // 117: com.evrblk.banyan.preview.BanyanPreviewApi.DeleteWorkflowRun:output_type -> com.evrblk.banyan.preview.DeleteWorkflowRunResponse
+	62, // 118: com.evrblk.banyan.preview.BanyanPreviewApi.CancelWorkflowRun:output_type -> com.evrblk.banyan.preview.CancelWorkflowRunResponse
+	64, // 119: com.evrblk.banyan.preview.BanyanPreviewApi.PauseWorkflowRun:output_type -> com.evrblk.banyan.preview.PauseWorkflowRunResponse
+	66, // 120: com.evrblk.banyan.preview.BanyanPreviewApi.ResumeWorkflowRun:output_type -> com.evrblk.banyan.preview.ResumeWorkflowRunResponse
+	91, // [91:121] is the sub-list for method output_type
+	61, // [61:91] is the sub-list for method input_type
+	61, // [61:61] is the sub-list for extension type_name
+	61, // [61:61] is the sub-list for extension extendee
+	0,  // [0:61] is the sub-list for field type_name
 }
 
 func init() { file_proto_banyan_preview_api_proto_init() }
@@ -5629,15 +5694,16 @@ func file_proto_banyan_preview_api_proto_init() {
 		(*Step_Chain)(nil),
 		(*Step_FanOut)(nil),
 		(*Step_Choice)(nil),
-		(*Step_Multiple)(nil),
+		(*Step_Parallel)(nil),
 		(*Step_External)(nil),
 	}
 	file_proto_banyan_preview_api_proto_msgTypes[74].OneofWrappers = []any{
+		(*Condition_Initial)(nil),
 		(*Condition_Succeeded)(nil),
 		(*Condition_Failed)(nil),
+		(*Condition_Chosen)(nil),
 		(*Condition_All)(nil),
 		(*Condition_Any)(nil),
-		(*Condition_Chosen)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -5645,7 +5711,7 @@ func file_proto_banyan_preview_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_banyan_preview_api_proto_rawDesc), len(file_proto_banyan_preview_api_proto_rawDesc)),
 			NumEnums:      4,
-			NumMessages:   86,
+			NumMessages:   87,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

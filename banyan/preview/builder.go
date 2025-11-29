@@ -12,60 +12,43 @@ package banyan
 
 // }
 
-type ChainStepBuilder struct {
-	name       string
-	queueName  string
-	startsWhen *Condition
-}
-
-type FanOutStepBuilder struct {
-	name       string
-	queueName  string
-	startsWhen *Condition
-}
-
-type ChoiceStepBuilder struct {
-	name       string
-	queueName  string
-	startsWhen *Condition
-	options    []string
-}
-
-type MultipleStepBuilder struct {
-	name                            string
-	queueName                       string
-	fanOutFrom                      *FanOutStepBuilder
-	startOnlyWhenAllSubtasksCreated bool
-}
-
 type StepBuilder interface {
 	Name() string
 	build() *Step
 	isStepBuilder()
 }
 
-func (b *ChainStepBuilder) isStepBuilder() {}
+type ChainStepBuilder struct {
+	name       string
+	queueName  string
+	startsWhen *Condition
+}
 
-func (b *FanOutStepBuilder) isStepBuilder() {}
-
-func (b *ChoiceStepBuilder) isStepBuilder() {}
-
-func (b *MultipleStepBuilder) isStepBuilder() {}
+var _ StepBuilder = (*ChainStepBuilder)(nil)
 
 func (b *ChainStepBuilder) Name() string {
 	return b.name
 }
 
-func (b *FanOutStepBuilder) Name() string {
-	return b.name
+func (b *ChainStepBuilder) QueueTo(queueName string) *ChainStepBuilder {
+	b.queueName = queueName
+	return b
 }
 
-func (b *ChoiceStepBuilder) Name() string {
-	return b.name
+func (b *ChainStepBuilder) StartWhen(condition *Condition) *ChainStepBuilder {
+	b.startsWhen = condition
+	return b
 }
 
-func (b *MultipleStepBuilder) Name() string {
-	return b.name
+func (b *ChainStepBuilder) IsInitial() *ChainStepBuilder {
+	b.startsWhen = &Condition{
+		Condition: &Condition_Initial{
+			Initial: &PredicateInitial{
+				IsInitial: true,
+			},
+		},
+	}
+	return b
 }
 
 func (b *ChainStepBuilder) build() *Step {
@@ -78,6 +61,41 @@ func (b *ChainStepBuilder) build() *Step {
 	}
 }
 
+func (b *ChainStepBuilder) isStepBuilder() {}
+
+type FanOutStepBuilder struct {
+	name       string
+	queueName  string
+	startsWhen *Condition
+}
+
+var _ StepBuilder = (*FanOutStepBuilder)(nil)
+
+func (b *FanOutStepBuilder) Name() string {
+	return b.name
+}
+
+func (b *FanOutStepBuilder) QueueTo(queueName string) *FanOutStepBuilder {
+	b.queueName = queueName
+	return b
+}
+
+func (b *FanOutStepBuilder) StartWhen(condition *Condition) *FanOutStepBuilder {
+	b.startsWhen = condition
+	return b
+}
+
+func (b *FanOutStepBuilder) IsInitial() *FanOutStepBuilder {
+	b.startsWhen = &Condition{
+		Condition: &Condition_Initial{
+			Initial: &PredicateInitial{
+				IsInitial: true,
+			},
+		},
+	}
+	return b
+}
+
 func (b *FanOutStepBuilder) build() *Step {
 	return &Step{
 		Name:      b.name,
@@ -86,6 +104,47 @@ func (b *FanOutStepBuilder) build() *Step {
 			StartsWhen: b.startsWhen,
 		}},
 	}
+}
+
+func (b *FanOutStepBuilder) isStepBuilder() {}
+
+type ChoiceStepBuilder struct {
+	name       string
+	queueName  string
+	startsWhen *Condition
+	options    []string
+}
+
+var _ StepBuilder = (*ChoiceStepBuilder)(nil)
+
+func (b *ChoiceStepBuilder) Name() string {
+	return b.name
+}
+
+func (b *ChoiceStepBuilder) QueueTo(queueName string) *ChoiceStepBuilder {
+	b.queueName = queueName
+	return b
+}
+
+func (b *ChoiceStepBuilder) StartWhen(condition *Condition) *ChoiceStepBuilder {
+	b.startsWhen = condition
+	return b
+}
+
+func (b *ChoiceStepBuilder) IsInitial() *ChoiceStepBuilder {
+	b.startsWhen = &Condition{
+		Condition: &Condition_Initial{
+			Initial: &PredicateInitial{
+				IsInitial: true,
+			},
+		},
+	}
+	return b
+}
+
+func (b *ChoiceStepBuilder) WithOptions(options ...string) *ChoiceStepBuilder {
+	b.options = options
+	return b
 }
 
 func (b *ChoiceStepBuilder) build() *Step {
@@ -99,12 +158,48 @@ func (b *ChoiceStepBuilder) build() *Step {
 	}
 }
 
-func (b *MultipleStepBuilder) build() *Step {
+func (b *ChoiceStepBuilder) isStepBuilder() {}
+
+type ParallelStepBuilder struct {
+	name                            string
+	queueName                       string
+	fanOutFrom                      *FanOutStepBuilder
+	startOnlyWhenAllSubtasksCreated bool
+}
+
+var _ StepBuilder = (*ParallelStepBuilder)(nil)
+
+func (b *ParallelStepBuilder) Name() string {
+	return b.name
+}
+
+func (b *ParallelStepBuilder) QueueTo(queueName string) *ParallelStepBuilder {
+	b.queueName = queueName
+	return b
+}
+
+func (b *ParallelStepBuilder) FanOutFrom(fanOutFrom *FanOutStepBuilder) *ParallelStepBuilder {
+	b.fanOutFrom = fanOutFrom
+	return b
+}
+
+func (b *ParallelStepBuilder) StartOnlyWhenAllSubtasksCreated() *ParallelStepBuilder {
+	b.startOnlyWhenAllSubtasksCreated = true
+	return b
+}
+
+func (b *ParallelStepBuilder) build() *Step {
 	return &Step{
 		Name:      b.name,
 		QueueName: b.queueName,
+		StepType: &Step_Parallel{Parallel: &ParallelStep{
+			FanOutFrom:                      b.fanOutFrom.Name(),
+			StartOnlyWhenAllSubtasksCreated: b.startOnlyWhenAllSubtasksCreated,
+		}},
 	}
 }
+
+func (b *ParallelStepBuilder) isStepBuilder() {}
 
 type WorkflowBuilder struct {
 	name        string
@@ -173,42 +268,38 @@ func (b *WorkflowBuilder) Any(conditions ...*Condition) *Condition {
 	}
 }
 
-func (b *WorkflowBuilder) ChainStep(name string, startsWhen *Condition, queueName string) *ChainStepBuilder {
+func (b *WorkflowBuilder) ChainStep(name string) *ChainStepBuilder {
 	step := &ChainStepBuilder{
-		name:       name,
-		queueName:  queueName,
-		startsWhen: startsWhen,
+		name:      name,
+		queueName: "default",
 	}
 	b.steps = append(b.steps, step)
 	return step
 }
 
-func (b *WorkflowBuilder) FanOutStep(name string, startsWhen *Condition, queueName string) *FanOutStepBuilder {
+func (b *WorkflowBuilder) FanOutStep(name string) *FanOutStepBuilder {
 	step := &FanOutStepBuilder{
-		name:       name,
-		queueName:  queueName,
-		startsWhen: startsWhen,
+		name:      name,
+		queueName: "default",
 	}
 	b.steps = append(b.steps, step)
 	return step
 }
 
-func (b *WorkflowBuilder) ChoiceStep(name string, startsWhen *Condition, queueName string, options []string) *ChoiceStepBuilder {
+func (b *WorkflowBuilder) ChoiceStep(name string) *ChoiceStepBuilder {
 	step := &ChoiceStepBuilder{
-		name:       name,
-		queueName:  queueName,
-		startsWhen: startsWhen,
-		options:    options,
+		name:      name,
+		queueName: "default",
 	}
 	b.steps = append(b.steps, step)
 	return step
 }
 
-func (b *WorkflowBuilder) MultipleStep(name string, fanOutFrom *FanOutStepBuilder, queueName string) *MultipleStepBuilder {
-	step := &MultipleStepBuilder{
-		name:       name,
-		queueName:  queueName,
-		fanOutFrom: fanOutFrom,
+func (b *WorkflowBuilder) ParallelStep(name string) *ParallelStepBuilder {
+	step := &ParallelStepBuilder{
+		name:                            name,
+		queueName:                       "default",
+		startOnlyWhenAllSubtasksCreated: false,
 	}
 	b.steps = append(b.steps, step)
 	return step
@@ -244,5 +335,3 @@ func NewWorkflowBuilder(name string, description string) *WorkflowBuilder {
 		description: description,
 	}
 }
-
-// type TaskHandler func()

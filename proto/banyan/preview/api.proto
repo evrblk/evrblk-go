@@ -463,19 +463,24 @@ message Step {
     ChainStep chain = 3;
     FanOutStep fan_out = 4;
     ChoiceStep choice = 5;
-    MultipleStep multiple = 6;
+    ParallelStep parallel = 6;
     ExternalStep external = 7;
   }
 }
 
 message Condition {
   oneof condition {
-    PredicateSucceeded succeeded = 1;
-    PredicateFailed failed = 2;
-    PredicateAll all = 3;
-    PredicateAny any = 4;
-    PredicateChosen chosen = 5;
+    PredicateInitial initial = 1;
+    PredicateSucceeded succeeded = 2;
+    PredicateFailed failed = 3;
+    PredicateChosen chosen = 4;
+    PredicateAll all = 5;
+    PredicateAny any = 6;
   }
+}
+
+message PredicateInitial {
+  bool is_initial = 1;
 }
 
 message PredicateAll {
@@ -512,7 +517,7 @@ message ChoiceStep {
   repeated string options = 2;
 }
 
-message MultipleStep {
+message ParallelStep {
   string fan_out_from = 1;
   bool start_only_when_all_subtasks_created = 2;
 }
