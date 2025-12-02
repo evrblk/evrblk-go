@@ -46,37 +46,37 @@ func (b *TerminalStepBuilder) build() *Step {
 
 func (b *TerminalStepBuilder) isStepBuilder() {}
 
-type ChainStepBuilder struct {
+type SimpleStepBuilder struct {
 	name       string
 	queueName  string
 	startsWhen *Condition
 	delayBy    time.Duration
 }
 
-var _ StepBuilder = (*ChainStepBuilder)(nil)
+var _ StepBuilder = (*SimpleStepBuilder)(nil)
 
-func (b *ChainStepBuilder) Name() string {
+func (b *SimpleStepBuilder) Name() string {
 	return b.name
 }
 
-func (b *ChainStepBuilder) QueueTo(queueName string) *ChainStepBuilder {
+func (b *SimpleStepBuilder) QueueTo(queueName string) *SimpleStepBuilder {
 	b.queueName = queueName
 	return b
 }
 
-func (b *ChainStepBuilder) StartWhen(condition *Condition) *ChainStepBuilder {
+func (b *SimpleStepBuilder) StartWhen(condition *Condition) *SimpleStepBuilder {
 	b.startsWhen = condition
 	return b
 }
 
-func (b *ChainStepBuilder) DelayBy(delay time.Duration) *ChainStepBuilder {
+func (b *SimpleStepBuilder) DelayBy(delay time.Duration) *SimpleStepBuilder {
 	b.delayBy = delay
 	return b
 }
 
-func (b *ChainStepBuilder) IsInitial() *ChainStepBuilder {
+func (b *SimpleStepBuilder) IsInitial() *SimpleStepBuilder {
 	b.startsWhen = &Condition{
-		Condition: &Condition_Initial{
+		ConditionType: &Condition_Initial{
 			Initial: &PredicateInitial{
 				IsInitial: true,
 			},
@@ -85,17 +85,18 @@ func (b *ChainStepBuilder) IsInitial() *ChainStepBuilder {
 	return b
 }
 
-func (b *ChainStepBuilder) build() *Step {
+func (b *SimpleStepBuilder) build() *Step {
 	return &Step{
-		Name:      b.name,
-		QueueName: b.queueName,
-		StepType: &Step_Chain{Chain: &ChainStep{
-			StartsWhen: b.startsWhen,
+		Name: b.name,
+		StepType: &Step_Simple{Simple: &SimpleStep{
+			StartsWhen:     b.startsWhen,
+			QueueName:      b.queueName,
+			DelayBySeconds: int64(b.delayBy.Seconds()),
 		}},
 	}
 }
 
-func (b *ChainStepBuilder) isStepBuilder() {}
+func (b *SimpleStepBuilder) isStepBuilder() {}
 
 type FanOutStepBuilder struct {
 	name       string
@@ -127,7 +128,7 @@ func (b *FanOutStepBuilder) DelayBy(delay time.Duration) *FanOutStepBuilder {
 
 func (b *FanOutStepBuilder) IsInitial() *FanOutStepBuilder {
 	b.startsWhen = &Condition{
-		Condition: &Condition_Initial{
+		ConditionType: &Condition_Initial{
 			Initial: &PredicateInitial{
 				IsInitial: true,
 			},
@@ -138,10 +139,11 @@ func (b *FanOutStepBuilder) IsInitial() *FanOutStepBuilder {
 
 func (b *FanOutStepBuilder) build() *Step {
 	return &Step{
-		Name:      b.name,
-		QueueName: b.queueName,
+		Name: b.name,
 		StepType: &Step_FanOut{FanOut: &FanOutStep{
-			StartsWhen: b.startsWhen,
+			StartsWhen:     b.startsWhen,
+			QueueName:      b.queueName,
+			DelayBySeconds: int64(b.delayBy.Seconds()),
 		}},
 	}
 }
@@ -179,7 +181,7 @@ func (b *ChoiceStepBuilder) DelayBy(delay time.Duration) *ChoiceStepBuilder {
 
 func (b *ChoiceStepBuilder) IsInitial() *ChoiceStepBuilder {
 	b.startsWhen = &Condition{
-		Condition: &Condition_Initial{
+		ConditionType: &Condition_Initial{
 			Initial: &PredicateInitial{
 				IsInitial: true,
 			},
@@ -195,11 +197,12 @@ func (b *ChoiceStepBuilder) WithOptions(options ...string) *ChoiceStepBuilder {
 
 func (b *ChoiceStepBuilder) build() *Step {
 	return &Step{
-		Name:      b.name,
-		QueueName: b.queueName,
+		Name: b.name,
 		StepType: &Step_Choice{Choice: &ChoiceStep{
-			StartsWhen: b.startsWhen,
-			Options:    b.options,
+			StartsWhen:     b.startsWhen,
+			Options:        b.options,
+			QueueName:      b.queueName,
+			DelayBySeconds: int64(b.delayBy.Seconds()),
 		}},
 	}
 }
@@ -242,11 +245,12 @@ func (b *ParallelStepBuilder) StartOnlyWhenAllSubtasksCreated() *ParallelStepBui
 
 func (b *ParallelStepBuilder) build() *Step {
 	return &Step{
-		Name:      b.name,
-		QueueName: b.queueName,
+		Name: b.name,
 		StepType: &Step_Parallel{Parallel: &ParallelStep{
 			FanOutFrom:                      b.fanOutFrom.Name(),
 			StartOnlyWhenAllSubtasksCreated: b.startOnlyWhenAllSubtasksCreated,
+			QueueName:                       b.queueName,
+			DelayBySeconds:                  int64(b.delayBy.Seconds()),
 		}},
 	}
 }
@@ -271,7 +275,7 @@ func (b *WorkflowBuilder) Metadata(meta map[string]string) {
 
 func (b *WorkflowBuilder) Succeeded(step StepBuilder) *Condition {
 	return &Condition{
-		Condition: &Condition_Succeeded{
+		ConditionType: &Condition_Succeeded{
 			Succeeded: &PredicateSucceeded{
 				StepName: step.Name(),
 			},
@@ -281,7 +285,7 @@ func (b *WorkflowBuilder) Succeeded(step StepBuilder) *Condition {
 
 func (b *WorkflowBuilder) Failed(step StepBuilder) *Condition {
 	return &Condition{
-		Condition: &Condition_Failed{
+		ConditionType: &Condition_Failed{
 			Failed: &PredicateFailed{
 				StepName: step.Name(),
 			},
@@ -291,7 +295,7 @@ func (b *WorkflowBuilder) Failed(step StepBuilder) *Condition {
 
 func (b *WorkflowBuilder) Chosen(step *ChoiceStepBuilder, result string) *Condition {
 	return &Condition{
-		Condition: &Condition_Chosen{
+		ConditionType: &Condition_Chosen{
 			Chosen: &PredicateChosen{
 				StepName: step.Name(),
 				Result:   result,
@@ -302,7 +306,7 @@ func (b *WorkflowBuilder) Chosen(step *ChoiceStepBuilder, result string) *Condit
 
 func (b *WorkflowBuilder) All(conditions ...*Condition) *Condition {
 	return &Condition{
-		Condition: &Condition_All{
+		ConditionType: &Condition_All{
 			All: &PredicateAll{
 				Conditions: conditions,
 			},
@@ -312,7 +316,7 @@ func (b *WorkflowBuilder) All(conditions ...*Condition) *Condition {
 
 func (b *WorkflowBuilder) Any(conditions ...*Condition) *Condition {
 	return &Condition{
-		Condition: &Condition_Any{
+		ConditionType: &Condition_Any{
 			Any: &PredicateAny{
 				Conditions: conditions,
 			},
@@ -326,8 +330,8 @@ func (b *WorkflowBuilder) TerminalStep() *TerminalStepBuilder {
 	return step
 }
 
-func (b *WorkflowBuilder) ChainStep(name string) *ChainStepBuilder {
-	step := &ChainStepBuilder{
+func (b *WorkflowBuilder) SimpleStep(name string) *SimpleStepBuilder {
+	step := &SimpleStepBuilder{
 		name:      name,
 		queueName: "default",
 	}

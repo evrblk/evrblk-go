@@ -465,10 +465,9 @@ message Metadata {
 
 message Step {
   string name = 1;
-  string queue_name = 2;
 
   oneof step_type {
-    ChainStep chain = 3;
+    SimpleStep simple = 3;
     FanOutStep fan_out = 4;
     ChoiceStep choice = 5;
     ParallelStep parallel = 6;
@@ -478,7 +477,7 @@ message Step {
 }
 
 message Condition {
-  oneof condition {
+  oneof condition_type {
     PredicateInitial initial = 1;
     PredicateSucceeded succeeded = 2;
     PredicateFailed failed = 3;
@@ -513,22 +512,31 @@ message PredicateFailed {
   string step_name = 1;
 }
 
-message ChainStep {
+message SimpleStep {
   Condition starts_when = 1;
+  string queue_name = 2;
+  int64 delay_by_seconds = 3;
 }
 
 message FanOutStep {
   Condition starts_when = 1;
+  string queue_name = 2;
+  int64 delay_by_seconds = 3;
 }
 
 message ChoiceStep {
   Condition starts_when = 1;
   repeated string options = 2;
+  string queue_name = 3;
+  int64 delay_by_seconds = 4;
 }
 
 message ParallelStep {
   string fan_out_from = 1;
   bool start_only_when_all_subtasks_created = 2;
+  string queue_name = 3;
+  int32 max_concurrency = 4;
+  int64 delay_by_seconds = 5;
 }
 
 message ExternalStep {
