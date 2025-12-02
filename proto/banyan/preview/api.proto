@@ -6,11 +6,14 @@ option ruby_package = "Evrblk::Banyan::Preview";
 package com.evrblk.banyan.preview;
 
 service BanyanPreviewApi {
-  rpc CreateNamespace(CreateNamespaceRequest) returns (CreateNamespaceResponse) {}
+  rpc CreateNamespace(CreateNamespaceRequest)
+      returns (CreateNamespaceResponse) {}
   rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse) {}
   rpc GetNamespace(GetNamespaceRequest) returns (GetNamespaceResponse) {}
-  rpc DeleteNamespace(DeleteNamespaceRequest) returns (DeleteNamespaceResponse) {}
-  rpc UpdateNamespace(UpdateNamespaceRequest) returns (UpdateNamespaceResponse) {}
+  rpc DeleteNamespace(DeleteNamespaceRequest)
+      returns (DeleteNamespaceResponse) {}
+  rpc UpdateNamespace(UpdateNamespaceRequest)
+      returns (UpdateNamespaceResponse) {}
 
   rpc CreateWorkflow(CreateWorkflowRequest) returns (CreateWorkflowResponse) {}
   rpc ListWorkflows(ListWorkflowsRequest) returns (ListWorkflowsResponse) {}
@@ -36,11 +39,16 @@ service BanyanPreviewApi {
 
   rpc StartWorkflow(StartWorkflowRequest) returns (StartWorkflowResponse) {}
   rpc GetWorkflowRun(GetWorkflowRunRequest) returns (GetWorkflowRunResponse) {}
-  rpc ListWorkflowRuns(ListWorkflowRunsRequest) returns (ListWorkflowRunsResponse) {}
-  rpc DeleteWorkflowRun(DeleteWorkflowRunRequest) returns (DeleteWorkflowRunResponse) {}
-  rpc CancelWorkflowRun(CancelWorkflowRunRequest) returns (CancelWorkflowRunResponse) {}
-  rpc PauseWorkflowRun(PauseWorkflowRunRequest) returns (PauseWorkflowRunResponse) {}
-  rpc ResumeWorkflowRun(ResumeWorkflowRunRequest) returns (ResumeWorkflowRunResponse) {}
+  rpc ListWorkflowRuns(ListWorkflowRunsRequest)
+      returns (ListWorkflowRunsResponse) {}
+  rpc DeleteWorkflowRun(DeleteWorkflowRunRequest)
+      returns (DeleteWorkflowRunResponse) {}
+  rpc CancelWorkflowRun(CancelWorkflowRunRequest)
+      returns (CancelWorkflowRunResponse) {}
+  rpc PauseWorkflowRun(PauseWorkflowRunRequest)
+      returns (PauseWorkflowRunResponse) {}
+  rpc ResumeWorkflowRun(ResumeWorkflowRunRequest)
+      returns (ResumeWorkflowRunResponse) {}
 }
 
 // Namespaces APIs
@@ -458,13 +466,14 @@ message Metadata {
 message Step {
   string name = 1;
   string queue_name = 2;
-  
+
   oneof step_type {
     ChainStep chain = 3;
     FanOutStep fan_out = 4;
     ChoiceStep choice = 5;
     ParallelStep parallel = 6;
     ExternalStep external = 7;
+    TerminalStep terminal = 8;
   }
 }
 
@@ -523,6 +532,10 @@ message ParallelStep {
 }
 
 message ExternalStep {
+  Condition starts_when = 1;
+}
+
+message TerminalStep {
   Condition starts_when = 1;
 }
 

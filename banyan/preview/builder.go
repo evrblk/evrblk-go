@@ -1,5 +1,7 @@
 package banyan
 
+import "time"
+
 // func TaskHandler(input) {
 
 // }
@@ -18,10 +20,37 @@ type StepBuilder interface {
 	isStepBuilder()
 }
 
+type TerminalStepBuilder struct {
+	startsWhen *Condition
+}
+
+var _ StepBuilder = (*TerminalStepBuilder)(nil)
+
+func (b *TerminalStepBuilder) Name() string {
+	return "terminal"
+}
+
+func (b *TerminalStepBuilder) StartWhen(condition *Condition) *TerminalStepBuilder {
+	b.startsWhen = condition
+	return b
+}
+
+func (b *TerminalStepBuilder) build() *Step {
+	return &Step{
+		Name: "terminal",
+		StepType: &Step_Terminal{Terminal: &TerminalStep{
+			StartsWhen: b.startsWhen,
+		}},
+	}
+}
+
+func (b *TerminalStepBuilder) isStepBuilder() {}
+
 type ChainStepBuilder struct {
 	name       string
 	queueName  string
 	startsWhen *Condition
+	delayBy    time.Duration
 }
 
 var _ StepBuilder = (*ChainStepBuilder)(nil)
@@ -37,6 +66,11 @@ func (b *ChainStepBuilder) QueueTo(queueName string) *ChainStepBuilder {
 
 func (b *ChainStepBuilder) StartWhen(condition *Condition) *ChainStepBuilder {
 	b.startsWhen = condition
+	return b
+}
+
+func (b *ChainStepBuilder) DelayBy(delay time.Duration) *ChainStepBuilder {
+	b.delayBy = delay
 	return b
 }
 
@@ -67,6 +101,7 @@ type FanOutStepBuilder struct {
 	name       string
 	queueName  string
 	startsWhen *Condition
+	delayBy    time.Duration
 }
 
 var _ StepBuilder = (*FanOutStepBuilder)(nil)
@@ -82,6 +117,11 @@ func (b *FanOutStepBuilder) QueueTo(queueName string) *FanOutStepBuilder {
 
 func (b *FanOutStepBuilder) StartWhen(condition *Condition) *FanOutStepBuilder {
 	b.startsWhen = condition
+	return b
+}
+
+func (b *FanOutStepBuilder) DelayBy(delay time.Duration) *FanOutStepBuilder {
+	b.delayBy = delay
 	return b
 }
 
@@ -113,6 +153,7 @@ type ChoiceStepBuilder struct {
 	queueName  string
 	startsWhen *Condition
 	options    []string
+	delayBy    time.Duration
 }
 
 var _ StepBuilder = (*ChoiceStepBuilder)(nil)
@@ -128,6 +169,11 @@ func (b *ChoiceStepBuilder) QueueTo(queueName string) *ChoiceStepBuilder {
 
 func (b *ChoiceStepBuilder) StartWhen(condition *Condition) *ChoiceStepBuilder {
 	b.startsWhen = condition
+	return b
+}
+
+func (b *ChoiceStepBuilder) DelayBy(delay time.Duration) *ChoiceStepBuilder {
+	b.delayBy = delay
 	return b
 }
 
@@ -165,6 +211,7 @@ type ParallelStepBuilder struct {
 	queueName                       string
 	fanOutFrom                      *FanOutStepBuilder
 	startOnlyWhenAllSubtasksCreated bool
+	delayBy                         time.Duration
 }
 
 var _ StepBuilder = (*ParallelStepBuilder)(nil)
@@ -180,6 +227,11 @@ func (b *ParallelStepBuilder) QueueTo(queueName string) *ParallelStepBuilder {
 
 func (b *ParallelStepBuilder) FanOutFrom(fanOutFrom *FanOutStepBuilder) *ParallelStepBuilder {
 	b.fanOutFrom = fanOutFrom
+	return b
+}
+
+func (b *ParallelStepBuilder) DelayBy(delay time.Duration) *ParallelStepBuilder {
+	b.delayBy = delay
 	return b
 }
 
@@ -266,6 +318,12 @@ func (b *WorkflowBuilder) Any(conditions ...*Condition) *Condition {
 			},
 		},
 	}
+}
+
+func (b *WorkflowBuilder) TerminalStep() *TerminalStepBuilder {
+	step := &TerminalStepBuilder{}
+	b.steps = append(b.steps, step)
+	return step
 }
 
 func (b *WorkflowBuilder) ChainStep(name string) *ChainStepBuilder {

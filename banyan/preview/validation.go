@@ -23,7 +23,6 @@ func ValidateWorkflow(workflow *Workflow) error {
 		stepNames[step.Name] = step
 	}
 
-	var initialStep *Step
 	for _, step := range workflow.Steps {
 		if step.QueueName == "" {
 			return errors.New("step queue name is required")

@@ -39,9 +39,11 @@ func TestBuilder(t *testing.T) {
 	step8 := b.ChainStep("task8").
 		StartWhen(b.Chosen(step7, "option1")).
 		QueueTo("main_queue")
-	_ = b.ChainStep("task9").
+	step9 := b.ChainStep("task9").
 		StartWhen(b.Any(b.Chosen(step7, "option2"), b.Succeeded(step8))).
 		QueueTo("main_queue")
+	_ = b.TerminalStep().
+		StartWhen(b.Succeeded(step9))
 
 	workflow, err := b.Build()
 	require.NoError(t, err)
@@ -59,7 +61,7 @@ func TestBuilder(t *testing.T) {
 			Value: "1",
 		},
 	}, workflow.Metadata)
-	require.Len(t, workflow.Steps, 9)
+	require.Len(t, workflow.Steps, 10)
 
 	// step1
 	require.Equal(t, "task1", workflow.Steps[0].Name)
@@ -212,4 +214,14 @@ func TestBuilder(t *testing.T) {
 			},
 		},
 	}, workflow.Steps[8].StepType)
+
+	// step10
+	require.Equal(t, "terminal", workflow.Steps[9].Name)
+	require.Equal(t, &Step_Terminal{
+		Terminal: &TerminalStep{
+			StartsWhen: &Condition{
+				Condition: &Condition_Succeeded{Succeeded: &PredicateSucceeded{StepName: "task9"}},
+			},
+		},
+	}, workflow.Steps[9].StepType)
 }
