@@ -6,10 +6,10 @@ import (
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"time"
 
-	"github.com/go-errors/errors"
 	"google.golang.org/protobuf/proto"
 )
 

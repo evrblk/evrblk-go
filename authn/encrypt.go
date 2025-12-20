@@ -1,12 +1,13 @@
 package authn
 
 import (
+	"errors"
+
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/asn1"
-	"github.com/go-errors/errors"
 	"math/big"
 )
 

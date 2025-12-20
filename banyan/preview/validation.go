@@ -141,12 +141,20 @@ func ValidateSteps(steps []*Step, stepsFieldName string) error {
 			}
 
 		case *Step_External:
+			if _, ok := stepType.External.StartsWhen.ConditionType.(*Condition_Initial); ok {
+				return invalid(fmt.Sprintf("%s.External.StartsWhen", stepFieldName), "external step cannot be initial")
+			}
+
 			err := validateCondition(stepType.External.StartsWhen, stepNames, fmt.Sprintf("%s.External.StartsWhen", stepFieldName))
 			if err != nil {
 				return err
 			}
 
 		case *Step_Terminal:
+			if _, ok := stepType.Terminal.StartsWhen.ConditionType.(*Condition_Initial); ok {
+				return invalid(fmt.Sprintf("%s.Terminal.StartsWhen", stepFieldName), "terminal step cannot be initial")
+			}
+
 			err := validateCondition(stepType.Terminal.StartsWhen, stepNames, fmt.Sprintf("%s.Terminal.StartsWhen", stepFieldName))
 			if err != nil {
 				return err

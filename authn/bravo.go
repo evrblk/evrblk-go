@@ -6,11 +6,11 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"log"
 	"time"
 
-	"github.com/go-errors/errors"
 	"google.golang.org/protobuf/proto"
 )
 

@@ -4,7 +4,6 @@ go 1.24.0
 
 require (
 	github.com/dave/jennifer v1.7.1
-	github.com/go-errors/errors v1.5.1
 	github.com/labstack/gommon v0.4.2
 	github.com/prometheus/client_golang v1.23.2
 	github.com/stretchr/testify v1.11.1
