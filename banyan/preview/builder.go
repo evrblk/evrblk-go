@@ -210,11 +210,10 @@ func (b *ChoiceStepBuilder) build() *Step {
 func (b *ChoiceStepBuilder) isStepBuilder() {}
 
 type ParallelStepBuilder struct {
-	name                            string
-	queueName                       string
-	fanOutFrom                      *FanOutStepBuilder
-	startOnlyWhenAllSubtasksCreated bool
-	delayBy                         time.Duration
+	name       string
+	queueName  string
+	fanOutFrom *FanOutStepBuilder
+	delayBy    time.Duration
 }
 
 var _ StepBuilder = (*ParallelStepBuilder)(nil)
@@ -238,19 +237,13 @@ func (b *ParallelStepBuilder) DelayBy(delay time.Duration) *ParallelStepBuilder 
 	return b
 }
 
-func (b *ParallelStepBuilder) StartOnlyWhenAllSubtasksCreated() *ParallelStepBuilder {
-	b.startOnlyWhenAllSubtasksCreated = true
-	return b
-}
-
 func (b *ParallelStepBuilder) build() *Step {
 	return &Step{
 		Name: b.name,
 		StepType: &Step_Parallel{Parallel: &ParallelStep{
-			FanOutFrom:                      b.fanOutFrom.Name(),
-			StartOnlyWhenAllSubtasksCreated: b.startOnlyWhenAllSubtasksCreated,
-			QueueName:                       b.queueName,
-			DelayBySeconds:                  int64(b.delayBy.Seconds()),
+			FanOutFrom:     b.fanOutFrom.Name(),
+			QueueName:      b.queueName,
+			DelayBySeconds: int64(b.delayBy.Seconds()),
 		}},
 	}
 }
@@ -287,6 +280,36 @@ func (b *WorkflowBuilder) Failed(step StepBuilder) *Condition {
 	return &Condition{
 		ConditionType: &Condition_Failed{
 			Failed: &PredicateFailed{
+				StepName: step.Name(),
+			},
+		},
+	}
+}
+
+func (b *WorkflowBuilder) AllParallelSucceeded(step StepBuilder) *Condition {
+	return &Condition{
+		ConditionType: &Condition_AllParallelSucceeded{
+			AllParallelSucceeded: &PredicateAllParallelSucceeded{
+				StepName: step.Name(),
+			},
+		},
+	}
+}
+
+func (b *WorkflowBuilder) SomeParallelSucceeded(step StepBuilder) *Condition {
+	return &Condition{
+		ConditionType: &Condition_SomeParallelSucceeded{
+			SomeParallelSucceeded: &PredicateSomeParallelSucceeded{
+				StepName: step.Name(),
+			},
+		},
+	}
+}
+
+func (b *WorkflowBuilder) SomeParallelFailed(step StepBuilder) *Condition {
+	return &Condition{
+		ConditionType: &Condition_SomeParallelFailed{
+			SomeParallelFailed: &PredicateSomeParallelFailed{
 				StepName: step.Name(),
 			},
 		},
@@ -359,9 +382,8 @@ func (b *WorkflowBuilder) ChoiceStep(name string) *ChoiceStepBuilder {
 
 func (b *WorkflowBuilder) ParallelStep(name string) *ParallelStepBuilder {
 	step := &ParallelStepBuilder{
-		name:                            name,
-		queueName:                       "default",
-		startOnlyWhenAllSubtasksCreated: false,
+		name:      name,
+		queueName: "default",
 	}
 	b.steps = append(b.steps, step)
 	return step

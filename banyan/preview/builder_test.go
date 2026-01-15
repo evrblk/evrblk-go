@@ -32,10 +32,9 @@ func TestBuilder(t *testing.T) {
 		QueueTo("main_queue")
 	step6 := b.ParallelStep("task6").
 		FanOutFrom(step5).
-		StartOnlyWhenAllSubtasksCreated().
 		QueueTo("high_queue")
 	step7 := b.ChoiceStep("task7").
-		StartWhen(b.Succeeded(step6)).
+		StartWhen(b.AllParallelSucceeded(step6)).
 		WithOptions("option1", "option2").
 		QueueTo("main_queue")
 	step8 := b.SimpleStep("task8").
@@ -157,10 +156,9 @@ func TestBuilder(t *testing.T) {
 	require.Equal(t, "task6", workflow.Steps[5].Name)
 	require.Equal(t, &Step_Parallel{
 		Parallel: &ParallelStep{
-			FanOutFrom:                      "task5",
-			StartOnlyWhenAllSubtasksCreated: true,
-			QueueName:                       "high_queue",
-			DelayBySeconds:                  0,
+			FanOutFrom:     "task5",
+			QueueName:      "high_queue",
+			DelayBySeconds: 0,
 		},
 	}, workflow.Steps[5].StepType)
 
@@ -169,8 +167,8 @@ func TestBuilder(t *testing.T) {
 	require.Equal(t, &Step_Choice{
 		Choice: &ChoiceStep{
 			StartsWhen: &Condition{
-				ConditionType: &Condition_Succeeded{
-					Succeeded: &PredicateSucceeded{
+				ConditionType: &Condition_AllParallelSucceeded{
+					AllParallelSucceeded: &PredicateAllParallelSucceeded{
 						StepName: "task6",
 					},
 				},

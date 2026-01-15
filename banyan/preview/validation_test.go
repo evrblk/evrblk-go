@@ -321,3 +321,283 @@ func TestValidator_ReachabilityFromInitialStep(t *testing.T) {
 	require.Contains(t, err.Error(), "terminal step is not reachable from initial step")
 	require.Contains(t, err.Error(), "orphan_initial")
 }
+
+func TestValidator_AllParallelSucceededMustReferToParallelStep(t *testing.T) {
+	workflow := &Workflow{
+		Name: "test_workflow",
+		Steps: []*Step{
+			{
+				Name: "task1",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Initial{
+								Initial: &PredicateInitial{
+									IsInitial: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "task2",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_AllParallelSucceeded{
+								AllParallelSucceeded: &PredicateAllParallelSucceeded{
+									StepName: "task1",
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "terminal",
+				StepType: &Step_Terminal{
+					Terminal: &TerminalStep{
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Succeeded{
+								Succeeded: &PredicateSucceeded{
+									StepName: "task2",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	err := ValidateWorkflow(workflow)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "step in condition is not a parallel step")
+}
+
+func TestValidator_SomeParallelSucceededMustReferToParallelStep(t *testing.T) {
+	workflow := &Workflow{
+		Name: "test_workflow",
+		Steps: []*Step{
+			{
+				Name: "task1",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Initial{
+								Initial: &PredicateInitial{
+									IsInitial: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "task2",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_SomeParallelSucceeded{
+								SomeParallelSucceeded: &PredicateSomeParallelSucceeded{
+									StepName: "task1",
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "terminal",
+				StepType: &Step_Terminal{
+					Terminal: &TerminalStep{
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Succeeded{
+								Succeeded: &PredicateSucceeded{
+									StepName: "task2",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	err := ValidateWorkflow(workflow)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "step in condition is not a parallel step")
+}
+
+func TestValidator_SomeParallelFailedMustReferToParallelStep(t *testing.T) {
+	workflow := &Workflow{
+		Name: "test_workflow",
+		Steps: []*Step{
+			{
+				Name: "task1",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Initial{
+								Initial: &PredicateInitial{
+									IsInitial: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "task2",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_SomeParallelFailed{
+								SomeParallelFailed: &PredicateSomeParallelFailed{
+									StepName: "task1",
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "terminal",
+				StepType: &Step_Terminal{
+					Terminal: &TerminalStep{
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Succeeded{
+								Succeeded: &PredicateSucceeded{
+									StepName: "task2",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	err := ValidateWorkflow(workflow)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "step in condition is not a parallel step")
+}
+
+func TestValidator_ValidParallelConditions(t *testing.T) {
+	workflow := &Workflow{
+		Name: "test_workflow",
+		Steps: []*Step{
+			{
+				Name: "fanout1",
+				StepType: &Step_FanOut{
+					FanOut: &FanOutStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Initial{
+								Initial: &PredicateInitial{
+									IsInitial: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "parallel1",
+				StepType: &Step_Parallel{
+					Parallel: &ParallelStep{
+						FanOutFrom: "fanout1",
+						QueueName:  "main_queue",
+					},
+				},
+			},
+			{
+				Name: "task1",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_AllParallelSucceeded{
+								AllParallelSucceeded: &PredicateAllParallelSucceeded{
+									StepName: "parallel1",
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "task2",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_SomeParallelSucceeded{
+								SomeParallelSucceeded: &PredicateSomeParallelSucceeded{
+									StepName: "parallel1",
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "task3",
+				StepType: &Step_Simple{
+					Simple: &SimpleStep{
+						QueueName: "main_queue",
+						StartsWhen: &Condition{
+							ConditionType: &Condition_SomeParallelFailed{
+								SomeParallelFailed: &PredicateSomeParallelFailed{
+									StepName: "parallel1",
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: "terminal",
+				StepType: &Step_Terminal{
+					Terminal: &TerminalStep{
+						StartsWhen: &Condition{
+							ConditionType: &Condition_Any{
+								Any: &PredicateAny{
+									Conditions: []*Condition{
+										{
+											ConditionType: &Condition_Succeeded{
+												Succeeded: &PredicateSucceeded{
+													StepName: "task1",
+												},
+											},
+										},
+										{
+											ConditionType: &Condition_Succeeded{
+												Succeeded: &PredicateSucceeded{
+													StepName: "task2",
+												},
+											},
+										},
+										{
+											ConditionType: &Condition_Succeeded{
+												Succeeded: &PredicateSucceeded{
+													StepName: "task3",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	err := ValidateWorkflow(workflow)
+	require.NoError(t, err)
+}

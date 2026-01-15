@@ -238,6 +238,48 @@ func validateCondition(condition *Condition, stepNames map[string]*Step, conditi
 		if !slices.Contains(chosenStepCasted.Choice.Options, c.Chosen.Result) {
 			return invalid(fmt.Sprintf("%s.Chosen.Result", conditionFieldName), fmt.Sprintf("chosen step result is not a valid option: '%s'", c.Chosen.Result))
 		}
+
+	case *Condition_AllParallelSucceeded:
+		err := validateConditionStepName(c.AllParallelSucceeded.StepName, stepNames, fmt.Sprintf("%s.AllParallelSucceeded.StepName", conditionFieldName))
+		if err != nil {
+			return err
+		}
+
+		parallelStep, ok := stepNames[c.AllParallelSucceeded.StepName]
+		if !ok {
+			return invalid(fmt.Sprintf("%s.AllParallelSucceeded.StepName", conditionFieldName), fmt.Sprintf("step not found: '%s'", c.AllParallelSucceeded.StepName))
+		}
+		if _, ok := parallelStep.StepType.(*Step_Parallel); !ok {
+			return invalid(fmt.Sprintf("%s.AllParallelSucceeded.StepName", conditionFieldName), "step in condition is not a parallel step")
+		}
+
+	case *Condition_SomeParallelSucceeded:
+		err := validateConditionStepName(c.SomeParallelSucceeded.StepName, stepNames, fmt.Sprintf("%s.SomeParallelSucceeded.StepName", conditionFieldName))
+		if err != nil {
+			return err
+		}
+
+		parallelStep, ok := stepNames[c.SomeParallelSucceeded.StepName]
+		if !ok {
+			return invalid(fmt.Sprintf("%s.SomeParallelSucceeded.StepName", conditionFieldName), fmt.Sprintf("step not found: '%s'", c.SomeParallelSucceeded.StepName))
+		}
+		if _, ok := parallelStep.StepType.(*Step_Parallel); !ok {
+			return invalid(fmt.Sprintf("%s.SomeParallelSucceeded.StepName", conditionFieldName), "step in condition is not a parallel step")
+		}
+
+	case *Condition_SomeParallelFailed:
+		err := validateConditionStepName(c.SomeParallelFailed.StepName, stepNames, fmt.Sprintf("%s.SomeParallelFailed.StepName", conditionFieldName))
+		if err != nil {
+			return err
+		}
+
+		parallelStep, ok := stepNames[c.SomeParallelFailed.StepName]
+		if !ok {
+			return invalid(fmt.Sprintf("%s.SomeParallelFailed.StepName", conditionFieldName), fmt.Sprintf("step not found: '%s'", c.SomeParallelFailed.StepName))
+		}
+		if _, ok := parallelStep.StepType.(*Step_Parallel); !ok {
+			return invalid(fmt.Sprintf("%s.SomeParallelFailed.StepName", conditionFieldName), "step in condition is not a parallel step")
+		}
 	}
 
 	return nil
@@ -412,6 +454,18 @@ func extractStepNamesFromCondition(condition *Condition) []string {
 	case *Condition_Chosen:
 		if c.Chosen != nil && c.Chosen.StepName != "" {
 			stepNames = append(stepNames, c.Chosen.StepName)
+		}
+	case *Condition_AllParallelSucceeded:
+		if c.AllParallelSucceeded != nil && c.AllParallelSucceeded.StepName != "" {
+			stepNames = append(stepNames, c.AllParallelSucceeded.StepName)
+		}
+	case *Condition_SomeParallelSucceeded:
+		if c.SomeParallelSucceeded != nil && c.SomeParallelSucceeded.StepName != "" {
+			stepNames = append(stepNames, c.SomeParallelSucceeded.StepName)
+		}
+	case *Condition_SomeParallelFailed:
+		if c.SomeParallelFailed != nil && c.SomeParallelFailed.StepName != "" {
+			stepNames = append(stepNames, c.SomeParallelFailed.StepName)
 		}
 	case *Condition_All:
 		if c.All != nil {
