@@ -1,49 +1,48 @@
 syntax = "proto3";
 
+package com.evrblk.grackle.preview;
+
 option go_package = "github.com/evrblk/evrblk-go/grackle/preview;grackle";
 option ruby_package = "Evrblk::Grackle::Preview";
 
-package com.evrblk.grackle.preview;
-
 service GracklePreviewApi {
-  rpc CreateNamespace(CreateNamespaceRequest)
-      returns (CreateNamespaceResponse) {}
+  rpc CreateNamespace(CreateNamespaceRequest) returns (CreateNamespaceResponse) {}
   rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse) {}
   rpc GetNamespace(GetNamespaceRequest) returns (GetNamespaceResponse) {}
-  rpc DeleteNamespace(DeleteNamespaceRequest)
-      returns (DeleteNamespaceResponse) {}
-  rpc UpdateNamespace(UpdateNamespaceRequest)
-      returns (UpdateNamespaceResponse) {}
+  rpc DeleteNamespace(DeleteNamespaceRequest) returns (DeleteNamespaceResponse) {}
+  rpc UpdateNamespace(UpdateNamespaceRequest) returns (UpdateNamespaceResponse) {}
 
-  rpc CreateSemaphore(CreateSemaphoreRequest)
-      returns (CreateSemaphoreResponse) {}
+  rpc CreateSemaphore(CreateSemaphoreRequest) returns (CreateSemaphoreResponse) {}
   rpc ListSemaphores(ListSemaphoresRequest) returns (ListSemaphoresResponse) {}
   rpc GetSemaphore(GetSemaphoreRequest) returns (GetSemaphoreResponse) {}
-  rpc AcquireSemaphore(AcquireSemaphoreRequest)
-      returns (AcquireSemaphoreResponse) {}
-  rpc ReleaseSemaphore(ReleaseSemaphoreRequest)
-      returns (ReleaseSemaphoreResponse) {}
-  rpc UpdateSemaphore(UpdateSemaphoreRequest)
-      returns (UpdateSemaphoreResponse) {}
-  rpc DeleteSemaphore(DeleteSemaphoreRequest)
-      returns (DeleteSemaphoreResponse) {}
+  rpc AcquireSemaphore(AcquireSemaphoreRequest) returns (AcquireSemaphoreResponse) {}
+  rpc ReleaseSemaphore(ReleaseSemaphoreRequest) returns (ReleaseSemaphoreResponse) {}
+  rpc UpdateSemaphore(UpdateSemaphoreRequest) returns (UpdateSemaphoreResponse) {}
+  rpc DeleteSemaphore(DeleteSemaphoreRequest) returns (DeleteSemaphoreResponse) {}
+  rpc ListSemaphoreHolders(ListSemaphoreHoldersRequest) returns (ListSemaphoreHoldersResponse) {}
 
-  rpc CreateWaitGroup(CreateWaitGroupRequest)
-      returns (CreateWaitGroupResponse) {}
+  rpc CreateWaitGroup(CreateWaitGroupRequest) returns (CreateWaitGroupResponse) {}
   rpc ListWaitGroups(ListWaitGroupsRequest) returns (ListWaitGroupsResponse) {}
   rpc GetWaitGroup(GetWaitGroupRequest) returns (GetWaitGroupResponse) {}
-  rpc DeleteWaitGroup(DeleteWaitGroupRequest)
-      returns (DeleteWaitGroupResponse) {}
-  rpc AddJobsToWaitGroup(AddJobsToWaitGroupRequest)
-      returns (AddJobsToWaitGroupResponse) {}
-  rpc CompleteJobsFromWaitGroup(CompleteJobsFromWaitGroupRequest)
-      returns (CompleteJobsFromWaitGroupResponse) {}
+  rpc DeleteWaitGroup(DeleteWaitGroupRequest) returns (DeleteWaitGroupResponse) {}
+  rpc AddJobsToWaitGroup(AddJobsToWaitGroupRequest) returns (AddJobsToWaitGroupResponse) {}
+  rpc CompleteJobsFromWaitGroup(CompleteJobsFromWaitGroupRequest) returns (CompleteJobsFromWaitGroupResponse) {}
+  rpc ListWaitGroupJobs(ListWaitGroupJobsRequest) returns (ListWaitGroupJobsResponse) {}
 
   rpc AcquireLock(AcquireLockRequest) returns (AcquireLockResponse) {}
   rpc ReleaseLock(ReleaseLockRequest) returns (ReleaseLockResponse) {}
   rpc GetLock(GetLockRequest) returns (GetLockResponse) {}
   rpc DeleteLock(DeleteLockRequest) returns (DeleteLockResponse) {}
   rpc ListLocks(ListLocksRequest) returns (ListLocksResponse) {}
+
+  rpc CreateBarrier(CreateBarrierRequest) returns (CreateBarrierResponse) {}
+  rpc ListBarriers(ListBarriersRequest) returns (ListBarriersResponse) {}
+  rpc GetBarrier(GetBarrierRequest) returns (GetBarrierResponse) {}
+  rpc DeleteBarrier(DeleteBarrierRequest) returns (DeleteBarrierResponse) {}
+  rpc UpdateBarrier(UpdateBarrierRequest) returns (UpdateBarrierResponse) {}
+  rpc ArriveAtBarrier(ArriveAtBarrierRequest) returns (ArriveAtBarrierResponse) {}
+  rpc WaitAtBarrier(WaitAtBarrierRequest) returns (WaitAtBarrierResponse) {}
+  rpc ListBarrierParticipants(ListBarrierParticipantsRequest) returns (ListBarrierParticipantsResponse) {}
 }
 
 message CreateNamespaceRequest {
@@ -126,6 +125,7 @@ message AcquireSemaphoreRequest {
   string semaphore_name = 2;
   string process_id = 3;
   int64 expires_at = 4;
+  uint64 weight = 5;
 }
 
 message AcquireSemaphoreResponse {
@@ -161,6 +161,19 @@ message DeleteSemaphoreRequest {
 
 message DeleteSemaphoreResponse {}
 
+message ListSemaphoreHoldersRequest {
+  string namespace_name = 1;
+  string semaphore_name = 2;
+  string pagination_token = 3;
+  int32 limit = 4;
+}
+
+message ListSemaphoreHoldersResponse {
+  repeated SemaphoreHolder holders = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
 message Semaphore {
   string name = 1;
   string description = 2;
@@ -174,6 +187,7 @@ message SemaphoreHolder {
   string process_id = 1;
   int64 locked_at = 2;
   int64 expires_at = 3;
+  uint64 weight = 4;
 }
 
 message CreateWaitGroupRequest {
@@ -236,6 +250,19 @@ message CompleteJobsFromWaitGroupResponse {
   WaitGroup wait_group = 1;
 }
 
+message ListWaitGroupJobsRequest {
+  string namespace_name = 1;
+  string wait_group_name = 2;
+  string pagination_token = 3;
+  int32 limit = 4;
+}
+
+message ListWaitGroupJobsResponse {
+  repeated WaitGroupJob jobs = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
 message WaitGroup {
   string name = 1;
   string description = 2;
@@ -246,11 +273,13 @@ message WaitGroup {
   uint64 completed = 7;
 }
 
+message WaitGroupJob {}
+
 message AcquireLockRequest {
   string namespace_name = 1;
   string lock_name = 2;
   string process_id = 3;
-  bool write_lock = 4;
+  bool exclusive = 4;
   int64 expires_at = 5;
 }
 
@@ -301,8 +330,7 @@ message Lock {
   string name = 1;
   LockState state = 2;
   int64 locked_at = 3;
-  LockHolder write_lock_holder = 4;
-  repeated LockHolder read_lock_holders = 5;
+  repeated LockHolder lock_holders = 4;
 }
 
 message LockHolder {
@@ -313,8 +341,8 @@ message LockHolder {
 
 enum LockState {
   UNLOCKED = 0;
-  READ_LOCKED = 1;
-  WRITE_LOCKED = 2;
+  SHARED_LOCKED = 1;
+  EXCLUSIVE_LOCKED = 2;
 }
 
 message Namespace {
@@ -323,3 +351,105 @@ message Namespace {
   int64 created_at = 3;
   int64 updated_at = 4;
 }
+
+message CreateBarrierRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+  string description = 3;
+  uint64 expected_processes = 4;
+  int64 expires_at = 8;
+  // bool auto_reset = 10;
+}
+
+message CreateBarrierResponse {
+  Barrier barrier = 1;
+}
+
+message ListBarriersRequest {
+  string namespace_name = 1;
+  string pagination_token = 2;
+  int32 limit = 3;
+}
+
+message ListBarriersResponse {
+  repeated Barrier barriers = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message GetBarrierRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+}
+
+message GetBarrierResponse {
+  Barrier barrier = 1;
+}
+
+message DeleteBarrierRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+}
+
+message DeleteBarrierResponse {}
+
+message UpdateBarrierRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+}
+
+message UpdateBarrierResponse {}
+
+message ArriveAtBarrierRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+  string process_id = 3;
+  uint64 expected_generation = 4;
+}
+
+message ArriveAtBarrierResponse {
+  Barrier barrier = 1;
+  bool all_arrived = 2;
+  uint64 next_generation = 3;
+}
+
+message WaitAtBarrierRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+  uint64 expected_generation = 3;
+}
+
+message WaitAtBarrierResponse {
+  Barrier barrier = 1;
+  bool all_arrived = 2;
+  uint64 next_generation = 3;
+}
+
+message ListBarrierParticipantsRequest {
+  string namespace_name = 1;
+  string barrier_name = 2;
+  uint64 generation = 3;
+  string pagination_token = 4;
+  int32 limit = 5;
+}
+
+message ListBarrierParticipantsResponse {
+  repeated BarrierParticipant participants = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message Barrier {
+  string name = 1;
+  string description = 2;
+  uint64 expected_processes = 3;
+  uint64 arrived_processes = 4;
+  uint64 generation = 5;
+  int64 created_at = 6;
+  int64 updated_at = 7;
+  // int64 expires_at = 8;
+  // int64 last_arrived_at = 9;
+  // bool auto_reset = 10;
+}
+
+message BarrierParticipant {}

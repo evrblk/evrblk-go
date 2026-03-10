@@ -28,6 +28,9 @@ service BanyanPreviewApi {
   rpc ReportStatus(ReportStatusRequest) returns (ReportStatusResponse) {}
   rpc RestartTasks(RestartTasksRequest) returns (RestartTasksResponse) {}
 
+  rpc ListSubtasks(ListSubtasksRequest) returns (ListSubtasksResponse) {}
+  rpc AddSubtasks(AddSubtasksRequest) returns (AddSubtasksResponse) {}
+
   rpc CreateSchedule(CreateScheduleRequest) returns (CreateScheduleResponse) {}
   rpc ListSchedules(ListSchedulesRequest) returns (ListSchedulesResponse) {}
   rpc GetSchedule(GetScheduleRequest) returns (GetScheduleResponse) {}
@@ -234,6 +237,32 @@ message PurgeQueueRequest {
 }
 
 message PurgeQueueResponse {}
+
+// Subtasks APIs
+
+message ListSubtasksRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+  string task_name = 3;
+}
+
+message ListSubtasksResponse {
+  repeated Task tasks = 1;
+}
+
+message AddSubtasksRequest {
+  string namespace_name = 1;
+  string workflow_run_id = 2;
+  string task_name = 3;
+  repeated AddSubtasksRequestEntry entries = 4;
+}
+
+message AddSubtasksRequestEntry {
+  string user_key = 1;
+  bytes payload = 2;
+}
+
+message AddSubtasksResponse {}
 
 // Schedules APIs
 

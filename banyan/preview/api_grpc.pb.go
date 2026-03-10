@@ -37,6 +37,8 @@ const (
 	BanyanPreviewApi_Dequeue_FullMethodName           = "/com.evrblk.banyan.preview.BanyanPreviewApi/Dequeue"
 	BanyanPreviewApi_ReportStatus_FullMethodName      = "/com.evrblk.banyan.preview.BanyanPreviewApi/ReportStatus"
 	BanyanPreviewApi_RestartTasks_FullMethodName      = "/com.evrblk.banyan.preview.BanyanPreviewApi/RestartTasks"
+	BanyanPreviewApi_ListSubtasks_FullMethodName      = "/com.evrblk.banyan.preview.BanyanPreviewApi/ListSubtasks"
+	BanyanPreviewApi_AddSubtasks_FullMethodName       = "/com.evrblk.banyan.preview.BanyanPreviewApi/AddSubtasks"
 	BanyanPreviewApi_CreateSchedule_FullMethodName    = "/com.evrblk.banyan.preview.BanyanPreviewApi/CreateSchedule"
 	BanyanPreviewApi_ListSchedules_FullMethodName     = "/com.evrblk.banyan.preview.BanyanPreviewApi/ListSchedules"
 	BanyanPreviewApi_GetSchedule_FullMethodName       = "/com.evrblk.banyan.preview.BanyanPreviewApi/GetSchedule"
@@ -73,6 +75,8 @@ type BanyanPreviewApiClient interface {
 	Dequeue(ctx context.Context, in *DequeueRequest, opts ...grpc.CallOption) (*DequeueResponse, error)
 	ReportStatus(ctx context.Context, in *ReportStatusRequest, opts ...grpc.CallOption) (*ReportStatusResponse, error)
 	RestartTasks(ctx context.Context, in *RestartTasksRequest, opts ...grpc.CallOption) (*RestartTasksResponse, error)
+	ListSubtasks(ctx context.Context, in *ListSubtasksRequest, opts ...grpc.CallOption) (*ListSubtasksResponse, error)
+	AddSubtasks(ctx context.Context, in *AddSubtasksRequest, opts ...grpc.CallOption) (*AddSubtasksResponse, error)
 	CreateSchedule(ctx context.Context, in *CreateScheduleRequest, opts ...grpc.CallOption) (*CreateScheduleResponse, error)
 	ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
 	GetSchedule(ctx context.Context, in *GetScheduleRequest, opts ...grpc.CallOption) (*GetScheduleResponse, error)
@@ -275,6 +279,26 @@ func (c *banyanPreviewApiClient) RestartTasks(ctx context.Context, in *RestartTa
 	return out, nil
 }
 
+func (c *banyanPreviewApiClient) ListSubtasks(ctx context.Context, in *ListSubtasksRequest, opts ...grpc.CallOption) (*ListSubtasksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSubtasksResponse)
+	err := c.cc.Invoke(ctx, BanyanPreviewApi_ListSubtasks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *banyanPreviewApiClient) AddSubtasks(ctx context.Context, in *AddSubtasksRequest, opts ...grpc.CallOption) (*AddSubtasksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddSubtasksResponse)
+	err := c.cc.Invoke(ctx, BanyanPreviewApi_AddSubtasks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *banyanPreviewApiClient) CreateSchedule(ctx context.Context, in *CreateScheduleRequest, opts ...grpc.CallOption) (*CreateScheduleResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateScheduleResponse)
@@ -417,6 +441,8 @@ type BanyanPreviewApiServer interface {
 	Dequeue(context.Context, *DequeueRequest) (*DequeueResponse, error)
 	ReportStatus(context.Context, *ReportStatusRequest) (*ReportStatusResponse, error)
 	RestartTasks(context.Context, *RestartTasksRequest) (*RestartTasksResponse, error)
+	ListSubtasks(context.Context, *ListSubtasksRequest) (*ListSubtasksResponse, error)
+	AddSubtasks(context.Context, *AddSubtasksRequest) (*AddSubtasksResponse, error)
 	CreateSchedule(context.Context, *CreateScheduleRequest) (*CreateScheduleResponse, error)
 	ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error)
 	GetSchedule(context.Context, *GetScheduleRequest) (*GetScheduleResponse, error)
@@ -492,6 +518,12 @@ func (UnimplementedBanyanPreviewApiServer) ReportStatus(context.Context, *Report
 }
 func (UnimplementedBanyanPreviewApiServer) RestartTasks(context.Context, *RestartTasksRequest) (*RestartTasksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RestartTasks not implemented")
+}
+func (UnimplementedBanyanPreviewApiServer) ListSubtasks(context.Context, *ListSubtasksRequest) (*ListSubtasksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSubtasks not implemented")
+}
+func (UnimplementedBanyanPreviewApiServer) AddSubtasks(context.Context, *AddSubtasksRequest) (*AddSubtasksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddSubtasks not implemented")
 }
 func (UnimplementedBanyanPreviewApiServer) CreateSchedule(context.Context, *CreateScheduleRequest) (*CreateScheduleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSchedule not implemented")
@@ -874,6 +906,42 @@ func _BanyanPreviewApi_RestartTasks_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BanyanPreviewApi_ListSubtasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSubtasksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BanyanPreviewApiServer).ListSubtasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BanyanPreviewApi_ListSubtasks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BanyanPreviewApiServer).ListSubtasks(ctx, req.(*ListSubtasksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BanyanPreviewApi_AddSubtasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddSubtasksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BanyanPreviewApiServer).AddSubtasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BanyanPreviewApi_AddSubtasks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BanyanPreviewApiServer).AddSubtasks(ctx, req.(*AddSubtasksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BanyanPreviewApi_CreateSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateScheduleRequest)
 	if err := dec(in); err != nil {
@@ -1168,6 +1236,14 @@ var BanyanPreviewApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RestartTasks",
 			Handler:    _BanyanPreviewApi_RestartTasks_Handler,
+		},
+		{
+			MethodName: "ListSubtasks",
+			Handler:    _BanyanPreviewApi_ListSubtasks_Handler,
+		},
+		{
+			MethodName: "AddSubtasks",
+			Handler:    _BanyanPreviewApi_AddSubtasks_Handler,
 		},
 		{
 			MethodName: "CreateSchedule",

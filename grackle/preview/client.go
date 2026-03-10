@@ -25,17 +25,27 @@ type GrackleApi interface {
 	ReleaseSemaphore(ctx context.Context, request *ReleaseSemaphoreRequest) (*ReleaseSemaphoreResponse, error)
 	UpdateSemaphore(ctx context.Context, request *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error)
 	DeleteSemaphore(ctx context.Context, request *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error)
+	ListSemaphoreHolders(ctx context.Context, request *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error)
 	CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
 	ListWaitGroups(ctx context.Context, request *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, request *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(ctx context.Context, request *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
 	AddJobsToWaitGroup(ctx context.Context, request *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(ctx context.Context, request *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error)
+	ListWaitGroupJobs(ctx context.Context, request *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error)
 	AcquireLock(ctx context.Context, request *AcquireLockRequest) (*AcquireLockResponse, error)
 	ReleaseLock(ctx context.Context, request *ReleaseLockRequest) (*ReleaseLockResponse, error)
 	GetLock(ctx context.Context, request *GetLockRequest) (*GetLockResponse, error)
 	DeleteLock(ctx context.Context, request *DeleteLockRequest) (*DeleteLockResponse, error)
 	ListLocks(ctx context.Context, request *ListLocksRequest) (*ListLocksResponse, error)
+	CreateBarrier(ctx context.Context, request *CreateBarrierRequest) (*CreateBarrierResponse, error)
+	ListBarriers(ctx context.Context, request *ListBarriersRequest) (*ListBarriersResponse, error)
+	GetBarrier(ctx context.Context, request *GetBarrierRequest) (*GetBarrierResponse, error)
+	DeleteBarrier(ctx context.Context, request *DeleteBarrierRequest) (*DeleteBarrierResponse, error)
+	UpdateBarrier(ctx context.Context, request *UpdateBarrierRequest) (*UpdateBarrierResponse, error)
+	ArriveAtBarrier(ctx context.Context, request *ArriveAtBarrierRequest) (*ArriveAtBarrierResponse, error)
+	WaitAtBarrier(ctx context.Context, request *WaitAtBarrierRequest) (*WaitAtBarrierResponse, error)
+	ListBarrierParticipants(ctx context.Context, request *ListBarrierParticipantsRequest) (*ListBarrierParticipantsResponse, error)
 }
 type GrackleGrpcClient struct {
 	grpc   GracklePreviewApiClient
@@ -261,6 +271,23 @@ func (c *GrackleGrpcClient) DeleteSemaphore(ctx context.Context, request *Delete
 	return resp, internal.ErrorFromRpcError(err)
 }
 
+func (c *GrackleGrpcClient) ListSemaphoreHolders(ctx context.Context, request *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListSemaphoreHolders").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListSemaphoreHolders"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListSemaphoreHolders")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListSemaphoreHolders(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListSemaphoreHolders", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
 func (c *GrackleGrpcClient) CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateWaitGroup"), time.Now())
@@ -363,6 +390,23 @@ func (c *GrackleGrpcClient) CompleteJobsFromWaitGroup(ctx context.Context, reque
 	return resp, internal.ErrorFromRpcError(err)
 }
 
+func (c *GrackleGrpcClient) ListWaitGroupJobs(ctx context.Context, request *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListWaitGroupJobs").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListWaitGroupJobs"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListWaitGroupJobs")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListWaitGroupJobs(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListWaitGroupJobs", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
 func (c *GrackleGrpcClient) AcquireLock(ctx context.Context, request *AcquireLockRequest) (*AcquireLockResponse, error) {
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "AcquireLock").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "AcquireLock"), time.Now())
@@ -443,6 +487,142 @@ func (c *GrackleGrpcClient) ListLocks(ctx context.Context, request *ListLocksReq
 	resp, err := c.grpc.ListLocks(signedCtx, request, grpc.WaitForReady(true))
 	if err != nil {
 		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListLocks", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) CreateBarrier(ctx context.Context, request *CreateBarrierRequest) (*CreateBarrierResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateBarrier").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateBarrier"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CreateBarrier")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.CreateBarrier(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "CreateBarrier", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ListBarriers(ctx context.Context, request *ListBarriersRequest) (*ListBarriersResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListBarriers").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListBarriers"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListBarriers")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListBarriers(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListBarriers", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) GetBarrier(ctx context.Context, request *GetBarrierRequest) (*GetBarrierResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetBarrier").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetBarrier"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetBarrier")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.GetBarrier(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "GetBarrier", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) DeleteBarrier(ctx context.Context, request *DeleteBarrierRequest) (*DeleteBarrierResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "DeleteBarrier").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "DeleteBarrier"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "DeleteBarrier")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.DeleteBarrier(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "DeleteBarrier", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) UpdateBarrier(ctx context.Context, request *UpdateBarrierRequest) (*UpdateBarrierResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "UpdateBarrier").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "UpdateBarrier"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "UpdateBarrier")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.UpdateBarrier(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "UpdateBarrier", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ArriveAtBarrier(ctx context.Context, request *ArriveAtBarrierRequest) (*ArriveAtBarrierResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ArriveAtBarrier").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ArriveAtBarrier"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ArriveAtBarrier")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ArriveAtBarrier(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ArriveAtBarrier", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) WaitAtBarrier(ctx context.Context, request *WaitAtBarrierRequest) (*WaitAtBarrierResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "WaitAtBarrier").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "WaitAtBarrier"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "WaitAtBarrier")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.WaitAtBarrier(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "WaitAtBarrier", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ListBarrierParticipants(ctx context.Context, request *ListBarrierParticipantsRequest) (*ListBarrierParticipantsResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListBarrierParticipants").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListBarrierParticipants"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListBarrierParticipants")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListBarrierParticipants(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListBarrierParticipants", internal.MetricLabelFromGrpcError(err)).Inc()
 	}
 
 	return resp, internal.ErrorFromRpcError(err)

@@ -31,6 +31,8 @@ type BanyanApi interface {
 	Dequeue(ctx context.Context, request *DequeueRequest) (*DequeueResponse, error)
 	ReportStatus(ctx context.Context, request *ReportStatusRequest) (*ReportStatusResponse, error)
 	RestartTasks(ctx context.Context, request *RestartTasksRequest) (*RestartTasksResponse, error)
+	ListSubtasks(ctx context.Context, request *ListSubtasksRequest) (*ListSubtasksResponse, error)
+	AddSubtasks(ctx context.Context, request *AddSubtasksRequest) (*AddSubtasksResponse, error)
 	CreateSchedule(ctx context.Context, request *CreateScheduleRequest) (*CreateScheduleResponse, error)
 	ListSchedules(ctx context.Context, request *ListSchedulesRequest) (*ListSchedulesResponse, error)
 	GetSchedule(ctx context.Context, request *GetScheduleRequest) (*GetScheduleResponse, error)
@@ -365,6 +367,40 @@ func (c *BanyanGrpcClient) RestartTasks(ctx context.Context, request *RestartTas
 	resp, err := c.grpc.RestartTasks(signedCtx, request, grpc.WaitForReady(true))
 	if err != nil {
 		internal.FailedRequestsCounter.WithLabelValues("Banyan", "RestartTasks", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *BanyanGrpcClient) ListSubtasks(ctx context.Context, request *ListSubtasksRequest) (*ListSubtasksResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Banyan", "ListSubtasks").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Banyan", "ListSubtasks"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Banyan", "ListSubtasks")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListSubtasks(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Banyan", "ListSubtasks", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *BanyanGrpcClient) AddSubtasks(ctx context.Context, request *AddSubtasksRequest) (*AddSubtasksResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Banyan", "AddSubtasks").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Banyan", "AddSubtasks"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Banyan", "AddSubtasks")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.AddSubtasks(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Banyan", "AddSubtasks", internal.MetricLabelFromGrpcError(err)).Inc()
 	}
 
 	return resp, internal.ErrorFromRpcError(err)

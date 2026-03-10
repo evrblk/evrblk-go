@@ -31,17 +31,27 @@ const (
 	GracklePreviewApi_ReleaseSemaphore_FullMethodName          = "/com.evrblk.grackle.preview.GracklePreviewApi/ReleaseSemaphore"
 	GracklePreviewApi_UpdateSemaphore_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/UpdateSemaphore"
 	GracklePreviewApi_DeleteSemaphore_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/DeleteSemaphore"
+	GracklePreviewApi_ListSemaphoreHolders_FullMethodName      = "/com.evrblk.grackle.preview.GracklePreviewApi/ListSemaphoreHolders"
 	GracklePreviewApi_CreateWaitGroup_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/CreateWaitGroup"
 	GracklePreviewApi_ListWaitGroups_FullMethodName            = "/com.evrblk.grackle.preview.GracklePreviewApi/ListWaitGroups"
 	GracklePreviewApi_GetWaitGroup_FullMethodName              = "/com.evrblk.grackle.preview.GracklePreviewApi/GetWaitGroup"
 	GracklePreviewApi_DeleteWaitGroup_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/DeleteWaitGroup"
 	GracklePreviewApi_AddJobsToWaitGroup_FullMethodName        = "/com.evrblk.grackle.preview.GracklePreviewApi/AddJobsToWaitGroup"
 	GracklePreviewApi_CompleteJobsFromWaitGroup_FullMethodName = "/com.evrblk.grackle.preview.GracklePreviewApi/CompleteJobsFromWaitGroup"
+	GracklePreviewApi_ListWaitGroupJobs_FullMethodName         = "/com.evrblk.grackle.preview.GracklePreviewApi/ListWaitGroupJobs"
 	GracklePreviewApi_AcquireLock_FullMethodName               = "/com.evrblk.grackle.preview.GracklePreviewApi/AcquireLock"
 	GracklePreviewApi_ReleaseLock_FullMethodName               = "/com.evrblk.grackle.preview.GracklePreviewApi/ReleaseLock"
 	GracklePreviewApi_GetLock_FullMethodName                   = "/com.evrblk.grackle.preview.GracklePreviewApi/GetLock"
 	GracklePreviewApi_DeleteLock_FullMethodName                = "/com.evrblk.grackle.preview.GracklePreviewApi/DeleteLock"
 	GracklePreviewApi_ListLocks_FullMethodName                 = "/com.evrblk.grackle.preview.GracklePreviewApi/ListLocks"
+	GracklePreviewApi_CreateBarrier_FullMethodName             = "/com.evrblk.grackle.preview.GracklePreviewApi/CreateBarrier"
+	GracklePreviewApi_ListBarriers_FullMethodName              = "/com.evrblk.grackle.preview.GracklePreviewApi/ListBarriers"
+	GracklePreviewApi_GetBarrier_FullMethodName                = "/com.evrblk.grackle.preview.GracklePreviewApi/GetBarrier"
+	GracklePreviewApi_DeleteBarrier_FullMethodName             = "/com.evrblk.grackle.preview.GracklePreviewApi/DeleteBarrier"
+	GracklePreviewApi_UpdateBarrier_FullMethodName             = "/com.evrblk.grackle.preview.GracklePreviewApi/UpdateBarrier"
+	GracklePreviewApi_ArriveAtBarrier_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/ArriveAtBarrier"
+	GracklePreviewApi_WaitAtBarrier_FullMethodName             = "/com.evrblk.grackle.preview.GracklePreviewApi/WaitAtBarrier"
+	GracklePreviewApi_ListBarrierParticipants_FullMethodName   = "/com.evrblk.grackle.preview.GracklePreviewApi/ListBarrierParticipants"
 )
 
 // GracklePreviewApiClient is the client API for GracklePreviewApi service.
@@ -60,17 +70,27 @@ type GracklePreviewApiClient interface {
 	ReleaseSemaphore(ctx context.Context, in *ReleaseSemaphoreRequest, opts ...grpc.CallOption) (*ReleaseSemaphoreResponse, error)
 	UpdateSemaphore(ctx context.Context, in *UpdateSemaphoreRequest, opts ...grpc.CallOption) (*UpdateSemaphoreResponse, error)
 	DeleteSemaphore(ctx context.Context, in *DeleteSemaphoreRequest, opts ...grpc.CallOption) (*DeleteSemaphoreResponse, error)
+	ListSemaphoreHolders(ctx context.Context, in *ListSemaphoreHoldersRequest, opts ...grpc.CallOption) (*ListSemaphoreHoldersResponse, error)
 	CreateWaitGroup(ctx context.Context, in *CreateWaitGroupRequest, opts ...grpc.CallOption) (*CreateWaitGroupResponse, error)
 	ListWaitGroups(ctx context.Context, in *ListWaitGroupsRequest, opts ...grpc.CallOption) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, in *GetWaitGroupRequest, opts ...grpc.CallOption) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(ctx context.Context, in *DeleteWaitGroupRequest, opts ...grpc.CallOption) (*DeleteWaitGroupResponse, error)
 	AddJobsToWaitGroup(ctx context.Context, in *AddJobsToWaitGroupRequest, opts ...grpc.CallOption) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(ctx context.Context, in *CompleteJobsFromWaitGroupRequest, opts ...grpc.CallOption) (*CompleteJobsFromWaitGroupResponse, error)
+	ListWaitGroupJobs(ctx context.Context, in *ListWaitGroupJobsRequest, opts ...grpc.CallOption) (*ListWaitGroupJobsResponse, error)
 	AcquireLock(ctx context.Context, in *AcquireLockRequest, opts ...grpc.CallOption) (*AcquireLockResponse, error)
 	ReleaseLock(ctx context.Context, in *ReleaseLockRequest, opts ...grpc.CallOption) (*ReleaseLockResponse, error)
 	GetLock(ctx context.Context, in *GetLockRequest, opts ...grpc.CallOption) (*GetLockResponse, error)
 	DeleteLock(ctx context.Context, in *DeleteLockRequest, opts ...grpc.CallOption) (*DeleteLockResponse, error)
 	ListLocks(ctx context.Context, in *ListLocksRequest, opts ...grpc.CallOption) (*ListLocksResponse, error)
+	CreateBarrier(ctx context.Context, in *CreateBarrierRequest, opts ...grpc.CallOption) (*CreateBarrierResponse, error)
+	ListBarriers(ctx context.Context, in *ListBarriersRequest, opts ...grpc.CallOption) (*ListBarriersResponse, error)
+	GetBarrier(ctx context.Context, in *GetBarrierRequest, opts ...grpc.CallOption) (*GetBarrierResponse, error)
+	DeleteBarrier(ctx context.Context, in *DeleteBarrierRequest, opts ...grpc.CallOption) (*DeleteBarrierResponse, error)
+	UpdateBarrier(ctx context.Context, in *UpdateBarrierRequest, opts ...grpc.CallOption) (*UpdateBarrierResponse, error)
+	ArriveAtBarrier(ctx context.Context, in *ArriveAtBarrierRequest, opts ...grpc.CallOption) (*ArriveAtBarrierResponse, error)
+	WaitAtBarrier(ctx context.Context, in *WaitAtBarrierRequest, opts ...grpc.CallOption) (*WaitAtBarrierResponse, error)
+	ListBarrierParticipants(ctx context.Context, in *ListBarrierParticipantsRequest, opts ...grpc.CallOption) (*ListBarrierParticipantsResponse, error)
 }
 
 type gracklePreviewApiClient struct {
@@ -201,6 +221,16 @@ func (c *gracklePreviewApiClient) DeleteSemaphore(ctx context.Context, in *Delet
 	return out, nil
 }
 
+func (c *gracklePreviewApiClient) ListSemaphoreHolders(ctx context.Context, in *ListSemaphoreHoldersRequest, opts ...grpc.CallOption) (*ListSemaphoreHoldersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSemaphoreHoldersResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ListSemaphoreHolders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gracklePreviewApiClient) CreateWaitGroup(ctx context.Context, in *CreateWaitGroupRequest, opts ...grpc.CallOption) (*CreateWaitGroupResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateWaitGroupResponse)
@@ -261,6 +291,16 @@ func (c *gracklePreviewApiClient) CompleteJobsFromWaitGroup(ctx context.Context,
 	return out, nil
 }
 
+func (c *gracklePreviewApiClient) ListWaitGroupJobs(ctx context.Context, in *ListWaitGroupJobsRequest, opts ...grpc.CallOption) (*ListWaitGroupJobsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWaitGroupJobsResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ListWaitGroupJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gracklePreviewApiClient) AcquireLock(ctx context.Context, in *AcquireLockRequest, opts ...grpc.CallOption) (*AcquireLockResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AcquireLockResponse)
@@ -311,6 +351,86 @@ func (c *gracklePreviewApiClient) ListLocks(ctx context.Context, in *ListLocksRe
 	return out, nil
 }
 
+func (c *gracklePreviewApiClient) CreateBarrier(ctx context.Context, in *CreateBarrierRequest, opts ...grpc.CallOption) (*CreateBarrierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateBarrierResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_CreateBarrier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) ListBarriers(ctx context.Context, in *ListBarriersRequest, opts ...grpc.CallOption) (*ListBarriersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBarriersResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ListBarriers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) GetBarrier(ctx context.Context, in *GetBarrierRequest, opts ...grpc.CallOption) (*GetBarrierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBarrierResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_GetBarrier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) DeleteBarrier(ctx context.Context, in *DeleteBarrierRequest, opts ...grpc.CallOption) (*DeleteBarrierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteBarrierResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_DeleteBarrier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) UpdateBarrier(ctx context.Context, in *UpdateBarrierRequest, opts ...grpc.CallOption) (*UpdateBarrierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateBarrierResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_UpdateBarrier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) ArriveAtBarrier(ctx context.Context, in *ArriveAtBarrierRequest, opts ...grpc.CallOption) (*ArriveAtBarrierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ArriveAtBarrierResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ArriveAtBarrier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) WaitAtBarrier(ctx context.Context, in *WaitAtBarrierRequest, opts ...grpc.CallOption) (*WaitAtBarrierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WaitAtBarrierResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_WaitAtBarrier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) ListBarrierParticipants(ctx context.Context, in *ListBarrierParticipantsRequest, opts ...grpc.CallOption) (*ListBarrierParticipantsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListBarrierParticipantsResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ListBarrierParticipants_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GracklePreviewApiServer is the server API for GracklePreviewApi service.
 // All implementations must embed UnimplementedGracklePreviewApiServer
 // for forward compatibility.
@@ -327,17 +447,27 @@ type GracklePreviewApiServer interface {
 	ReleaseSemaphore(context.Context, *ReleaseSemaphoreRequest) (*ReleaseSemaphoreResponse, error)
 	UpdateSemaphore(context.Context, *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error)
 	DeleteSemaphore(context.Context, *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error)
+	ListSemaphoreHolders(context.Context, *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error)
 	CreateWaitGroup(context.Context, *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
 	ListWaitGroups(context.Context, *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(context.Context, *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(context.Context, *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
 	AddJobsToWaitGroup(context.Context, *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(context.Context, *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error)
+	ListWaitGroupJobs(context.Context, *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error)
 	AcquireLock(context.Context, *AcquireLockRequest) (*AcquireLockResponse, error)
 	ReleaseLock(context.Context, *ReleaseLockRequest) (*ReleaseLockResponse, error)
 	GetLock(context.Context, *GetLockRequest) (*GetLockResponse, error)
 	DeleteLock(context.Context, *DeleteLockRequest) (*DeleteLockResponse, error)
 	ListLocks(context.Context, *ListLocksRequest) (*ListLocksResponse, error)
+	CreateBarrier(context.Context, *CreateBarrierRequest) (*CreateBarrierResponse, error)
+	ListBarriers(context.Context, *ListBarriersRequest) (*ListBarriersResponse, error)
+	GetBarrier(context.Context, *GetBarrierRequest) (*GetBarrierResponse, error)
+	DeleteBarrier(context.Context, *DeleteBarrierRequest) (*DeleteBarrierResponse, error)
+	UpdateBarrier(context.Context, *UpdateBarrierRequest) (*UpdateBarrierResponse, error)
+	ArriveAtBarrier(context.Context, *ArriveAtBarrierRequest) (*ArriveAtBarrierResponse, error)
+	WaitAtBarrier(context.Context, *WaitAtBarrierRequest) (*WaitAtBarrierResponse, error)
+	ListBarrierParticipants(context.Context, *ListBarrierParticipantsRequest) (*ListBarrierParticipantsResponse, error)
 	mustEmbedUnimplementedGracklePreviewApiServer()
 }
 
@@ -384,6 +514,9 @@ func (UnimplementedGracklePreviewApiServer) UpdateSemaphore(context.Context, *Up
 func (UnimplementedGracklePreviewApiServer) DeleteSemaphore(context.Context, *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSemaphore not implemented")
 }
+func (UnimplementedGracklePreviewApiServer) ListSemaphoreHolders(context.Context, *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSemaphoreHolders not implemented")
+}
 func (UnimplementedGracklePreviewApiServer) CreateWaitGroup(context.Context, *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWaitGroup not implemented")
 }
@@ -402,6 +535,9 @@ func (UnimplementedGracklePreviewApiServer) AddJobsToWaitGroup(context.Context, 
 func (UnimplementedGracklePreviewApiServer) CompleteJobsFromWaitGroup(context.Context, *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteJobsFromWaitGroup not implemented")
 }
+func (UnimplementedGracklePreviewApiServer) ListWaitGroupJobs(context.Context, *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWaitGroupJobs not implemented")
+}
 func (UnimplementedGracklePreviewApiServer) AcquireLock(context.Context, *AcquireLockRequest) (*AcquireLockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcquireLock not implemented")
 }
@@ -416,6 +552,30 @@ func (UnimplementedGracklePreviewApiServer) DeleteLock(context.Context, *DeleteL
 }
 func (UnimplementedGracklePreviewApiServer) ListLocks(context.Context, *ListLocksRequest) (*ListLocksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListLocks not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) CreateBarrier(context.Context, *CreateBarrierRequest) (*CreateBarrierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBarrier not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) ListBarriers(context.Context, *ListBarriersRequest) (*ListBarriersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBarriers not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) GetBarrier(context.Context, *GetBarrierRequest) (*GetBarrierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBarrier not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) DeleteBarrier(context.Context, *DeleteBarrierRequest) (*DeleteBarrierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBarrier not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) UpdateBarrier(context.Context, *UpdateBarrierRequest) (*UpdateBarrierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBarrier not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) ArriveAtBarrier(context.Context, *ArriveAtBarrierRequest) (*ArriveAtBarrierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ArriveAtBarrier not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) WaitAtBarrier(context.Context, *WaitAtBarrierRequest) (*WaitAtBarrierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WaitAtBarrier not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) ListBarrierParticipants(context.Context, *ListBarrierParticipantsRequest) (*ListBarrierParticipantsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBarrierParticipants not implemented")
 }
 func (UnimplementedGracklePreviewApiServer) mustEmbedUnimplementedGracklePreviewApiServer() {}
 func (UnimplementedGracklePreviewApiServer) testEmbeddedByValue()                           {}
@@ -654,6 +814,24 @@ func _GracklePreviewApi_DeleteSemaphore_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GracklePreviewApi_ListSemaphoreHolders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSemaphoreHoldersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ListSemaphoreHolders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ListSemaphoreHolders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ListSemaphoreHolders(ctx, req.(*ListSemaphoreHoldersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GracklePreviewApi_CreateWaitGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateWaitGroupRequest)
 	if err := dec(in); err != nil {
@@ -762,6 +940,24 @@ func _GracklePreviewApi_CompleteJobsFromWaitGroup_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GracklePreviewApi_ListWaitGroupJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWaitGroupJobsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ListWaitGroupJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ListWaitGroupJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ListWaitGroupJobs(ctx, req.(*ListWaitGroupJobsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GracklePreviewApi_AcquireLock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AcquireLockRequest)
 	if err := dec(in); err != nil {
@@ -852,6 +1048,150 @@ func _GracklePreviewApi_ListLocks_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GracklePreviewApi_CreateBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBarrierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).CreateBarrier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_CreateBarrier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).CreateBarrier(ctx, req.(*CreateBarrierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_ListBarriers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBarriersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ListBarriers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ListBarriers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ListBarriers(ctx, req.(*ListBarriersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_GetBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBarrierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).GetBarrier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_GetBarrier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).GetBarrier(ctx, req.(*GetBarrierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_DeleteBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBarrierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).DeleteBarrier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_DeleteBarrier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).DeleteBarrier(ctx, req.(*DeleteBarrierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_UpdateBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBarrierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).UpdateBarrier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_UpdateBarrier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).UpdateBarrier(ctx, req.(*UpdateBarrierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_ArriveAtBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ArriveAtBarrierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ArriveAtBarrier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ArriveAtBarrier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ArriveAtBarrier(ctx, req.(*ArriveAtBarrierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_WaitAtBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WaitAtBarrierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).WaitAtBarrier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_WaitAtBarrier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).WaitAtBarrier(ctx, req.(*WaitAtBarrierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_ListBarrierParticipants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBarrierParticipantsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ListBarrierParticipants(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ListBarrierParticipants_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ListBarrierParticipants(ctx, req.(*ListBarrierParticipantsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GracklePreviewApi_ServiceDesc is the grpc.ServiceDesc for GracklePreviewApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -908,6 +1248,10 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GracklePreviewApi_DeleteSemaphore_Handler,
 		},
 		{
+			MethodName: "ListSemaphoreHolders",
+			Handler:    _GracklePreviewApi_ListSemaphoreHolders_Handler,
+		},
+		{
 			MethodName: "CreateWaitGroup",
 			Handler:    _GracklePreviewApi_CreateWaitGroup_Handler,
 		},
@@ -932,6 +1276,10 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GracklePreviewApi_CompleteJobsFromWaitGroup_Handler,
 		},
 		{
+			MethodName: "ListWaitGroupJobs",
+			Handler:    _GracklePreviewApi_ListWaitGroupJobs_Handler,
+		},
+		{
 			MethodName: "AcquireLock",
 			Handler:    _GracklePreviewApi_AcquireLock_Handler,
 		},
@@ -950,6 +1298,38 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListLocks",
 			Handler:    _GracklePreviewApi_ListLocks_Handler,
+		},
+		{
+			MethodName: "CreateBarrier",
+			Handler:    _GracklePreviewApi_CreateBarrier_Handler,
+		},
+		{
+			MethodName: "ListBarriers",
+			Handler:    _GracklePreviewApi_ListBarriers_Handler,
+		},
+		{
+			MethodName: "GetBarrier",
+			Handler:    _GracklePreviewApi_GetBarrier_Handler,
+		},
+		{
+			MethodName: "DeleteBarrier",
+			Handler:    _GracklePreviewApi_DeleteBarrier_Handler,
+		},
+		{
+			MethodName: "UpdateBarrier",
+			Handler:    _GracklePreviewApi_UpdateBarrier_Handler,
+		},
+		{
+			MethodName: "ArriveAtBarrier",
+			Handler:    _GracklePreviewApi_ArriveAtBarrier_Handler,
+		},
+		{
+			MethodName: "WaitAtBarrier",
+			Handler:    _GracklePreviewApi_WaitAtBarrier_Handler,
+		},
+		{
+			MethodName: "ListBarrierParticipants",
+			Handler:    _GracklePreviewApi_ListBarrierParticipants_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
