@@ -28,6 +28,7 @@ service GracklePreviewApi {
   rpc AddJobsToWaitGroup(AddJobsToWaitGroupRequest) returns (AddJobsToWaitGroupResponse) {}
   rpc CompleteJobsFromWaitGroup(CompleteJobsFromWaitGroupRequest) returns (CompleteJobsFromWaitGroupResponse) {}
   rpc ListWaitGroupJobs(ListWaitGroupJobsRequest) returns (ListWaitGroupJobsResponse) {}
+  rpc WaitForWaitGroup(WaitForWaitGroupRequest) returns (WaitForWaitGroupResponse) {}
 
   rpc AcquireLock(AcquireLockRequest) returns (AcquireLockResponse) {}
   rpc ReleaseLock(ReleaseLockRequest) returns (ReleaseLockResponse) {}
@@ -261,6 +262,18 @@ message ListWaitGroupJobsResponse {
   repeated WaitGroupJob jobs = 1;
   string next_pagination_token = 2;
   string previous_pagination_token = 3;
+}
+
+message WaitForWaitGroupRequest {
+  string namespace_name = 1;
+  string wait_group_name = 2;
+  int32 timeout_seconds = 3;
+}
+
+message WaitForWaitGroupResponse {
+  WaitGroup wait_group = 1;
+  bool completed = 2;
+  bool timed_out = 3;
 }
 
 message WaitGroup {

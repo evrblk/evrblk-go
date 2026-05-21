@@ -39,6 +39,7 @@ const (
 	GracklePreviewApi_AddJobsToWaitGroup_FullMethodName        = "/com.evrblk.grackle.preview.GracklePreviewApi/AddJobsToWaitGroup"
 	GracklePreviewApi_CompleteJobsFromWaitGroup_FullMethodName = "/com.evrblk.grackle.preview.GracklePreviewApi/CompleteJobsFromWaitGroup"
 	GracklePreviewApi_ListWaitGroupJobs_FullMethodName         = "/com.evrblk.grackle.preview.GracklePreviewApi/ListWaitGroupJobs"
+	GracklePreviewApi_WaitForWaitGroup_FullMethodName          = "/com.evrblk.grackle.preview.GracklePreviewApi/WaitForWaitGroup"
 	GracklePreviewApi_AcquireLock_FullMethodName               = "/com.evrblk.grackle.preview.GracklePreviewApi/AcquireLock"
 	GracklePreviewApi_ReleaseLock_FullMethodName               = "/com.evrblk.grackle.preview.GracklePreviewApi/ReleaseLock"
 	GracklePreviewApi_GetLock_FullMethodName                   = "/com.evrblk.grackle.preview.GracklePreviewApi/GetLock"
@@ -78,6 +79,7 @@ type GracklePreviewApiClient interface {
 	AddJobsToWaitGroup(ctx context.Context, in *AddJobsToWaitGroupRequest, opts ...grpc.CallOption) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(ctx context.Context, in *CompleteJobsFromWaitGroupRequest, opts ...grpc.CallOption) (*CompleteJobsFromWaitGroupResponse, error)
 	ListWaitGroupJobs(ctx context.Context, in *ListWaitGroupJobsRequest, opts ...grpc.CallOption) (*ListWaitGroupJobsResponse, error)
+	WaitForWaitGroup(ctx context.Context, in *WaitForWaitGroupRequest, opts ...grpc.CallOption) (*WaitForWaitGroupResponse, error)
 	AcquireLock(ctx context.Context, in *AcquireLockRequest, opts ...grpc.CallOption) (*AcquireLockResponse, error)
 	ReleaseLock(ctx context.Context, in *ReleaseLockRequest, opts ...grpc.CallOption) (*ReleaseLockResponse, error)
 	GetLock(ctx context.Context, in *GetLockRequest, opts ...grpc.CallOption) (*GetLockResponse, error)
@@ -301,6 +303,16 @@ func (c *gracklePreviewApiClient) ListWaitGroupJobs(ctx context.Context, in *Lis
 	return out, nil
 }
 
+func (c *gracklePreviewApiClient) WaitForWaitGroup(ctx context.Context, in *WaitForWaitGroupRequest, opts ...grpc.CallOption) (*WaitForWaitGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WaitForWaitGroupResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_WaitForWaitGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gracklePreviewApiClient) AcquireLock(ctx context.Context, in *AcquireLockRequest, opts ...grpc.CallOption) (*AcquireLockResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AcquireLockResponse)
@@ -455,6 +467,7 @@ type GracklePreviewApiServer interface {
 	AddJobsToWaitGroup(context.Context, *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(context.Context, *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error)
 	ListWaitGroupJobs(context.Context, *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error)
+	WaitForWaitGroup(context.Context, *WaitForWaitGroupRequest) (*WaitForWaitGroupResponse, error)
 	AcquireLock(context.Context, *AcquireLockRequest) (*AcquireLockResponse, error)
 	ReleaseLock(context.Context, *ReleaseLockRequest) (*ReleaseLockResponse, error)
 	GetLock(context.Context, *GetLockRequest) (*GetLockResponse, error)
@@ -537,6 +550,9 @@ func (UnimplementedGracklePreviewApiServer) CompleteJobsFromWaitGroup(context.Co
 }
 func (UnimplementedGracklePreviewApiServer) ListWaitGroupJobs(context.Context, *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWaitGroupJobs not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) WaitForWaitGroup(context.Context, *WaitForWaitGroupRequest) (*WaitForWaitGroupResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WaitForWaitGroup not implemented")
 }
 func (UnimplementedGracklePreviewApiServer) AcquireLock(context.Context, *AcquireLockRequest) (*AcquireLockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcquireLock not implemented")
@@ -958,6 +974,24 @@ func _GracklePreviewApi_ListWaitGroupJobs_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GracklePreviewApi_WaitForWaitGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WaitForWaitGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).WaitForWaitGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_WaitForWaitGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).WaitForWaitGroup(ctx, req.(*WaitForWaitGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GracklePreviewApi_AcquireLock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AcquireLockRequest)
 	if err := dec(in); err != nil {
@@ -1278,6 +1312,10 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWaitGroupJobs",
 			Handler:    _GracklePreviewApi_ListWaitGroupJobs_Handler,
+		},
+		{
+			MethodName: "WaitForWaitGroup",
+			Handler:    _GracklePreviewApi_WaitForWaitGroup_Handler,
 		},
 		{
 			MethodName: "AcquireLock",

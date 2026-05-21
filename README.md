@@ -42,7 +42,7 @@ Everblack services communicate over gRPC. All Proto definitions live in `proto` 
 
 SDK is fully generated. First, it generates standard gRPC client with `protoc`. Then it takes gRPC service descriptors and
 generates wrappers for them with `go run ./cmd/codegen`. Wrapper has authentication (request signing), basic Prometheus 
-metrics, and error type casting.
+metrics, and error type casting. `planetscale/vtprotobuf` plugin is used for performance.
 
 The full built is done with:
 
