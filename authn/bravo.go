@@ -10,11 +10,9 @@ import (
 	"fmt"
 	"log"
 	"time"
-
-	"google.golang.org/protobuf/proto"
 )
 
-func VerifyBravoSignature(signatureHex string, timestamp int64, now time.Time, hashedSecret []byte, request proto.Message, service string, method string) error {
+func VerifyBravoSignature(signatureHex string, timestamp int64, now time.Time, hashedSecret []byte, request VTProtoMessage, service string, method string) error {
 	// Check timestamp for replays
 	ts := time.Unix(timestamp, 0)
 	if now.Add(time.Minute*5).Before(ts) || now.Add(time.Minute*-5).After(ts) {
@@ -57,7 +55,7 @@ func GenerateBravoSecret() string {
 	return base64.StdEncoding.EncodeToString(buf)
 }
 
-func SignBravo(timestamp int64, secretBase64 string, request proto.Message, service string, method string) (string, error) {
+func SignBravo(timestamp int64, secretBase64 string, request VTProtoMessage, service string, method string) (string, error) {
 	// Serialize timestamp and request body
 	requestBytes, err := serializeRequest(request)
 	if err != nil {

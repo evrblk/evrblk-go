@@ -9,11 +9,14 @@ import (
 	"errors"
 	"fmt"
 	"time"
-
-	"google.golang.org/protobuf/proto"
 )
 
-func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time, publicPem string, request proto.Message, service string, method string) error {
+// VTProtoMessage is an interface for messages generated with vtprotobuf
+type VTProtoMessage interface {
+	MarshalVT() ([]byte, error)
+}
+
+func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time, publicPem string, request VTProtoMessage, service string, method string) error {
 	// Check timestamp for replays
 	ts := time.Unix(timestamp, 0)
 	if now.Add(time.Minute*5).Before(ts) || now.Add(time.Minute*-5).After(ts) {
@@ -77,7 +80,7 @@ func GenerateAlfaKeys() (privatePem string, publicPem string, err error) {
 	return
 }
 
-func SignAlfa(timestamp int64, privatePem string, request proto.Message, service string, method string) (string, error) {
+func SignAlfa(timestamp int64, privatePem string, request VTProtoMessage, service string, method string) (string, error) {
 	// Serialize timestamp and request body
 	requestBytes, err := serializeRequest(request)
 	if err != nil {
@@ -109,14 +112,9 @@ func SignAlfa(timestamp int64, privatePem string, request proto.Message, service
 	return signatureBase64, nil
 }
 
-// serializeRequest serializes protobuf body in a deterministic way
-func serializeRequest(request proto.Message) ([]byte, error) {
-	data, err := proto.MarshalOptions{Deterministic: true}.Marshal(request)
-	if err != nil {
-		return nil, err
-	}
-
-	return data, nil
+// serializeRequest serializes protobuf body using vtprotobuf (deterministic by default)
+func serializeRequest(request VTProtoMessage) ([]byte, error) {
+	return request.MarshalVT()
 }
 
 // serializeTimestamp serializes timestamp as 8 bytes big endian integer

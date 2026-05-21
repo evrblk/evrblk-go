@@ -8,7 +8,6 @@ import (
 
 	"github.com/evrblk/evrblk-go/authn"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/protobuf/proto"
 )
 
 const (
@@ -18,7 +17,7 @@ const (
 )
 
 type RequestSigner interface {
-	Sign(ctx context.Context, request proto.Message, service string, method string) (context.Context, error)
+	Sign(ctx context.Context, request authn.VTProtoMessage, service string, method string) (context.Context, error)
 }
 
 type alfaRequestSigner struct {
@@ -28,7 +27,7 @@ type alfaRequestSigner struct {
 
 var _ RequestSigner = &alfaRequestSigner{}
 
-func (s *alfaRequestSigner) Sign(ctx context.Context, request proto.Message, service string, method string) (context.Context, error) {
+func (s *alfaRequestSigner) Sign(ctx context.Context, request authn.VTProtoMessage, service string, method string) (context.Context, error) {
 	// Current time in Unix seconds
 	now := time.Now().Unix()
 
@@ -62,7 +61,7 @@ type bravoRequestSigner struct {
 
 var _ RequestSigner = &bravoRequestSigner{}
 
-func (s *bravoRequestSigner) Sign(ctx context.Context, request proto.Message, service string, method string) (context.Context, error) {
+func (s *bravoRequestSigner) Sign(ctx context.Context, request authn.VTProtoMessage, service string, method string) (context.Context, error) {
 	// Current time in Unix seconds
 	now := time.Now().Unix()
 
@@ -103,7 +102,7 @@ type noOpSigner struct {
 
 var _ RequestSigner = &noOpSigner{}
 
-func (s *noOpSigner) Sign(ctx context.Context, request proto.Message, service string, method string) (context.Context, error) {
+func (s *noOpSigner) Sign(ctx context.Context, request authn.VTProtoMessage, service string, method string) (context.Context, error) {
 	return ctx, nil
 }
 
