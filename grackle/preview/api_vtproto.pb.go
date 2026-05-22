@@ -2321,6 +2321,18 @@ func (m *WaitGroupJob) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.CompletedAt != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.CompletedAt))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.ProcessId) > 0 {
+		i -= len(m.ProcessId)
+		copy(dAtA[i:], m.ProcessId)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.ProcessId)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -3411,6 +3423,18 @@ func (m *UpdateBarrierRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error) 
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.ExpectedProcesses != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.ExpectedProcesses))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Description) > 0 {
+		i -= len(m.Description)
+		copy(dAtA[i:], m.Description)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.Description)))
+		i--
+		dAtA[i] = 0x1a
+	}
 	if len(m.BarrierName) > 0 {
 		i -= len(m.BarrierName)
 		copy(dAtA[i:], m.BarrierName)
@@ -3457,6 +3481,16 @@ func (m *UpdateBarrierResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.Barrier != nil {
+		size, err := m.Barrier.MarshalToSizedBufferVT(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -3608,6 +3642,11 @@ func (m *WaitAtBarrierRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error) 
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.TimeoutSeconds != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.TimeoutSeconds))
+		i--
+		dAtA[i] = 0x20
+	}
 	if m.ExpectedGeneration != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.ExpectedGeneration))
 		i--
@@ -3659,6 +3698,16 @@ func (m *WaitAtBarrierResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.TimedOut {
+		i--
+		if m.TimedOut {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x20
 	}
 	if m.NextGeneration != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.NextGeneration))
@@ -4791,6 +4840,13 @@ func (m *WaitGroupJob) SizeVT() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.ProcessId)
+	if l > 0 {
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	if m.CompletedAt != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.CompletedAt))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -5212,6 +5268,13 @@ func (m *UpdateBarrierRequest) SizeVT() (n int) {
 	if l > 0 {
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+	l = len(m.Description)
+	if l > 0 {
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	if m.ExpectedProcesses != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.ExpectedProcesses))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -5222,6 +5285,10 @@ func (m *UpdateBarrierResponse) SizeVT() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Barrier != nil {
+		l = m.Barrier.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -5288,6 +5355,9 @@ func (m *WaitAtBarrierRequest) SizeVT() (n int) {
 	if m.ExpectedGeneration != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.ExpectedGeneration))
 	}
+	if m.TimeoutSeconds != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.TimeoutSeconds))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -5307,6 +5377,9 @@ func (m *WaitAtBarrierResponse) SizeVT() (n int) {
 	}
 	if m.NextGeneration != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.NextGeneration))
+	}
+	if m.TimedOut {
+		n += 2
 	}
 	n += len(m.unknownFields)
 	return n
@@ -10903,6 +10976,57 @@ func (m *WaitGroupJob) UnmarshalVT(dAtA []byte) error {
 			return fmt.Errorf("proto: WaitGroupJob: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProcessId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ProcessId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CompletedAt", wireType)
+			}
+			m.CompletedAt = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CompletedAt |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -13548,6 +13672,57 @@ func (m *UpdateBarrierRequest) UnmarshalVT(dAtA []byte) error {
 			}
 			m.BarrierName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Description = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ExpectedProcesses", wireType)
+			}
+			m.ExpectedProcesses = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ExpectedProcesses |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -13599,6 +13774,42 @@ func (m *UpdateBarrierResponse) UnmarshalVT(dAtA []byte) error {
 			return fmt.Errorf("proto: UpdateBarrierResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Barrier", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Barrier == nil {
+				m.Barrier = &Barrier{}
+			}
+			if err := m.Barrier.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -14025,6 +14236,25 @@ func (m *WaitAtBarrierRequest) UnmarshalVT(dAtA []byte) error {
 					break
 				}
 			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimeoutSeconds", wireType)
+			}
+			m.TimeoutSeconds = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TimeoutSeconds |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -14151,6 +14381,26 @@ func (m *WaitAtBarrierResponse) UnmarshalVT(dAtA []byte) error {
 					break
 				}
 			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimedOut", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.TimedOut = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])

@@ -286,7 +286,10 @@ message WaitGroup {
   uint64 completed = 7;
 }
 
-message WaitGroupJob {}
+message WaitGroupJob {
+  string process_id = 1;
+  int64 completed_at = 2;
+}
 
 message AcquireLockRequest {
   string namespace_name = 1;
@@ -409,9 +412,13 @@ message DeleteBarrierResponse {}
 message UpdateBarrierRequest {
   string namespace_name = 1;
   string barrier_name = 2;
+  string description = 3;
+  uint64 expected_processes = 4;
 }
 
-message UpdateBarrierResponse {}
+message UpdateBarrierResponse {
+  Barrier barrier = 1;
+}
 
 message ArriveAtBarrierRequest {
   string namespace_name = 1;
@@ -430,12 +437,14 @@ message WaitAtBarrierRequest {
   string namespace_name = 1;
   string barrier_name = 2;
   uint64 expected_generation = 3;
+  int32 timeout_seconds = 4;
 }
 
 message WaitAtBarrierResponse {
   Barrier barrier = 1;
   bool all_arrived = 2;
   uint64 next_generation = 3;
+  bool timed_out = 4;
 }
 
 message ListBarrierParticipantsRequest {

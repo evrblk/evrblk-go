@@ -2556,6 +2556,8 @@ func (x *WaitGroup) GetCompleted() uint64 {
 
 type WaitGroupJob struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProcessId     string                 `protobuf:"bytes,1,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	CompletedAt   int64                  `protobuf:"varint,2,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2588,6 +2590,20 @@ func (x *WaitGroupJob) ProtoReflect() protoreflect.Message {
 // Deprecated: Use WaitGroupJob.ProtoReflect.Descriptor instead.
 func (*WaitGroupJob) Descriptor() ([]byte, []int) {
 	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *WaitGroupJob) GetProcessId() string {
+	if x != nil {
+		return x.ProcessId
+	}
+	return ""
+}
+
+func (x *WaitGroupJob) GetCompletedAt() int64 {
+	if x != nil {
+		return x.CompletedAt
+	}
+	return 0
 }
 
 type AcquireLockRequest struct {
@@ -3747,11 +3763,13 @@ func (*DeleteBarrierResponse) Descriptor() ([]byte, []int) {
 }
 
 type UpdateBarrierRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName   string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName     string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName       string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	ExpectedProcesses uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *UpdateBarrierRequest) Reset() {
@@ -3798,8 +3816,23 @@ func (x *UpdateBarrierRequest) GetBarrierName() string {
 	return ""
 }
 
+func (x *UpdateBarrierRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateBarrierRequest) GetExpectedProcesses() uint64 {
+	if x != nil {
+		return x.ExpectedProcesses
+	}
+	return 0
+}
+
 type UpdateBarrierResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Barrier       *Barrier               `protobuf:"bytes,1,opt,name=barrier,proto3" json:"barrier,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3832,6 +3865,13 @@ func (x *UpdateBarrierResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateBarrierResponse.ProtoReflect.Descriptor instead.
 func (*UpdateBarrierResponse) Descriptor() ([]byte, []int) {
 	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{68}
+}
+
+func (x *UpdateBarrierResponse) GetBarrier() *Barrier {
+	if x != nil {
+		return x.Barrier
+	}
+	return nil
 }
 
 type ArriveAtBarrierRequest struct {
@@ -3967,6 +4007,7 @@ type WaitAtBarrierRequest struct {
 	NamespaceName      string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
 	BarrierName        string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
 	ExpectedGeneration uint64                 `protobuf:"varint,3,opt,name=expected_generation,json=expectedGeneration,proto3" json:"expected_generation,omitempty"`
+	TimeoutSeconds     int32                  `protobuf:"varint,4,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -4022,11 +4063,19 @@ func (x *WaitAtBarrierRequest) GetExpectedGeneration() uint64 {
 	return 0
 }
 
+func (x *WaitAtBarrierRequest) GetTimeoutSeconds() int32 {
+	if x != nil {
+		return x.TimeoutSeconds
+	}
+	return 0
+}
+
 type WaitAtBarrierResponse struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Barrier        *Barrier               `protobuf:"bytes,1,opt,name=barrier,proto3" json:"barrier,omitempty"`
 	AllArrived     bool                   `protobuf:"varint,2,opt,name=all_arrived,json=allArrived,proto3" json:"all_arrived,omitempty"`
 	NextGeneration uint64                 `protobuf:"varint,3,opt,name=next_generation,json=nextGeneration,proto3" json:"next_generation,omitempty"`
+	TimedOut       bool                   `protobuf:"varint,4,opt,name=timed_out,json=timedOut,proto3" json:"timed_out,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -4080,6 +4129,13 @@ func (x *WaitAtBarrierResponse) GetNextGeneration() uint64 {
 		return x.NextGeneration
 	}
 	return 0
+}
+
+func (x *WaitAtBarrierResponse) GetTimedOut() bool {
+	if x != nil {
+		return x.TimedOut
+	}
+	return false
 }
 
 type ListBarrierParticipantsRequest struct {
@@ -4525,8 +4581,11 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\n" +
 	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12\x18\n" +
 	"\acounter\x18\x06 \x01(\x04R\acounter\x12\x1c\n" +
-	"\tcompleted\x18\a \x01(\x04R\tcompleted\"\x0e\n" +
-	"\fWaitGroupJob\"\xb4\x01\n" +
+	"\tcompleted\x18\a \x01(\x04R\tcompleted\"P\n" +
+	"\fWaitGroupJob\x12\x1d\n" +
+	"\n" +
+	"process_id\x18\x01 \x01(\tR\tprocessId\x12!\n" +
+	"\fcompleted_at\x18\x02 \x01(\x03R\vcompletedAt\"\xb4\x01\n" +
 	"\x12AcquireLockRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1b\n" +
 	"\tlock_name\x18\x02 \x01(\tR\blockName\x12\x1d\n" +
@@ -4606,11 +4665,14 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x14DeleteBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\"\x17\n" +
-	"\x15DeleteBarrierResponse\"`\n" +
+	"\x15DeleteBarrierResponse\"\xb1\x01\n" +
 	"\x14UpdateBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
-	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\"\x17\n" +
-	"\x15UpdateBarrierResponse\"\xb2\x01\n" +
+	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
+	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\"V\n" +
+	"\x15UpdateBarrierResponse\x12=\n" +
+	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\"\xb2\x01\n" +
 	"\x16ArriveAtBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12\x1d\n" +
@@ -4621,16 +4683,18 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\x12\x1f\n" +
 	"\vall_arrived\x18\x02 \x01(\bR\n" +
 	"allArrived\x12'\n" +
-	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\"\x91\x01\n" +
+	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\"\xba\x01\n" +
 	"\x14WaitAtBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12/\n" +
-	"\x13expected_generation\x18\x03 \x01(\x04R\x12expectedGeneration\"\xa0\x01\n" +
+	"\x13expected_generation\x18\x03 \x01(\x04R\x12expectedGeneration\x12'\n" +
+	"\x0ftimeout_seconds\x18\x04 \x01(\x05R\x0etimeoutSeconds\"\xbd\x01\n" +
 	"\x15WaitAtBarrierResponse\x12=\n" +
 	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\x12\x1f\n" +
 	"\vall_arrived\x18\x02 \x01(\bR\n" +
 	"allArrived\x12'\n" +
-	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\"\xcb\x01\n" +
+	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\x12\x1b\n" +
+	"\ttimed_out\x18\x04 \x01(\bR\btimedOut\"\xcb\x01\n" +
 	"\x1eListBarrierParticipantsRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12\x1e\n" +
@@ -4821,82 +4885,83 @@ var file_proto_grackle_preview_api_proto_depIdxs = []int32{
 	76, // 25: com.evrblk.grackle.preview.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
 	76, // 26: com.evrblk.grackle.preview.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.preview.Barrier
 	76, // 27: com.evrblk.grackle.preview.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	76, // 28: com.evrblk.grackle.preview.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	76, // 29: com.evrblk.grackle.preview.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	77, // 30: com.evrblk.grackle.preview.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.preview.BarrierParticipant
-	1,  // 31: com.evrblk.grackle.preview.GracklePreviewApi.CreateNamespace:input_type -> com.evrblk.grackle.preview.CreateNamespaceRequest
-	3,  // 32: com.evrblk.grackle.preview.GracklePreviewApi.ListNamespaces:input_type -> com.evrblk.grackle.preview.ListNamespacesRequest
-	5,  // 33: com.evrblk.grackle.preview.GracklePreviewApi.GetNamespace:input_type -> com.evrblk.grackle.preview.GetNamespaceRequest
-	7,  // 34: com.evrblk.grackle.preview.GracklePreviewApi.DeleteNamespace:input_type -> com.evrblk.grackle.preview.DeleteNamespaceRequest
-	9,  // 35: com.evrblk.grackle.preview.GracklePreviewApi.UpdateNamespace:input_type -> com.evrblk.grackle.preview.UpdateNamespaceRequest
-	11, // 36: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphore:input_type -> com.evrblk.grackle.preview.CreateSemaphoreRequest
-	13, // 37: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphores:input_type -> com.evrblk.grackle.preview.ListSemaphoresRequest
-	15, // 38: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphore:input_type -> com.evrblk.grackle.preview.GetSemaphoreRequest
-	17, // 39: com.evrblk.grackle.preview.GracklePreviewApi.AcquireSemaphore:input_type -> com.evrblk.grackle.preview.AcquireSemaphoreRequest
-	19, // 40: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.preview.ReleaseSemaphoreRequest
-	21, // 41: com.evrblk.grackle.preview.GracklePreviewApi.UpdateSemaphore:input_type -> com.evrblk.grackle.preview.UpdateSemaphoreRequest
-	23, // 42: com.evrblk.grackle.preview.GracklePreviewApi.DeleteSemaphore:input_type -> com.evrblk.grackle.preview.DeleteSemaphoreRequest
-	25, // 43: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.preview.ListSemaphoreHoldersRequest
-	29, // 44: com.evrblk.grackle.preview.GracklePreviewApi.CreateWaitGroup:input_type -> com.evrblk.grackle.preview.CreateWaitGroupRequest
-	31, // 45: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroups:input_type -> com.evrblk.grackle.preview.ListWaitGroupsRequest
-	33, // 46: com.evrblk.grackle.preview.GracklePreviewApi.GetWaitGroup:input_type -> com.evrblk.grackle.preview.GetWaitGroupRequest
-	35, // 47: com.evrblk.grackle.preview.GracklePreviewApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.preview.DeleteWaitGroupRequest
-	37, // 48: com.evrblk.grackle.preview.GracklePreviewApi.AddJobsToWaitGroup:input_type -> com.evrblk.grackle.preview.AddJobsToWaitGroupRequest
-	39, // 49: com.evrblk.grackle.preview.GracklePreviewApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.preview.CompleteJobsFromWaitGroupRequest
-	41, // 50: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroupJobs:input_type -> com.evrblk.grackle.preview.ListWaitGroupJobsRequest
-	43, // 51: com.evrblk.grackle.preview.GracklePreviewApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.preview.WaitForWaitGroupRequest
-	47, // 52: com.evrblk.grackle.preview.GracklePreviewApi.AcquireLock:input_type -> com.evrblk.grackle.preview.AcquireLockRequest
-	49, // 53: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseLock:input_type -> com.evrblk.grackle.preview.ReleaseLockRequest
-	51, // 54: com.evrblk.grackle.preview.GracklePreviewApi.GetLock:input_type -> com.evrblk.grackle.preview.GetLockRequest
-	53, // 55: com.evrblk.grackle.preview.GracklePreviewApi.DeleteLock:input_type -> com.evrblk.grackle.preview.DeleteLockRequest
-	55, // 56: com.evrblk.grackle.preview.GracklePreviewApi.ListLocks:input_type -> com.evrblk.grackle.preview.ListLocksRequest
-	60, // 57: com.evrblk.grackle.preview.GracklePreviewApi.CreateBarrier:input_type -> com.evrblk.grackle.preview.CreateBarrierRequest
-	62, // 58: com.evrblk.grackle.preview.GracklePreviewApi.ListBarriers:input_type -> com.evrblk.grackle.preview.ListBarriersRequest
-	64, // 59: com.evrblk.grackle.preview.GracklePreviewApi.GetBarrier:input_type -> com.evrblk.grackle.preview.GetBarrierRequest
-	66, // 60: com.evrblk.grackle.preview.GracklePreviewApi.DeleteBarrier:input_type -> com.evrblk.grackle.preview.DeleteBarrierRequest
-	68, // 61: com.evrblk.grackle.preview.GracklePreviewApi.UpdateBarrier:input_type -> com.evrblk.grackle.preview.UpdateBarrierRequest
-	70, // 62: com.evrblk.grackle.preview.GracklePreviewApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.preview.ArriveAtBarrierRequest
-	72, // 63: com.evrblk.grackle.preview.GracklePreviewApi.WaitAtBarrier:input_type -> com.evrblk.grackle.preview.WaitAtBarrierRequest
-	74, // 64: com.evrblk.grackle.preview.GracklePreviewApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.preview.ListBarrierParticipantsRequest
-	2,  // 65: com.evrblk.grackle.preview.GracklePreviewApi.CreateNamespace:output_type -> com.evrblk.grackle.preview.CreateNamespaceResponse
-	4,  // 66: com.evrblk.grackle.preview.GracklePreviewApi.ListNamespaces:output_type -> com.evrblk.grackle.preview.ListNamespacesResponse
-	6,  // 67: com.evrblk.grackle.preview.GracklePreviewApi.GetNamespace:output_type -> com.evrblk.grackle.preview.GetNamespaceResponse
-	8,  // 68: com.evrblk.grackle.preview.GracklePreviewApi.DeleteNamespace:output_type -> com.evrblk.grackle.preview.DeleteNamespaceResponse
-	10, // 69: com.evrblk.grackle.preview.GracklePreviewApi.UpdateNamespace:output_type -> com.evrblk.grackle.preview.UpdateNamespaceResponse
-	12, // 70: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphore:output_type -> com.evrblk.grackle.preview.CreateSemaphoreResponse
-	14, // 71: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphores:output_type -> com.evrblk.grackle.preview.ListSemaphoresResponse
-	16, // 72: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphore:output_type -> com.evrblk.grackle.preview.GetSemaphoreResponse
-	18, // 73: com.evrblk.grackle.preview.GracklePreviewApi.AcquireSemaphore:output_type -> com.evrblk.grackle.preview.AcquireSemaphoreResponse
-	20, // 74: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.preview.ReleaseSemaphoreResponse
-	22, // 75: com.evrblk.grackle.preview.GracklePreviewApi.UpdateSemaphore:output_type -> com.evrblk.grackle.preview.UpdateSemaphoreResponse
-	24, // 76: com.evrblk.grackle.preview.GracklePreviewApi.DeleteSemaphore:output_type -> com.evrblk.grackle.preview.DeleteSemaphoreResponse
-	26, // 77: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.preview.ListSemaphoreHoldersResponse
-	30, // 78: com.evrblk.grackle.preview.GracklePreviewApi.CreateWaitGroup:output_type -> com.evrblk.grackle.preview.CreateWaitGroupResponse
-	32, // 79: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroups:output_type -> com.evrblk.grackle.preview.ListWaitGroupsResponse
-	34, // 80: com.evrblk.grackle.preview.GracklePreviewApi.GetWaitGroup:output_type -> com.evrblk.grackle.preview.GetWaitGroupResponse
-	36, // 81: com.evrblk.grackle.preview.GracklePreviewApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.preview.DeleteWaitGroupResponse
-	38, // 82: com.evrblk.grackle.preview.GracklePreviewApi.AddJobsToWaitGroup:output_type -> com.evrblk.grackle.preview.AddJobsToWaitGroupResponse
-	40, // 83: com.evrblk.grackle.preview.GracklePreviewApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.preview.CompleteJobsFromWaitGroupResponse
-	42, // 84: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroupJobs:output_type -> com.evrblk.grackle.preview.ListWaitGroupJobsResponse
-	44, // 85: com.evrblk.grackle.preview.GracklePreviewApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.preview.WaitForWaitGroupResponse
-	48, // 86: com.evrblk.grackle.preview.GracklePreviewApi.AcquireLock:output_type -> com.evrblk.grackle.preview.AcquireLockResponse
-	50, // 87: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseLock:output_type -> com.evrblk.grackle.preview.ReleaseLockResponse
-	52, // 88: com.evrblk.grackle.preview.GracklePreviewApi.GetLock:output_type -> com.evrblk.grackle.preview.GetLockResponse
-	54, // 89: com.evrblk.grackle.preview.GracklePreviewApi.DeleteLock:output_type -> com.evrblk.grackle.preview.DeleteLockResponse
-	56, // 90: com.evrblk.grackle.preview.GracklePreviewApi.ListLocks:output_type -> com.evrblk.grackle.preview.ListLocksResponse
-	61, // 91: com.evrblk.grackle.preview.GracklePreviewApi.CreateBarrier:output_type -> com.evrblk.grackle.preview.CreateBarrierResponse
-	63, // 92: com.evrblk.grackle.preview.GracklePreviewApi.ListBarriers:output_type -> com.evrblk.grackle.preview.ListBarriersResponse
-	65, // 93: com.evrblk.grackle.preview.GracklePreviewApi.GetBarrier:output_type -> com.evrblk.grackle.preview.GetBarrierResponse
-	67, // 94: com.evrblk.grackle.preview.GracklePreviewApi.DeleteBarrier:output_type -> com.evrblk.grackle.preview.DeleteBarrierResponse
-	69, // 95: com.evrblk.grackle.preview.GracklePreviewApi.UpdateBarrier:output_type -> com.evrblk.grackle.preview.UpdateBarrierResponse
-	71, // 96: com.evrblk.grackle.preview.GracklePreviewApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.preview.ArriveAtBarrierResponse
-	73, // 97: com.evrblk.grackle.preview.GracklePreviewApi.WaitAtBarrier:output_type -> com.evrblk.grackle.preview.WaitAtBarrierResponse
-	75, // 98: com.evrblk.grackle.preview.GracklePreviewApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.preview.ListBarrierParticipantsResponse
-	65, // [65:99] is the sub-list for method output_type
-	31, // [31:65] is the sub-list for method input_type
-	31, // [31:31] is the sub-list for extension type_name
-	31, // [31:31] is the sub-list for extension extendee
-	0,  // [0:31] is the sub-list for field type_name
+	76, // 28: com.evrblk.grackle.preview.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
+	76, // 29: com.evrblk.grackle.preview.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
+	76, // 30: com.evrblk.grackle.preview.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
+	77, // 31: com.evrblk.grackle.preview.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.preview.BarrierParticipant
+	1,  // 32: com.evrblk.grackle.preview.GracklePreviewApi.CreateNamespace:input_type -> com.evrblk.grackle.preview.CreateNamespaceRequest
+	3,  // 33: com.evrblk.grackle.preview.GracklePreviewApi.ListNamespaces:input_type -> com.evrblk.grackle.preview.ListNamespacesRequest
+	5,  // 34: com.evrblk.grackle.preview.GracklePreviewApi.GetNamespace:input_type -> com.evrblk.grackle.preview.GetNamespaceRequest
+	7,  // 35: com.evrblk.grackle.preview.GracklePreviewApi.DeleteNamespace:input_type -> com.evrblk.grackle.preview.DeleteNamespaceRequest
+	9,  // 36: com.evrblk.grackle.preview.GracklePreviewApi.UpdateNamespace:input_type -> com.evrblk.grackle.preview.UpdateNamespaceRequest
+	11, // 37: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphore:input_type -> com.evrblk.grackle.preview.CreateSemaphoreRequest
+	13, // 38: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphores:input_type -> com.evrblk.grackle.preview.ListSemaphoresRequest
+	15, // 39: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphore:input_type -> com.evrblk.grackle.preview.GetSemaphoreRequest
+	17, // 40: com.evrblk.grackle.preview.GracklePreviewApi.AcquireSemaphore:input_type -> com.evrblk.grackle.preview.AcquireSemaphoreRequest
+	19, // 41: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.preview.ReleaseSemaphoreRequest
+	21, // 42: com.evrblk.grackle.preview.GracklePreviewApi.UpdateSemaphore:input_type -> com.evrblk.grackle.preview.UpdateSemaphoreRequest
+	23, // 43: com.evrblk.grackle.preview.GracklePreviewApi.DeleteSemaphore:input_type -> com.evrblk.grackle.preview.DeleteSemaphoreRequest
+	25, // 44: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.preview.ListSemaphoreHoldersRequest
+	29, // 45: com.evrblk.grackle.preview.GracklePreviewApi.CreateWaitGroup:input_type -> com.evrblk.grackle.preview.CreateWaitGroupRequest
+	31, // 46: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroups:input_type -> com.evrblk.grackle.preview.ListWaitGroupsRequest
+	33, // 47: com.evrblk.grackle.preview.GracklePreviewApi.GetWaitGroup:input_type -> com.evrblk.grackle.preview.GetWaitGroupRequest
+	35, // 48: com.evrblk.grackle.preview.GracklePreviewApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.preview.DeleteWaitGroupRequest
+	37, // 49: com.evrblk.grackle.preview.GracklePreviewApi.AddJobsToWaitGroup:input_type -> com.evrblk.grackle.preview.AddJobsToWaitGroupRequest
+	39, // 50: com.evrblk.grackle.preview.GracklePreviewApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.preview.CompleteJobsFromWaitGroupRequest
+	41, // 51: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroupJobs:input_type -> com.evrblk.grackle.preview.ListWaitGroupJobsRequest
+	43, // 52: com.evrblk.grackle.preview.GracklePreviewApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.preview.WaitForWaitGroupRequest
+	47, // 53: com.evrblk.grackle.preview.GracklePreviewApi.AcquireLock:input_type -> com.evrblk.grackle.preview.AcquireLockRequest
+	49, // 54: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseLock:input_type -> com.evrblk.grackle.preview.ReleaseLockRequest
+	51, // 55: com.evrblk.grackle.preview.GracklePreviewApi.GetLock:input_type -> com.evrblk.grackle.preview.GetLockRequest
+	53, // 56: com.evrblk.grackle.preview.GracklePreviewApi.DeleteLock:input_type -> com.evrblk.grackle.preview.DeleteLockRequest
+	55, // 57: com.evrblk.grackle.preview.GracklePreviewApi.ListLocks:input_type -> com.evrblk.grackle.preview.ListLocksRequest
+	60, // 58: com.evrblk.grackle.preview.GracklePreviewApi.CreateBarrier:input_type -> com.evrblk.grackle.preview.CreateBarrierRequest
+	62, // 59: com.evrblk.grackle.preview.GracklePreviewApi.ListBarriers:input_type -> com.evrblk.grackle.preview.ListBarriersRequest
+	64, // 60: com.evrblk.grackle.preview.GracklePreviewApi.GetBarrier:input_type -> com.evrblk.grackle.preview.GetBarrierRequest
+	66, // 61: com.evrblk.grackle.preview.GracklePreviewApi.DeleteBarrier:input_type -> com.evrblk.grackle.preview.DeleteBarrierRequest
+	68, // 62: com.evrblk.grackle.preview.GracklePreviewApi.UpdateBarrier:input_type -> com.evrblk.grackle.preview.UpdateBarrierRequest
+	70, // 63: com.evrblk.grackle.preview.GracklePreviewApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.preview.ArriveAtBarrierRequest
+	72, // 64: com.evrblk.grackle.preview.GracklePreviewApi.WaitAtBarrier:input_type -> com.evrblk.grackle.preview.WaitAtBarrierRequest
+	74, // 65: com.evrblk.grackle.preview.GracklePreviewApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.preview.ListBarrierParticipantsRequest
+	2,  // 66: com.evrblk.grackle.preview.GracklePreviewApi.CreateNamespace:output_type -> com.evrblk.grackle.preview.CreateNamespaceResponse
+	4,  // 67: com.evrblk.grackle.preview.GracklePreviewApi.ListNamespaces:output_type -> com.evrblk.grackle.preview.ListNamespacesResponse
+	6,  // 68: com.evrblk.grackle.preview.GracklePreviewApi.GetNamespace:output_type -> com.evrblk.grackle.preview.GetNamespaceResponse
+	8,  // 69: com.evrblk.grackle.preview.GracklePreviewApi.DeleteNamespace:output_type -> com.evrblk.grackle.preview.DeleteNamespaceResponse
+	10, // 70: com.evrblk.grackle.preview.GracklePreviewApi.UpdateNamespace:output_type -> com.evrblk.grackle.preview.UpdateNamespaceResponse
+	12, // 71: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphore:output_type -> com.evrblk.grackle.preview.CreateSemaphoreResponse
+	14, // 72: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphores:output_type -> com.evrblk.grackle.preview.ListSemaphoresResponse
+	16, // 73: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphore:output_type -> com.evrblk.grackle.preview.GetSemaphoreResponse
+	18, // 74: com.evrblk.grackle.preview.GracklePreviewApi.AcquireSemaphore:output_type -> com.evrblk.grackle.preview.AcquireSemaphoreResponse
+	20, // 75: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.preview.ReleaseSemaphoreResponse
+	22, // 76: com.evrblk.grackle.preview.GracklePreviewApi.UpdateSemaphore:output_type -> com.evrblk.grackle.preview.UpdateSemaphoreResponse
+	24, // 77: com.evrblk.grackle.preview.GracklePreviewApi.DeleteSemaphore:output_type -> com.evrblk.grackle.preview.DeleteSemaphoreResponse
+	26, // 78: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.preview.ListSemaphoreHoldersResponse
+	30, // 79: com.evrblk.grackle.preview.GracklePreviewApi.CreateWaitGroup:output_type -> com.evrblk.grackle.preview.CreateWaitGroupResponse
+	32, // 80: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroups:output_type -> com.evrblk.grackle.preview.ListWaitGroupsResponse
+	34, // 81: com.evrblk.grackle.preview.GracklePreviewApi.GetWaitGroup:output_type -> com.evrblk.grackle.preview.GetWaitGroupResponse
+	36, // 82: com.evrblk.grackle.preview.GracklePreviewApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.preview.DeleteWaitGroupResponse
+	38, // 83: com.evrblk.grackle.preview.GracklePreviewApi.AddJobsToWaitGroup:output_type -> com.evrblk.grackle.preview.AddJobsToWaitGroupResponse
+	40, // 84: com.evrblk.grackle.preview.GracklePreviewApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.preview.CompleteJobsFromWaitGroupResponse
+	42, // 85: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroupJobs:output_type -> com.evrblk.grackle.preview.ListWaitGroupJobsResponse
+	44, // 86: com.evrblk.grackle.preview.GracklePreviewApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.preview.WaitForWaitGroupResponse
+	48, // 87: com.evrblk.grackle.preview.GracklePreviewApi.AcquireLock:output_type -> com.evrblk.grackle.preview.AcquireLockResponse
+	50, // 88: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseLock:output_type -> com.evrblk.grackle.preview.ReleaseLockResponse
+	52, // 89: com.evrblk.grackle.preview.GracklePreviewApi.GetLock:output_type -> com.evrblk.grackle.preview.GetLockResponse
+	54, // 90: com.evrblk.grackle.preview.GracklePreviewApi.DeleteLock:output_type -> com.evrblk.grackle.preview.DeleteLockResponse
+	56, // 91: com.evrblk.grackle.preview.GracklePreviewApi.ListLocks:output_type -> com.evrblk.grackle.preview.ListLocksResponse
+	61, // 92: com.evrblk.grackle.preview.GracklePreviewApi.CreateBarrier:output_type -> com.evrblk.grackle.preview.CreateBarrierResponse
+	63, // 93: com.evrblk.grackle.preview.GracklePreviewApi.ListBarriers:output_type -> com.evrblk.grackle.preview.ListBarriersResponse
+	65, // 94: com.evrblk.grackle.preview.GracklePreviewApi.GetBarrier:output_type -> com.evrblk.grackle.preview.GetBarrierResponse
+	67, // 95: com.evrblk.grackle.preview.GracklePreviewApi.DeleteBarrier:output_type -> com.evrblk.grackle.preview.DeleteBarrierResponse
+	69, // 96: com.evrblk.grackle.preview.GracklePreviewApi.UpdateBarrier:output_type -> com.evrblk.grackle.preview.UpdateBarrierResponse
+	71, // 97: com.evrblk.grackle.preview.GracklePreviewApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.preview.ArriveAtBarrierResponse
+	73, // 98: com.evrblk.grackle.preview.GracklePreviewApi.WaitAtBarrier:output_type -> com.evrblk.grackle.preview.WaitAtBarrierResponse
+	75, // 99: com.evrblk.grackle.preview.GracklePreviewApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.preview.ListBarrierParticipantsResponse
+	66, // [66:100] is the sub-list for method output_type
+	32, // [32:66] is the sub-list for method input_type
+	32, // [32:32] is the sub-list for extension type_name
+	32, // [32:32] is the sub-list for extension extendee
+	0,  // [0:32] is the sub-list for field type_name
 }
 
 func init() { file_proto_grackle_preview_api_proto_init() }
