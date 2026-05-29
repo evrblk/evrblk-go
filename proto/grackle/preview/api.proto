@@ -20,6 +20,11 @@ service GracklePreviewApi {
   rpc UpdateSemaphore(UpdateSemaphoreRequest) returns (UpdateSemaphoreResponse) {}
   rpc DeleteSemaphore(DeleteSemaphoreRequest) returns (DeleteSemaphoreResponse) {}
   rpc ListSemaphoreHolders(ListSemaphoreHoldersRequest) returns (ListSemaphoreHoldersResponse) {}
+  rpc CreateSemaphoreLease(CreateSemaphoreLeaseRequest) returns (CreateSemaphoreLeaseResponse) {}
+  rpc RevokeSemaphoreLease(RevokeSemaphoreLeaseRequest) returns (RevokeSemaphoreLeaseResponse) {}
+  rpc RefreshSemaphoreLease(RefreshSemaphoreLeaseRequest) returns (RefreshSemaphoreLeaseResponse) {}
+  rpc ListSemaphoreLeases(ListSemaphoreLeasesRequest) returns (ListSemaphoreLeasesResponse) {}
+  rpc GetSemaphoreLease(GetSemaphoreLeaseRequest) returns (GetSemaphoreLeaseResponse) {}
 
   rpc CreateWaitGroup(CreateWaitGroupRequest) returns (CreateWaitGroupResponse) {}
   rpc ListWaitGroups(ListWaitGroupsRequest) returns (ListWaitGroupsResponse) {}
@@ -35,6 +40,11 @@ service GracklePreviewApi {
   rpc GetLock(GetLockRequest) returns (GetLockResponse) {}
   rpc DeleteLock(DeleteLockRequest) returns (DeleteLockResponse) {}
   rpc ListLocks(ListLocksRequest) returns (ListLocksResponse) {}
+  rpc CreateLockLease(CreateLockLeaseRequest) returns (CreateLockLeaseResponse) {}
+  rpc RevokeLockLease(RevokeLockLeaseRequest) returns (RevokeLockLeaseResponse) {}
+  rpc RefreshLockLease(RefreshLockLeaseRequest) returns (RefreshLockLeaseResponse) {}
+  rpc ListLockLeases(ListLockLeasesRequest) returns (ListLockLeasesResponse) {}
+  rpc GetLockLease(GetLockLeaseRequest) returns (GetLockLeaseResponse) {}
 
   rpc CreateBarrier(CreateBarrierRequest) returns (CreateBarrierResponse) {}
   rpc ListBarriers(ListBarriersRequest) returns (ListBarriersResponse) {}
@@ -124,9 +134,9 @@ message GetSemaphoreResponse {
 message AcquireSemaphoreRequest {
   string namespace_name = 1;
   string semaphore_name = 2;
-  string process_id = 3;
-  int64 expires_at = 4;
-  uint64 weight = 5;
+  string lease_id = 3;
+  uint64 weight = 4;
+  int32 timeout_seconds = 5;
 }
 
 message AcquireSemaphoreResponse {
@@ -137,7 +147,7 @@ message AcquireSemaphoreResponse {
 message ReleaseSemaphoreRequest {
   string namespace_name = 1;
   string semaphore_name = 2;
-  string process_id = 3;
+  string lease_id = 3;
 }
 
 message ReleaseSemaphoreResponse {
@@ -175,20 +185,76 @@ message ListSemaphoreHoldersResponse {
   string previous_pagination_token = 3;
 }
 
+message CreateSemaphoreLeaseRequest {
+  string namespace_name = 1;
+  string process_id = 2;
+  uint64 ttl_seconds = 3;
+}
+
+message CreateSemaphoreLeaseResponse {
+  Lease lease = 1;
+}
+
+message RevokeSemaphoreLeaseRequest {
+  string namespace_name = 1;
+  string lease_id = 2;
+}
+
+message RevokeSemaphoreLeaseResponse {}
+
+message RefreshSemaphoreLeaseRequest {
+  string namespace_name = 1;
+  string lease_id = 2;
+  uint64 ttl_seconds = 3;
+}
+
+message RefreshSemaphoreLeaseResponse {
+  Lease lease = 1;
+}
+
+message ListSemaphoreLeasesRequest {
+  string namespace_name = 1;
+  string pagination_token = 2;
+  int32 limit = 3;
+}
+
+message ListSemaphoreLeasesResponse {
+  repeated Lease leases = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message GetSemaphoreLeaseRequest {
+  string namespace_name = 1;
+  string lease_id = 2;
+}
+
+message GetSemaphoreLeaseResponse {
+  Lease lease = 1;
+}
+
+message Lease {
+  string lease_id = 1;
+  string process_id = 2;
+  int64 created_at = 3;
+  int64 expires_at = 4;
+}
+
 message Semaphore {
   string name = 1;
   string description = 2;
   int64 created_at = 3;
   int64 updated_at = 4;
-  uint64 permits = 5;
-  repeated SemaphoreHolder semaphore_holders = 6;
+  uint64 version = 5;
+  uint64 permits = 6;
+  uint64 active_holds = 7;
+  uint64 active_holders_count = 8;
 }
 
 message SemaphoreHolder {
-  string process_id = 1;
+  string lease_id = 1;
   int64 locked_at = 2;
-  int64 expires_at = 3;
-  uint64 weight = 4;
+  uint64 weight = 3;
 }
 
 message CreateWaitGroupRequest {
@@ -281,9 +347,10 @@ message WaitGroup {
   string description = 2;
   int64 created_at = 3;
   int64 updated_at = 4;
-  int64 expires_at = 5;
-  uint64 counter = 6;
-  uint64 completed = 7;
+  uint64 version = 5;
+  int64 expires_at = 6;
+  uint64 counter = 7;
+  uint64 completed = 8;
 }
 
 message WaitGroupJob {
@@ -294,9 +361,9 @@ message WaitGroupJob {
 message AcquireLockRequest {
   string namespace_name = 1;
   string lock_name = 2;
-  string process_id = 3;
-  bool exclusive = 4;
-  int64 expires_at = 5;
+  bool exclusive = 3;
+  string lease_id = 4;
+  int32 timeout_seconds = 5;
 }
 
 message AcquireLockResponse {
@@ -307,7 +374,7 @@ message AcquireLockResponse {
 message ReleaseLockRequest {
   string namespace_name = 1;
   string lock_name = 2;
-  string process_id = 3;
+  string lease_id = 3;
 }
 
 message ReleaseLockResponse {
@@ -342,6 +409,54 @@ message ListLocksResponse {
   string previous_pagination_token = 3;
 }
 
+message CreateLockLeaseRequest {
+  string namespace_name = 1;
+  string process_id = 2;
+  uint64 ttl_seconds = 3;
+}
+
+message CreateLockLeaseResponse {
+  Lease lease = 1;
+}
+
+message RevokeLockLeaseRequest {
+  string namespace_name = 1;
+  string lease_id = 2;
+}
+
+message RevokeLockLeaseResponse {}
+
+message RefreshLockLeaseRequest {
+  string namespace_name = 1;
+  string lease_id = 2;
+  uint64 ttl_seconds = 3;
+}
+
+message RefreshLockLeaseResponse {
+  Lease lease = 1;
+}
+
+message ListLockLeasesRequest {
+  string namespace_name = 1;
+  string pagination_token = 2;
+  int32 limit = 3;
+}
+
+message ListLockLeasesResponse {
+  repeated Lease leases = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
+}
+
+message GetLockLeaseRequest {
+  string namespace_name = 1;
+  string lease_id = 2;
+}
+
+message GetLockLeaseResponse {
+  Lease lease = 1;
+}
+
 message Lock {
   string name = 1;
   LockState state = 2;
@@ -350,9 +465,8 @@ message Lock {
 }
 
 message LockHolder {
-  string process_id = 1;
+  string lease_id = 1;
   int64 locked_at = 2;
-  int64 expires_at = 3;
 }
 
 enum LockState {
@@ -366,6 +480,7 @@ message Namespace {
   string description = 2;
   int64 created_at = 3;
   int64 updated_at = 4;
+  uint64 version = 5;
 }
 
 message CreateBarrierRequest {
@@ -469,9 +584,10 @@ message Barrier {
   uint64 generation = 5;
   int64 created_at = 6;
   int64 updated_at = 7;
-  // int64 expires_at = 8;
-  // int64 last_arrived_at = 9;
-  // bool auto_reset = 10;
+  uint64 version = 8;
 }
 
-message BarrierParticipant {}
+message BarrierParticipant {
+  string process_id = 1;
+  int64 arrived_at = 2;
+}

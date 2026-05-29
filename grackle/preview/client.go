@@ -26,6 +26,11 @@ type GrackleApi interface {
 	UpdateSemaphore(ctx context.Context, request *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error)
 	DeleteSemaphore(ctx context.Context, request *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error)
 	ListSemaphoreHolders(ctx context.Context, request *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error)
+	CreateSemaphoreLease(ctx context.Context, request *CreateSemaphoreLeaseRequest) (*CreateSemaphoreLeaseResponse, error)
+	RevokeSemaphoreLease(ctx context.Context, request *RevokeSemaphoreLeaseRequest) (*RevokeSemaphoreLeaseResponse, error)
+	RefreshSemaphoreLease(ctx context.Context, request *RefreshSemaphoreLeaseRequest) (*RefreshSemaphoreLeaseResponse, error)
+	ListSemaphoreLeases(ctx context.Context, request *ListSemaphoreLeasesRequest) (*ListSemaphoreLeasesResponse, error)
+	GetSemaphoreLease(ctx context.Context, request *GetSemaphoreLeaseRequest) (*GetSemaphoreLeaseResponse, error)
 	CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
 	ListWaitGroups(ctx context.Context, request *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, request *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
@@ -39,6 +44,11 @@ type GrackleApi interface {
 	GetLock(ctx context.Context, request *GetLockRequest) (*GetLockResponse, error)
 	DeleteLock(ctx context.Context, request *DeleteLockRequest) (*DeleteLockResponse, error)
 	ListLocks(ctx context.Context, request *ListLocksRequest) (*ListLocksResponse, error)
+	CreateLockLease(ctx context.Context, request *CreateLockLeaseRequest) (*CreateLockLeaseResponse, error)
+	RevokeLockLease(ctx context.Context, request *RevokeLockLeaseRequest) (*RevokeLockLeaseResponse, error)
+	RefreshLockLease(ctx context.Context, request *RefreshLockLeaseRequest) (*RefreshLockLeaseResponse, error)
+	ListLockLeases(ctx context.Context, request *ListLockLeasesRequest) (*ListLockLeasesResponse, error)
+	GetLockLease(ctx context.Context, request *GetLockLeaseRequest) (*GetLockLeaseResponse, error)
 	CreateBarrier(ctx context.Context, request *CreateBarrierRequest) (*CreateBarrierResponse, error)
 	ListBarriers(ctx context.Context, request *ListBarriersRequest) (*ListBarriersResponse, error)
 	GetBarrier(ctx context.Context, request *GetBarrierRequest) (*GetBarrierResponse, error)
@@ -289,6 +299,91 @@ func (c *GrackleGrpcClient) ListSemaphoreHolders(ctx context.Context, request *L
 	return resp, internal.ErrorFromRpcError(err)
 }
 
+func (c *GrackleGrpcClient) CreateSemaphoreLease(ctx context.Context, request *CreateSemaphoreLeaseRequest) (*CreateSemaphoreLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateSemaphoreLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateSemaphoreLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CreateSemaphoreLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.CreateSemaphoreLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "CreateSemaphoreLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) RevokeSemaphoreLease(ctx context.Context, request *RevokeSemaphoreLeaseRequest) (*RevokeSemaphoreLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "RevokeSemaphoreLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "RevokeSemaphoreLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "RevokeSemaphoreLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.RevokeSemaphoreLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "RevokeSemaphoreLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) RefreshSemaphoreLease(ctx context.Context, request *RefreshSemaphoreLeaseRequest) (*RefreshSemaphoreLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "RefreshSemaphoreLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "RefreshSemaphoreLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "RefreshSemaphoreLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.RefreshSemaphoreLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "RefreshSemaphoreLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ListSemaphoreLeases(ctx context.Context, request *ListSemaphoreLeasesRequest) (*ListSemaphoreLeasesResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListSemaphoreLeases").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListSemaphoreLeases"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListSemaphoreLeases")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListSemaphoreLeases(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListSemaphoreLeases", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) GetSemaphoreLease(ctx context.Context, request *GetSemaphoreLeaseRequest) (*GetSemaphoreLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetSemaphoreLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetSemaphoreLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetSemaphoreLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.GetSemaphoreLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "GetSemaphoreLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
 func (c *GrackleGrpcClient) CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateWaitGroup").Inc()
 	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateWaitGroup"), time.Now())
@@ -505,6 +600,91 @@ func (c *GrackleGrpcClient) ListLocks(ctx context.Context, request *ListLocksReq
 	resp, err := c.grpc.ListLocks(signedCtx, request, grpc.WaitForReady(true))
 	if err != nil {
 		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListLocks", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) CreateLockLease(ctx context.Context, request *CreateLockLeaseRequest) (*CreateLockLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "CreateLockLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "CreateLockLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "CreateLockLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.CreateLockLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "CreateLockLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) RevokeLockLease(ctx context.Context, request *RevokeLockLeaseRequest) (*RevokeLockLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "RevokeLockLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "RevokeLockLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "RevokeLockLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.RevokeLockLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "RevokeLockLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) RefreshLockLease(ctx context.Context, request *RefreshLockLeaseRequest) (*RefreshLockLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "RefreshLockLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "RefreshLockLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "RefreshLockLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.RefreshLockLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "RefreshLockLease", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) ListLockLeases(ctx context.Context, request *ListLockLeasesRequest) (*ListLockLeasesResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListLockLeases").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListLockLeases"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListLockLeases")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListLockLeases(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListLockLeases", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) GetLockLease(ctx context.Context, request *GetLockLeaseRequest) (*GetLockLeaseResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "GetLockLease").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "GetLockLease"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "GetLockLease")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.GetLockLease(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "GetLockLease", internal.MetricLabelFromGrpcError(err)).Inc()
 	}
 
 	return resp, internal.ErrorFromRpcError(err)

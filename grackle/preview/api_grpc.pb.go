@@ -32,6 +32,11 @@ const (
 	GracklePreviewApi_UpdateSemaphore_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/UpdateSemaphore"
 	GracklePreviewApi_DeleteSemaphore_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/DeleteSemaphore"
 	GracklePreviewApi_ListSemaphoreHolders_FullMethodName      = "/com.evrblk.grackle.preview.GracklePreviewApi/ListSemaphoreHolders"
+	GracklePreviewApi_CreateSemaphoreLease_FullMethodName      = "/com.evrblk.grackle.preview.GracklePreviewApi/CreateSemaphoreLease"
+	GracklePreviewApi_RevokeSemaphoreLease_FullMethodName      = "/com.evrblk.grackle.preview.GracklePreviewApi/RevokeSemaphoreLease"
+	GracklePreviewApi_RefreshSemaphoreLease_FullMethodName     = "/com.evrblk.grackle.preview.GracklePreviewApi/RefreshSemaphoreLease"
+	GracklePreviewApi_ListSemaphoreLeases_FullMethodName       = "/com.evrblk.grackle.preview.GracklePreviewApi/ListSemaphoreLeases"
+	GracklePreviewApi_GetSemaphoreLease_FullMethodName         = "/com.evrblk.grackle.preview.GracklePreviewApi/GetSemaphoreLease"
 	GracklePreviewApi_CreateWaitGroup_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/CreateWaitGroup"
 	GracklePreviewApi_ListWaitGroups_FullMethodName            = "/com.evrblk.grackle.preview.GracklePreviewApi/ListWaitGroups"
 	GracklePreviewApi_GetWaitGroup_FullMethodName              = "/com.evrblk.grackle.preview.GracklePreviewApi/GetWaitGroup"
@@ -45,6 +50,11 @@ const (
 	GracklePreviewApi_GetLock_FullMethodName                   = "/com.evrblk.grackle.preview.GracklePreviewApi/GetLock"
 	GracklePreviewApi_DeleteLock_FullMethodName                = "/com.evrblk.grackle.preview.GracklePreviewApi/DeleteLock"
 	GracklePreviewApi_ListLocks_FullMethodName                 = "/com.evrblk.grackle.preview.GracklePreviewApi/ListLocks"
+	GracklePreviewApi_CreateLockLease_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/CreateLockLease"
+	GracklePreviewApi_RevokeLockLease_FullMethodName           = "/com.evrblk.grackle.preview.GracklePreviewApi/RevokeLockLease"
+	GracklePreviewApi_RefreshLockLease_FullMethodName          = "/com.evrblk.grackle.preview.GracklePreviewApi/RefreshLockLease"
+	GracklePreviewApi_ListLockLeases_FullMethodName            = "/com.evrblk.grackle.preview.GracklePreviewApi/ListLockLeases"
+	GracklePreviewApi_GetLockLease_FullMethodName              = "/com.evrblk.grackle.preview.GracklePreviewApi/GetLockLease"
 	GracklePreviewApi_CreateBarrier_FullMethodName             = "/com.evrblk.grackle.preview.GracklePreviewApi/CreateBarrier"
 	GracklePreviewApi_ListBarriers_FullMethodName              = "/com.evrblk.grackle.preview.GracklePreviewApi/ListBarriers"
 	GracklePreviewApi_GetBarrier_FullMethodName                = "/com.evrblk.grackle.preview.GracklePreviewApi/GetBarrier"
@@ -72,6 +82,11 @@ type GracklePreviewApiClient interface {
 	UpdateSemaphore(ctx context.Context, in *UpdateSemaphoreRequest, opts ...grpc.CallOption) (*UpdateSemaphoreResponse, error)
 	DeleteSemaphore(ctx context.Context, in *DeleteSemaphoreRequest, opts ...grpc.CallOption) (*DeleteSemaphoreResponse, error)
 	ListSemaphoreHolders(ctx context.Context, in *ListSemaphoreHoldersRequest, opts ...grpc.CallOption) (*ListSemaphoreHoldersResponse, error)
+	CreateSemaphoreLease(ctx context.Context, in *CreateSemaphoreLeaseRequest, opts ...grpc.CallOption) (*CreateSemaphoreLeaseResponse, error)
+	RevokeSemaphoreLease(ctx context.Context, in *RevokeSemaphoreLeaseRequest, opts ...grpc.CallOption) (*RevokeSemaphoreLeaseResponse, error)
+	RefreshSemaphoreLease(ctx context.Context, in *RefreshSemaphoreLeaseRequest, opts ...grpc.CallOption) (*RefreshSemaphoreLeaseResponse, error)
+	ListSemaphoreLeases(ctx context.Context, in *ListSemaphoreLeasesRequest, opts ...grpc.CallOption) (*ListSemaphoreLeasesResponse, error)
+	GetSemaphoreLease(ctx context.Context, in *GetSemaphoreLeaseRequest, opts ...grpc.CallOption) (*GetSemaphoreLeaseResponse, error)
 	CreateWaitGroup(ctx context.Context, in *CreateWaitGroupRequest, opts ...grpc.CallOption) (*CreateWaitGroupResponse, error)
 	ListWaitGroups(ctx context.Context, in *ListWaitGroupsRequest, opts ...grpc.CallOption) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, in *GetWaitGroupRequest, opts ...grpc.CallOption) (*GetWaitGroupResponse, error)
@@ -85,6 +100,11 @@ type GracklePreviewApiClient interface {
 	GetLock(ctx context.Context, in *GetLockRequest, opts ...grpc.CallOption) (*GetLockResponse, error)
 	DeleteLock(ctx context.Context, in *DeleteLockRequest, opts ...grpc.CallOption) (*DeleteLockResponse, error)
 	ListLocks(ctx context.Context, in *ListLocksRequest, opts ...grpc.CallOption) (*ListLocksResponse, error)
+	CreateLockLease(ctx context.Context, in *CreateLockLeaseRequest, opts ...grpc.CallOption) (*CreateLockLeaseResponse, error)
+	RevokeLockLease(ctx context.Context, in *RevokeLockLeaseRequest, opts ...grpc.CallOption) (*RevokeLockLeaseResponse, error)
+	RefreshLockLease(ctx context.Context, in *RefreshLockLeaseRequest, opts ...grpc.CallOption) (*RefreshLockLeaseResponse, error)
+	ListLockLeases(ctx context.Context, in *ListLockLeasesRequest, opts ...grpc.CallOption) (*ListLockLeasesResponse, error)
+	GetLockLease(ctx context.Context, in *GetLockLeaseRequest, opts ...grpc.CallOption) (*GetLockLeaseResponse, error)
 	CreateBarrier(ctx context.Context, in *CreateBarrierRequest, opts ...grpc.CallOption) (*CreateBarrierResponse, error)
 	ListBarriers(ctx context.Context, in *ListBarriersRequest, opts ...grpc.CallOption) (*ListBarriersResponse, error)
 	GetBarrier(ctx context.Context, in *GetBarrierRequest, opts ...grpc.CallOption) (*GetBarrierResponse, error)
@@ -233,6 +253,56 @@ func (c *gracklePreviewApiClient) ListSemaphoreHolders(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *gracklePreviewApiClient) CreateSemaphoreLease(ctx context.Context, in *CreateSemaphoreLeaseRequest, opts ...grpc.CallOption) (*CreateSemaphoreLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateSemaphoreLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_CreateSemaphoreLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) RevokeSemaphoreLease(ctx context.Context, in *RevokeSemaphoreLeaseRequest, opts ...grpc.CallOption) (*RevokeSemaphoreLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RevokeSemaphoreLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_RevokeSemaphoreLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) RefreshSemaphoreLease(ctx context.Context, in *RefreshSemaphoreLeaseRequest, opts ...grpc.CallOption) (*RefreshSemaphoreLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RefreshSemaphoreLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_RefreshSemaphoreLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) ListSemaphoreLeases(ctx context.Context, in *ListSemaphoreLeasesRequest, opts ...grpc.CallOption) (*ListSemaphoreLeasesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSemaphoreLeasesResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ListSemaphoreLeases_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) GetSemaphoreLease(ctx context.Context, in *GetSemaphoreLeaseRequest, opts ...grpc.CallOption) (*GetSemaphoreLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSemaphoreLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_GetSemaphoreLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gracklePreviewApiClient) CreateWaitGroup(ctx context.Context, in *CreateWaitGroupRequest, opts ...grpc.CallOption) (*CreateWaitGroupResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateWaitGroupResponse)
@@ -363,6 +433,56 @@ func (c *gracklePreviewApiClient) ListLocks(ctx context.Context, in *ListLocksRe
 	return out, nil
 }
 
+func (c *gracklePreviewApiClient) CreateLockLease(ctx context.Context, in *CreateLockLeaseRequest, opts ...grpc.CallOption) (*CreateLockLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateLockLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_CreateLockLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) RevokeLockLease(ctx context.Context, in *RevokeLockLeaseRequest, opts ...grpc.CallOption) (*RevokeLockLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RevokeLockLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_RevokeLockLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) RefreshLockLease(ctx context.Context, in *RefreshLockLeaseRequest, opts ...grpc.CallOption) (*RefreshLockLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RefreshLockLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_RefreshLockLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) ListLockLeases(ctx context.Context, in *ListLockLeasesRequest, opts ...grpc.CallOption) (*ListLockLeasesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListLockLeasesResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_ListLockLeases_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gracklePreviewApiClient) GetLockLease(ctx context.Context, in *GetLockLeaseRequest, opts ...grpc.CallOption) (*GetLockLeaseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetLockLeaseResponse)
+	err := c.cc.Invoke(ctx, GracklePreviewApi_GetLockLease_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gracklePreviewApiClient) CreateBarrier(ctx context.Context, in *CreateBarrierRequest, opts ...grpc.CallOption) (*CreateBarrierResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateBarrierResponse)
@@ -460,6 +580,11 @@ type GracklePreviewApiServer interface {
 	UpdateSemaphore(context.Context, *UpdateSemaphoreRequest) (*UpdateSemaphoreResponse, error)
 	DeleteSemaphore(context.Context, *DeleteSemaphoreRequest) (*DeleteSemaphoreResponse, error)
 	ListSemaphoreHolders(context.Context, *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error)
+	CreateSemaphoreLease(context.Context, *CreateSemaphoreLeaseRequest) (*CreateSemaphoreLeaseResponse, error)
+	RevokeSemaphoreLease(context.Context, *RevokeSemaphoreLeaseRequest) (*RevokeSemaphoreLeaseResponse, error)
+	RefreshSemaphoreLease(context.Context, *RefreshSemaphoreLeaseRequest) (*RefreshSemaphoreLeaseResponse, error)
+	ListSemaphoreLeases(context.Context, *ListSemaphoreLeasesRequest) (*ListSemaphoreLeasesResponse, error)
+	GetSemaphoreLease(context.Context, *GetSemaphoreLeaseRequest) (*GetSemaphoreLeaseResponse, error)
 	CreateWaitGroup(context.Context, *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
 	ListWaitGroups(context.Context, *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(context.Context, *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
@@ -473,6 +598,11 @@ type GracklePreviewApiServer interface {
 	GetLock(context.Context, *GetLockRequest) (*GetLockResponse, error)
 	DeleteLock(context.Context, *DeleteLockRequest) (*DeleteLockResponse, error)
 	ListLocks(context.Context, *ListLocksRequest) (*ListLocksResponse, error)
+	CreateLockLease(context.Context, *CreateLockLeaseRequest) (*CreateLockLeaseResponse, error)
+	RevokeLockLease(context.Context, *RevokeLockLeaseRequest) (*RevokeLockLeaseResponse, error)
+	RefreshLockLease(context.Context, *RefreshLockLeaseRequest) (*RefreshLockLeaseResponse, error)
+	ListLockLeases(context.Context, *ListLockLeasesRequest) (*ListLockLeasesResponse, error)
+	GetLockLease(context.Context, *GetLockLeaseRequest) (*GetLockLeaseResponse, error)
 	CreateBarrier(context.Context, *CreateBarrierRequest) (*CreateBarrierResponse, error)
 	ListBarriers(context.Context, *ListBarriersRequest) (*ListBarriersResponse, error)
 	GetBarrier(context.Context, *GetBarrierRequest) (*GetBarrierResponse, error)
@@ -530,6 +660,21 @@ func (UnimplementedGracklePreviewApiServer) DeleteSemaphore(context.Context, *De
 func (UnimplementedGracklePreviewApiServer) ListSemaphoreHolders(context.Context, *ListSemaphoreHoldersRequest) (*ListSemaphoreHoldersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSemaphoreHolders not implemented")
 }
+func (UnimplementedGracklePreviewApiServer) CreateSemaphoreLease(context.Context, *CreateSemaphoreLeaseRequest) (*CreateSemaphoreLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSemaphoreLease not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) RevokeSemaphoreLease(context.Context, *RevokeSemaphoreLeaseRequest) (*RevokeSemaphoreLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeSemaphoreLease not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) RefreshSemaphoreLease(context.Context, *RefreshSemaphoreLeaseRequest) (*RefreshSemaphoreLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshSemaphoreLease not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) ListSemaphoreLeases(context.Context, *ListSemaphoreLeasesRequest) (*ListSemaphoreLeasesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSemaphoreLeases not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) GetSemaphoreLease(context.Context, *GetSemaphoreLeaseRequest) (*GetSemaphoreLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSemaphoreLease not implemented")
+}
 func (UnimplementedGracklePreviewApiServer) CreateWaitGroup(context.Context, *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWaitGroup not implemented")
 }
@@ -568,6 +713,21 @@ func (UnimplementedGracklePreviewApiServer) DeleteLock(context.Context, *DeleteL
 }
 func (UnimplementedGracklePreviewApiServer) ListLocks(context.Context, *ListLocksRequest) (*ListLocksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListLocks not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) CreateLockLease(context.Context, *CreateLockLeaseRequest) (*CreateLockLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateLockLease not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) RevokeLockLease(context.Context, *RevokeLockLeaseRequest) (*RevokeLockLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeLockLease not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) RefreshLockLease(context.Context, *RefreshLockLeaseRequest) (*RefreshLockLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshLockLease not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) ListLockLeases(context.Context, *ListLockLeasesRequest) (*ListLockLeasesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLockLeases not implemented")
+}
+func (UnimplementedGracklePreviewApiServer) GetLockLease(context.Context, *GetLockLeaseRequest) (*GetLockLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLockLease not implemented")
 }
 func (UnimplementedGracklePreviewApiServer) CreateBarrier(context.Context, *CreateBarrierRequest) (*CreateBarrierResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBarrier not implemented")
@@ -848,6 +1008,96 @@ func _GracklePreviewApi_ListSemaphoreHolders_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GracklePreviewApi_CreateSemaphoreLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSemaphoreLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).CreateSemaphoreLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_CreateSemaphoreLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).CreateSemaphoreLease(ctx, req.(*CreateSemaphoreLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_RevokeSemaphoreLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeSemaphoreLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).RevokeSemaphoreLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_RevokeSemaphoreLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).RevokeSemaphoreLease(ctx, req.(*RevokeSemaphoreLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_RefreshSemaphoreLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshSemaphoreLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).RefreshSemaphoreLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_RefreshSemaphoreLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).RefreshSemaphoreLease(ctx, req.(*RefreshSemaphoreLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_ListSemaphoreLeases_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSemaphoreLeasesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ListSemaphoreLeases(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ListSemaphoreLeases_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ListSemaphoreLeases(ctx, req.(*ListSemaphoreLeasesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_GetSemaphoreLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSemaphoreLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).GetSemaphoreLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_GetSemaphoreLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).GetSemaphoreLease(ctx, req.(*GetSemaphoreLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GracklePreviewApi_CreateWaitGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateWaitGroupRequest)
 	if err := dec(in); err != nil {
@@ -1082,6 +1332,96 @@ func _GracklePreviewApi_ListLocks_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GracklePreviewApi_CreateLockLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLockLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).CreateLockLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_CreateLockLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).CreateLockLease(ctx, req.(*CreateLockLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_RevokeLockLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeLockLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).RevokeLockLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_RevokeLockLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).RevokeLockLease(ctx, req.(*RevokeLockLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_RefreshLockLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshLockLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).RefreshLockLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_RefreshLockLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).RefreshLockLease(ctx, req.(*RefreshLockLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_ListLockLeases_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLockLeasesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).ListLockLeases(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_ListLockLeases_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).ListLockLeases(ctx, req.(*ListLockLeasesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GracklePreviewApi_GetLockLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLockLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GracklePreviewApiServer).GetLockLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GracklePreviewApi_GetLockLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GracklePreviewApiServer).GetLockLease(ctx, req.(*GetLockLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GracklePreviewApi_CreateBarrier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateBarrierRequest)
 	if err := dec(in); err != nil {
@@ -1286,6 +1626,26 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GracklePreviewApi_ListSemaphoreHolders_Handler,
 		},
 		{
+			MethodName: "CreateSemaphoreLease",
+			Handler:    _GracklePreviewApi_CreateSemaphoreLease_Handler,
+		},
+		{
+			MethodName: "RevokeSemaphoreLease",
+			Handler:    _GracklePreviewApi_RevokeSemaphoreLease_Handler,
+		},
+		{
+			MethodName: "RefreshSemaphoreLease",
+			Handler:    _GracklePreviewApi_RefreshSemaphoreLease_Handler,
+		},
+		{
+			MethodName: "ListSemaphoreLeases",
+			Handler:    _GracklePreviewApi_ListSemaphoreLeases_Handler,
+		},
+		{
+			MethodName: "GetSemaphoreLease",
+			Handler:    _GracklePreviewApi_GetSemaphoreLease_Handler,
+		},
+		{
 			MethodName: "CreateWaitGroup",
 			Handler:    _GracklePreviewApi_CreateWaitGroup_Handler,
 		},
@@ -1336,6 +1696,26 @@ var GracklePreviewApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListLocks",
 			Handler:    _GracklePreviewApi_ListLocks_Handler,
+		},
+		{
+			MethodName: "CreateLockLease",
+			Handler:    _GracklePreviewApi_CreateLockLease_Handler,
+		},
+		{
+			MethodName: "RevokeLockLease",
+			Handler:    _GracklePreviewApi_RevokeLockLease_Handler,
+		},
+		{
+			MethodName: "RefreshLockLease",
+			Handler:    _GracklePreviewApi_RefreshLockLease_Handler,
+		},
+		{
+			MethodName: "ListLockLeases",
+			Handler:    _GracklePreviewApi_ListLockLeases_Handler,
+		},
+		{
+			MethodName: "GetLockLease",
+			Handler:    _GracklePreviewApi_GetLockLease_Handler,
 		},
 		{
 			MethodName: "CreateBarrier",
