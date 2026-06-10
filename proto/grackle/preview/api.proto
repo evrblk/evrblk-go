@@ -489,7 +489,6 @@ message CreateBarrierRequest {
   string description = 3;
   uint64 expected_processes = 4;
   int64 expires_at = 8;
-  // bool auto_reset = 10;
 }
 
 message CreateBarrierResponse {
