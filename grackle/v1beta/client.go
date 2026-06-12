@@ -37,7 +37,7 @@ type GrackleApi interface {
 	DeleteWaitGroup(ctx context.Context, request *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
 	AddJobsToWaitGroup(ctx context.Context, request *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(ctx context.Context, request *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error)
-	ListWaitGroupJobs(ctx context.Context, request *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error)
+	ListWaitGroupCompletedJobs(ctx context.Context, request *ListWaitGroupCompletedJobsRequest) (*ListWaitGroupCompletedJobsResponse, error)
 	WaitForWaitGroup(ctx context.Context, request *WaitForWaitGroupRequest) (*WaitForWaitGroupResponse, error)
 	AcquireLock(ctx context.Context, request *AcquireLockRequest) (*AcquireLockResponse, error)
 	ReleaseLock(ctx context.Context, request *ReleaseLockRequest) (*ReleaseLockResponse, error)
@@ -59,7 +59,7 @@ type GrackleApi interface {
 	ListBarrierParticipants(ctx context.Context, request *ListBarrierParticipantsRequest) (*ListBarrierParticipantsResponse, error)
 }
 type GrackleGrpcClient struct {
-	grpc   GracklePreviewApiClient
+	grpc   GrackleApiClient
 	conn   *grpc.ClientConn
 	signer evrblk.RequestSigner
 }
@@ -486,18 +486,18 @@ func (c *GrackleGrpcClient) CompleteJobsFromWaitGroup(ctx context.Context, reque
 	return resp, internal.ErrorFromRpcError(err)
 }
 
-func (c *GrackleGrpcClient) ListWaitGroupJobs(ctx context.Context, request *ListWaitGroupJobsRequest) (*ListWaitGroupJobsResponse, error) {
-	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListWaitGroupJobs").Inc()
-	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListWaitGroupJobs"), time.Now())
+func (c *GrackleGrpcClient) ListWaitGroupCompletedJobs(ctx context.Context, request *ListWaitGroupCompletedJobsRequest) (*ListWaitGroupCompletedJobsResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "ListWaitGroupCompletedJobs").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "ListWaitGroupCompletedJobs"), time.Now())
 
-	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListWaitGroupJobs")
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "ListWaitGroupCompletedJobs")
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := c.grpc.ListWaitGroupJobs(signedCtx, request, grpc.WaitForReady(true))
+	resp, err := c.grpc.ListWaitGroupCompletedJobs(signedCtx, request, grpc.WaitForReady(true))
 	if err != nil {
-		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListWaitGroupJobs", internal.MetricLabelFromGrpcError(err)).Inc()
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "ListWaitGroupCompletedJobs", internal.MetricLabelFromGrpcError(err)).Inc()
 	}
 
 	return resp, internal.ErrorFromRpcError(err)
@@ -833,7 +833,7 @@ func NewGrackleGrpcClient(address string, signer evrblk.RequestSigner) *GrackleG
 	}
 	return &GrackleGrpcClient{
 		conn:   conn,
-		grpc:   NewGracklePreviewApiClient(conn),
+		grpc:   NewGrackleApiClient(conn),
 		signer: signer,
 	}
 }

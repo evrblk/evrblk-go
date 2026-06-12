@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v7.35.0
-// source: proto/grackle/preview/api.proto
+// source: proto/grackle/v1beta/api.proto
 
 package grackle
 
@@ -54,11 +54,11 @@ func (x LockState) String() string {
 }
 
 func (LockState) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_grackle_preview_api_proto_enumTypes[0].Descriptor()
+	return file_proto_grackle_v1beta_api_proto_enumTypes[0].Descriptor()
 }
 
 func (LockState) Type() protoreflect.EnumType {
-	return &file_proto_grackle_preview_api_proto_enumTypes[0]
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[0]
 }
 
 func (x LockState) Number() protoreflect.EnumNumber {
@@ -67,7 +67,7 @@ func (x LockState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LockState.Descriptor instead.
 func (LockState) EnumDescriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{0}
 }
 
 type CreateNamespaceRequest struct {
@@ -80,7 +80,7 @@ type CreateNamespaceRequest struct {
 
 func (x *CreateNamespaceRequest) Reset() {
 	*x = CreateNamespaceRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[0]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +92,7 @@ func (x *CreateNamespaceRequest) String() string {
 func (*CreateNamespaceRequest) ProtoMessage() {}
 
 func (x *CreateNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[0]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +105,7 @@ func (x *CreateNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*CreateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateNamespaceRequest) GetName() string {
@@ -131,7 +131,7 @@ type CreateNamespaceResponse struct {
 
 func (x *CreateNamespaceResponse) Reset() {
 	*x = CreateNamespaceResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[1]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +143,7 @@ func (x *CreateNamespaceResponse) String() string {
 func (*CreateNamespaceResponse) ProtoMessage() {}
 
 func (x *CreateNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[1]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +156,7 @@ func (x *CreateNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*CreateNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{1}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateNamespaceResponse) GetNamespace() *Namespace {
@@ -176,7 +176,7 @@ type ListNamespacesRequest struct {
 
 func (x *ListNamespacesRequest) Reset() {
 	*x = ListNamespacesRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[2]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -188,7 +188,7 @@ func (x *ListNamespacesRequest) String() string {
 func (*ListNamespacesRequest) ProtoMessage() {}
 
 func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[2]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -201,7 +201,7 @@ func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNamespacesRequest.ProtoReflect.Descriptor instead.
 func (*ListNamespacesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{2}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListNamespacesRequest) GetPaginationToken() string {
@@ -229,7 +229,7 @@ type ListNamespacesResponse struct {
 
 func (x *ListNamespacesResponse) Reset() {
 	*x = ListNamespacesResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[3]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -241,7 +241,7 @@ func (x *ListNamespacesResponse) String() string {
 func (*ListNamespacesResponse) ProtoMessage() {}
 
 func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[3]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -254,7 +254,7 @@ func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNamespacesResponse.ProtoReflect.Descriptor instead.
 func (*ListNamespacesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{3}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListNamespacesResponse) GetNamespaces() []*Namespace {
@@ -287,7 +287,7 @@ type GetNamespaceRequest struct {
 
 func (x *GetNamespaceRequest) Reset() {
 	*x = GetNamespaceRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[4]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +299,7 @@ func (x *GetNamespaceRequest) String() string {
 func (*GetNamespaceRequest) ProtoMessage() {}
 
 func (x *GetNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[4]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +312,7 @@ func (x *GetNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*GetNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{4}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetNamespaceRequest) GetNamespaceName() string {
@@ -331,7 +331,7 @@ type GetNamespaceResponse struct {
 
 func (x *GetNamespaceResponse) Reset() {
 	*x = GetNamespaceResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[5]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -343,7 +343,7 @@ func (x *GetNamespaceResponse) String() string {
 func (*GetNamespaceResponse) ProtoMessage() {}
 
 func (x *GetNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[5]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -356,7 +356,7 @@ func (x *GetNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*GetNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{5}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetNamespaceResponse) GetNamespace() *Namespace {
@@ -375,7 +375,7 @@ type DeleteNamespaceRequest struct {
 
 func (x *DeleteNamespaceRequest) Reset() {
 	*x = DeleteNamespaceRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[6]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -387,7 +387,7 @@ func (x *DeleteNamespaceRequest) String() string {
 func (*DeleteNamespaceRequest) ProtoMessage() {}
 
 func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[6]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -400,7 +400,7 @@ func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{6}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteNamespaceRequest) GetNamespaceName() string {
@@ -418,7 +418,7 @@ type DeleteNamespaceResponse struct {
 
 func (x *DeleteNamespaceResponse) Reset() {
 	*x = DeleteNamespaceResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[7]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -430,7 +430,7 @@ func (x *DeleteNamespaceResponse) String() string {
 func (*DeleteNamespaceResponse) ProtoMessage() {}
 
 func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[7]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -443,7 +443,7 @@ func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*DeleteNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{7}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{7}
 }
 
 type UpdateNamespaceRequest struct {
@@ -456,7 +456,7 @@ type UpdateNamespaceRequest struct {
 
 func (x *UpdateNamespaceRequest) Reset() {
 	*x = UpdateNamespaceRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[8]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -468,7 +468,7 @@ func (x *UpdateNamespaceRequest) String() string {
 func (*UpdateNamespaceRequest) ProtoMessage() {}
 
 func (x *UpdateNamespaceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[8]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -481,7 +481,7 @@ func (x *UpdateNamespaceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNamespaceRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{8}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateNamespaceRequest) GetNamespaceName() string {
@@ -507,7 +507,7 @@ type UpdateNamespaceResponse struct {
 
 func (x *UpdateNamespaceResponse) Reset() {
 	*x = UpdateNamespaceResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[9]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -519,7 +519,7 @@ func (x *UpdateNamespaceResponse) String() string {
 func (*UpdateNamespaceResponse) ProtoMessage() {}
 
 func (x *UpdateNamespaceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[9]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -532,7 +532,7 @@ func (x *UpdateNamespaceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNamespaceResponse.ProtoReflect.Descriptor instead.
 func (*UpdateNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{9}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateNamespaceResponse) GetNamespace() *Namespace {
@@ -554,7 +554,7 @@ type CreateSemaphoreRequest struct {
 
 func (x *CreateSemaphoreRequest) Reset() {
 	*x = CreateSemaphoreRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[10]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -566,7 +566,7 @@ func (x *CreateSemaphoreRequest) String() string {
 func (*CreateSemaphoreRequest) ProtoMessage() {}
 
 func (x *CreateSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[10]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -579,7 +579,7 @@ func (x *CreateSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*CreateSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{10}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CreateSemaphoreRequest) GetNamespaceName() string {
@@ -619,7 +619,7 @@ type CreateSemaphoreResponse struct {
 
 func (x *CreateSemaphoreResponse) Reset() {
 	*x = CreateSemaphoreResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[11]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -631,7 +631,7 @@ func (x *CreateSemaphoreResponse) String() string {
 func (*CreateSemaphoreResponse) ProtoMessage() {}
 
 func (x *CreateSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[11]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -644,7 +644,7 @@ func (x *CreateSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*CreateSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{11}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -665,7 +665,7 @@ type ListSemaphoresRequest struct {
 
 func (x *ListSemaphoresRequest) Reset() {
 	*x = ListSemaphoresRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[12]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -677,7 +677,7 @@ func (x *ListSemaphoresRequest) String() string {
 func (*ListSemaphoresRequest) ProtoMessage() {}
 
 func (x *ListSemaphoresRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[12]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -690,7 +690,7 @@ func (x *ListSemaphoresRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoresRequest.ProtoReflect.Descriptor instead.
 func (*ListSemaphoresRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{12}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ListSemaphoresRequest) GetNamespaceName() string {
@@ -725,7 +725,7 @@ type ListSemaphoresResponse struct {
 
 func (x *ListSemaphoresResponse) Reset() {
 	*x = ListSemaphoresResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[13]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -737,7 +737,7 @@ func (x *ListSemaphoresResponse) String() string {
 func (*ListSemaphoresResponse) ProtoMessage() {}
 
 func (x *ListSemaphoresResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[13]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -750,7 +750,7 @@ func (x *ListSemaphoresResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoresResponse.ProtoReflect.Descriptor instead.
 func (*ListSemaphoresResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{13}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListSemaphoresResponse) GetSemaphores() []*Semaphore {
@@ -784,7 +784,7 @@ type GetSemaphoreRequest struct {
 
 func (x *GetSemaphoreRequest) Reset() {
 	*x = GetSemaphoreRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[14]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -796,7 +796,7 @@ func (x *GetSemaphoreRequest) String() string {
 func (*GetSemaphoreRequest) ProtoMessage() {}
 
 func (x *GetSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[14]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -809,7 +809,7 @@ func (x *GetSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*GetSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{14}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetSemaphoreRequest) GetNamespaceName() string {
@@ -835,7 +835,7 @@ type GetSemaphoreResponse struct {
 
 func (x *GetSemaphoreResponse) Reset() {
 	*x = GetSemaphoreResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[15]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -847,7 +847,7 @@ func (x *GetSemaphoreResponse) String() string {
 func (*GetSemaphoreResponse) ProtoMessage() {}
 
 func (x *GetSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[15]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -860,7 +860,7 @@ func (x *GetSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*GetSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{15}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -883,7 +883,7 @@ type AcquireSemaphoreRequest struct {
 
 func (x *AcquireSemaphoreRequest) Reset() {
 	*x = AcquireSemaphoreRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[16]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -895,7 +895,7 @@ func (x *AcquireSemaphoreRequest) String() string {
 func (*AcquireSemaphoreRequest) ProtoMessage() {}
 
 func (x *AcquireSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[16]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -908,7 +908,7 @@ func (x *AcquireSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*AcquireSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{16}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *AcquireSemaphoreRequest) GetNamespaceName() string {
@@ -956,7 +956,7 @@ type AcquireSemaphoreResponse struct {
 
 func (x *AcquireSemaphoreResponse) Reset() {
 	*x = AcquireSemaphoreResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[17]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -968,7 +968,7 @@ func (x *AcquireSemaphoreResponse) String() string {
 func (*AcquireSemaphoreResponse) ProtoMessage() {}
 
 func (x *AcquireSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[17]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -981,7 +981,7 @@ func (x *AcquireSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*AcquireSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{17}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *AcquireSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -1009,7 +1009,7 @@ type ReleaseSemaphoreRequest struct {
 
 func (x *ReleaseSemaphoreRequest) Reset() {
 	*x = ReleaseSemaphoreRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[18]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1021,7 +1021,7 @@ func (x *ReleaseSemaphoreRequest) String() string {
 func (*ReleaseSemaphoreRequest) ProtoMessage() {}
 
 func (x *ReleaseSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[18]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1034,7 +1034,7 @@ func (x *ReleaseSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*ReleaseSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{18}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ReleaseSemaphoreRequest) GetNamespaceName() string {
@@ -1067,7 +1067,7 @@ type ReleaseSemaphoreResponse struct {
 
 func (x *ReleaseSemaphoreResponse) Reset() {
 	*x = ReleaseSemaphoreResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[19]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1079,7 +1079,7 @@ func (x *ReleaseSemaphoreResponse) String() string {
 func (*ReleaseSemaphoreResponse) ProtoMessage() {}
 
 func (x *ReleaseSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[19]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1092,7 +1092,7 @@ func (x *ReleaseSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*ReleaseSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{19}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ReleaseSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -1114,7 +1114,7 @@ type UpdateSemaphoreRequest struct {
 
 func (x *UpdateSemaphoreRequest) Reset() {
 	*x = UpdateSemaphoreRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[20]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1126,7 +1126,7 @@ func (x *UpdateSemaphoreRequest) String() string {
 func (*UpdateSemaphoreRequest) ProtoMessage() {}
 
 func (x *UpdateSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[20]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1139,7 +1139,7 @@ func (x *UpdateSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*UpdateSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{20}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *UpdateSemaphoreRequest) GetNamespaceName() string {
@@ -1179,7 +1179,7 @@ type UpdateSemaphoreResponse struct {
 
 func (x *UpdateSemaphoreResponse) Reset() {
 	*x = UpdateSemaphoreResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[21]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1191,7 +1191,7 @@ func (x *UpdateSemaphoreResponse) String() string {
 func (*UpdateSemaphoreResponse) ProtoMessage() {}
 
 func (x *UpdateSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[21]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1204,7 +1204,7 @@ func (x *UpdateSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*UpdateSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{21}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *UpdateSemaphoreResponse) GetSemaphore() *Semaphore {
@@ -1224,7 +1224,7 @@ type DeleteSemaphoreRequest struct {
 
 func (x *DeleteSemaphoreRequest) Reset() {
 	*x = DeleteSemaphoreRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[22]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1236,7 +1236,7 @@ func (x *DeleteSemaphoreRequest) String() string {
 func (*DeleteSemaphoreRequest) ProtoMessage() {}
 
 func (x *DeleteSemaphoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[22]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1249,7 +1249,7 @@ func (x *DeleteSemaphoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSemaphoreRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSemaphoreRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{22}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *DeleteSemaphoreRequest) GetNamespaceName() string {
@@ -1274,7 +1274,7 @@ type DeleteSemaphoreResponse struct {
 
 func (x *DeleteSemaphoreResponse) Reset() {
 	*x = DeleteSemaphoreResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[23]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1286,7 +1286,7 @@ func (x *DeleteSemaphoreResponse) String() string {
 func (*DeleteSemaphoreResponse) ProtoMessage() {}
 
 func (x *DeleteSemaphoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[23]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1299,7 +1299,7 @@ func (x *DeleteSemaphoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSemaphoreResponse.ProtoReflect.Descriptor instead.
 func (*DeleteSemaphoreResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{23}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{23}
 }
 
 type ListSemaphoreHoldersRequest struct {
@@ -1314,7 +1314,7 @@ type ListSemaphoreHoldersRequest struct {
 
 func (x *ListSemaphoreHoldersRequest) Reset() {
 	*x = ListSemaphoreHoldersRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[24]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1326,7 +1326,7 @@ func (x *ListSemaphoreHoldersRequest) String() string {
 func (*ListSemaphoreHoldersRequest) ProtoMessage() {}
 
 func (x *ListSemaphoreHoldersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[24]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1339,7 +1339,7 @@ func (x *ListSemaphoreHoldersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoreHoldersRequest.ProtoReflect.Descriptor instead.
 func (*ListSemaphoreHoldersRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{24}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ListSemaphoreHoldersRequest) GetNamespaceName() string {
@@ -1381,7 +1381,7 @@ type ListSemaphoreHoldersResponse struct {
 
 func (x *ListSemaphoreHoldersResponse) Reset() {
 	*x = ListSemaphoreHoldersResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[25]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1393,7 +1393,7 @@ func (x *ListSemaphoreHoldersResponse) String() string {
 func (*ListSemaphoreHoldersResponse) ProtoMessage() {}
 
 func (x *ListSemaphoreHoldersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[25]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1406,7 +1406,7 @@ func (x *ListSemaphoreHoldersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoreHoldersResponse.ProtoReflect.Descriptor instead.
 func (*ListSemaphoreHoldersResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{25}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ListSemaphoreHoldersResponse) GetHolders() []*SemaphoreHolder {
@@ -1441,7 +1441,7 @@ type CreateSemaphoreLeaseRequest struct {
 
 func (x *CreateSemaphoreLeaseRequest) Reset() {
 	*x = CreateSemaphoreLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[26]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1453,7 +1453,7 @@ func (x *CreateSemaphoreLeaseRequest) String() string {
 func (*CreateSemaphoreLeaseRequest) ProtoMessage() {}
 
 func (x *CreateSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[26]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1466,7 +1466,7 @@ func (x *CreateSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSemaphoreLeaseRequest.ProtoReflect.Descriptor instead.
 func (*CreateSemaphoreLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{26}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *CreateSemaphoreLeaseRequest) GetNamespaceName() string {
@@ -1499,7 +1499,7 @@ type CreateSemaphoreLeaseResponse struct {
 
 func (x *CreateSemaphoreLeaseResponse) Reset() {
 	*x = CreateSemaphoreLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[27]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1511,7 +1511,7 @@ func (x *CreateSemaphoreLeaseResponse) String() string {
 func (*CreateSemaphoreLeaseResponse) ProtoMessage() {}
 
 func (x *CreateSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[27]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1524,7 +1524,7 @@ func (x *CreateSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSemaphoreLeaseResponse.ProtoReflect.Descriptor instead.
 func (*CreateSemaphoreLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{27}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *CreateSemaphoreLeaseResponse) GetLease() *Lease {
@@ -1544,7 +1544,7 @@ type RevokeSemaphoreLeaseRequest struct {
 
 func (x *RevokeSemaphoreLeaseRequest) Reset() {
 	*x = RevokeSemaphoreLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[28]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1556,7 +1556,7 @@ func (x *RevokeSemaphoreLeaseRequest) String() string {
 func (*RevokeSemaphoreLeaseRequest) ProtoMessage() {}
 
 func (x *RevokeSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[28]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1569,7 +1569,7 @@ func (x *RevokeSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeSemaphoreLeaseRequest.ProtoReflect.Descriptor instead.
 func (*RevokeSemaphoreLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{28}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *RevokeSemaphoreLeaseRequest) GetNamespaceName() string {
@@ -1594,7 +1594,7 @@ type RevokeSemaphoreLeaseResponse struct {
 
 func (x *RevokeSemaphoreLeaseResponse) Reset() {
 	*x = RevokeSemaphoreLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[29]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1606,7 +1606,7 @@ func (x *RevokeSemaphoreLeaseResponse) String() string {
 func (*RevokeSemaphoreLeaseResponse) ProtoMessage() {}
 
 func (x *RevokeSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[29]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1619,7 +1619,7 @@ func (x *RevokeSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeSemaphoreLeaseResponse.ProtoReflect.Descriptor instead.
 func (*RevokeSemaphoreLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{29}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{29}
 }
 
 type RefreshSemaphoreLeaseRequest struct {
@@ -1633,7 +1633,7 @@ type RefreshSemaphoreLeaseRequest struct {
 
 func (x *RefreshSemaphoreLeaseRequest) Reset() {
 	*x = RefreshSemaphoreLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[30]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1645,7 +1645,7 @@ func (x *RefreshSemaphoreLeaseRequest) String() string {
 func (*RefreshSemaphoreLeaseRequest) ProtoMessage() {}
 
 func (x *RefreshSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[30]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1658,7 +1658,7 @@ func (x *RefreshSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshSemaphoreLeaseRequest.ProtoReflect.Descriptor instead.
 func (*RefreshSemaphoreLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{30}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *RefreshSemaphoreLeaseRequest) GetNamespaceName() string {
@@ -1691,7 +1691,7 @@ type RefreshSemaphoreLeaseResponse struct {
 
 func (x *RefreshSemaphoreLeaseResponse) Reset() {
 	*x = RefreshSemaphoreLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[31]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1703,7 +1703,7 @@ func (x *RefreshSemaphoreLeaseResponse) String() string {
 func (*RefreshSemaphoreLeaseResponse) ProtoMessage() {}
 
 func (x *RefreshSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[31]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1716,7 +1716,7 @@ func (x *RefreshSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshSemaphoreLeaseResponse.ProtoReflect.Descriptor instead.
 func (*RefreshSemaphoreLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{31}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *RefreshSemaphoreLeaseResponse) GetLease() *Lease {
@@ -1737,7 +1737,7 @@ type ListSemaphoreLeasesRequest struct {
 
 func (x *ListSemaphoreLeasesRequest) Reset() {
 	*x = ListSemaphoreLeasesRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[32]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1749,7 +1749,7 @@ func (x *ListSemaphoreLeasesRequest) String() string {
 func (*ListSemaphoreLeasesRequest) ProtoMessage() {}
 
 func (x *ListSemaphoreLeasesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[32]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1762,7 +1762,7 @@ func (x *ListSemaphoreLeasesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoreLeasesRequest.ProtoReflect.Descriptor instead.
 func (*ListSemaphoreLeasesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{32}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ListSemaphoreLeasesRequest) GetNamespaceName() string {
@@ -1797,7 +1797,7 @@ type ListSemaphoreLeasesResponse struct {
 
 func (x *ListSemaphoreLeasesResponse) Reset() {
 	*x = ListSemaphoreLeasesResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[33]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1809,7 +1809,7 @@ func (x *ListSemaphoreLeasesResponse) String() string {
 func (*ListSemaphoreLeasesResponse) ProtoMessage() {}
 
 func (x *ListSemaphoreLeasesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[33]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1822,7 +1822,7 @@ func (x *ListSemaphoreLeasesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListSemaphoreLeasesResponse.ProtoReflect.Descriptor instead.
 func (*ListSemaphoreLeasesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{33}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *ListSemaphoreLeasesResponse) GetLeases() []*Lease {
@@ -1856,7 +1856,7 @@ type GetSemaphoreLeaseRequest struct {
 
 func (x *GetSemaphoreLeaseRequest) Reset() {
 	*x = GetSemaphoreLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[34]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1868,7 +1868,7 @@ func (x *GetSemaphoreLeaseRequest) String() string {
 func (*GetSemaphoreLeaseRequest) ProtoMessage() {}
 
 func (x *GetSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[34]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1881,7 +1881,7 @@ func (x *GetSemaphoreLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSemaphoreLeaseRequest.ProtoReflect.Descriptor instead.
 func (*GetSemaphoreLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{34}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *GetSemaphoreLeaseRequest) GetNamespaceName() string {
@@ -1907,7 +1907,7 @@ type GetSemaphoreLeaseResponse struct {
 
 func (x *GetSemaphoreLeaseResponse) Reset() {
 	*x = GetSemaphoreLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[35]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1919,7 +1919,7 @@ func (x *GetSemaphoreLeaseResponse) String() string {
 func (*GetSemaphoreLeaseResponse) ProtoMessage() {}
 
 func (x *GetSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[35]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1932,7 +1932,7 @@ func (x *GetSemaphoreLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSemaphoreLeaseResponse.ProtoReflect.Descriptor instead.
 func (*GetSemaphoreLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{35}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *GetSemaphoreLeaseResponse) GetLease() *Lease {
@@ -1954,7 +1954,7 @@ type Lease struct {
 
 func (x *Lease) Reset() {
 	*x = Lease{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[36]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1966,7 +1966,7 @@ func (x *Lease) String() string {
 func (*Lease) ProtoMessage() {}
 
 func (x *Lease) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[36]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1979,7 +1979,7 @@ func (x *Lease) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Lease.ProtoReflect.Descriptor instead.
 func (*Lease) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{36}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *Lease) GetLeaseId() string {
@@ -2026,7 +2026,7 @@ type Semaphore struct {
 
 func (x *Semaphore) Reset() {
 	*x = Semaphore{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[37]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2038,7 +2038,7 @@ func (x *Semaphore) String() string {
 func (*Semaphore) ProtoMessage() {}
 
 func (x *Semaphore) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[37]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2051,7 +2051,7 @@ func (x *Semaphore) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Semaphore.ProtoReflect.Descriptor instead.
 func (*Semaphore) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{37}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *Semaphore) GetName() string {
@@ -2121,7 +2121,7 @@ type SemaphoreHolder struct {
 
 func (x *SemaphoreHolder) Reset() {
 	*x = SemaphoreHolder{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[38]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2133,7 +2133,7 @@ func (x *SemaphoreHolder) String() string {
 func (*SemaphoreHolder) ProtoMessage() {}
 
 func (x *SemaphoreHolder) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[38]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2146,7 +2146,7 @@ func (x *SemaphoreHolder) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SemaphoreHolder.ProtoReflect.Descriptor instead.
 func (*SemaphoreHolder) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{38}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *SemaphoreHolder) GetLeaseId() string {
@@ -2183,7 +2183,7 @@ type CreateWaitGroupRequest struct {
 
 func (x *CreateWaitGroupRequest) Reset() {
 	*x = CreateWaitGroupRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[39]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2195,7 +2195,7 @@ func (x *CreateWaitGroupRequest) String() string {
 func (*CreateWaitGroupRequest) ProtoMessage() {}
 
 func (x *CreateWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[39]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2208,7 +2208,7 @@ func (x *CreateWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*CreateWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{39}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *CreateWaitGroupRequest) GetNamespaceName() string {
@@ -2255,7 +2255,7 @@ type CreateWaitGroupResponse struct {
 
 func (x *CreateWaitGroupResponse) Reset() {
 	*x = CreateWaitGroupResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[40]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2267,7 +2267,7 @@ func (x *CreateWaitGroupResponse) String() string {
 func (*CreateWaitGroupResponse) ProtoMessage() {}
 
 func (x *CreateWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[40]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2280,7 +2280,7 @@ func (x *CreateWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*CreateWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{40}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *CreateWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -2301,7 +2301,7 @@ type ListWaitGroupsRequest struct {
 
 func (x *ListWaitGroupsRequest) Reset() {
 	*x = ListWaitGroupsRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[41]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2313,7 +2313,7 @@ func (x *ListWaitGroupsRequest) String() string {
 func (*ListWaitGroupsRequest) ProtoMessage() {}
 
 func (x *ListWaitGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[41]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2326,7 +2326,7 @@ func (x *ListWaitGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListWaitGroupsRequest.ProtoReflect.Descriptor instead.
 func (*ListWaitGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{41}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *ListWaitGroupsRequest) GetNamespaceName() string {
@@ -2361,7 +2361,7 @@ type ListWaitGroupsResponse struct {
 
 func (x *ListWaitGroupsResponse) Reset() {
 	*x = ListWaitGroupsResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[42]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2373,7 +2373,7 @@ func (x *ListWaitGroupsResponse) String() string {
 func (*ListWaitGroupsResponse) ProtoMessage() {}
 
 func (x *ListWaitGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[42]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2386,7 +2386,7 @@ func (x *ListWaitGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListWaitGroupsResponse.ProtoReflect.Descriptor instead.
 func (*ListWaitGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{42}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *ListWaitGroupsResponse) GetWaitGroups() []*WaitGroup {
@@ -2420,7 +2420,7 @@ type GetWaitGroupRequest struct {
 
 func (x *GetWaitGroupRequest) Reset() {
 	*x = GetWaitGroupRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[43]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2432,7 +2432,7 @@ func (x *GetWaitGroupRequest) String() string {
 func (*GetWaitGroupRequest) ProtoMessage() {}
 
 func (x *GetWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[43]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2445,7 +2445,7 @@ func (x *GetWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{43}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *GetWaitGroupRequest) GetNamespaceName() string {
@@ -2471,7 +2471,7 @@ type GetWaitGroupResponse struct {
 
 func (x *GetWaitGroupResponse) Reset() {
 	*x = GetWaitGroupResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[44]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2483,7 +2483,7 @@ func (x *GetWaitGroupResponse) String() string {
 func (*GetWaitGroupResponse) ProtoMessage() {}
 
 func (x *GetWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[44]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2496,7 +2496,7 @@ func (x *GetWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*GetWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{44}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *GetWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -2516,7 +2516,7 @@ type DeleteWaitGroupRequest struct {
 
 func (x *DeleteWaitGroupRequest) Reset() {
 	*x = DeleteWaitGroupRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[45]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2528,7 +2528,7 @@ func (x *DeleteWaitGroupRequest) String() string {
 func (*DeleteWaitGroupRequest) ProtoMessage() {}
 
 func (x *DeleteWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[45]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2541,7 +2541,7 @@ func (x *DeleteWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*DeleteWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{45}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *DeleteWaitGroupRequest) GetNamespaceName() string {
@@ -2566,7 +2566,7 @@ type DeleteWaitGroupResponse struct {
 
 func (x *DeleteWaitGroupResponse) Reset() {
 	*x = DeleteWaitGroupResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[46]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2578,7 +2578,7 @@ func (x *DeleteWaitGroupResponse) String() string {
 func (*DeleteWaitGroupResponse) ProtoMessage() {}
 
 func (x *DeleteWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[46]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2591,7 +2591,7 @@ func (x *DeleteWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*DeleteWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{46}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{46}
 }
 
 type AddJobsToWaitGroupRequest struct {
@@ -2605,7 +2605,7 @@ type AddJobsToWaitGroupRequest struct {
 
 func (x *AddJobsToWaitGroupRequest) Reset() {
 	*x = AddJobsToWaitGroupRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[47]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2617,7 +2617,7 @@ func (x *AddJobsToWaitGroupRequest) String() string {
 func (*AddJobsToWaitGroupRequest) ProtoMessage() {}
 
 func (x *AddJobsToWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[47]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2630,7 +2630,7 @@ func (x *AddJobsToWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddJobsToWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*AddJobsToWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{47}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *AddJobsToWaitGroupRequest) GetNamespaceName() string {
@@ -2663,7 +2663,7 @@ type AddJobsToWaitGroupResponse struct {
 
 func (x *AddJobsToWaitGroupResponse) Reset() {
 	*x = AddJobsToWaitGroupResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[48]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2675,7 +2675,7 @@ func (x *AddJobsToWaitGroupResponse) String() string {
 func (*AddJobsToWaitGroupResponse) ProtoMessage() {}
 
 func (x *AddJobsToWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[48]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2688,7 +2688,7 @@ func (x *AddJobsToWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddJobsToWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*AddJobsToWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{48}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *AddJobsToWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -2709,7 +2709,7 @@ type CompleteJobsFromWaitGroupRequest struct {
 
 func (x *CompleteJobsFromWaitGroupRequest) Reset() {
 	*x = CompleteJobsFromWaitGroupRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[49]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2721,7 +2721,7 @@ func (x *CompleteJobsFromWaitGroupRequest) String() string {
 func (*CompleteJobsFromWaitGroupRequest) ProtoMessage() {}
 
 func (x *CompleteJobsFromWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[49]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2734,7 +2734,7 @@ func (x *CompleteJobsFromWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompleteJobsFromWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*CompleteJobsFromWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{49}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *CompleteJobsFromWaitGroupRequest) GetNamespaceName() string {
@@ -2767,7 +2767,7 @@ type CompleteJobsFromWaitGroupResponse struct {
 
 func (x *CompleteJobsFromWaitGroupResponse) Reset() {
 	*x = CompleteJobsFromWaitGroupResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[50]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2779,7 +2779,7 @@ func (x *CompleteJobsFromWaitGroupResponse) String() string {
 func (*CompleteJobsFromWaitGroupResponse) ProtoMessage() {}
 
 func (x *CompleteJobsFromWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[50]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2792,7 +2792,7 @@ func (x *CompleteJobsFromWaitGroupResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use CompleteJobsFromWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*CompleteJobsFromWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{50}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *CompleteJobsFromWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -2802,7 +2802,7 @@ func (x *CompleteJobsFromWaitGroupResponse) GetWaitGroup() *WaitGroup {
 	return nil
 }
 
-type ListWaitGroupJobsRequest struct {
+type ListWaitGroupCompletedJobsRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	NamespaceName   string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
 	WaitGroupName   string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
@@ -2812,21 +2812,21 @@ type ListWaitGroupJobsRequest struct {
 	sizeCache       protoimpl.SizeCache
 }
 
-func (x *ListWaitGroupJobsRequest) Reset() {
-	*x = ListWaitGroupJobsRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[51]
+func (x *ListWaitGroupCompletedJobsRequest) Reset() {
+	*x = ListWaitGroupCompletedJobsRequest{}
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListWaitGroupJobsRequest) String() string {
+func (x *ListWaitGroupCompletedJobsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListWaitGroupJobsRequest) ProtoMessage() {}
+func (*ListWaitGroupCompletedJobsRequest) ProtoMessage() {}
 
-func (x *ListWaitGroupJobsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[51]
+func (x *ListWaitGroupCompletedJobsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2837,40 +2837,40 @@ func (x *ListWaitGroupJobsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWaitGroupJobsRequest.ProtoReflect.Descriptor instead.
-func (*ListWaitGroupJobsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{51}
+// Deprecated: Use ListWaitGroupCompletedJobsRequest.ProtoReflect.Descriptor instead.
+func (*ListWaitGroupCompletedJobsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{51}
 }
 
-func (x *ListWaitGroupJobsRequest) GetNamespaceName() string {
+func (x *ListWaitGroupCompletedJobsRequest) GetNamespaceName() string {
 	if x != nil {
 		return x.NamespaceName
 	}
 	return ""
 }
 
-func (x *ListWaitGroupJobsRequest) GetWaitGroupName() string {
+func (x *ListWaitGroupCompletedJobsRequest) GetWaitGroupName() string {
 	if x != nil {
 		return x.WaitGroupName
 	}
 	return ""
 }
 
-func (x *ListWaitGroupJobsRequest) GetPaginationToken() string {
+func (x *ListWaitGroupCompletedJobsRequest) GetPaginationToken() string {
 	if x != nil {
 		return x.PaginationToken
 	}
 	return ""
 }
 
-func (x *ListWaitGroupJobsRequest) GetLimit() int32 {
+func (x *ListWaitGroupCompletedJobsRequest) GetLimit() int32 {
 	if x != nil {
 		return x.Limit
 	}
 	return 0
 }
 
-type ListWaitGroupJobsResponse struct {
+type ListWaitGroupCompletedJobsResponse struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
 	Jobs                    []*WaitGroupJob        `protobuf:"bytes,1,rep,name=jobs,proto3" json:"jobs,omitempty"`
 	NextPaginationToken     string                 `protobuf:"bytes,2,opt,name=next_pagination_token,json=nextPaginationToken,proto3" json:"next_pagination_token,omitempty"`
@@ -2879,21 +2879,21 @@ type ListWaitGroupJobsResponse struct {
 	sizeCache               protoimpl.SizeCache
 }
 
-func (x *ListWaitGroupJobsResponse) Reset() {
-	*x = ListWaitGroupJobsResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[52]
+func (x *ListWaitGroupCompletedJobsResponse) Reset() {
+	*x = ListWaitGroupCompletedJobsResponse{}
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListWaitGroupJobsResponse) String() string {
+func (x *ListWaitGroupCompletedJobsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListWaitGroupJobsResponse) ProtoMessage() {}
+func (*ListWaitGroupCompletedJobsResponse) ProtoMessage() {}
 
-func (x *ListWaitGroupJobsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[52]
+func (x *ListWaitGroupCompletedJobsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2904,26 +2904,26 @@ func (x *ListWaitGroupJobsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWaitGroupJobsResponse.ProtoReflect.Descriptor instead.
-func (*ListWaitGroupJobsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{52}
+// Deprecated: Use ListWaitGroupCompletedJobsResponse.ProtoReflect.Descriptor instead.
+func (*ListWaitGroupCompletedJobsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{52}
 }
 
-func (x *ListWaitGroupJobsResponse) GetJobs() []*WaitGroupJob {
+func (x *ListWaitGroupCompletedJobsResponse) GetJobs() []*WaitGroupJob {
 	if x != nil {
 		return x.Jobs
 	}
 	return nil
 }
 
-func (x *ListWaitGroupJobsResponse) GetNextPaginationToken() string {
+func (x *ListWaitGroupCompletedJobsResponse) GetNextPaginationToken() string {
 	if x != nil {
 		return x.NextPaginationToken
 	}
 	return ""
 }
 
-func (x *ListWaitGroupJobsResponse) GetPreviousPaginationToken() string {
+func (x *ListWaitGroupCompletedJobsResponse) GetPreviousPaginationToken() string {
 	if x != nil {
 		return x.PreviousPaginationToken
 	}
@@ -2941,7 +2941,7 @@ type WaitForWaitGroupRequest struct {
 
 func (x *WaitForWaitGroupRequest) Reset() {
 	*x = WaitForWaitGroupRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[53]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2953,7 +2953,7 @@ func (x *WaitForWaitGroupRequest) String() string {
 func (*WaitForWaitGroupRequest) ProtoMessage() {}
 
 func (x *WaitForWaitGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[53]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2966,7 +2966,7 @@ func (x *WaitForWaitGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitForWaitGroupRequest.ProtoReflect.Descriptor instead.
 func (*WaitForWaitGroupRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{53}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *WaitForWaitGroupRequest) GetNamespaceName() string {
@@ -3001,7 +3001,7 @@ type WaitForWaitGroupResponse struct {
 
 func (x *WaitForWaitGroupResponse) Reset() {
 	*x = WaitForWaitGroupResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[54]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3013,7 +3013,7 @@ func (x *WaitForWaitGroupResponse) String() string {
 func (*WaitForWaitGroupResponse) ProtoMessage() {}
 
 func (x *WaitForWaitGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[54]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3026,7 +3026,7 @@ func (x *WaitForWaitGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitForWaitGroupResponse.ProtoReflect.Descriptor instead.
 func (*WaitForWaitGroupResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{54}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *WaitForWaitGroupResponse) GetWaitGroup() *WaitGroup {
@@ -3066,7 +3066,7 @@ type WaitGroup struct {
 
 func (x *WaitGroup) Reset() {
 	*x = WaitGroup{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[55]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3078,7 +3078,7 @@ func (x *WaitGroup) String() string {
 func (*WaitGroup) ProtoMessage() {}
 
 func (x *WaitGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[55]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3091,7 +3091,7 @@ func (x *WaitGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitGroup.ProtoReflect.Descriptor instead.
 func (*WaitGroup) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{55}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *WaitGroup) GetName() string {
@@ -3160,7 +3160,7 @@ type WaitGroupJob struct {
 
 func (x *WaitGroupJob) Reset() {
 	*x = WaitGroupJob{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[56]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3172,7 +3172,7 @@ func (x *WaitGroupJob) String() string {
 func (*WaitGroupJob) ProtoMessage() {}
 
 func (x *WaitGroupJob) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[56]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3185,7 +3185,7 @@ func (x *WaitGroupJob) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitGroupJob.ProtoReflect.Descriptor instead.
 func (*WaitGroupJob) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{56}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *WaitGroupJob) GetJobId() string {
@@ -3215,7 +3215,7 @@ type AcquireLockRequest struct {
 
 func (x *AcquireLockRequest) Reset() {
 	*x = AcquireLockRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[57]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3227,7 +3227,7 @@ func (x *AcquireLockRequest) String() string {
 func (*AcquireLockRequest) ProtoMessage() {}
 
 func (x *AcquireLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[57]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3240,7 +3240,7 @@ func (x *AcquireLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireLockRequest.ProtoReflect.Descriptor instead.
 func (*AcquireLockRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{57}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *AcquireLockRequest) GetNamespaceName() string {
@@ -3288,7 +3288,7 @@ type AcquireLockResponse struct {
 
 func (x *AcquireLockResponse) Reset() {
 	*x = AcquireLockResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[58]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3300,7 +3300,7 @@ func (x *AcquireLockResponse) String() string {
 func (*AcquireLockResponse) ProtoMessage() {}
 
 func (x *AcquireLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[58]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3313,7 +3313,7 @@ func (x *AcquireLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AcquireLockResponse.ProtoReflect.Descriptor instead.
 func (*AcquireLockResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{58}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *AcquireLockResponse) GetLock() *Lock {
@@ -3341,7 +3341,7 @@ type ReleaseLockRequest struct {
 
 func (x *ReleaseLockRequest) Reset() {
 	*x = ReleaseLockRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[59]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3353,7 +3353,7 @@ func (x *ReleaseLockRequest) String() string {
 func (*ReleaseLockRequest) ProtoMessage() {}
 
 func (x *ReleaseLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[59]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3366,7 +3366,7 @@ func (x *ReleaseLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseLockRequest.ProtoReflect.Descriptor instead.
 func (*ReleaseLockRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{59}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *ReleaseLockRequest) GetNamespaceName() string {
@@ -3399,7 +3399,7 @@ type ReleaseLockResponse struct {
 
 func (x *ReleaseLockResponse) Reset() {
 	*x = ReleaseLockResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[60]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3411,7 +3411,7 @@ func (x *ReleaseLockResponse) String() string {
 func (*ReleaseLockResponse) ProtoMessage() {}
 
 func (x *ReleaseLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[60]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3424,7 +3424,7 @@ func (x *ReleaseLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReleaseLockResponse.ProtoReflect.Descriptor instead.
 func (*ReleaseLockResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{60}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *ReleaseLockResponse) GetLock() *Lock {
@@ -3444,7 +3444,7 @@ type GetLockRequest struct {
 
 func (x *GetLockRequest) Reset() {
 	*x = GetLockRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[61]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3456,7 +3456,7 @@ func (x *GetLockRequest) String() string {
 func (*GetLockRequest) ProtoMessage() {}
 
 func (x *GetLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[61]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3469,7 +3469,7 @@ func (x *GetLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLockRequest.ProtoReflect.Descriptor instead.
 func (*GetLockRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{61}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *GetLockRequest) GetNamespaceName() string {
@@ -3495,7 +3495,7 @@ type GetLockResponse struct {
 
 func (x *GetLockResponse) Reset() {
 	*x = GetLockResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[62]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3507,7 +3507,7 @@ func (x *GetLockResponse) String() string {
 func (*GetLockResponse) ProtoMessage() {}
 
 func (x *GetLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[62]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3520,7 +3520,7 @@ func (x *GetLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLockResponse.ProtoReflect.Descriptor instead.
 func (*GetLockResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{62}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *GetLockResponse) GetLock() *Lock {
@@ -3540,7 +3540,7 @@ type DeleteLockRequest struct {
 
 func (x *DeleteLockRequest) Reset() {
 	*x = DeleteLockRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[63]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3552,7 +3552,7 @@ func (x *DeleteLockRequest) String() string {
 func (*DeleteLockRequest) ProtoMessage() {}
 
 func (x *DeleteLockRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[63]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3565,7 +3565,7 @@ func (x *DeleteLockRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLockRequest.ProtoReflect.Descriptor instead.
 func (*DeleteLockRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{63}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *DeleteLockRequest) GetNamespaceName() string {
@@ -3590,7 +3590,7 @@ type DeleteLockResponse struct {
 
 func (x *DeleteLockResponse) Reset() {
 	*x = DeleteLockResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[64]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3602,7 +3602,7 @@ func (x *DeleteLockResponse) String() string {
 func (*DeleteLockResponse) ProtoMessage() {}
 
 func (x *DeleteLockResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[64]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3615,7 +3615,7 @@ func (x *DeleteLockResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLockResponse.ProtoReflect.Descriptor instead.
 func (*DeleteLockResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{64}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{64}
 }
 
 type ListLocksRequest struct {
@@ -3629,7 +3629,7 @@ type ListLocksRequest struct {
 
 func (x *ListLocksRequest) Reset() {
 	*x = ListLocksRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[65]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3641,7 +3641,7 @@ func (x *ListLocksRequest) String() string {
 func (*ListLocksRequest) ProtoMessage() {}
 
 func (x *ListLocksRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[65]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3654,7 +3654,7 @@ func (x *ListLocksRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLocksRequest.ProtoReflect.Descriptor instead.
 func (*ListLocksRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{65}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *ListLocksRequest) GetNamespaceName() string {
@@ -3689,7 +3689,7 @@ type ListLocksResponse struct {
 
 func (x *ListLocksResponse) Reset() {
 	*x = ListLocksResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[66]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3701,7 +3701,7 @@ func (x *ListLocksResponse) String() string {
 func (*ListLocksResponse) ProtoMessage() {}
 
 func (x *ListLocksResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[66]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3714,7 +3714,7 @@ func (x *ListLocksResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLocksResponse.ProtoReflect.Descriptor instead.
 func (*ListLocksResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{66}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *ListLocksResponse) GetLocks() []*Lock {
@@ -3749,7 +3749,7 @@ type CreateLockLeaseRequest struct {
 
 func (x *CreateLockLeaseRequest) Reset() {
 	*x = CreateLockLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[67]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3761,7 +3761,7 @@ func (x *CreateLockLeaseRequest) String() string {
 func (*CreateLockLeaseRequest) ProtoMessage() {}
 
 func (x *CreateLockLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[67]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3774,7 +3774,7 @@ func (x *CreateLockLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateLockLeaseRequest.ProtoReflect.Descriptor instead.
 func (*CreateLockLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{67}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *CreateLockLeaseRequest) GetNamespaceName() string {
@@ -3807,7 +3807,7 @@ type CreateLockLeaseResponse struct {
 
 func (x *CreateLockLeaseResponse) Reset() {
 	*x = CreateLockLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[68]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3819,7 +3819,7 @@ func (x *CreateLockLeaseResponse) String() string {
 func (*CreateLockLeaseResponse) ProtoMessage() {}
 
 func (x *CreateLockLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[68]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3832,7 +3832,7 @@ func (x *CreateLockLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateLockLeaseResponse.ProtoReflect.Descriptor instead.
 func (*CreateLockLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{68}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *CreateLockLeaseResponse) GetLease() *Lease {
@@ -3852,7 +3852,7 @@ type RevokeLockLeaseRequest struct {
 
 func (x *RevokeLockLeaseRequest) Reset() {
 	*x = RevokeLockLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[69]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3864,7 +3864,7 @@ func (x *RevokeLockLeaseRequest) String() string {
 func (*RevokeLockLeaseRequest) ProtoMessage() {}
 
 func (x *RevokeLockLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[69]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3877,7 +3877,7 @@ func (x *RevokeLockLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeLockLeaseRequest.ProtoReflect.Descriptor instead.
 func (*RevokeLockLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{69}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *RevokeLockLeaseRequest) GetNamespaceName() string {
@@ -3902,7 +3902,7 @@ type RevokeLockLeaseResponse struct {
 
 func (x *RevokeLockLeaseResponse) Reset() {
 	*x = RevokeLockLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[70]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3914,7 +3914,7 @@ func (x *RevokeLockLeaseResponse) String() string {
 func (*RevokeLockLeaseResponse) ProtoMessage() {}
 
 func (x *RevokeLockLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[70]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3927,7 +3927,7 @@ func (x *RevokeLockLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeLockLeaseResponse.ProtoReflect.Descriptor instead.
 func (*RevokeLockLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{70}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{70}
 }
 
 type RefreshLockLeaseRequest struct {
@@ -3941,7 +3941,7 @@ type RefreshLockLeaseRequest struct {
 
 func (x *RefreshLockLeaseRequest) Reset() {
 	*x = RefreshLockLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[71]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3953,7 +3953,7 @@ func (x *RefreshLockLeaseRequest) String() string {
 func (*RefreshLockLeaseRequest) ProtoMessage() {}
 
 func (x *RefreshLockLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[71]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3966,7 +3966,7 @@ func (x *RefreshLockLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshLockLeaseRequest.ProtoReflect.Descriptor instead.
 func (*RefreshLockLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{71}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *RefreshLockLeaseRequest) GetNamespaceName() string {
@@ -3999,7 +3999,7 @@ type RefreshLockLeaseResponse struct {
 
 func (x *RefreshLockLeaseResponse) Reset() {
 	*x = RefreshLockLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[72]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4011,7 +4011,7 @@ func (x *RefreshLockLeaseResponse) String() string {
 func (*RefreshLockLeaseResponse) ProtoMessage() {}
 
 func (x *RefreshLockLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[72]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4024,7 +4024,7 @@ func (x *RefreshLockLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshLockLeaseResponse.ProtoReflect.Descriptor instead.
 func (*RefreshLockLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{72}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{72}
 }
 
 func (x *RefreshLockLeaseResponse) GetLease() *Lease {
@@ -4045,7 +4045,7 @@ type ListLockLeasesRequest struct {
 
 func (x *ListLockLeasesRequest) Reset() {
 	*x = ListLockLeasesRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[73]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4057,7 +4057,7 @@ func (x *ListLockLeasesRequest) String() string {
 func (*ListLockLeasesRequest) ProtoMessage() {}
 
 func (x *ListLockLeasesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[73]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4070,7 +4070,7 @@ func (x *ListLockLeasesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLockLeasesRequest.ProtoReflect.Descriptor instead.
 func (*ListLockLeasesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{73}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *ListLockLeasesRequest) GetNamespaceName() string {
@@ -4105,7 +4105,7 @@ type ListLockLeasesResponse struct {
 
 func (x *ListLockLeasesResponse) Reset() {
 	*x = ListLockLeasesResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[74]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4117,7 +4117,7 @@ func (x *ListLockLeasesResponse) String() string {
 func (*ListLockLeasesResponse) ProtoMessage() {}
 
 func (x *ListLockLeasesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[74]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4130,7 +4130,7 @@ func (x *ListLockLeasesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListLockLeasesResponse.ProtoReflect.Descriptor instead.
 func (*ListLockLeasesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{74}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *ListLockLeasesResponse) GetLeases() []*Lease {
@@ -4164,7 +4164,7 @@ type GetLockLeaseRequest struct {
 
 func (x *GetLockLeaseRequest) Reset() {
 	*x = GetLockLeaseRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[75]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4176,7 +4176,7 @@ func (x *GetLockLeaseRequest) String() string {
 func (*GetLockLeaseRequest) ProtoMessage() {}
 
 func (x *GetLockLeaseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[75]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4189,7 +4189,7 @@ func (x *GetLockLeaseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLockLeaseRequest.ProtoReflect.Descriptor instead.
 func (*GetLockLeaseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{75}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *GetLockLeaseRequest) GetNamespaceName() string {
@@ -4215,7 +4215,7 @@ type GetLockLeaseResponse struct {
 
 func (x *GetLockLeaseResponse) Reset() {
 	*x = GetLockLeaseResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[76]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4227,7 +4227,7 @@ func (x *GetLockLeaseResponse) String() string {
 func (*GetLockLeaseResponse) ProtoMessage() {}
 
 func (x *GetLockLeaseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[76]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4240,7 +4240,7 @@ func (x *GetLockLeaseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLockLeaseResponse.ProtoReflect.Descriptor instead.
 func (*GetLockLeaseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{76}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *GetLockLeaseResponse) GetLease() *Lease {
@@ -4253,7 +4253,7 @@ func (x *GetLockLeaseResponse) GetLease() *Lease {
 type Lock struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	State         LockState              `protobuf:"varint,2,opt,name=state,proto3,enum=com.evrblk.grackle.preview.LockState" json:"state,omitempty"`
+	State         LockState              `protobuf:"varint,2,opt,name=state,proto3,enum=com.evrblk.grackle.v1beta.LockState" json:"state,omitempty"`
 	LockedAt      int64                  `protobuf:"varint,3,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
 	LockHolders   []*LockHolder          `protobuf:"bytes,4,rep,name=lock_holders,json=lockHolders,proto3" json:"lock_holders,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -4262,7 +4262,7 @@ type Lock struct {
 
 func (x *Lock) Reset() {
 	*x = Lock{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[77]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4274,7 +4274,7 @@ func (x *Lock) String() string {
 func (*Lock) ProtoMessage() {}
 
 func (x *Lock) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[77]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4287,7 +4287,7 @@ func (x *Lock) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Lock.ProtoReflect.Descriptor instead.
 func (*Lock) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{77}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *Lock) GetName() string {
@@ -4328,7 +4328,7 @@ type LockHolder struct {
 
 func (x *LockHolder) Reset() {
 	*x = LockHolder{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[78]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4340,7 +4340,7 @@ func (x *LockHolder) String() string {
 func (*LockHolder) ProtoMessage() {}
 
 func (x *LockHolder) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[78]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4353,7 +4353,7 @@ func (x *LockHolder) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LockHolder.ProtoReflect.Descriptor instead.
 func (*LockHolder) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{78}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *LockHolder) GetLeaseId() string {
@@ -4383,7 +4383,7 @@ type Namespace struct {
 
 func (x *Namespace) Reset() {
 	*x = Namespace{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[79]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4395,7 +4395,7 @@ func (x *Namespace) String() string {
 func (*Namespace) ProtoMessage() {}
 
 func (x *Namespace) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[79]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4408,7 +4408,7 @@ func (x *Namespace) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Namespace.ProtoReflect.Descriptor instead.
 func (*Namespace) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{79}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *Namespace) GetName() string {
@@ -4459,7 +4459,7 @@ type CreateBarrierRequest struct {
 
 func (x *CreateBarrierRequest) Reset() {
 	*x = CreateBarrierRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[80]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4471,7 +4471,7 @@ func (x *CreateBarrierRequest) String() string {
 func (*CreateBarrierRequest) ProtoMessage() {}
 
 func (x *CreateBarrierRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[80]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4484,7 +4484,7 @@ func (x *CreateBarrierRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBarrierRequest.ProtoReflect.Descriptor instead.
 func (*CreateBarrierRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{80}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *CreateBarrierRequest) GetNamespaceName() string {
@@ -4531,7 +4531,7 @@ type CreateBarrierResponse struct {
 
 func (x *CreateBarrierResponse) Reset() {
 	*x = CreateBarrierResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[81]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4543,7 +4543,7 @@ func (x *CreateBarrierResponse) String() string {
 func (*CreateBarrierResponse) ProtoMessage() {}
 
 func (x *CreateBarrierResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[81]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4556,7 +4556,7 @@ func (x *CreateBarrierResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBarrierResponse.ProtoReflect.Descriptor instead.
 func (*CreateBarrierResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{81}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *CreateBarrierResponse) GetBarrier() *Barrier {
@@ -4577,7 +4577,7 @@ type ListBarriersRequest struct {
 
 func (x *ListBarriersRequest) Reset() {
 	*x = ListBarriersRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[82]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4589,7 +4589,7 @@ func (x *ListBarriersRequest) String() string {
 func (*ListBarriersRequest) ProtoMessage() {}
 
 func (x *ListBarriersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[82]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4602,7 +4602,7 @@ func (x *ListBarriersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBarriersRequest.ProtoReflect.Descriptor instead.
 func (*ListBarriersRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{82}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{82}
 }
 
 func (x *ListBarriersRequest) GetNamespaceName() string {
@@ -4637,7 +4637,7 @@ type ListBarriersResponse struct {
 
 func (x *ListBarriersResponse) Reset() {
 	*x = ListBarriersResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[83]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4649,7 +4649,7 @@ func (x *ListBarriersResponse) String() string {
 func (*ListBarriersResponse) ProtoMessage() {}
 
 func (x *ListBarriersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[83]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4662,7 +4662,7 @@ func (x *ListBarriersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBarriersResponse.ProtoReflect.Descriptor instead.
 func (*ListBarriersResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{83}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{83}
 }
 
 func (x *ListBarriersResponse) GetBarriers() []*Barrier {
@@ -4696,7 +4696,7 @@ type GetBarrierRequest struct {
 
 func (x *GetBarrierRequest) Reset() {
 	*x = GetBarrierRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[84]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4708,7 +4708,7 @@ func (x *GetBarrierRequest) String() string {
 func (*GetBarrierRequest) ProtoMessage() {}
 
 func (x *GetBarrierRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[84]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4721,7 +4721,7 @@ func (x *GetBarrierRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBarrierRequest.ProtoReflect.Descriptor instead.
 func (*GetBarrierRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{84}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{84}
 }
 
 func (x *GetBarrierRequest) GetNamespaceName() string {
@@ -4747,7 +4747,7 @@ type GetBarrierResponse struct {
 
 func (x *GetBarrierResponse) Reset() {
 	*x = GetBarrierResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[85]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4759,7 +4759,7 @@ func (x *GetBarrierResponse) String() string {
 func (*GetBarrierResponse) ProtoMessage() {}
 
 func (x *GetBarrierResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[85]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4772,7 +4772,7 @@ func (x *GetBarrierResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBarrierResponse.ProtoReflect.Descriptor instead.
 func (*GetBarrierResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{85}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *GetBarrierResponse) GetBarrier() *Barrier {
@@ -4792,7 +4792,7 @@ type DeleteBarrierRequest struct {
 
 func (x *DeleteBarrierRequest) Reset() {
 	*x = DeleteBarrierRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[86]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[86]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4804,7 +4804,7 @@ func (x *DeleteBarrierRequest) String() string {
 func (*DeleteBarrierRequest) ProtoMessage() {}
 
 func (x *DeleteBarrierRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[86]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[86]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4817,7 +4817,7 @@ func (x *DeleteBarrierRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteBarrierRequest.ProtoReflect.Descriptor instead.
 func (*DeleteBarrierRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{86}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{86}
 }
 
 func (x *DeleteBarrierRequest) GetNamespaceName() string {
@@ -4842,7 +4842,7 @@ type DeleteBarrierResponse struct {
 
 func (x *DeleteBarrierResponse) Reset() {
 	*x = DeleteBarrierResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[87]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[87]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4854,7 +4854,7 @@ func (x *DeleteBarrierResponse) String() string {
 func (*DeleteBarrierResponse) ProtoMessage() {}
 
 func (x *DeleteBarrierResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[87]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[87]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4867,7 +4867,7 @@ func (x *DeleteBarrierResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteBarrierResponse.ProtoReflect.Descriptor instead.
 func (*DeleteBarrierResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{87}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{87}
 }
 
 type UpdateBarrierRequest struct {
@@ -4882,7 +4882,7 @@ type UpdateBarrierRequest struct {
 
 func (x *UpdateBarrierRequest) Reset() {
 	*x = UpdateBarrierRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[88]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[88]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4894,7 +4894,7 @@ func (x *UpdateBarrierRequest) String() string {
 func (*UpdateBarrierRequest) ProtoMessage() {}
 
 func (x *UpdateBarrierRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[88]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[88]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4907,7 +4907,7 @@ func (x *UpdateBarrierRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBarrierRequest.ProtoReflect.Descriptor instead.
 func (*UpdateBarrierRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{88}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{88}
 }
 
 func (x *UpdateBarrierRequest) GetNamespaceName() string {
@@ -4947,7 +4947,7 @@ type UpdateBarrierResponse struct {
 
 func (x *UpdateBarrierResponse) Reset() {
 	*x = UpdateBarrierResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[89]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[89]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4959,7 +4959,7 @@ func (x *UpdateBarrierResponse) String() string {
 func (*UpdateBarrierResponse) ProtoMessage() {}
 
 func (x *UpdateBarrierResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[89]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[89]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4972,7 +4972,7 @@ func (x *UpdateBarrierResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBarrierResponse.ProtoReflect.Descriptor instead.
 func (*UpdateBarrierResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{89}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{89}
 }
 
 func (x *UpdateBarrierResponse) GetBarrier() *Barrier {
@@ -4994,7 +4994,7 @@ type ArriveAtBarrierRequest struct {
 
 func (x *ArriveAtBarrierRequest) Reset() {
 	*x = ArriveAtBarrierRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[90]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[90]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5006,7 +5006,7 @@ func (x *ArriveAtBarrierRequest) String() string {
 func (*ArriveAtBarrierRequest) ProtoMessage() {}
 
 func (x *ArriveAtBarrierRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[90]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[90]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5019,7 +5019,7 @@ func (x *ArriveAtBarrierRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArriveAtBarrierRequest.ProtoReflect.Descriptor instead.
 func (*ArriveAtBarrierRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{90}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{90}
 }
 
 func (x *ArriveAtBarrierRequest) GetNamespaceName() string {
@@ -5061,7 +5061,7 @@ type ArriveAtBarrierResponse struct {
 
 func (x *ArriveAtBarrierResponse) Reset() {
 	*x = ArriveAtBarrierResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[91]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[91]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5073,7 +5073,7 @@ func (x *ArriveAtBarrierResponse) String() string {
 func (*ArriveAtBarrierResponse) ProtoMessage() {}
 
 func (x *ArriveAtBarrierResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[91]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[91]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5086,7 +5086,7 @@ func (x *ArriveAtBarrierResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArriveAtBarrierResponse.ProtoReflect.Descriptor instead.
 func (*ArriveAtBarrierResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{91}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{91}
 }
 
 func (x *ArriveAtBarrierResponse) GetBarrier() *Barrier {
@@ -5122,7 +5122,7 @@ type WaitAtBarrierRequest struct {
 
 func (x *WaitAtBarrierRequest) Reset() {
 	*x = WaitAtBarrierRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[92]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[92]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5134,7 +5134,7 @@ func (x *WaitAtBarrierRequest) String() string {
 func (*WaitAtBarrierRequest) ProtoMessage() {}
 
 func (x *WaitAtBarrierRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[92]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[92]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5147,7 +5147,7 @@ func (x *WaitAtBarrierRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitAtBarrierRequest.ProtoReflect.Descriptor instead.
 func (*WaitAtBarrierRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{92}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{92}
 }
 
 func (x *WaitAtBarrierRequest) GetNamespaceName() string {
@@ -5190,7 +5190,7 @@ type WaitAtBarrierResponse struct {
 
 func (x *WaitAtBarrierResponse) Reset() {
 	*x = WaitAtBarrierResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[93]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[93]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5202,7 +5202,7 @@ func (x *WaitAtBarrierResponse) String() string {
 func (*WaitAtBarrierResponse) ProtoMessage() {}
 
 func (x *WaitAtBarrierResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[93]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[93]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5215,7 +5215,7 @@ func (x *WaitAtBarrierResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WaitAtBarrierResponse.ProtoReflect.Descriptor instead.
 func (*WaitAtBarrierResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{93}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{93}
 }
 
 func (x *WaitAtBarrierResponse) GetBarrier() *Barrier {
@@ -5259,7 +5259,7 @@ type ListBarrierParticipantsRequest struct {
 
 func (x *ListBarrierParticipantsRequest) Reset() {
 	*x = ListBarrierParticipantsRequest{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[94]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[94]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5271,7 +5271,7 @@ func (x *ListBarrierParticipantsRequest) String() string {
 func (*ListBarrierParticipantsRequest) ProtoMessage() {}
 
 func (x *ListBarrierParticipantsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[94]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[94]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5284,7 +5284,7 @@ func (x *ListBarrierParticipantsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBarrierParticipantsRequest.ProtoReflect.Descriptor instead.
 func (*ListBarrierParticipantsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{94}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{94}
 }
 
 func (x *ListBarrierParticipantsRequest) GetNamespaceName() string {
@@ -5333,7 +5333,7 @@ type ListBarrierParticipantsResponse struct {
 
 func (x *ListBarrierParticipantsResponse) Reset() {
 	*x = ListBarrierParticipantsResponse{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[95]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[95]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5345,7 +5345,7 @@ func (x *ListBarrierParticipantsResponse) String() string {
 func (*ListBarrierParticipantsResponse) ProtoMessage() {}
 
 func (x *ListBarrierParticipantsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[95]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[95]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5358,7 +5358,7 @@ func (x *ListBarrierParticipantsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBarrierParticipantsResponse.ProtoReflect.Descriptor instead.
 func (*ListBarrierParticipantsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{95}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{95}
 }
 
 func (x *ListBarrierParticipantsResponse) GetParticipants() []*BarrierParticipant {
@@ -5398,7 +5398,7 @@ type Barrier struct {
 
 func (x *Barrier) Reset() {
 	*x = Barrier{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[96]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[96]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5410,7 +5410,7 @@ func (x *Barrier) String() string {
 func (*Barrier) ProtoMessage() {}
 
 func (x *Barrier) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[96]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[96]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5423,7 +5423,7 @@ func (x *Barrier) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Barrier.ProtoReflect.Descriptor instead.
 func (*Barrier) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{96}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{96}
 }
 
 func (x *Barrier) GetName() string {
@@ -5492,7 +5492,7 @@ type BarrierParticipant struct {
 
 func (x *BarrierParticipant) Reset() {
 	*x = BarrierParticipant{}
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[97]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[97]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5504,7 +5504,7 @@ func (x *BarrierParticipant) String() string {
 func (*BarrierParticipant) ProtoMessage() {}
 
 func (x *BarrierParticipant) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_grackle_preview_api_proto_msgTypes[97]
+	mi := &file_proto_grackle_v1beta_api_proto_msgTypes[97]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5517,7 +5517,7 @@ func (x *BarrierParticipant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BarrierParticipant.ProtoReflect.Descriptor instead.
 func (*BarrierParticipant) Descriptor() ([]byte, []int) {
-	return file_proto_grackle_preview_api_proto_rawDescGZIP(), []int{97}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{97}
 }
 
 func (x *BarrierParticipant) GetProcessId() string {
@@ -5534,81 +5534,81 @@ func (x *BarrierParticipant) GetArrivedAt() int64 {
 	return 0
 }
 
-var File_proto_grackle_preview_api_proto protoreflect.FileDescriptor
+var File_proto_grackle_v1beta_api_proto protoreflect.FileDescriptor
 
-const file_proto_grackle_preview_api_proto_rawDesc = "" +
+const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\n" +
-	"\x1fproto/grackle/preview/api.proto\x12\x1acom.evrblk.grackle.preview\"N\n" +
+	"\x1eproto/grackle/v1beta/api.proto\x12\x19com.evrblk.grackle.v1beta\"N\n" +
 	"\x16CreateNamespaceRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"^\n" +
-	"\x17CreateNamespaceResponse\x12C\n" +
-	"\tnamespace\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.NamespaceR\tnamespace\"X\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\"]\n" +
+	"\x17CreateNamespaceResponse\x12B\n" +
+	"\tnamespace\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.NamespaceR\tnamespace\"X\n" +
 	"\x15ListNamespacesRequest\x12)\n" +
 	"\x10pagination_token\x18\x01 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xcf\x01\n" +
-	"\x16ListNamespacesResponse\x12E\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xce\x01\n" +
+	"\x16ListNamespacesResponse\x12D\n" +
 	"\n" +
-	"namespaces\x18\x01 \x03(\v2%.com.evrblk.grackle.preview.NamespaceR\n" +
+	"namespaces\x18\x01 \x03(\v2$.com.evrblk.grackle.v1beta.NamespaceR\n" +
 	"namespaces\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"<\n" +
 	"\x13GetNamespaceRequest\x12%\n" +
-	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\"[\n" +
-	"\x14GetNamespaceResponse\x12C\n" +
-	"\tnamespace\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.NamespaceR\tnamespace\"?\n" +
+	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\"Z\n" +
+	"\x14GetNamespaceResponse\x12B\n" +
+	"\tnamespace\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.NamespaceR\tnamespace\"?\n" +
 	"\x16DeleteNamespaceRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\"\x19\n" +
 	"\x17DeleteNamespaceResponse\"a\n" +
 	"\x16UpdateNamespaceRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"^\n" +
-	"\x17UpdateNamespaceResponse\x12C\n" +
-	"\tnamespace\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.NamespaceR\tnamespace\"\xa2\x01\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\"]\n" +
+	"\x17UpdateNamespaceResponse\x12B\n" +
+	"\tnamespace\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.NamespaceR\tnamespace\"\xa2\x01\n" +
 	"\x16CreateSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
-	"\apermits\x18\x04 \x01(\x04R\apermits\"^\n" +
-	"\x17CreateSemaphoreResponse\x12C\n" +
-	"\tsemaphore\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.SemaphoreR\tsemaphore\"\x7f\n" +
+	"\apermits\x18\x04 \x01(\x04R\apermits\"]\n" +
+	"\x17CreateSemaphoreResponse\x12B\n" +
+	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\"\x7f\n" +
 	"\x15ListSemaphoresRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xcf\x01\n" +
-	"\x16ListSemaphoresResponse\x12E\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xce\x01\n" +
+	"\x16ListSemaphoresResponse\x12D\n" +
 	"\n" +
-	"semaphores\x18\x01 \x03(\v2%.com.evrblk.grackle.preview.SemaphoreR\n" +
+	"semaphores\x18\x01 \x03(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\n" +
 	"semaphores\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"c\n" +
 	"\x13GetSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
-	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\"[\n" +
-	"\x14GetSemaphoreResponse\x12C\n" +
-	"\tsemaphore\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.SemaphoreR\tsemaphore\"\xc3\x01\n" +
+	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\"Z\n" +
+	"\x14GetSemaphoreResponse\x12B\n" +
+	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\"\xc3\x01\n" +
 	"\x17AcquireSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12\x19\n" +
 	"\blease_id\x18\x03 \x01(\tR\aleaseId\x12\x16\n" +
 	"\x06weight\x18\x04 \x01(\x04R\x06weight\x12'\n" +
-	"\x0ftimeout_seconds\x18\x05 \x01(\x05R\x0etimeoutSeconds\"y\n" +
-	"\x18AcquireSemaphoreResponse\x12C\n" +
-	"\tsemaphore\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.SemaphoreR\tsemaphore\x12\x18\n" +
+	"\x0ftimeout_seconds\x18\x05 \x01(\x05R\x0etimeoutSeconds\"x\n" +
+	"\x18AcquireSemaphoreResponse\x12B\n" +
+	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\x12\x18\n" +
 	"\asuccess\x18\x02 \x01(\bR\asuccess\"\x82\x01\n" +
 	"\x17ReleaseSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12\x19\n" +
-	"\blease_id\x18\x03 \x01(\tR\aleaseId\"_\n" +
-	"\x18ReleaseSemaphoreResponse\x12C\n" +
-	"\tsemaphore\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.SemaphoreR\tsemaphore\"\xa2\x01\n" +
+	"\blease_id\x18\x03 \x01(\tR\aleaseId\"^\n" +
+	"\x18ReleaseSemaphoreResponse\x12B\n" +
+	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\"\xa2\x01\n" +
 	"\x16UpdateSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
-	"\apermits\x18\x04 \x01(\x04R\apermits\"^\n" +
-	"\x17UpdateSemaphoreResponse\x12C\n" +
-	"\tsemaphore\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.SemaphoreR\tsemaphore\"f\n" +
+	"\apermits\x18\x04 \x01(\x04R\apermits\"]\n" +
+	"\x17UpdateSemaphoreResponse\x12B\n" +
+	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\"f\n" +
 	"\x16DeleteSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\"\x19\n" +
@@ -5617,9 +5617,9 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12)\n" +
 	"\x10pagination_token\x18\x03 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x04 \x01(\x05R\x05limit\"\xd5\x01\n" +
-	"\x1cListSemaphoreHoldersResponse\x12E\n" +
-	"\aholders\x18\x01 \x03(\v2+.com.evrblk.grackle.preview.SemaphoreHolderR\aholders\x122\n" +
+	"\x05limit\x18\x04 \x01(\x05R\x05limit\"\xd4\x01\n" +
+	"\x1cListSemaphoreHoldersResponse\x12D\n" +
+	"\aholders\x18\x01 \x03(\v2*.com.evrblk.grackle.v1beta.SemaphoreHolderR\aholders\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\x84\x01\n" +
 	"\x1bCreateSemaphoreLeaseRequest\x12%\n" +
@@ -5627,9 +5627,9 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x12\x1f\n" +
 	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
-	"ttlSeconds\"W\n" +
-	"\x1cCreateSemaphoreLeaseResponse\x127\n" +
-	"\x05lease\x18\x01 \x01(\v2!.com.evrblk.grackle.preview.LeaseR\x05lease\"_\n" +
+	"ttlSeconds\"V\n" +
+	"\x1cCreateSemaphoreLeaseResponse\x126\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"_\n" +
 	"\x1bRevokeSemaphoreLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\"\x1e\n" +
@@ -5638,22 +5638,22 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\x12\x1f\n" +
 	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
-	"ttlSeconds\"X\n" +
-	"\x1dRefreshSemaphoreLeaseResponse\x127\n" +
-	"\x05lease\x18\x01 \x01(\v2!.com.evrblk.grackle.preview.LeaseR\x05lease\"\x84\x01\n" +
+	"ttlSeconds\"W\n" +
+	"\x1dRefreshSemaphoreLeaseResponse\x126\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x84\x01\n" +
 	"\x1aListSemaphoreLeasesRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc8\x01\n" +
-	"\x1bListSemaphoreLeasesResponse\x129\n" +
-	"\x06leases\x18\x01 \x03(\v2!.com.evrblk.grackle.preview.LeaseR\x06leases\x122\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc7\x01\n" +
+	"\x1bListSemaphoreLeasesResponse\x128\n" +
+	"\x06leases\x18\x01 \x03(\v2 .com.evrblk.grackle.v1beta.LeaseR\x06leases\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\\\n" +
 	"\x18GetSemaphoreLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
-	"\blease_id\x18\x02 \x01(\tR\aleaseId\"T\n" +
-	"\x19GetSemaphoreLeaseResponse\x127\n" +
-	"\x05lease\x18\x01 \x01(\v2!.com.evrblk.grackle.preview.LeaseR\x05lease\"\x7f\n" +
+	"\blease_id\x18\x02 \x01(\tR\aleaseId\"S\n" +
+	"\x19GetSemaphoreLeaseResponse\x126\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x7f\n" +
 	"\x05Lease\x12\x19\n" +
 	"\blease_id\x18\x01 \x01(\tR\aleaseId\x12\x1d\n" +
 	"\n" +
@@ -5683,25 +5683,25 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
 	"\acounter\x18\x04 \x01(\x04R\acounter\x12\x1d\n" +
 	"\n" +
-	"expires_at\x18\x05 \x01(\x03R\texpiresAt\"_\n" +
-	"\x17CreateWaitGroupResponse\x12D\n" +
+	"expires_at\x18\x05 \x01(\x03R\texpiresAt\"^\n" +
+	"\x17CreateWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.WaitGroupR\twaitGroup\"\x7f\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\x7f\n" +
 	"\x15ListWaitGroupsRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xd0\x01\n" +
-	"\x16ListWaitGroupsResponse\x12F\n" +
-	"\vwait_groups\x18\x01 \x03(\v2%.com.evrblk.grackle.preview.WaitGroupR\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xcf\x01\n" +
+	"\x16ListWaitGroupsResponse\x12E\n" +
+	"\vwait_groups\x18\x01 \x03(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\n" +
 	"waitGroups\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"d\n" +
 	"\x13GetWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
-	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\"\\\n" +
-	"\x14GetWaitGroupResponse\x12D\n" +
+	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\"[\n" +
+	"\x14GetWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.WaitGroupR\twaitGroup\"g\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"g\n" +
 	"\x16DeleteWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\"\x19\n" +
@@ -5709,33 +5709,33 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x19AddJobsToWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12\x18\n" +
-	"\acounter\x18\x03 \x01(\x04R\acounter\"b\n" +
-	"\x1aAddJobsToWaitGroupResponse\x12D\n" +
+	"\acounter\x18\x03 \x01(\x04R\acounter\"a\n" +
+	"\x1aAddJobsToWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.WaitGroupR\twaitGroup\"\x8a\x01\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\x8a\x01\n" +
 	" CompleteJobsFromWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12\x17\n" +
-	"\ajob_ids\x18\x03 \x03(\tR\x06jobIds\"i\n" +
-	"!CompleteJobsFromWaitGroupResponse\x12D\n" +
+	"\ajob_ids\x18\x03 \x03(\tR\x06jobIds\"h\n" +
+	"!CompleteJobsFromWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.WaitGroupR\twaitGroup\"\xaa\x01\n" +
-	"\x18ListWaitGroupJobsRequest\x12%\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\xb3\x01\n" +
+	"!ListWaitGroupCompletedJobsRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12)\n" +
 	"\x10pagination_token\x18\x03 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x04 \x01(\x05R\x05limit\"\xc9\x01\n" +
-	"\x19ListWaitGroupJobsResponse\x12<\n" +
-	"\x04jobs\x18\x01 \x03(\v2(.com.evrblk.grackle.preview.WaitGroupJobR\x04jobs\x122\n" +
+	"\x05limit\x18\x04 \x01(\x05R\x05limit\"\xd1\x01\n" +
+	"\"ListWaitGroupCompletedJobsResponse\x12;\n" +
+	"\x04jobs\x18\x01 \x03(\v2'.com.evrblk.grackle.v1beta.WaitGroupJobR\x04jobs\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\x91\x01\n" +
 	"\x17WaitForWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12'\n" +
-	"\x0ftimeout_seconds\x18\x03 \x01(\x05R\x0etimeoutSeconds\"\x9b\x01\n" +
-	"\x18WaitForWaitGroupResponse\x12D\n" +
+	"\x0ftimeout_seconds\x18\x03 \x01(\x05R\x0etimeoutSeconds\"\x9a\x01\n" +
+	"\x18WaitForWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2%.com.evrblk.grackle.preview.WaitGroupR\twaitGroup\x12\x1c\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x1c\n" +
 	"\tcompleted\x18\x02 \x01(\bR\tcompleted\x12\x1b\n" +
 	"\ttimed_out\x18\x03 \x01(\bR\btimedOut\"\xf0\x01\n" +
 	"\tWaitGroup\x12\x12\n" +
@@ -5758,21 +5758,21 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\tlock_name\x18\x02 \x01(\tR\blockName\x12\x1c\n" +
 	"\texclusive\x18\x03 \x01(\bR\texclusive\x12\x19\n" +
 	"\blease_id\x18\x04 \x01(\tR\aleaseId\x12'\n" +
-	"\x0ftimeout_seconds\x18\x05 \x01(\x05R\x0etimeoutSeconds\"e\n" +
-	"\x13AcquireLockResponse\x124\n" +
-	"\x04lock\x18\x01 \x01(\v2 .com.evrblk.grackle.preview.LockR\x04lock\x12\x18\n" +
+	"\x0ftimeout_seconds\x18\x05 \x01(\x05R\x0etimeoutSeconds\"d\n" +
+	"\x13AcquireLockResponse\x123\n" +
+	"\x04lock\x18\x01 \x01(\v2\x1f.com.evrblk.grackle.v1beta.LockR\x04lock\x12\x18\n" +
 	"\asuccess\x18\x02 \x01(\bR\asuccess\"s\n" +
 	"\x12ReleaseLockRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1b\n" +
 	"\tlock_name\x18\x02 \x01(\tR\blockName\x12\x19\n" +
-	"\blease_id\x18\x03 \x01(\tR\aleaseId\"K\n" +
-	"\x13ReleaseLockResponse\x124\n" +
-	"\x04lock\x18\x01 \x01(\v2 .com.evrblk.grackle.preview.LockR\x04lock\"T\n" +
+	"\blease_id\x18\x03 \x01(\tR\aleaseId\"J\n" +
+	"\x13ReleaseLockResponse\x123\n" +
+	"\x04lock\x18\x01 \x01(\v2\x1f.com.evrblk.grackle.v1beta.LockR\x04lock\"T\n" +
 	"\x0eGetLockRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1b\n" +
-	"\tlock_name\x18\x02 \x01(\tR\blockName\"G\n" +
-	"\x0fGetLockResponse\x124\n" +
-	"\x04lock\x18\x01 \x01(\v2 .com.evrblk.grackle.preview.LockR\x04lock\"W\n" +
+	"\tlock_name\x18\x02 \x01(\tR\blockName\"F\n" +
+	"\x0fGetLockResponse\x123\n" +
+	"\x04lock\x18\x01 \x01(\v2\x1f.com.evrblk.grackle.v1beta.LockR\x04lock\"W\n" +
 	"\x11DeleteLockRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1b\n" +
 	"\tlock_name\x18\x02 \x01(\tR\blockName\"\x14\n" +
@@ -5780,9 +5780,9 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x10ListLocksRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xbb\x01\n" +
-	"\x11ListLocksResponse\x126\n" +
-	"\x05locks\x18\x01 \x03(\v2 .com.evrblk.grackle.preview.LockR\x05locks\x122\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xba\x01\n" +
+	"\x11ListLocksResponse\x125\n" +
+	"\x05locks\x18\x01 \x03(\v2\x1f.com.evrblk.grackle.v1beta.LockR\x05locks\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\x7f\n" +
 	"\x16CreateLockLeaseRequest\x12%\n" +
@@ -5790,9 +5790,9 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x12\x1f\n" +
 	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
-	"ttlSeconds\"R\n" +
-	"\x17CreateLockLeaseResponse\x127\n" +
-	"\x05lease\x18\x01 \x01(\v2!.com.evrblk.grackle.preview.LeaseR\x05lease\"Z\n" +
+	"ttlSeconds\"Q\n" +
+	"\x17CreateLockLeaseResponse\x126\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"Z\n" +
 	"\x16RevokeLockLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\"\x19\n" +
@@ -5801,27 +5801,27 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\x12\x1f\n" +
 	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
-	"ttlSeconds\"S\n" +
-	"\x18RefreshLockLeaseResponse\x127\n" +
-	"\x05lease\x18\x01 \x01(\v2!.com.evrblk.grackle.preview.LeaseR\x05lease\"\x7f\n" +
+	"ttlSeconds\"R\n" +
+	"\x18RefreshLockLeaseResponse\x126\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x7f\n" +
 	"\x15ListLockLeasesRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc3\x01\n" +
-	"\x16ListLockLeasesResponse\x129\n" +
-	"\x06leases\x18\x01 \x03(\v2!.com.evrblk.grackle.preview.LeaseR\x06leases\x122\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc2\x01\n" +
+	"\x16ListLockLeasesResponse\x128\n" +
+	"\x06leases\x18\x01 \x03(\v2 .com.evrblk.grackle.v1beta.LeaseR\x06leases\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"W\n" +
 	"\x13GetLockLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
-	"\blease_id\x18\x02 \x01(\tR\aleaseId\"O\n" +
-	"\x14GetLockLeaseResponse\x127\n" +
-	"\x05lease\x18\x01 \x01(\v2!.com.evrblk.grackle.preview.LeaseR\x05lease\"\xbf\x01\n" +
+	"\blease_id\x18\x02 \x01(\tR\aleaseId\"N\n" +
+	"\x14GetLockLeaseResponse\x126\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\xbd\x01\n" +
 	"\x04Lock\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
-	"\x05state\x18\x02 \x01(\x0e2%.com.evrblk.grackle.preview.LockStateR\x05state\x12\x1b\n" +
-	"\tlocked_at\x18\x03 \x01(\x03R\blockedAt\x12I\n" +
-	"\flock_holders\x18\x04 \x03(\v2&.com.evrblk.grackle.preview.LockHolderR\vlockHolders\"D\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12:\n" +
+	"\x05state\x18\x02 \x01(\x0e2$.com.evrblk.grackle.v1beta.LockStateR\x05state\x12\x1b\n" +
+	"\tlocked_at\x18\x03 \x01(\x03R\blockedAt\x12H\n" +
+	"\flock_holders\x18\x04 \x03(\v2%.com.evrblk.grackle.v1beta.LockHolderR\vlockHolders\"D\n" +
 	"\n" +
 	"LockHolder\x12\x19\n" +
 	"\blease_id\x18\x01 \x01(\tR\aleaseId\x12\x1b\n" +
@@ -5840,22 +5840,22 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
 	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\x12\x1d\n" +
 	"\n" +
-	"expires_at\x18\b \x01(\x03R\texpiresAt\"V\n" +
-	"\x15CreateBarrierResponse\x12=\n" +
-	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\"}\n" +
+	"expires_at\x18\b \x01(\x03R\texpiresAt\"U\n" +
+	"\x15CreateBarrierResponse\x12<\n" +
+	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\"}\n" +
 	"\x13ListBarriersRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc7\x01\n" +
-	"\x14ListBarriersResponse\x12?\n" +
-	"\bbarriers\x18\x01 \x03(\v2#.com.evrblk.grackle.preview.BarrierR\bbarriers\x122\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc6\x01\n" +
+	"\x14ListBarriersResponse\x12>\n" +
+	"\bbarriers\x18\x01 \x03(\v2\".com.evrblk.grackle.v1beta.BarrierR\bbarriers\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"]\n" +
 	"\x11GetBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
-	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\"S\n" +
-	"\x12GetBarrierResponse\x12=\n" +
-	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\"`\n" +
+	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\"R\n" +
+	"\x12GetBarrierResponse\x12<\n" +
+	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\"`\n" +
 	"\x14DeleteBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\"\x17\n" +
@@ -5864,17 +5864,17 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
-	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\"V\n" +
-	"\x15UpdateBarrierResponse\x12=\n" +
-	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\"\xb2\x01\n" +
+	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\"U\n" +
+	"\x15UpdateBarrierResponse\x12<\n" +
+	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\"\xb2\x01\n" +
 	"\x16ArriveAtBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12\x1d\n" +
 	"\n" +
 	"process_id\x18\x03 \x01(\tR\tprocessId\x12/\n" +
-	"\x13expected_generation\x18\x04 \x01(\x04R\x12expectedGeneration\"\xa2\x01\n" +
-	"\x17ArriveAtBarrierResponse\x12=\n" +
-	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\x12\x1f\n" +
+	"\x13expected_generation\x18\x04 \x01(\x04R\x12expectedGeneration\"\xa1\x01\n" +
+	"\x17ArriveAtBarrierResponse\x12<\n" +
+	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\x12\x1f\n" +
 	"\vall_arrived\x18\x02 \x01(\bR\n" +
 	"allArrived\x12'\n" +
 	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\"\xba\x01\n" +
@@ -5882,9 +5882,9 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12/\n" +
 	"\x13expected_generation\x18\x03 \x01(\x04R\x12expectedGeneration\x12'\n" +
-	"\x0ftimeout_seconds\x18\x04 \x01(\x05R\x0etimeoutSeconds\"\xbd\x01\n" +
-	"\x15WaitAtBarrierResponse\x12=\n" +
-	"\abarrier\x18\x01 \x01(\v2#.com.evrblk.grackle.preview.BarrierR\abarrier\x12\x1f\n" +
+	"\x0ftimeout_seconds\x18\x04 \x01(\x05R\x0etimeoutSeconds\"\xbc\x01\n" +
+	"\x15WaitAtBarrierResponse\x12<\n" +
+	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\x12\x1f\n" +
 	"\vall_arrived\x18\x02 \x01(\bR\n" +
 	"allArrived\x12'\n" +
 	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\x12\x1b\n" +
@@ -5896,9 +5896,9 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"generation\x18\x03 \x01(\x04R\n" +
 	"generation\x12)\n" +
 	"\x10pagination_token\x18\x04 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x05 \x01(\x05R\x05limit\"\xe5\x01\n" +
-	"\x1fListBarrierParticipantsResponse\x12R\n" +
-	"\fparticipants\x18\x01 \x03(\v2..com.evrblk.grackle.preview.BarrierParticipantR\fparticipants\x122\n" +
+	"\x05limit\x18\x05 \x01(\x05R\x05limit\"\xe4\x01\n" +
+	"\x1fListBarrierParticipantsResponse\x12Q\n" +
+	"\fparticipants\x18\x01 \x03(\v2-.com.evrblk.grackle.v1beta.BarrierParticipantR\fparticipants\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\x93\x02\n" +
 	"\aBarrier\x12\x12\n" +
@@ -5922,298 +5922,299 @@ const file_proto_grackle_preview_api_proto_rawDesc = "" +
 	"\tLockState\x12\f\n" +
 	"\bUNLOCKED\x10\x00\x12\x11\n" +
 	"\rSHARED_LOCKED\x10\x01\x12\x14\n" +
-	"\x10EXCLUSIVE_LOCKED\x10\x022\xb6+\n" +
-	"\x11GracklePreviewApi\x12|\n" +
-	"\x0fCreateNamespace\x122.com.evrblk.grackle.preview.CreateNamespaceRequest\x1a3.com.evrblk.grackle.preview.CreateNamespaceResponse\"\x00\x12y\n" +
-	"\x0eListNamespaces\x121.com.evrblk.grackle.preview.ListNamespacesRequest\x1a2.com.evrblk.grackle.preview.ListNamespacesResponse\"\x00\x12s\n" +
-	"\fGetNamespace\x12/.com.evrblk.grackle.preview.GetNamespaceRequest\x1a0.com.evrblk.grackle.preview.GetNamespaceResponse\"\x00\x12|\n" +
-	"\x0fDeleteNamespace\x122.com.evrblk.grackle.preview.DeleteNamespaceRequest\x1a3.com.evrblk.grackle.preview.DeleteNamespaceResponse\"\x00\x12|\n" +
-	"\x0fUpdateNamespace\x122.com.evrblk.grackle.preview.UpdateNamespaceRequest\x1a3.com.evrblk.grackle.preview.UpdateNamespaceResponse\"\x00\x12|\n" +
-	"\x0fCreateSemaphore\x122.com.evrblk.grackle.preview.CreateSemaphoreRequest\x1a3.com.evrblk.grackle.preview.CreateSemaphoreResponse\"\x00\x12y\n" +
-	"\x0eListSemaphores\x121.com.evrblk.grackle.preview.ListSemaphoresRequest\x1a2.com.evrblk.grackle.preview.ListSemaphoresResponse\"\x00\x12s\n" +
-	"\fGetSemaphore\x12/.com.evrblk.grackle.preview.GetSemaphoreRequest\x1a0.com.evrblk.grackle.preview.GetSemaphoreResponse\"\x00\x12\x7f\n" +
-	"\x10AcquireSemaphore\x123.com.evrblk.grackle.preview.AcquireSemaphoreRequest\x1a4.com.evrblk.grackle.preview.AcquireSemaphoreResponse\"\x00\x12\x7f\n" +
-	"\x10ReleaseSemaphore\x123.com.evrblk.grackle.preview.ReleaseSemaphoreRequest\x1a4.com.evrblk.grackle.preview.ReleaseSemaphoreResponse\"\x00\x12|\n" +
-	"\x0fUpdateSemaphore\x122.com.evrblk.grackle.preview.UpdateSemaphoreRequest\x1a3.com.evrblk.grackle.preview.UpdateSemaphoreResponse\"\x00\x12|\n" +
-	"\x0fDeleteSemaphore\x122.com.evrblk.grackle.preview.DeleteSemaphoreRequest\x1a3.com.evrblk.grackle.preview.DeleteSemaphoreResponse\"\x00\x12\x8b\x01\n" +
-	"\x14ListSemaphoreHolders\x127.com.evrblk.grackle.preview.ListSemaphoreHoldersRequest\x1a8.com.evrblk.grackle.preview.ListSemaphoreHoldersResponse\"\x00\x12\x8b\x01\n" +
-	"\x14CreateSemaphoreLease\x127.com.evrblk.grackle.preview.CreateSemaphoreLeaseRequest\x1a8.com.evrblk.grackle.preview.CreateSemaphoreLeaseResponse\"\x00\x12\x8b\x01\n" +
-	"\x14RevokeSemaphoreLease\x127.com.evrblk.grackle.preview.RevokeSemaphoreLeaseRequest\x1a8.com.evrblk.grackle.preview.RevokeSemaphoreLeaseResponse\"\x00\x12\x8e\x01\n" +
-	"\x15RefreshSemaphoreLease\x128.com.evrblk.grackle.preview.RefreshSemaphoreLeaseRequest\x1a9.com.evrblk.grackle.preview.RefreshSemaphoreLeaseResponse\"\x00\x12\x88\x01\n" +
-	"\x13ListSemaphoreLeases\x126.com.evrblk.grackle.preview.ListSemaphoreLeasesRequest\x1a7.com.evrblk.grackle.preview.ListSemaphoreLeasesResponse\"\x00\x12\x82\x01\n" +
-	"\x11GetSemaphoreLease\x124.com.evrblk.grackle.preview.GetSemaphoreLeaseRequest\x1a5.com.evrblk.grackle.preview.GetSemaphoreLeaseResponse\"\x00\x12|\n" +
-	"\x0fCreateWaitGroup\x122.com.evrblk.grackle.preview.CreateWaitGroupRequest\x1a3.com.evrblk.grackle.preview.CreateWaitGroupResponse\"\x00\x12y\n" +
-	"\x0eListWaitGroups\x121.com.evrblk.grackle.preview.ListWaitGroupsRequest\x1a2.com.evrblk.grackle.preview.ListWaitGroupsResponse\"\x00\x12s\n" +
-	"\fGetWaitGroup\x12/.com.evrblk.grackle.preview.GetWaitGroupRequest\x1a0.com.evrblk.grackle.preview.GetWaitGroupResponse\"\x00\x12|\n" +
-	"\x0fDeleteWaitGroup\x122.com.evrblk.grackle.preview.DeleteWaitGroupRequest\x1a3.com.evrblk.grackle.preview.DeleteWaitGroupResponse\"\x00\x12\x85\x01\n" +
-	"\x12AddJobsToWaitGroup\x125.com.evrblk.grackle.preview.AddJobsToWaitGroupRequest\x1a6.com.evrblk.grackle.preview.AddJobsToWaitGroupResponse\"\x00\x12\x9a\x01\n" +
-	"\x19CompleteJobsFromWaitGroup\x12<.com.evrblk.grackle.preview.CompleteJobsFromWaitGroupRequest\x1a=.com.evrblk.grackle.preview.CompleteJobsFromWaitGroupResponse\"\x00\x12\x82\x01\n" +
-	"\x11ListWaitGroupJobs\x124.com.evrblk.grackle.preview.ListWaitGroupJobsRequest\x1a5.com.evrblk.grackle.preview.ListWaitGroupJobsResponse\"\x00\x12\x7f\n" +
-	"\x10WaitForWaitGroup\x123.com.evrblk.grackle.preview.WaitForWaitGroupRequest\x1a4.com.evrblk.grackle.preview.WaitForWaitGroupResponse\"\x00\x12p\n" +
-	"\vAcquireLock\x12..com.evrblk.grackle.preview.AcquireLockRequest\x1a/.com.evrblk.grackle.preview.AcquireLockResponse\"\x00\x12p\n" +
-	"\vReleaseLock\x12..com.evrblk.grackle.preview.ReleaseLockRequest\x1a/.com.evrblk.grackle.preview.ReleaseLockResponse\"\x00\x12d\n" +
-	"\aGetLock\x12*.com.evrblk.grackle.preview.GetLockRequest\x1a+.com.evrblk.grackle.preview.GetLockResponse\"\x00\x12m\n" +
+	"\x10EXCLUSIVE_LOCKED\x10\x022\xf2*\n" +
 	"\n" +
-	"DeleteLock\x12-.com.evrblk.grackle.preview.DeleteLockRequest\x1a..com.evrblk.grackle.preview.DeleteLockResponse\"\x00\x12j\n" +
-	"\tListLocks\x12,.com.evrblk.grackle.preview.ListLocksRequest\x1a-.com.evrblk.grackle.preview.ListLocksResponse\"\x00\x12|\n" +
-	"\x0fCreateLockLease\x122.com.evrblk.grackle.preview.CreateLockLeaseRequest\x1a3.com.evrblk.grackle.preview.CreateLockLeaseResponse\"\x00\x12|\n" +
-	"\x0fRevokeLockLease\x122.com.evrblk.grackle.preview.RevokeLockLeaseRequest\x1a3.com.evrblk.grackle.preview.RevokeLockLeaseResponse\"\x00\x12\x7f\n" +
-	"\x10RefreshLockLease\x123.com.evrblk.grackle.preview.RefreshLockLeaseRequest\x1a4.com.evrblk.grackle.preview.RefreshLockLeaseResponse\"\x00\x12y\n" +
-	"\x0eListLockLeases\x121.com.evrblk.grackle.preview.ListLockLeasesRequest\x1a2.com.evrblk.grackle.preview.ListLockLeasesResponse\"\x00\x12s\n" +
-	"\fGetLockLease\x12/.com.evrblk.grackle.preview.GetLockLeaseRequest\x1a0.com.evrblk.grackle.preview.GetLockLeaseResponse\"\x00\x12v\n" +
-	"\rCreateBarrier\x120.com.evrblk.grackle.preview.CreateBarrierRequest\x1a1.com.evrblk.grackle.preview.CreateBarrierResponse\"\x00\x12s\n" +
-	"\fListBarriers\x12/.com.evrblk.grackle.preview.ListBarriersRequest\x1a0.com.evrblk.grackle.preview.ListBarriersResponse\"\x00\x12m\n" +
+	"GrackleApi\x12z\n" +
+	"\x0fCreateNamespace\x121.com.evrblk.grackle.v1beta.CreateNamespaceRequest\x1a2.com.evrblk.grackle.v1beta.CreateNamespaceResponse\"\x00\x12w\n" +
+	"\x0eListNamespaces\x120.com.evrblk.grackle.v1beta.ListNamespacesRequest\x1a1.com.evrblk.grackle.v1beta.ListNamespacesResponse\"\x00\x12q\n" +
+	"\fGetNamespace\x12..com.evrblk.grackle.v1beta.GetNamespaceRequest\x1a/.com.evrblk.grackle.v1beta.GetNamespaceResponse\"\x00\x12z\n" +
+	"\x0fDeleteNamespace\x121.com.evrblk.grackle.v1beta.DeleteNamespaceRequest\x1a2.com.evrblk.grackle.v1beta.DeleteNamespaceResponse\"\x00\x12z\n" +
+	"\x0fUpdateNamespace\x121.com.evrblk.grackle.v1beta.UpdateNamespaceRequest\x1a2.com.evrblk.grackle.v1beta.UpdateNamespaceResponse\"\x00\x12z\n" +
+	"\x0fCreateSemaphore\x121.com.evrblk.grackle.v1beta.CreateSemaphoreRequest\x1a2.com.evrblk.grackle.v1beta.CreateSemaphoreResponse\"\x00\x12w\n" +
+	"\x0eListSemaphores\x120.com.evrblk.grackle.v1beta.ListSemaphoresRequest\x1a1.com.evrblk.grackle.v1beta.ListSemaphoresResponse\"\x00\x12q\n" +
+	"\fGetSemaphore\x12..com.evrblk.grackle.v1beta.GetSemaphoreRequest\x1a/.com.evrblk.grackle.v1beta.GetSemaphoreResponse\"\x00\x12}\n" +
+	"\x10AcquireSemaphore\x122.com.evrblk.grackle.v1beta.AcquireSemaphoreRequest\x1a3.com.evrblk.grackle.v1beta.AcquireSemaphoreResponse\"\x00\x12}\n" +
+	"\x10ReleaseSemaphore\x122.com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest\x1a3.com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse\"\x00\x12z\n" +
+	"\x0fUpdateSemaphore\x121.com.evrblk.grackle.v1beta.UpdateSemaphoreRequest\x1a2.com.evrblk.grackle.v1beta.UpdateSemaphoreResponse\"\x00\x12z\n" +
+	"\x0fDeleteSemaphore\x121.com.evrblk.grackle.v1beta.DeleteSemaphoreRequest\x1a2.com.evrblk.grackle.v1beta.DeleteSemaphoreResponse\"\x00\x12\x89\x01\n" +
+	"\x14ListSemaphoreHolders\x126.com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest\x1a7.com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse\"\x00\x12\x89\x01\n" +
+	"\x14CreateSemaphoreLease\x126.com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest\x1a7.com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse\"\x00\x12\x89\x01\n" +
+	"\x14RevokeSemaphoreLease\x126.com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest\x1a7.com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse\"\x00\x12\x8c\x01\n" +
+	"\x15RefreshSemaphoreLease\x127.com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest\x1a8.com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse\"\x00\x12\x86\x01\n" +
+	"\x13ListSemaphoreLeases\x125.com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest\x1a6.com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse\"\x00\x12\x80\x01\n" +
+	"\x11GetSemaphoreLease\x123.com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest\x1a4.com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse\"\x00\x12z\n" +
+	"\x0fCreateWaitGroup\x121.com.evrblk.grackle.v1beta.CreateWaitGroupRequest\x1a2.com.evrblk.grackle.v1beta.CreateWaitGroupResponse\"\x00\x12w\n" +
+	"\x0eListWaitGroups\x120.com.evrblk.grackle.v1beta.ListWaitGroupsRequest\x1a1.com.evrblk.grackle.v1beta.ListWaitGroupsResponse\"\x00\x12q\n" +
+	"\fGetWaitGroup\x12..com.evrblk.grackle.v1beta.GetWaitGroupRequest\x1a/.com.evrblk.grackle.v1beta.GetWaitGroupResponse\"\x00\x12z\n" +
+	"\x0fDeleteWaitGroup\x121.com.evrblk.grackle.v1beta.DeleteWaitGroupRequest\x1a2.com.evrblk.grackle.v1beta.DeleteWaitGroupResponse\"\x00\x12\x83\x01\n" +
+	"\x12AddJobsToWaitGroup\x124.com.evrblk.grackle.v1beta.AddJobsToWaitGroupRequest\x1a5.com.evrblk.grackle.v1beta.AddJobsToWaitGroupResponse\"\x00\x12\x98\x01\n" +
+	"\x19CompleteJobsFromWaitGroup\x12;.com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest\x1a<.com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse\"\x00\x12\x9b\x01\n" +
+	"\x1aListWaitGroupCompletedJobs\x12<.com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest\x1a=.com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse\"\x00\x12}\n" +
+	"\x10WaitForWaitGroup\x122.com.evrblk.grackle.v1beta.WaitForWaitGroupRequest\x1a3.com.evrblk.grackle.v1beta.WaitForWaitGroupResponse\"\x00\x12n\n" +
+	"\vAcquireLock\x12-.com.evrblk.grackle.v1beta.AcquireLockRequest\x1a..com.evrblk.grackle.v1beta.AcquireLockResponse\"\x00\x12n\n" +
+	"\vReleaseLock\x12-.com.evrblk.grackle.v1beta.ReleaseLockRequest\x1a..com.evrblk.grackle.v1beta.ReleaseLockResponse\"\x00\x12b\n" +
+	"\aGetLock\x12).com.evrblk.grackle.v1beta.GetLockRequest\x1a*.com.evrblk.grackle.v1beta.GetLockResponse\"\x00\x12k\n" +
 	"\n" +
-	"GetBarrier\x12-.com.evrblk.grackle.preview.GetBarrierRequest\x1a..com.evrblk.grackle.preview.GetBarrierResponse\"\x00\x12v\n" +
-	"\rDeleteBarrier\x120.com.evrblk.grackle.preview.DeleteBarrierRequest\x1a1.com.evrblk.grackle.preview.DeleteBarrierResponse\"\x00\x12v\n" +
-	"\rUpdateBarrier\x120.com.evrblk.grackle.preview.UpdateBarrierRequest\x1a1.com.evrblk.grackle.preview.UpdateBarrierResponse\"\x00\x12|\n" +
-	"\x0fArriveAtBarrier\x122.com.evrblk.grackle.preview.ArriveAtBarrierRequest\x1a3.com.evrblk.grackle.preview.ArriveAtBarrierResponse\"\x00\x12v\n" +
-	"\rWaitAtBarrier\x120.com.evrblk.grackle.preview.WaitAtBarrierRequest\x1a1.com.evrblk.grackle.preview.WaitAtBarrierResponse\"\x00\x12\x94\x01\n" +
-	"\x17ListBarrierParticipants\x12:.com.evrblk.grackle.preview.ListBarrierParticipantsRequest\x1a;.com.evrblk.grackle.preview.ListBarrierParticipantsResponse\"\x00BPZ3github.com/evrblk/evrblk-go/grackle/preview;grackle\xea\x02\x18Evrblk::Grackle::Previewb\x06proto3"
+	"DeleteLock\x12,.com.evrblk.grackle.v1beta.DeleteLockRequest\x1a-.com.evrblk.grackle.v1beta.DeleteLockResponse\"\x00\x12h\n" +
+	"\tListLocks\x12+.com.evrblk.grackle.v1beta.ListLocksRequest\x1a,.com.evrblk.grackle.v1beta.ListLocksResponse\"\x00\x12z\n" +
+	"\x0fCreateLockLease\x121.com.evrblk.grackle.v1beta.CreateLockLeaseRequest\x1a2.com.evrblk.grackle.v1beta.CreateLockLeaseResponse\"\x00\x12z\n" +
+	"\x0fRevokeLockLease\x121.com.evrblk.grackle.v1beta.RevokeLockLeaseRequest\x1a2.com.evrblk.grackle.v1beta.RevokeLockLeaseResponse\"\x00\x12}\n" +
+	"\x10RefreshLockLease\x122.com.evrblk.grackle.v1beta.RefreshLockLeaseRequest\x1a3.com.evrblk.grackle.v1beta.RefreshLockLeaseResponse\"\x00\x12w\n" +
+	"\x0eListLockLeases\x120.com.evrblk.grackle.v1beta.ListLockLeasesRequest\x1a1.com.evrblk.grackle.v1beta.ListLockLeasesResponse\"\x00\x12q\n" +
+	"\fGetLockLease\x12..com.evrblk.grackle.v1beta.GetLockLeaseRequest\x1a/.com.evrblk.grackle.v1beta.GetLockLeaseResponse\"\x00\x12t\n" +
+	"\rCreateBarrier\x12/.com.evrblk.grackle.v1beta.CreateBarrierRequest\x1a0.com.evrblk.grackle.v1beta.CreateBarrierResponse\"\x00\x12q\n" +
+	"\fListBarriers\x12..com.evrblk.grackle.v1beta.ListBarriersRequest\x1a/.com.evrblk.grackle.v1beta.ListBarriersResponse\"\x00\x12k\n" +
+	"\n" +
+	"GetBarrier\x12,.com.evrblk.grackle.v1beta.GetBarrierRequest\x1a-.com.evrblk.grackle.v1beta.GetBarrierResponse\"\x00\x12t\n" +
+	"\rDeleteBarrier\x12/.com.evrblk.grackle.v1beta.DeleteBarrierRequest\x1a0.com.evrblk.grackle.v1beta.DeleteBarrierResponse\"\x00\x12t\n" +
+	"\rUpdateBarrier\x12/.com.evrblk.grackle.v1beta.UpdateBarrierRequest\x1a0.com.evrblk.grackle.v1beta.UpdateBarrierResponse\"\x00\x12z\n" +
+	"\x0fArriveAtBarrier\x121.com.evrblk.grackle.v1beta.ArriveAtBarrierRequest\x1a2.com.evrblk.grackle.v1beta.ArriveAtBarrierResponse\"\x00\x12t\n" +
+	"\rWaitAtBarrier\x12/.com.evrblk.grackle.v1beta.WaitAtBarrierRequest\x1a0.com.evrblk.grackle.v1beta.WaitAtBarrierResponse\"\x00\x12\x92\x01\n" +
+	"\x17ListBarrierParticipants\x129.com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest\x1a:.com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse\"\x00BNZ2github.com/evrblk/evrblk-go/grackle/v1beta;grackle\xea\x02\x17Evrblk::Grackle::V1Betab\x06proto3"
 
 var (
-	file_proto_grackle_preview_api_proto_rawDescOnce sync.Once
-	file_proto_grackle_preview_api_proto_rawDescData []byte
+	file_proto_grackle_v1beta_api_proto_rawDescOnce sync.Once
+	file_proto_grackle_v1beta_api_proto_rawDescData []byte
 )
 
-func file_proto_grackle_preview_api_proto_rawDescGZIP() []byte {
-	file_proto_grackle_preview_api_proto_rawDescOnce.Do(func() {
-		file_proto_grackle_preview_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_grackle_preview_api_proto_rawDesc), len(file_proto_grackle_preview_api_proto_rawDesc)))
+func file_proto_grackle_v1beta_api_proto_rawDescGZIP() []byte {
+	file_proto_grackle_v1beta_api_proto_rawDescOnce.Do(func() {
+		file_proto_grackle_v1beta_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_grackle_v1beta_api_proto_rawDesc), len(file_proto_grackle_v1beta_api_proto_rawDesc)))
 	})
-	return file_proto_grackle_preview_api_proto_rawDescData
+	return file_proto_grackle_v1beta_api_proto_rawDescData
 }
 
-var file_proto_grackle_preview_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_grackle_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 98)
-var file_proto_grackle_preview_api_proto_goTypes = []any{
-	(LockState)(0),                            // 0: com.evrblk.grackle.preview.LockState
-	(*CreateNamespaceRequest)(nil),            // 1: com.evrblk.grackle.preview.CreateNamespaceRequest
-	(*CreateNamespaceResponse)(nil),           // 2: com.evrblk.grackle.preview.CreateNamespaceResponse
-	(*ListNamespacesRequest)(nil),             // 3: com.evrblk.grackle.preview.ListNamespacesRequest
-	(*ListNamespacesResponse)(nil),            // 4: com.evrblk.grackle.preview.ListNamespacesResponse
-	(*GetNamespaceRequest)(nil),               // 5: com.evrblk.grackle.preview.GetNamespaceRequest
-	(*GetNamespaceResponse)(nil),              // 6: com.evrblk.grackle.preview.GetNamespaceResponse
-	(*DeleteNamespaceRequest)(nil),            // 7: com.evrblk.grackle.preview.DeleteNamespaceRequest
-	(*DeleteNamespaceResponse)(nil),           // 8: com.evrblk.grackle.preview.DeleteNamespaceResponse
-	(*UpdateNamespaceRequest)(nil),            // 9: com.evrblk.grackle.preview.UpdateNamespaceRequest
-	(*UpdateNamespaceResponse)(nil),           // 10: com.evrblk.grackle.preview.UpdateNamespaceResponse
-	(*CreateSemaphoreRequest)(nil),            // 11: com.evrblk.grackle.preview.CreateSemaphoreRequest
-	(*CreateSemaphoreResponse)(nil),           // 12: com.evrblk.grackle.preview.CreateSemaphoreResponse
-	(*ListSemaphoresRequest)(nil),             // 13: com.evrblk.grackle.preview.ListSemaphoresRequest
-	(*ListSemaphoresResponse)(nil),            // 14: com.evrblk.grackle.preview.ListSemaphoresResponse
-	(*GetSemaphoreRequest)(nil),               // 15: com.evrblk.grackle.preview.GetSemaphoreRequest
-	(*GetSemaphoreResponse)(nil),              // 16: com.evrblk.grackle.preview.GetSemaphoreResponse
-	(*AcquireSemaphoreRequest)(nil),           // 17: com.evrblk.grackle.preview.AcquireSemaphoreRequest
-	(*AcquireSemaphoreResponse)(nil),          // 18: com.evrblk.grackle.preview.AcquireSemaphoreResponse
-	(*ReleaseSemaphoreRequest)(nil),           // 19: com.evrblk.grackle.preview.ReleaseSemaphoreRequest
-	(*ReleaseSemaphoreResponse)(nil),          // 20: com.evrblk.grackle.preview.ReleaseSemaphoreResponse
-	(*UpdateSemaphoreRequest)(nil),            // 21: com.evrblk.grackle.preview.UpdateSemaphoreRequest
-	(*UpdateSemaphoreResponse)(nil),           // 22: com.evrblk.grackle.preview.UpdateSemaphoreResponse
-	(*DeleteSemaphoreRequest)(nil),            // 23: com.evrblk.grackle.preview.DeleteSemaphoreRequest
-	(*DeleteSemaphoreResponse)(nil),           // 24: com.evrblk.grackle.preview.DeleteSemaphoreResponse
-	(*ListSemaphoreHoldersRequest)(nil),       // 25: com.evrblk.grackle.preview.ListSemaphoreHoldersRequest
-	(*ListSemaphoreHoldersResponse)(nil),      // 26: com.evrblk.grackle.preview.ListSemaphoreHoldersResponse
-	(*CreateSemaphoreLeaseRequest)(nil),       // 27: com.evrblk.grackle.preview.CreateSemaphoreLeaseRequest
-	(*CreateSemaphoreLeaseResponse)(nil),      // 28: com.evrblk.grackle.preview.CreateSemaphoreLeaseResponse
-	(*RevokeSemaphoreLeaseRequest)(nil),       // 29: com.evrblk.grackle.preview.RevokeSemaphoreLeaseRequest
-	(*RevokeSemaphoreLeaseResponse)(nil),      // 30: com.evrblk.grackle.preview.RevokeSemaphoreLeaseResponse
-	(*RefreshSemaphoreLeaseRequest)(nil),      // 31: com.evrblk.grackle.preview.RefreshSemaphoreLeaseRequest
-	(*RefreshSemaphoreLeaseResponse)(nil),     // 32: com.evrblk.grackle.preview.RefreshSemaphoreLeaseResponse
-	(*ListSemaphoreLeasesRequest)(nil),        // 33: com.evrblk.grackle.preview.ListSemaphoreLeasesRequest
-	(*ListSemaphoreLeasesResponse)(nil),       // 34: com.evrblk.grackle.preview.ListSemaphoreLeasesResponse
-	(*GetSemaphoreLeaseRequest)(nil),          // 35: com.evrblk.grackle.preview.GetSemaphoreLeaseRequest
-	(*GetSemaphoreLeaseResponse)(nil),         // 36: com.evrblk.grackle.preview.GetSemaphoreLeaseResponse
-	(*Lease)(nil),                             // 37: com.evrblk.grackle.preview.Lease
-	(*Semaphore)(nil),                         // 38: com.evrblk.grackle.preview.Semaphore
-	(*SemaphoreHolder)(nil),                   // 39: com.evrblk.grackle.preview.SemaphoreHolder
-	(*CreateWaitGroupRequest)(nil),            // 40: com.evrblk.grackle.preview.CreateWaitGroupRequest
-	(*CreateWaitGroupResponse)(nil),           // 41: com.evrblk.grackle.preview.CreateWaitGroupResponse
-	(*ListWaitGroupsRequest)(nil),             // 42: com.evrblk.grackle.preview.ListWaitGroupsRequest
-	(*ListWaitGroupsResponse)(nil),            // 43: com.evrblk.grackle.preview.ListWaitGroupsResponse
-	(*GetWaitGroupRequest)(nil),               // 44: com.evrblk.grackle.preview.GetWaitGroupRequest
-	(*GetWaitGroupResponse)(nil),              // 45: com.evrblk.grackle.preview.GetWaitGroupResponse
-	(*DeleteWaitGroupRequest)(nil),            // 46: com.evrblk.grackle.preview.DeleteWaitGroupRequest
-	(*DeleteWaitGroupResponse)(nil),           // 47: com.evrblk.grackle.preview.DeleteWaitGroupResponse
-	(*AddJobsToWaitGroupRequest)(nil),         // 48: com.evrblk.grackle.preview.AddJobsToWaitGroupRequest
-	(*AddJobsToWaitGroupResponse)(nil),        // 49: com.evrblk.grackle.preview.AddJobsToWaitGroupResponse
-	(*CompleteJobsFromWaitGroupRequest)(nil),  // 50: com.evrblk.grackle.preview.CompleteJobsFromWaitGroupRequest
-	(*CompleteJobsFromWaitGroupResponse)(nil), // 51: com.evrblk.grackle.preview.CompleteJobsFromWaitGroupResponse
-	(*ListWaitGroupJobsRequest)(nil),          // 52: com.evrblk.grackle.preview.ListWaitGroupJobsRequest
-	(*ListWaitGroupJobsResponse)(nil),         // 53: com.evrblk.grackle.preview.ListWaitGroupJobsResponse
-	(*WaitForWaitGroupRequest)(nil),           // 54: com.evrblk.grackle.preview.WaitForWaitGroupRequest
-	(*WaitForWaitGroupResponse)(nil),          // 55: com.evrblk.grackle.preview.WaitForWaitGroupResponse
-	(*WaitGroup)(nil),                         // 56: com.evrblk.grackle.preview.WaitGroup
-	(*WaitGroupJob)(nil),                      // 57: com.evrblk.grackle.preview.WaitGroupJob
-	(*AcquireLockRequest)(nil),                // 58: com.evrblk.grackle.preview.AcquireLockRequest
-	(*AcquireLockResponse)(nil),               // 59: com.evrblk.grackle.preview.AcquireLockResponse
-	(*ReleaseLockRequest)(nil),                // 60: com.evrblk.grackle.preview.ReleaseLockRequest
-	(*ReleaseLockResponse)(nil),               // 61: com.evrblk.grackle.preview.ReleaseLockResponse
-	(*GetLockRequest)(nil),                    // 62: com.evrblk.grackle.preview.GetLockRequest
-	(*GetLockResponse)(nil),                   // 63: com.evrblk.grackle.preview.GetLockResponse
-	(*DeleteLockRequest)(nil),                 // 64: com.evrblk.grackle.preview.DeleteLockRequest
-	(*DeleteLockResponse)(nil),                // 65: com.evrblk.grackle.preview.DeleteLockResponse
-	(*ListLocksRequest)(nil),                  // 66: com.evrblk.grackle.preview.ListLocksRequest
-	(*ListLocksResponse)(nil),                 // 67: com.evrblk.grackle.preview.ListLocksResponse
-	(*CreateLockLeaseRequest)(nil),            // 68: com.evrblk.grackle.preview.CreateLockLeaseRequest
-	(*CreateLockLeaseResponse)(nil),           // 69: com.evrblk.grackle.preview.CreateLockLeaseResponse
-	(*RevokeLockLeaseRequest)(nil),            // 70: com.evrblk.grackle.preview.RevokeLockLeaseRequest
-	(*RevokeLockLeaseResponse)(nil),           // 71: com.evrblk.grackle.preview.RevokeLockLeaseResponse
-	(*RefreshLockLeaseRequest)(nil),           // 72: com.evrblk.grackle.preview.RefreshLockLeaseRequest
-	(*RefreshLockLeaseResponse)(nil),          // 73: com.evrblk.grackle.preview.RefreshLockLeaseResponse
-	(*ListLockLeasesRequest)(nil),             // 74: com.evrblk.grackle.preview.ListLockLeasesRequest
-	(*ListLockLeasesResponse)(nil),            // 75: com.evrblk.grackle.preview.ListLockLeasesResponse
-	(*GetLockLeaseRequest)(nil),               // 76: com.evrblk.grackle.preview.GetLockLeaseRequest
-	(*GetLockLeaseResponse)(nil),              // 77: com.evrblk.grackle.preview.GetLockLeaseResponse
-	(*Lock)(nil),                              // 78: com.evrblk.grackle.preview.Lock
-	(*LockHolder)(nil),                        // 79: com.evrblk.grackle.preview.LockHolder
-	(*Namespace)(nil),                         // 80: com.evrblk.grackle.preview.Namespace
-	(*CreateBarrierRequest)(nil),              // 81: com.evrblk.grackle.preview.CreateBarrierRequest
-	(*CreateBarrierResponse)(nil),             // 82: com.evrblk.grackle.preview.CreateBarrierResponse
-	(*ListBarriersRequest)(nil),               // 83: com.evrblk.grackle.preview.ListBarriersRequest
-	(*ListBarriersResponse)(nil),              // 84: com.evrblk.grackle.preview.ListBarriersResponse
-	(*GetBarrierRequest)(nil),                 // 85: com.evrblk.grackle.preview.GetBarrierRequest
-	(*GetBarrierResponse)(nil),                // 86: com.evrblk.grackle.preview.GetBarrierResponse
-	(*DeleteBarrierRequest)(nil),              // 87: com.evrblk.grackle.preview.DeleteBarrierRequest
-	(*DeleteBarrierResponse)(nil),             // 88: com.evrblk.grackle.preview.DeleteBarrierResponse
-	(*UpdateBarrierRequest)(nil),              // 89: com.evrblk.grackle.preview.UpdateBarrierRequest
-	(*UpdateBarrierResponse)(nil),             // 90: com.evrblk.grackle.preview.UpdateBarrierResponse
-	(*ArriveAtBarrierRequest)(nil),            // 91: com.evrblk.grackle.preview.ArriveAtBarrierRequest
-	(*ArriveAtBarrierResponse)(nil),           // 92: com.evrblk.grackle.preview.ArriveAtBarrierResponse
-	(*WaitAtBarrierRequest)(nil),              // 93: com.evrblk.grackle.preview.WaitAtBarrierRequest
-	(*WaitAtBarrierResponse)(nil),             // 94: com.evrblk.grackle.preview.WaitAtBarrierResponse
-	(*ListBarrierParticipantsRequest)(nil),    // 95: com.evrblk.grackle.preview.ListBarrierParticipantsRequest
-	(*ListBarrierParticipantsResponse)(nil),   // 96: com.evrblk.grackle.preview.ListBarrierParticipantsResponse
-	(*Barrier)(nil),                           // 97: com.evrblk.grackle.preview.Barrier
-	(*BarrierParticipant)(nil),                // 98: com.evrblk.grackle.preview.BarrierParticipant
+var file_proto_grackle_v1beta_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_grackle_v1beta_api_proto_msgTypes = make([]protoimpl.MessageInfo, 98)
+var file_proto_grackle_v1beta_api_proto_goTypes = []any{
+	(LockState)(0),                             // 0: com.evrblk.grackle.v1beta.LockState
+	(*CreateNamespaceRequest)(nil),             // 1: com.evrblk.grackle.v1beta.CreateNamespaceRequest
+	(*CreateNamespaceResponse)(nil),            // 2: com.evrblk.grackle.v1beta.CreateNamespaceResponse
+	(*ListNamespacesRequest)(nil),              // 3: com.evrblk.grackle.v1beta.ListNamespacesRequest
+	(*ListNamespacesResponse)(nil),             // 4: com.evrblk.grackle.v1beta.ListNamespacesResponse
+	(*GetNamespaceRequest)(nil),                // 5: com.evrblk.grackle.v1beta.GetNamespaceRequest
+	(*GetNamespaceResponse)(nil),               // 6: com.evrblk.grackle.v1beta.GetNamespaceResponse
+	(*DeleteNamespaceRequest)(nil),             // 7: com.evrblk.grackle.v1beta.DeleteNamespaceRequest
+	(*DeleteNamespaceResponse)(nil),            // 8: com.evrblk.grackle.v1beta.DeleteNamespaceResponse
+	(*UpdateNamespaceRequest)(nil),             // 9: com.evrblk.grackle.v1beta.UpdateNamespaceRequest
+	(*UpdateNamespaceResponse)(nil),            // 10: com.evrblk.grackle.v1beta.UpdateNamespaceResponse
+	(*CreateSemaphoreRequest)(nil),             // 11: com.evrblk.grackle.v1beta.CreateSemaphoreRequest
+	(*CreateSemaphoreResponse)(nil),            // 12: com.evrblk.grackle.v1beta.CreateSemaphoreResponse
+	(*ListSemaphoresRequest)(nil),              // 13: com.evrblk.grackle.v1beta.ListSemaphoresRequest
+	(*ListSemaphoresResponse)(nil),             // 14: com.evrblk.grackle.v1beta.ListSemaphoresResponse
+	(*GetSemaphoreRequest)(nil),                // 15: com.evrblk.grackle.v1beta.GetSemaphoreRequest
+	(*GetSemaphoreResponse)(nil),               // 16: com.evrblk.grackle.v1beta.GetSemaphoreResponse
+	(*AcquireSemaphoreRequest)(nil),            // 17: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
+	(*AcquireSemaphoreResponse)(nil),           // 18: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
+	(*ReleaseSemaphoreRequest)(nil),            // 19: com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
+	(*ReleaseSemaphoreResponse)(nil),           // 20: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
+	(*UpdateSemaphoreRequest)(nil),             // 21: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
+	(*UpdateSemaphoreResponse)(nil),            // 22: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
+	(*DeleteSemaphoreRequest)(nil),             // 23: com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
+	(*DeleteSemaphoreResponse)(nil),            // 24: com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
+	(*ListSemaphoreHoldersRequest)(nil),        // 25: com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
+	(*ListSemaphoreHoldersResponse)(nil),       // 26: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
+	(*CreateSemaphoreLeaseRequest)(nil),        // 27: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
+	(*CreateSemaphoreLeaseResponse)(nil),       // 28: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
+	(*RevokeSemaphoreLeaseRequest)(nil),        // 29: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
+	(*RevokeSemaphoreLeaseResponse)(nil),       // 30: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
+	(*RefreshSemaphoreLeaseRequest)(nil),       // 31: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
+	(*RefreshSemaphoreLeaseResponse)(nil),      // 32: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
+	(*ListSemaphoreLeasesRequest)(nil),         // 33: com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
+	(*ListSemaphoreLeasesResponse)(nil),        // 34: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
+	(*GetSemaphoreLeaseRequest)(nil),           // 35: com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
+	(*GetSemaphoreLeaseResponse)(nil),          // 36: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
+	(*Lease)(nil),                              // 37: com.evrblk.grackle.v1beta.Lease
+	(*Semaphore)(nil),                          // 38: com.evrblk.grackle.v1beta.Semaphore
+	(*SemaphoreHolder)(nil),                    // 39: com.evrblk.grackle.v1beta.SemaphoreHolder
+	(*CreateWaitGroupRequest)(nil),             // 40: com.evrblk.grackle.v1beta.CreateWaitGroupRequest
+	(*CreateWaitGroupResponse)(nil),            // 41: com.evrblk.grackle.v1beta.CreateWaitGroupResponse
+	(*ListWaitGroupsRequest)(nil),              // 42: com.evrblk.grackle.v1beta.ListWaitGroupsRequest
+	(*ListWaitGroupsResponse)(nil),             // 43: com.evrblk.grackle.v1beta.ListWaitGroupsResponse
+	(*GetWaitGroupRequest)(nil),                // 44: com.evrblk.grackle.v1beta.GetWaitGroupRequest
+	(*GetWaitGroupResponse)(nil),               // 45: com.evrblk.grackle.v1beta.GetWaitGroupResponse
+	(*DeleteWaitGroupRequest)(nil),             // 46: com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
+	(*DeleteWaitGroupResponse)(nil),            // 47: com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
+	(*AddJobsToWaitGroupRequest)(nil),          // 48: com.evrblk.grackle.v1beta.AddJobsToWaitGroupRequest
+	(*AddJobsToWaitGroupResponse)(nil),         // 49: com.evrblk.grackle.v1beta.AddJobsToWaitGroupResponse
+	(*CompleteJobsFromWaitGroupRequest)(nil),   // 50: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
+	(*CompleteJobsFromWaitGroupResponse)(nil),  // 51: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
+	(*ListWaitGroupCompletedJobsRequest)(nil),  // 52: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
+	(*ListWaitGroupCompletedJobsResponse)(nil), // 53: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
+	(*WaitForWaitGroupRequest)(nil),            // 54: com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
+	(*WaitForWaitGroupResponse)(nil),           // 55: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
+	(*WaitGroup)(nil),                          // 56: com.evrblk.grackle.v1beta.WaitGroup
+	(*WaitGroupJob)(nil),                       // 57: com.evrblk.grackle.v1beta.WaitGroupJob
+	(*AcquireLockRequest)(nil),                 // 58: com.evrblk.grackle.v1beta.AcquireLockRequest
+	(*AcquireLockResponse)(nil),                // 59: com.evrblk.grackle.v1beta.AcquireLockResponse
+	(*ReleaseLockRequest)(nil),                 // 60: com.evrblk.grackle.v1beta.ReleaseLockRequest
+	(*ReleaseLockResponse)(nil),                // 61: com.evrblk.grackle.v1beta.ReleaseLockResponse
+	(*GetLockRequest)(nil),                     // 62: com.evrblk.grackle.v1beta.GetLockRequest
+	(*GetLockResponse)(nil),                    // 63: com.evrblk.grackle.v1beta.GetLockResponse
+	(*DeleteLockRequest)(nil),                  // 64: com.evrblk.grackle.v1beta.DeleteLockRequest
+	(*DeleteLockResponse)(nil),                 // 65: com.evrblk.grackle.v1beta.DeleteLockResponse
+	(*ListLocksRequest)(nil),                   // 66: com.evrblk.grackle.v1beta.ListLocksRequest
+	(*ListLocksResponse)(nil),                  // 67: com.evrblk.grackle.v1beta.ListLocksResponse
+	(*CreateLockLeaseRequest)(nil),             // 68: com.evrblk.grackle.v1beta.CreateLockLeaseRequest
+	(*CreateLockLeaseResponse)(nil),            // 69: com.evrblk.grackle.v1beta.CreateLockLeaseResponse
+	(*RevokeLockLeaseRequest)(nil),             // 70: com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
+	(*RevokeLockLeaseResponse)(nil),            // 71: com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
+	(*RefreshLockLeaseRequest)(nil),            // 72: com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
+	(*RefreshLockLeaseResponse)(nil),           // 73: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
+	(*ListLockLeasesRequest)(nil),              // 74: com.evrblk.grackle.v1beta.ListLockLeasesRequest
+	(*ListLockLeasesResponse)(nil),             // 75: com.evrblk.grackle.v1beta.ListLockLeasesResponse
+	(*GetLockLeaseRequest)(nil),                // 76: com.evrblk.grackle.v1beta.GetLockLeaseRequest
+	(*GetLockLeaseResponse)(nil),               // 77: com.evrblk.grackle.v1beta.GetLockLeaseResponse
+	(*Lock)(nil),                               // 78: com.evrblk.grackle.v1beta.Lock
+	(*LockHolder)(nil),                         // 79: com.evrblk.grackle.v1beta.LockHolder
+	(*Namespace)(nil),                          // 80: com.evrblk.grackle.v1beta.Namespace
+	(*CreateBarrierRequest)(nil),               // 81: com.evrblk.grackle.v1beta.CreateBarrierRequest
+	(*CreateBarrierResponse)(nil),              // 82: com.evrblk.grackle.v1beta.CreateBarrierResponse
+	(*ListBarriersRequest)(nil),                // 83: com.evrblk.grackle.v1beta.ListBarriersRequest
+	(*ListBarriersResponse)(nil),               // 84: com.evrblk.grackle.v1beta.ListBarriersResponse
+	(*GetBarrierRequest)(nil),                  // 85: com.evrblk.grackle.v1beta.GetBarrierRequest
+	(*GetBarrierResponse)(nil),                 // 86: com.evrblk.grackle.v1beta.GetBarrierResponse
+	(*DeleteBarrierRequest)(nil),               // 87: com.evrblk.grackle.v1beta.DeleteBarrierRequest
+	(*DeleteBarrierResponse)(nil),              // 88: com.evrblk.grackle.v1beta.DeleteBarrierResponse
+	(*UpdateBarrierRequest)(nil),               // 89: com.evrblk.grackle.v1beta.UpdateBarrierRequest
+	(*UpdateBarrierResponse)(nil),              // 90: com.evrblk.grackle.v1beta.UpdateBarrierResponse
+	(*ArriveAtBarrierRequest)(nil),             // 91: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
+	(*ArriveAtBarrierResponse)(nil),            // 92: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
+	(*WaitAtBarrierRequest)(nil),               // 93: com.evrblk.grackle.v1beta.WaitAtBarrierRequest
+	(*WaitAtBarrierResponse)(nil),              // 94: com.evrblk.grackle.v1beta.WaitAtBarrierResponse
+	(*ListBarrierParticipantsRequest)(nil),     // 95: com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
+	(*ListBarrierParticipantsResponse)(nil),    // 96: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
+	(*Barrier)(nil),                            // 97: com.evrblk.grackle.v1beta.Barrier
+	(*BarrierParticipant)(nil),                 // 98: com.evrblk.grackle.v1beta.BarrierParticipant
 }
-var file_proto_grackle_preview_api_proto_depIdxs = []int32{
-	80, // 0: com.evrblk.grackle.preview.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.preview.Namespace
-	80, // 1: com.evrblk.grackle.preview.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.preview.Namespace
-	80, // 2: com.evrblk.grackle.preview.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.preview.Namespace
-	80, // 3: com.evrblk.grackle.preview.UpdateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.preview.Namespace
-	38, // 4: com.evrblk.grackle.preview.CreateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.preview.Semaphore
-	38, // 5: com.evrblk.grackle.preview.ListSemaphoresResponse.semaphores:type_name -> com.evrblk.grackle.preview.Semaphore
-	38, // 6: com.evrblk.grackle.preview.GetSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.preview.Semaphore
-	38, // 7: com.evrblk.grackle.preview.AcquireSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.preview.Semaphore
-	38, // 8: com.evrblk.grackle.preview.ReleaseSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.preview.Semaphore
-	38, // 9: com.evrblk.grackle.preview.UpdateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.preview.Semaphore
-	39, // 10: com.evrblk.grackle.preview.ListSemaphoreHoldersResponse.holders:type_name -> com.evrblk.grackle.preview.SemaphoreHolder
-	37, // 11: com.evrblk.grackle.preview.CreateSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.preview.Lease
-	37, // 12: com.evrblk.grackle.preview.RefreshSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.preview.Lease
-	37, // 13: com.evrblk.grackle.preview.ListSemaphoreLeasesResponse.leases:type_name -> com.evrblk.grackle.preview.Lease
-	37, // 14: com.evrblk.grackle.preview.GetSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.preview.Lease
-	56, // 15: com.evrblk.grackle.preview.CreateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.preview.WaitGroup
-	56, // 16: com.evrblk.grackle.preview.ListWaitGroupsResponse.wait_groups:type_name -> com.evrblk.grackle.preview.WaitGroup
-	56, // 17: com.evrblk.grackle.preview.GetWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.preview.WaitGroup
-	56, // 18: com.evrblk.grackle.preview.AddJobsToWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.preview.WaitGroup
-	56, // 19: com.evrblk.grackle.preview.CompleteJobsFromWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.preview.WaitGroup
-	57, // 20: com.evrblk.grackle.preview.ListWaitGroupJobsResponse.jobs:type_name -> com.evrblk.grackle.preview.WaitGroupJob
-	56, // 21: com.evrblk.grackle.preview.WaitForWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.preview.WaitGroup
-	78, // 22: com.evrblk.grackle.preview.AcquireLockResponse.lock:type_name -> com.evrblk.grackle.preview.Lock
-	78, // 23: com.evrblk.grackle.preview.ReleaseLockResponse.lock:type_name -> com.evrblk.grackle.preview.Lock
-	78, // 24: com.evrblk.grackle.preview.GetLockResponse.lock:type_name -> com.evrblk.grackle.preview.Lock
-	78, // 25: com.evrblk.grackle.preview.ListLocksResponse.locks:type_name -> com.evrblk.grackle.preview.Lock
-	37, // 26: com.evrblk.grackle.preview.CreateLockLeaseResponse.lease:type_name -> com.evrblk.grackle.preview.Lease
-	37, // 27: com.evrblk.grackle.preview.RefreshLockLeaseResponse.lease:type_name -> com.evrblk.grackle.preview.Lease
-	37, // 28: com.evrblk.grackle.preview.ListLockLeasesResponse.leases:type_name -> com.evrblk.grackle.preview.Lease
-	37, // 29: com.evrblk.grackle.preview.GetLockLeaseResponse.lease:type_name -> com.evrblk.grackle.preview.Lease
-	0,  // 30: com.evrblk.grackle.preview.Lock.state:type_name -> com.evrblk.grackle.preview.LockState
-	79, // 31: com.evrblk.grackle.preview.Lock.lock_holders:type_name -> com.evrblk.grackle.preview.LockHolder
-	97, // 32: com.evrblk.grackle.preview.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	97, // 33: com.evrblk.grackle.preview.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.preview.Barrier
-	97, // 34: com.evrblk.grackle.preview.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	97, // 35: com.evrblk.grackle.preview.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	97, // 36: com.evrblk.grackle.preview.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	97, // 37: com.evrblk.grackle.preview.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.preview.Barrier
-	98, // 38: com.evrblk.grackle.preview.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.preview.BarrierParticipant
-	1,  // 39: com.evrblk.grackle.preview.GracklePreviewApi.CreateNamespace:input_type -> com.evrblk.grackle.preview.CreateNamespaceRequest
-	3,  // 40: com.evrblk.grackle.preview.GracklePreviewApi.ListNamespaces:input_type -> com.evrblk.grackle.preview.ListNamespacesRequest
-	5,  // 41: com.evrblk.grackle.preview.GracklePreviewApi.GetNamespace:input_type -> com.evrblk.grackle.preview.GetNamespaceRequest
-	7,  // 42: com.evrblk.grackle.preview.GracklePreviewApi.DeleteNamespace:input_type -> com.evrblk.grackle.preview.DeleteNamespaceRequest
-	9,  // 43: com.evrblk.grackle.preview.GracklePreviewApi.UpdateNamespace:input_type -> com.evrblk.grackle.preview.UpdateNamespaceRequest
-	11, // 44: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphore:input_type -> com.evrblk.grackle.preview.CreateSemaphoreRequest
-	13, // 45: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphores:input_type -> com.evrblk.grackle.preview.ListSemaphoresRequest
-	15, // 46: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphore:input_type -> com.evrblk.grackle.preview.GetSemaphoreRequest
-	17, // 47: com.evrblk.grackle.preview.GracklePreviewApi.AcquireSemaphore:input_type -> com.evrblk.grackle.preview.AcquireSemaphoreRequest
-	19, // 48: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.preview.ReleaseSemaphoreRequest
-	21, // 49: com.evrblk.grackle.preview.GracklePreviewApi.UpdateSemaphore:input_type -> com.evrblk.grackle.preview.UpdateSemaphoreRequest
-	23, // 50: com.evrblk.grackle.preview.GracklePreviewApi.DeleteSemaphore:input_type -> com.evrblk.grackle.preview.DeleteSemaphoreRequest
-	25, // 51: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.preview.ListSemaphoreHoldersRequest
-	27, // 52: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphoreLease:input_type -> com.evrblk.grackle.preview.CreateSemaphoreLeaseRequest
-	29, // 53: com.evrblk.grackle.preview.GracklePreviewApi.RevokeSemaphoreLease:input_type -> com.evrblk.grackle.preview.RevokeSemaphoreLeaseRequest
-	31, // 54: com.evrblk.grackle.preview.GracklePreviewApi.RefreshSemaphoreLease:input_type -> com.evrblk.grackle.preview.RefreshSemaphoreLeaseRequest
-	33, // 55: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreLeases:input_type -> com.evrblk.grackle.preview.ListSemaphoreLeasesRequest
-	35, // 56: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphoreLease:input_type -> com.evrblk.grackle.preview.GetSemaphoreLeaseRequest
-	40, // 57: com.evrblk.grackle.preview.GracklePreviewApi.CreateWaitGroup:input_type -> com.evrblk.grackle.preview.CreateWaitGroupRequest
-	42, // 58: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroups:input_type -> com.evrblk.grackle.preview.ListWaitGroupsRequest
-	44, // 59: com.evrblk.grackle.preview.GracklePreviewApi.GetWaitGroup:input_type -> com.evrblk.grackle.preview.GetWaitGroupRequest
-	46, // 60: com.evrblk.grackle.preview.GracklePreviewApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.preview.DeleteWaitGroupRequest
-	48, // 61: com.evrblk.grackle.preview.GracklePreviewApi.AddJobsToWaitGroup:input_type -> com.evrblk.grackle.preview.AddJobsToWaitGroupRequest
-	50, // 62: com.evrblk.grackle.preview.GracklePreviewApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.preview.CompleteJobsFromWaitGroupRequest
-	52, // 63: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroupJobs:input_type -> com.evrblk.grackle.preview.ListWaitGroupJobsRequest
-	54, // 64: com.evrblk.grackle.preview.GracklePreviewApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.preview.WaitForWaitGroupRequest
-	58, // 65: com.evrblk.grackle.preview.GracklePreviewApi.AcquireLock:input_type -> com.evrblk.grackle.preview.AcquireLockRequest
-	60, // 66: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseLock:input_type -> com.evrblk.grackle.preview.ReleaseLockRequest
-	62, // 67: com.evrblk.grackle.preview.GracklePreviewApi.GetLock:input_type -> com.evrblk.grackle.preview.GetLockRequest
-	64, // 68: com.evrblk.grackle.preview.GracklePreviewApi.DeleteLock:input_type -> com.evrblk.grackle.preview.DeleteLockRequest
-	66, // 69: com.evrblk.grackle.preview.GracklePreviewApi.ListLocks:input_type -> com.evrblk.grackle.preview.ListLocksRequest
-	68, // 70: com.evrblk.grackle.preview.GracklePreviewApi.CreateLockLease:input_type -> com.evrblk.grackle.preview.CreateLockLeaseRequest
-	70, // 71: com.evrblk.grackle.preview.GracklePreviewApi.RevokeLockLease:input_type -> com.evrblk.grackle.preview.RevokeLockLeaseRequest
-	72, // 72: com.evrblk.grackle.preview.GracklePreviewApi.RefreshLockLease:input_type -> com.evrblk.grackle.preview.RefreshLockLeaseRequest
-	74, // 73: com.evrblk.grackle.preview.GracklePreviewApi.ListLockLeases:input_type -> com.evrblk.grackle.preview.ListLockLeasesRequest
-	76, // 74: com.evrblk.grackle.preview.GracklePreviewApi.GetLockLease:input_type -> com.evrblk.grackle.preview.GetLockLeaseRequest
-	81, // 75: com.evrblk.grackle.preview.GracklePreviewApi.CreateBarrier:input_type -> com.evrblk.grackle.preview.CreateBarrierRequest
-	83, // 76: com.evrblk.grackle.preview.GracklePreviewApi.ListBarriers:input_type -> com.evrblk.grackle.preview.ListBarriersRequest
-	85, // 77: com.evrblk.grackle.preview.GracklePreviewApi.GetBarrier:input_type -> com.evrblk.grackle.preview.GetBarrierRequest
-	87, // 78: com.evrblk.grackle.preview.GracklePreviewApi.DeleteBarrier:input_type -> com.evrblk.grackle.preview.DeleteBarrierRequest
-	89, // 79: com.evrblk.grackle.preview.GracklePreviewApi.UpdateBarrier:input_type -> com.evrblk.grackle.preview.UpdateBarrierRequest
-	91, // 80: com.evrblk.grackle.preview.GracklePreviewApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.preview.ArriveAtBarrierRequest
-	93, // 81: com.evrblk.grackle.preview.GracklePreviewApi.WaitAtBarrier:input_type -> com.evrblk.grackle.preview.WaitAtBarrierRequest
-	95, // 82: com.evrblk.grackle.preview.GracklePreviewApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.preview.ListBarrierParticipantsRequest
-	2,  // 83: com.evrblk.grackle.preview.GracklePreviewApi.CreateNamespace:output_type -> com.evrblk.grackle.preview.CreateNamespaceResponse
-	4,  // 84: com.evrblk.grackle.preview.GracklePreviewApi.ListNamespaces:output_type -> com.evrblk.grackle.preview.ListNamespacesResponse
-	6,  // 85: com.evrblk.grackle.preview.GracklePreviewApi.GetNamespace:output_type -> com.evrblk.grackle.preview.GetNamespaceResponse
-	8,  // 86: com.evrblk.grackle.preview.GracklePreviewApi.DeleteNamespace:output_type -> com.evrblk.grackle.preview.DeleteNamespaceResponse
-	10, // 87: com.evrblk.grackle.preview.GracklePreviewApi.UpdateNamespace:output_type -> com.evrblk.grackle.preview.UpdateNamespaceResponse
-	12, // 88: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphore:output_type -> com.evrblk.grackle.preview.CreateSemaphoreResponse
-	14, // 89: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphores:output_type -> com.evrblk.grackle.preview.ListSemaphoresResponse
-	16, // 90: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphore:output_type -> com.evrblk.grackle.preview.GetSemaphoreResponse
-	18, // 91: com.evrblk.grackle.preview.GracklePreviewApi.AcquireSemaphore:output_type -> com.evrblk.grackle.preview.AcquireSemaphoreResponse
-	20, // 92: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.preview.ReleaseSemaphoreResponse
-	22, // 93: com.evrblk.grackle.preview.GracklePreviewApi.UpdateSemaphore:output_type -> com.evrblk.grackle.preview.UpdateSemaphoreResponse
-	24, // 94: com.evrblk.grackle.preview.GracklePreviewApi.DeleteSemaphore:output_type -> com.evrblk.grackle.preview.DeleteSemaphoreResponse
-	26, // 95: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.preview.ListSemaphoreHoldersResponse
-	28, // 96: com.evrblk.grackle.preview.GracklePreviewApi.CreateSemaphoreLease:output_type -> com.evrblk.grackle.preview.CreateSemaphoreLeaseResponse
-	30, // 97: com.evrblk.grackle.preview.GracklePreviewApi.RevokeSemaphoreLease:output_type -> com.evrblk.grackle.preview.RevokeSemaphoreLeaseResponse
-	32, // 98: com.evrblk.grackle.preview.GracklePreviewApi.RefreshSemaphoreLease:output_type -> com.evrblk.grackle.preview.RefreshSemaphoreLeaseResponse
-	34, // 99: com.evrblk.grackle.preview.GracklePreviewApi.ListSemaphoreLeases:output_type -> com.evrblk.grackle.preview.ListSemaphoreLeasesResponse
-	36, // 100: com.evrblk.grackle.preview.GracklePreviewApi.GetSemaphoreLease:output_type -> com.evrblk.grackle.preview.GetSemaphoreLeaseResponse
-	41, // 101: com.evrblk.grackle.preview.GracklePreviewApi.CreateWaitGroup:output_type -> com.evrblk.grackle.preview.CreateWaitGroupResponse
-	43, // 102: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroups:output_type -> com.evrblk.grackle.preview.ListWaitGroupsResponse
-	45, // 103: com.evrblk.grackle.preview.GracklePreviewApi.GetWaitGroup:output_type -> com.evrblk.grackle.preview.GetWaitGroupResponse
-	47, // 104: com.evrblk.grackle.preview.GracklePreviewApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.preview.DeleteWaitGroupResponse
-	49, // 105: com.evrblk.grackle.preview.GracklePreviewApi.AddJobsToWaitGroup:output_type -> com.evrblk.grackle.preview.AddJobsToWaitGroupResponse
-	51, // 106: com.evrblk.grackle.preview.GracklePreviewApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.preview.CompleteJobsFromWaitGroupResponse
-	53, // 107: com.evrblk.grackle.preview.GracklePreviewApi.ListWaitGroupJobs:output_type -> com.evrblk.grackle.preview.ListWaitGroupJobsResponse
-	55, // 108: com.evrblk.grackle.preview.GracklePreviewApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.preview.WaitForWaitGroupResponse
-	59, // 109: com.evrblk.grackle.preview.GracklePreviewApi.AcquireLock:output_type -> com.evrblk.grackle.preview.AcquireLockResponse
-	61, // 110: com.evrblk.grackle.preview.GracklePreviewApi.ReleaseLock:output_type -> com.evrblk.grackle.preview.ReleaseLockResponse
-	63, // 111: com.evrblk.grackle.preview.GracklePreviewApi.GetLock:output_type -> com.evrblk.grackle.preview.GetLockResponse
-	65, // 112: com.evrblk.grackle.preview.GracklePreviewApi.DeleteLock:output_type -> com.evrblk.grackle.preview.DeleteLockResponse
-	67, // 113: com.evrblk.grackle.preview.GracklePreviewApi.ListLocks:output_type -> com.evrblk.grackle.preview.ListLocksResponse
-	69, // 114: com.evrblk.grackle.preview.GracklePreviewApi.CreateLockLease:output_type -> com.evrblk.grackle.preview.CreateLockLeaseResponse
-	71, // 115: com.evrblk.grackle.preview.GracklePreviewApi.RevokeLockLease:output_type -> com.evrblk.grackle.preview.RevokeLockLeaseResponse
-	73, // 116: com.evrblk.grackle.preview.GracklePreviewApi.RefreshLockLease:output_type -> com.evrblk.grackle.preview.RefreshLockLeaseResponse
-	75, // 117: com.evrblk.grackle.preview.GracklePreviewApi.ListLockLeases:output_type -> com.evrblk.grackle.preview.ListLockLeasesResponse
-	77, // 118: com.evrblk.grackle.preview.GracklePreviewApi.GetLockLease:output_type -> com.evrblk.grackle.preview.GetLockLeaseResponse
-	82, // 119: com.evrblk.grackle.preview.GracklePreviewApi.CreateBarrier:output_type -> com.evrblk.grackle.preview.CreateBarrierResponse
-	84, // 120: com.evrblk.grackle.preview.GracklePreviewApi.ListBarriers:output_type -> com.evrblk.grackle.preview.ListBarriersResponse
-	86, // 121: com.evrblk.grackle.preview.GracklePreviewApi.GetBarrier:output_type -> com.evrblk.grackle.preview.GetBarrierResponse
-	88, // 122: com.evrblk.grackle.preview.GracklePreviewApi.DeleteBarrier:output_type -> com.evrblk.grackle.preview.DeleteBarrierResponse
-	90, // 123: com.evrblk.grackle.preview.GracklePreviewApi.UpdateBarrier:output_type -> com.evrblk.grackle.preview.UpdateBarrierResponse
-	92, // 124: com.evrblk.grackle.preview.GracklePreviewApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.preview.ArriveAtBarrierResponse
-	94, // 125: com.evrblk.grackle.preview.GracklePreviewApi.WaitAtBarrier:output_type -> com.evrblk.grackle.preview.WaitAtBarrierResponse
-	96, // 126: com.evrblk.grackle.preview.GracklePreviewApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.preview.ListBarrierParticipantsResponse
+var file_proto_grackle_v1beta_api_proto_depIdxs = []int32{
+	80, // 0: com.evrblk.grackle.v1beta.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	80, // 1: com.evrblk.grackle.v1beta.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.v1beta.Namespace
+	80, // 2: com.evrblk.grackle.v1beta.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	80, // 3: com.evrblk.grackle.v1beta.UpdateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	38, // 4: com.evrblk.grackle.v1beta.CreateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	38, // 5: com.evrblk.grackle.v1beta.ListSemaphoresResponse.semaphores:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	38, // 6: com.evrblk.grackle.v1beta.GetSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	38, // 7: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	38, // 8: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	38, // 9: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	39, // 10: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse.holders:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder
+	37, // 11: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	37, // 12: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	37, // 13: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
+	37, // 14: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	56, // 15: com.evrblk.grackle.v1beta.CreateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	56, // 16: com.evrblk.grackle.v1beta.ListWaitGroupsResponse.wait_groups:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	56, // 17: com.evrblk.grackle.v1beta.GetWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	56, // 18: com.evrblk.grackle.v1beta.AddJobsToWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	56, // 19: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	57, // 20: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse.jobs:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob
+	56, // 21: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	78, // 22: com.evrblk.grackle.v1beta.AcquireLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	78, // 23: com.evrblk.grackle.v1beta.ReleaseLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	78, // 24: com.evrblk.grackle.v1beta.GetLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	78, // 25: com.evrblk.grackle.v1beta.ListLocksResponse.locks:type_name -> com.evrblk.grackle.v1beta.Lock
+	37, // 26: com.evrblk.grackle.v1beta.CreateLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	37, // 27: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	37, // 28: com.evrblk.grackle.v1beta.ListLockLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
+	37, // 29: com.evrblk.grackle.v1beta.GetLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	0,  // 30: com.evrblk.grackle.v1beta.Lock.state:type_name -> com.evrblk.grackle.v1beta.LockState
+	79, // 31: com.evrblk.grackle.v1beta.Lock.lock_holders:type_name -> com.evrblk.grackle.v1beta.LockHolder
+	97, // 32: com.evrblk.grackle.v1beta.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	97, // 33: com.evrblk.grackle.v1beta.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.v1beta.Barrier
+	97, // 34: com.evrblk.grackle.v1beta.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	97, // 35: com.evrblk.grackle.v1beta.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	97, // 36: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	97, // 37: com.evrblk.grackle.v1beta.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	98, // 38: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant
+	1,  // 39: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:input_type -> com.evrblk.grackle.v1beta.CreateNamespaceRequest
+	3,  // 40: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:input_type -> com.evrblk.grackle.v1beta.ListNamespacesRequest
+	5,  // 41: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:input_type -> com.evrblk.grackle.v1beta.GetNamespaceRequest
+	7,  // 42: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:input_type -> com.evrblk.grackle.v1beta.DeleteNamespaceRequest
+	9,  // 43: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:input_type -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest
+	11, // 44: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest
+	13, // 45: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:input_type -> com.evrblk.grackle.v1beta.ListSemaphoresRequest
+	15, // 46: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreRequest
+	17, // 47: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:input_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
+	19, // 48: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
+	21, // 49: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:input_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
+	23, // 50: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:input_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
+	25, // 51: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
+	27, // 52: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
+	29, // 53: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
+	31, // 54: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
+	33, // 55: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
+	35, // 56: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
+	40, // 57: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:input_type -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest
+	42, // 58: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupsRequest
+	44, // 59: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:input_type -> com.evrblk.grackle.v1beta.GetWaitGroupRequest
+	46, // 60: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
+	48, // 61: com.evrblk.grackle.v1beta.GrackleApi.AddJobsToWaitGroup:input_type -> com.evrblk.grackle.v1beta.AddJobsToWaitGroupRequest
+	50, // 62: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
+	52, // 63: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
+	54, // 64: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
+	58, // 65: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:input_type -> com.evrblk.grackle.v1beta.AcquireLockRequest
+	60, // 66: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:input_type -> com.evrblk.grackle.v1beta.ReleaseLockRequest
+	62, // 67: com.evrblk.grackle.v1beta.GrackleApi.GetLock:input_type -> com.evrblk.grackle.v1beta.GetLockRequest
+	64, // 68: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:input_type -> com.evrblk.grackle.v1beta.DeleteLockRequest
+	66, // 69: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:input_type -> com.evrblk.grackle.v1beta.ListLocksRequest
+	68, // 70: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:input_type -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest
+	70, // 71: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:input_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
+	72, // 72: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:input_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
+	74, // 73: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:input_type -> com.evrblk.grackle.v1beta.ListLockLeasesRequest
+	76, // 74: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:input_type -> com.evrblk.grackle.v1beta.GetLockLeaseRequest
+	81, // 75: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:input_type -> com.evrblk.grackle.v1beta.CreateBarrierRequest
+	83, // 76: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:input_type -> com.evrblk.grackle.v1beta.ListBarriersRequest
+	85, // 77: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:input_type -> com.evrblk.grackle.v1beta.GetBarrierRequest
+	87, // 78: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:input_type -> com.evrblk.grackle.v1beta.DeleteBarrierRequest
+	89, // 79: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:input_type -> com.evrblk.grackle.v1beta.UpdateBarrierRequest
+	91, // 80: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
+	93, // 81: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:input_type -> com.evrblk.grackle.v1beta.WaitAtBarrierRequest
+	95, // 82: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
+	2,  // 83: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:output_type -> com.evrblk.grackle.v1beta.CreateNamespaceResponse
+	4,  // 84: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:output_type -> com.evrblk.grackle.v1beta.ListNamespacesResponse
+	6,  // 85: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:output_type -> com.evrblk.grackle.v1beta.GetNamespaceResponse
+	8,  // 86: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:output_type -> com.evrblk.grackle.v1beta.DeleteNamespaceResponse
+	10, // 87: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:output_type -> com.evrblk.grackle.v1beta.UpdateNamespaceResponse
+	12, // 88: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreResponse
+	14, // 89: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:output_type -> com.evrblk.grackle.v1beta.ListSemaphoresResponse
+	16, // 90: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreResponse
+	18, // 91: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:output_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
+	20, // 92: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
+	22, // 93: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:output_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
+	24, // 94: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:output_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
+	26, // 95: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
+	28, // 96: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
+	30, // 97: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
+	32, // 98: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
+	34, // 99: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
+	36, // 100: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
+	41, // 101: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:output_type -> com.evrblk.grackle.v1beta.CreateWaitGroupResponse
+	43, // 102: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupsResponse
+	45, // 103: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:output_type -> com.evrblk.grackle.v1beta.GetWaitGroupResponse
+	47, // 104: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
+	49, // 105: com.evrblk.grackle.v1beta.GrackleApi.AddJobsToWaitGroup:output_type -> com.evrblk.grackle.v1beta.AddJobsToWaitGroupResponse
+	51, // 106: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
+	53, // 107: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
+	55, // 108: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
+	59, // 109: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:output_type -> com.evrblk.grackle.v1beta.AcquireLockResponse
+	61, // 110: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:output_type -> com.evrblk.grackle.v1beta.ReleaseLockResponse
+	63, // 111: com.evrblk.grackle.v1beta.GrackleApi.GetLock:output_type -> com.evrblk.grackle.v1beta.GetLockResponse
+	65, // 112: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:output_type -> com.evrblk.grackle.v1beta.DeleteLockResponse
+	67, // 113: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:output_type -> com.evrblk.grackle.v1beta.ListLocksResponse
+	69, // 114: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:output_type -> com.evrblk.grackle.v1beta.CreateLockLeaseResponse
+	71, // 115: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:output_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
+	73, // 116: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:output_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
+	75, // 117: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:output_type -> com.evrblk.grackle.v1beta.ListLockLeasesResponse
+	77, // 118: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:output_type -> com.evrblk.grackle.v1beta.GetLockLeaseResponse
+	82, // 119: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:output_type -> com.evrblk.grackle.v1beta.CreateBarrierResponse
+	84, // 120: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:output_type -> com.evrblk.grackle.v1beta.ListBarriersResponse
+	86, // 121: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:output_type -> com.evrblk.grackle.v1beta.GetBarrierResponse
+	88, // 122: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:output_type -> com.evrblk.grackle.v1beta.DeleteBarrierResponse
+	90, // 123: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:output_type -> com.evrblk.grackle.v1beta.UpdateBarrierResponse
+	92, // 124: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
+	94, // 125: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:output_type -> com.evrblk.grackle.v1beta.WaitAtBarrierResponse
+	96, // 126: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
 	83, // [83:127] is the sub-list for method output_type
 	39, // [39:83] is the sub-list for method input_type
 	39, // [39:39] is the sub-list for extension type_name
@@ -6221,27 +6222,27 @@ var file_proto_grackle_preview_api_proto_depIdxs = []int32{
 	0,  // [0:39] is the sub-list for field type_name
 }
 
-func init() { file_proto_grackle_preview_api_proto_init() }
-func file_proto_grackle_preview_api_proto_init() {
-	if File_proto_grackle_preview_api_proto != nil {
+func init() { file_proto_grackle_v1beta_api_proto_init() }
+func file_proto_grackle_v1beta_api_proto_init() {
+	if File_proto_grackle_v1beta_api_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_grackle_preview_api_proto_rawDesc), len(file_proto_grackle_preview_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_grackle_v1beta_api_proto_rawDesc), len(file_proto_grackle_v1beta_api_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   98,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_grackle_preview_api_proto_goTypes,
-		DependencyIndexes: file_proto_grackle_preview_api_proto_depIdxs,
-		EnumInfos:         file_proto_grackle_preview_api_proto_enumTypes,
-		MessageInfos:      file_proto_grackle_preview_api_proto_msgTypes,
+		GoTypes:           file_proto_grackle_v1beta_api_proto_goTypes,
+		DependencyIndexes: file_proto_grackle_v1beta_api_proto_depIdxs,
+		EnumInfos:         file_proto_grackle_v1beta_api_proto_enumTypes,
+		MessageInfos:      file_proto_grackle_v1beta_api_proto_msgTypes,
 	}.Build()
-	File_proto_grackle_preview_api_proto = out.File
-	file_proto_grackle_preview_api_proto_goTypes = nil
-	file_proto_grackle_preview_api_proto_depIdxs = nil
+	File_proto_grackle_v1beta_api_proto = out.File
+	file_proto_grackle_v1beta_api_proto_goTypes = nil
+	file_proto_grackle_v1beta_api_proto_depIdxs = nil
 }

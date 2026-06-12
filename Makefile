@@ -9,14 +9,14 @@ build: generate-proto generate-code
 generate-proto:
 	@echo "Generating proto files..."
 	protoc --proto_path=. \
-		--go_out=./grackle/preview \
-		--go_opt=module=github.com/evrblk/evrblk-go/grackle/preview \
-		--go-grpc_out=./grackle/preview \
-		--go-grpc_opt=module=github.com/evrblk/evrblk-go/grackle/preview \
-		--go-vtproto_out=./grackle/preview \
+		--go_out=./grackle/v1beta \
+		--go_opt=module=github.com/evrblk/evrblk-go/grackle/v1beta \
+		--go-grpc_out=./grackle/v1beta \
+		--go-grpc_opt=module=github.com/evrblk/evrblk-go/grackle/v1beta \
+		--go-vtproto_out=./grackle/v1beta \
 		--go-vtproto_opt=features=marshal+unmarshal+size \
-		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/grackle/preview \
-		./proto/grackle/preview/*.proto
+		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/grackle/v1beta \
+		./proto/grackle/v1beta/*.proto
 	protoc --proto_path=. \
 		--go_out=./banyan/preview \
 		--go_opt=module=github.com/evrblk/evrblk-go/banyan/preview \
@@ -58,10 +58,10 @@ generate-code:
 	@echo "Running code generate..."
 	go run ./cmd/codegen \
 		--service-name=Grackle \
-		--go-package-path=github.com/evrblk/evrblk-go/grackle/preview \
+		--go-package-path=github.com/evrblk/evrblk-go/grackle/v1beta \
 		--go-package-name=grackle \
-		--output-path=./grackle/preview/client.go \
-		--proto-file-path=./proto/grackle/preview/api.proto
+		--output-path=./grackle/v1beta/client.go \
+		--proto-file-path=./proto/grackle/v1beta/api.proto
 	go run ./cmd/codegen \
 		--service-name=Banyan \
 		--go-package-path=github.com/evrblk/evrblk-go/banyan/preview \

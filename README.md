@@ -61,9 +61,9 @@ are backward compatible with old SDKs.
 
 Currently available versions:
 
-* Moab
-    * `preview`
 * Grackle
+    * `v1beta`
+* Moab
     * `preview`
 * IAM
     * `preview`
