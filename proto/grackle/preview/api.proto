@@ -310,7 +310,7 @@ message AddJobsToWaitGroupResponse {
 message CompleteJobsFromWaitGroupRequest {
   string namespace_name = 1;
   string wait_group_name = 2;
-  repeated string process_ids = 3;
+  repeated string job_ids = 3;
 }
 
 message CompleteJobsFromWaitGroupResponse {
@@ -354,7 +354,7 @@ message WaitGroup {
 }
 
 message WaitGroupJob {
-  string process_id = 1;
+  string job_id = 1;
   int64 completed_at = 2;
 }
 

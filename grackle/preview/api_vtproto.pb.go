@@ -2443,11 +2443,11 @@ func (m *CompleteJobsFromWaitGroupRequest) MarshalToSizedBufferVT(dAtA []byte) (
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if len(m.ProcessIds) > 0 {
-		for iNdEx := len(m.ProcessIds) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.ProcessIds[iNdEx])
-			copy(dAtA[i:], m.ProcessIds[iNdEx])
-			i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.ProcessIds[iNdEx])))
+	if len(m.JobIds) > 0 {
+		for iNdEx := len(m.JobIds) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.JobIds[iNdEx])
+			copy(dAtA[i:], m.JobIds[iNdEx])
+			i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.JobIds[iNdEx])))
 			i--
 			dAtA[i] = 0x1a
 		}
@@ -2857,10 +2857,10 @@ func (m *WaitGroupJob) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.ProcessId) > 0 {
-		i -= len(m.ProcessId)
-		copy(dAtA[i:], m.ProcessId)
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.ProcessId)))
+	if len(m.JobId) > 0 {
+		i -= len(m.JobId)
+		copy(dAtA[i:], m.JobId)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.JobId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -5905,8 +5905,8 @@ func (m *CompleteJobsFromWaitGroupRequest) SizeVT() (n int) {
 	if l > 0 {
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if len(m.ProcessIds) > 0 {
-		for _, s := range m.ProcessIds {
+	if len(m.JobIds) > 0 {
+		for _, s := range m.JobIds {
 			l = len(s)
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
@@ -6061,7 +6061,7 @@ func (m *WaitGroupJob) SizeVT() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.ProcessId)
+	l = len(m.JobId)
 	if l > 0 {
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
@@ -12678,7 +12678,7 @@ func (m *CompleteJobsFromWaitGroupRequest) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ProcessIds", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field JobIds", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -12706,7 +12706,7 @@ func (m *CompleteJobsFromWaitGroupRequest) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ProcessIds = append(m.ProcessIds, string(dAtA[iNdEx:postIndex]))
+			m.JobIds = append(m.JobIds, string(dAtA[iNdEx:postIndex]))
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -13653,7 +13653,7 @@ func (m *WaitGroupJob) UnmarshalVT(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ProcessId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field JobId", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -13681,7 +13681,7 @@ func (m *WaitGroupJob) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ProcessId = string(dAtA[iNdEx:postIndex])
+			m.JobId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
