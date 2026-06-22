@@ -59,6 +59,7 @@ service GrackleApi {
 message CreateNamespaceRequest {
   string name = 1;
   string description = 2;
+  map<string, string> metadata = 3;
 }
 
 message CreateNamespaceResponse {
@@ -93,6 +94,7 @@ message DeleteNamespaceResponse {}
 message UpdateNamespaceRequest {
   string namespace_name = 1;
   string description = 2;
+  map<string, string> metadata = 3;
 }
 
 message UpdateNamespaceResponse {
@@ -104,6 +106,7 @@ message CreateSemaphoreRequest {
   string semaphore_name = 2;
   string description = 3;
   uint64 permits = 4;
+  map<string, string> metadata = 5;
 }
 
 message CreateSemaphoreResponse {
@@ -137,6 +140,7 @@ message AcquireSemaphoreRequest {
   string lease_id = 3;
   uint64 weight = 4;
   int32 timeout_seconds = 5;
+  map<string, string> metadata = 6;
 }
 
 message AcquireSemaphoreResponse {
@@ -159,6 +163,7 @@ message UpdateSemaphoreRequest {
   string semaphore_name = 2;
   string description = 3;
   uint64 permits = 4;
+  map<string, string> metadata = 5;
 }
 
 message UpdateSemaphoreResponse {
@@ -189,6 +194,7 @@ message CreateSemaphoreLeaseRequest {
   string namespace_name = 1;
   string process_id = 2;
   uint64 ttl_seconds = 3;
+  map<string, string> metadata = 4;
 }
 
 message CreateSemaphoreLeaseResponse {
@@ -238,6 +244,7 @@ message Lease {
   string process_id = 2;
   int64 created_at = 3;
   int64 expires_at = 4;
+  map<string, string> metadata = 5;
 }
 
 message Semaphore {
@@ -249,12 +256,14 @@ message Semaphore {
   uint64 permits = 6;
   uint64 active_holds = 7;
   uint64 active_holders_count = 8;
+  map<string, string> metadata = 9;
 }
 
 message SemaphoreHolder {
   string lease_id = 1;
   int64 locked_at = 2;
   uint64 weight = 3;
+  map<string, string> metadata = 4;
 }
 
 message CreateWaitGroupRequest {
@@ -263,6 +272,7 @@ message CreateWaitGroupRequest {
   string description = 3;
   uint64 counter = 4;
   int64 expires_at = 5;
+  map<string, string> metadata = 6;
 }
 
 message CreateWaitGroupResponse {
@@ -310,7 +320,12 @@ message AddJobsToWaitGroupResponse {
 message CompleteJobsFromWaitGroupRequest {
   string namespace_name = 1;
   string wait_group_name = 2;
-  repeated string job_ids = 3;
+  repeated CompleteJobRequest jobs = 3;
+}
+
+message CompleteJobRequest {
+  string job_id = 1;
+  map<string, string> metadata = 2;
 }
 
 message CompleteJobsFromWaitGroupResponse {
@@ -351,11 +366,13 @@ message WaitGroup {
   int64 expires_at = 6;
   uint64 counter = 7;
   uint64 completed = 8;
+  map<string, string> metadata = 9;
 }
 
 message WaitGroupJob {
   string job_id = 1;
   int64 completed_at = 2;
+  map<string, string> metadata = 3;
 }
 
 message AcquireLockRequest {
@@ -364,6 +381,7 @@ message AcquireLockRequest {
   bool exclusive = 3;
   string lease_id = 4;
   int32 timeout_seconds = 5;
+  map<string, string> metadata = 6;
 }
 
 message AcquireLockResponse {
@@ -413,6 +431,7 @@ message CreateLockLeaseRequest {
   string namespace_name = 1;
   string process_id = 2;
   uint64 ttl_seconds = 3;
+  map<string, string> metadata = 4;
 }
 
 message CreateLockLeaseResponse {
@@ -467,6 +486,7 @@ message Lock {
 message LockHolder {
   string lease_id = 1;
   int64 locked_at = 2;
+  map<string, string> metadata = 3;
 }
 
 enum LockState {
@@ -481,6 +501,7 @@ message Namespace {
   int64 created_at = 3;
   int64 updated_at = 4;
   uint64 version = 5;
+  map<string, string> metadata = 6;
 }
 
 message CreateBarrierRequest {
@@ -489,6 +510,7 @@ message CreateBarrierRequest {
   string description = 3;
   uint64 expected_processes = 4;
   int64 expires_at = 8;
+  map<string, string> metadata = 9;
 }
 
 message CreateBarrierResponse {
@@ -528,6 +550,7 @@ message UpdateBarrierRequest {
   string barrier_name = 2;
   string description = 3;
   uint64 expected_processes = 4;
+  map<string, string> metadata = 5;
 }
 
 message UpdateBarrierResponse {
@@ -539,6 +562,7 @@ message ArriveAtBarrierRequest {
   string barrier_name = 2;
   string process_id = 3;
   uint64 expected_generation = 4;
+  map<string, string> metadata = 5;
 }
 
 message ArriveAtBarrierResponse {
@@ -584,9 +608,11 @@ message Barrier {
   int64 created_at = 6;
   int64 updated_at = 7;
   uint64 version = 8;
+  map<string, string> metadata = 9;
 }
 
 message BarrierParticipant {
   string process_id = 1;
   int64 arrived_at = 2;
+  map<string, string> metadata = 3;
 }
