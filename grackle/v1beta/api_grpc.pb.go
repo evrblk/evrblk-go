@@ -38,6 +38,7 @@ const (
 	GrackleApi_ListSemaphoreLeases_FullMethodName        = "/com.evrblk.grackle.v1beta.GrackleApi/ListSemaphoreLeases"
 	GrackleApi_GetSemaphoreLease_FullMethodName          = "/com.evrblk.grackle.v1beta.GrackleApi/GetSemaphoreLease"
 	GrackleApi_CreateWaitGroup_FullMethodName            = "/com.evrblk.grackle.v1beta.GrackleApi/CreateWaitGroup"
+	GrackleApi_UpdateWaitGroup_FullMethodName            = "/com.evrblk.grackle.v1beta.GrackleApi/UpdateWaitGroup"
 	GrackleApi_ListWaitGroups_FullMethodName             = "/com.evrblk.grackle.v1beta.GrackleApi/ListWaitGroups"
 	GrackleApi_GetWaitGroup_FullMethodName               = "/com.evrblk.grackle.v1beta.GrackleApi/GetWaitGroup"
 	GrackleApi_DeleteWaitGroup_FullMethodName            = "/com.evrblk.grackle.v1beta.GrackleApi/DeleteWaitGroup"
@@ -88,6 +89,7 @@ type GrackleApiClient interface {
 	ListSemaphoreLeases(ctx context.Context, in *ListSemaphoreLeasesRequest, opts ...grpc.CallOption) (*ListSemaphoreLeasesResponse, error)
 	GetSemaphoreLease(ctx context.Context, in *GetSemaphoreLeaseRequest, opts ...grpc.CallOption) (*GetSemaphoreLeaseResponse, error)
 	CreateWaitGroup(ctx context.Context, in *CreateWaitGroupRequest, opts ...grpc.CallOption) (*CreateWaitGroupResponse, error)
+	UpdateWaitGroup(ctx context.Context, in *UpdateWaitGroupRequest, opts ...grpc.CallOption) (*UpdateWaitGroupResponse, error)
 	ListWaitGroups(ctx context.Context, in *ListWaitGroupsRequest, opts ...grpc.CallOption) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, in *GetWaitGroupRequest, opts ...grpc.CallOption) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(ctx context.Context, in *DeleteWaitGroupRequest, opts ...grpc.CallOption) (*DeleteWaitGroupResponse, error)
@@ -307,6 +309,16 @@ func (c *grackleApiClient) CreateWaitGroup(ctx context.Context, in *CreateWaitGr
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateWaitGroupResponse)
 	err := c.cc.Invoke(ctx, GrackleApi_CreateWaitGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *grackleApiClient) UpdateWaitGroup(ctx context.Context, in *UpdateWaitGroupRequest, opts ...grpc.CallOption) (*UpdateWaitGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateWaitGroupResponse)
+	err := c.cc.Invoke(ctx, GrackleApi_UpdateWaitGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -586,6 +598,7 @@ type GrackleApiServer interface {
 	ListSemaphoreLeases(context.Context, *ListSemaphoreLeasesRequest) (*ListSemaphoreLeasesResponse, error)
 	GetSemaphoreLease(context.Context, *GetSemaphoreLeaseRequest) (*GetSemaphoreLeaseResponse, error)
 	CreateWaitGroup(context.Context, *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
+	UpdateWaitGroup(context.Context, *UpdateWaitGroupRequest) (*UpdateWaitGroupResponse, error)
 	ListWaitGroups(context.Context, *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(context.Context, *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(context.Context, *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
@@ -677,6 +690,9 @@ func (UnimplementedGrackleApiServer) GetSemaphoreLease(context.Context, *GetSema
 }
 func (UnimplementedGrackleApiServer) CreateWaitGroup(context.Context, *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWaitGroup not implemented")
+}
+func (UnimplementedGrackleApiServer) UpdateWaitGroup(context.Context, *UpdateWaitGroupRequest) (*UpdateWaitGroupResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWaitGroup not implemented")
 }
 func (UnimplementedGrackleApiServer) ListWaitGroups(context.Context, *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWaitGroups not implemented")
@@ -1112,6 +1128,24 @@ func _GrackleApi_CreateWaitGroup_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GrackleApiServer).CreateWaitGroup(ctx, req.(*CreateWaitGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GrackleApi_UpdateWaitGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWaitGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GrackleApiServer).UpdateWaitGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GrackleApi_UpdateWaitGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GrackleApiServer).UpdateWaitGroup(ctx, req.(*UpdateWaitGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1648,6 +1682,10 @@ var GrackleApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateWaitGroup",
 			Handler:    _GrackleApi_CreateWaitGroup_Handler,
+		},
+		{
+			MethodName: "UpdateWaitGroup",
+			Handler:    _GrackleApi_UpdateWaitGroup_Handler,
 		},
 		{
 			MethodName: "ListWaitGroups",

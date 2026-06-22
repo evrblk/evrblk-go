@@ -27,6 +27,7 @@ service GrackleApi {
   rpc GetSemaphoreLease(GetSemaphoreLeaseRequest) returns (GetSemaphoreLeaseResponse) {}
 
   rpc CreateWaitGroup(CreateWaitGroupRequest) returns (CreateWaitGroupResponse) {}
+  rpc UpdateWaitGroup(UpdateWaitGroupRequest) returns (UpdateWaitGroupResponse) {}
   rpc ListWaitGroups(ListWaitGroupsRequest) returns (ListWaitGroupsResponse) {}
   rpc GetWaitGroup(GetWaitGroupRequest) returns (GetWaitGroupResponse) {}
   rpc DeleteWaitGroup(DeleteWaitGroupRequest) returns (DeleteWaitGroupResponse) {}
@@ -276,6 +277,19 @@ message CreateWaitGroupRequest {
 }
 
 message CreateWaitGroupResponse {
+  WaitGroup wait_group = 1;
+}
+
+message UpdateWaitGroupRequest {
+  string namespace_name = 1;
+  string wait_group_name = 2;
+  string description = 3;
+  uint64 counter = 4;
+  int64 expires_at = 5;
+  map<string, string> metadata = 6;
+}
+
+message UpdateWaitGroupResponse {
   WaitGroup wait_group = 1;
 }
 

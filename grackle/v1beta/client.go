@@ -32,6 +32,7 @@ type GrackleApi interface {
 	ListSemaphoreLeases(ctx context.Context, request *ListSemaphoreLeasesRequest) (*ListSemaphoreLeasesResponse, error)
 	GetSemaphoreLease(ctx context.Context, request *GetSemaphoreLeaseRequest) (*GetSemaphoreLeaseResponse, error)
 	CreateWaitGroup(ctx context.Context, request *CreateWaitGroupRequest) (*CreateWaitGroupResponse, error)
+	UpdateWaitGroup(ctx context.Context, request *UpdateWaitGroupRequest) (*UpdateWaitGroupResponse, error)
 	ListWaitGroups(ctx context.Context, request *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, request *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(ctx context.Context, request *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
@@ -396,6 +397,23 @@ func (c *GrackleGrpcClient) CreateWaitGroup(ctx context.Context, request *Create
 	resp, err := c.grpc.CreateWaitGroup(signedCtx, request, grpc.WaitForReady(true))
 	if err != nil {
 		internal.FailedRequestsCounter.WithLabelValues("Grackle", "CreateWaitGroup", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *GrackleGrpcClient) UpdateWaitGroup(ctx context.Context, request *UpdateWaitGroupRequest) (*UpdateWaitGroupResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Grackle", "UpdateWaitGroup").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Grackle", "UpdateWaitGroup"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Grackle", "UpdateWaitGroup")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.UpdateWaitGroup(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Grackle", "UpdateWaitGroup", internal.MetricLabelFromGrpcError(err)).Inc()
 	}
 
 	return resp, internal.ErrorFromRpcError(err)
