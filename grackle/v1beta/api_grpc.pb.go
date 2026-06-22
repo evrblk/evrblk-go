@@ -42,7 +42,6 @@ const (
 	GrackleApi_ListWaitGroups_FullMethodName             = "/com.evrblk.grackle.v1beta.GrackleApi/ListWaitGroups"
 	GrackleApi_GetWaitGroup_FullMethodName               = "/com.evrblk.grackle.v1beta.GrackleApi/GetWaitGroup"
 	GrackleApi_DeleteWaitGroup_FullMethodName            = "/com.evrblk.grackle.v1beta.GrackleApi/DeleteWaitGroup"
-	GrackleApi_AddJobsToWaitGroup_FullMethodName         = "/com.evrblk.grackle.v1beta.GrackleApi/AddJobsToWaitGroup"
 	GrackleApi_CompleteJobsFromWaitGroup_FullMethodName  = "/com.evrblk.grackle.v1beta.GrackleApi/CompleteJobsFromWaitGroup"
 	GrackleApi_ListWaitGroupCompletedJobs_FullMethodName = "/com.evrblk.grackle.v1beta.GrackleApi/ListWaitGroupCompletedJobs"
 	GrackleApi_WaitForWaitGroup_FullMethodName           = "/com.evrblk.grackle.v1beta.GrackleApi/WaitForWaitGroup"
@@ -93,7 +92,6 @@ type GrackleApiClient interface {
 	ListWaitGroups(ctx context.Context, in *ListWaitGroupsRequest, opts ...grpc.CallOption) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(ctx context.Context, in *GetWaitGroupRequest, opts ...grpc.CallOption) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(ctx context.Context, in *DeleteWaitGroupRequest, opts ...grpc.CallOption) (*DeleteWaitGroupResponse, error)
-	AddJobsToWaitGroup(ctx context.Context, in *AddJobsToWaitGroupRequest, opts ...grpc.CallOption) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(ctx context.Context, in *CompleteJobsFromWaitGroupRequest, opts ...grpc.CallOption) (*CompleteJobsFromWaitGroupResponse, error)
 	ListWaitGroupCompletedJobs(ctx context.Context, in *ListWaitGroupCompletedJobsRequest, opts ...grpc.CallOption) (*ListWaitGroupCompletedJobsResponse, error)
 	WaitForWaitGroup(ctx context.Context, in *WaitForWaitGroupRequest, opts ...grpc.CallOption) (*WaitForWaitGroupResponse, error)
@@ -355,16 +353,6 @@ func (c *grackleApiClient) DeleteWaitGroup(ctx context.Context, in *DeleteWaitGr
 	return out, nil
 }
 
-func (c *grackleApiClient) AddJobsToWaitGroup(ctx context.Context, in *AddJobsToWaitGroupRequest, opts ...grpc.CallOption) (*AddJobsToWaitGroupResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddJobsToWaitGroupResponse)
-	err := c.cc.Invoke(ctx, GrackleApi_AddJobsToWaitGroup_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *grackleApiClient) CompleteJobsFromWaitGroup(ctx context.Context, in *CompleteJobsFromWaitGroupRequest, opts ...grpc.CallOption) (*CompleteJobsFromWaitGroupResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CompleteJobsFromWaitGroupResponse)
@@ -602,7 +590,6 @@ type GrackleApiServer interface {
 	ListWaitGroups(context.Context, *ListWaitGroupsRequest) (*ListWaitGroupsResponse, error)
 	GetWaitGroup(context.Context, *GetWaitGroupRequest) (*GetWaitGroupResponse, error)
 	DeleteWaitGroup(context.Context, *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error)
-	AddJobsToWaitGroup(context.Context, *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error)
 	CompleteJobsFromWaitGroup(context.Context, *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error)
 	ListWaitGroupCompletedJobs(context.Context, *ListWaitGroupCompletedJobsRequest) (*ListWaitGroupCompletedJobsResponse, error)
 	WaitForWaitGroup(context.Context, *WaitForWaitGroupRequest) (*WaitForWaitGroupResponse, error)
@@ -702,9 +689,6 @@ func (UnimplementedGrackleApiServer) GetWaitGroup(context.Context, *GetWaitGroup
 }
 func (UnimplementedGrackleApiServer) DeleteWaitGroup(context.Context, *DeleteWaitGroupRequest) (*DeleteWaitGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteWaitGroup not implemented")
-}
-func (UnimplementedGrackleApiServer) AddJobsToWaitGroup(context.Context, *AddJobsToWaitGroupRequest) (*AddJobsToWaitGroupResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddJobsToWaitGroup not implemented")
 }
 func (UnimplementedGrackleApiServer) CompleteJobsFromWaitGroup(context.Context, *CompleteJobsFromWaitGroupRequest) (*CompleteJobsFromWaitGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompleteJobsFromWaitGroup not implemented")
@@ -1204,24 +1188,6 @@ func _GrackleApi_DeleteWaitGroup_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GrackleApi_AddJobsToWaitGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddJobsToWaitGroupRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GrackleApiServer).AddJobsToWaitGroup(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GrackleApi_AddJobsToWaitGroup_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrackleApiServer).AddJobsToWaitGroup(ctx, req.(*AddJobsToWaitGroupRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _GrackleApi_CompleteJobsFromWaitGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CompleteJobsFromWaitGroupRequest)
 	if err := dec(in); err != nil {
@@ -1698,10 +1664,6 @@ var GrackleApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteWaitGroup",
 			Handler:    _GrackleApi_DeleteWaitGroup_Handler,
-		},
-		{
-			MethodName: "AddJobsToWaitGroup",
-			Handler:    _GrackleApi_AddJobsToWaitGroup_Handler,
 		},
 		{
 			MethodName: "CompleteJobsFromWaitGroup",

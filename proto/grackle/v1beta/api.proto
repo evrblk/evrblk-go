@@ -31,7 +31,6 @@ service GrackleApi {
   rpc ListWaitGroups(ListWaitGroupsRequest) returns (ListWaitGroupsResponse) {}
   rpc GetWaitGroup(GetWaitGroupRequest) returns (GetWaitGroupResponse) {}
   rpc DeleteWaitGroup(DeleteWaitGroupRequest) returns (DeleteWaitGroupResponse) {}
-  rpc AddJobsToWaitGroup(AddJobsToWaitGroupRequest) returns (AddJobsToWaitGroupResponse) {}
   rpc CompleteJobsFromWaitGroup(CompleteJobsFromWaitGroupRequest) returns (CompleteJobsFromWaitGroupResponse) {}
   rpc ListWaitGroupCompletedJobs(ListWaitGroupCompletedJobsRequest) returns (ListWaitGroupCompletedJobsResponse) {}
   rpc WaitForWaitGroup(WaitForWaitGroupRequest) returns (WaitForWaitGroupResponse) {}
@@ -96,6 +95,7 @@ message UpdateNamespaceRequest {
   string namespace_name = 1;
   string description = 2;
   map<string, string> metadata = 3;
+  uint64 expected_version = 4;
 }
 
 message UpdateNamespaceResponse {
@@ -165,6 +165,7 @@ message UpdateSemaphoreRequest {
   string description = 3;
   uint64 permits = 4;
   map<string, string> metadata = 5;
+  uint64 expected_version = 6;
 }
 
 message UpdateSemaphoreResponse {
@@ -287,6 +288,7 @@ message UpdateWaitGroupRequest {
   uint64 counter = 4;
   int64 expires_at = 5;
   map<string, string> metadata = 6;
+  uint64 expected_version = 7;
 }
 
 message UpdateWaitGroupResponse {
@@ -320,16 +322,6 @@ message DeleteWaitGroupRequest {
 }
 
 message DeleteWaitGroupResponse {}
-
-message AddJobsToWaitGroupRequest {
-  string namespace_name = 1;
-  string wait_group_name = 2;
-  uint64 counter = 3;
-}
-
-message AddJobsToWaitGroupResponse {
-  WaitGroup wait_group = 1;
-}
 
 message CompleteJobsFromWaitGroupRequest {
   string namespace_name = 1;
@@ -504,9 +496,10 @@ message LockHolder {
 }
 
 enum LockState {
-  UNLOCKED = 0;
-  SHARED_LOCKED = 1;
-  EXCLUSIVE_LOCKED = 2;
+  INVALID = 0;
+  UNLOCKED = 1;
+  SHARED_LOCKED = 2;
+  EXCLUSIVE_LOCKED = 3;
 }
 
 message Namespace {
@@ -565,6 +558,7 @@ message UpdateBarrierRequest {
   string description = 3;
   uint64 expected_processes = 4;
   map<string, string> metadata = 5;
+  uint64 expected_version = 6;
 }
 
 message UpdateBarrierResponse {
