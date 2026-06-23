@@ -259,6 +259,7 @@ message Semaphore {
   uint64 active_holds = 7;
   uint64 active_holders_count = 8;
   map<string, string> metadata = 9;
+  int64 last_activity_at = 10;
 }
 
 message SemaphoreHolder {
@@ -275,6 +276,7 @@ message CreateWaitGroupRequest {
   uint64 counter = 4;
   int64 expires_at = 5;
   map<string, string> metadata = 6;
+  int64 delete_after_finished_seconds = 7;
 }
 
 message CreateWaitGroupResponse {
@@ -289,6 +291,7 @@ message UpdateWaitGroupRequest {
   int64 expires_at = 5;
   map<string, string> metadata = 6;
   uint64 expected_version = 7;
+  int64 delete_after_finished_seconds = 8;
 }
 
 message UpdateWaitGroupResponse {
@@ -371,8 +374,23 @@ message WaitGroup {
   uint64 version = 5;
   int64 expires_at = 6;
   uint64 counter = 7;
-  uint64 completed = 8;
+  uint64 completed_jobs = 8;
   map<string, string> metadata = 9;
+  WaitGroupStatus status = 10;
+  int64 delete_after_finished_seconds = 11;
+  int64 finished_at = 12;
+  int64 last_activity_at = 13;
+}
+
+// WaitGroupStatus is the lifecycle state of a wait group. A wait group starts
+// ACTIVE, becomes COMPLETED once all jobs are completed, or EXPIRED once
+// expires_at passes while still active. Finished (COMPLETED or EXPIRED) wait
+// groups are deleted automatically once delete_after_finished_seconds elapses.
+enum WaitGroupStatus {
+  WAIT_GROUP_STATUS_INVALID = 0;
+  WAIT_GROUP_STATUS_ACTIVE = 1;
+  WAIT_GROUP_STATUS_EXPIRED = 2;
+  WAIT_GROUP_STATUS_COMPLETED = 3;
 }
 
 message WaitGroupJob {
@@ -487,6 +505,7 @@ message Lock {
   LockState state = 2;
   int64 locked_at = 3;
   repeated LockHolder lock_holders = 4;
+  int64 last_activity_at = 5;
 }
 
 message LockHolder {
@@ -496,10 +515,10 @@ message LockHolder {
 }
 
 enum LockState {
-  INVALID = 0;
-  UNLOCKED = 1;
-  SHARED_LOCKED = 2;
-  EXCLUSIVE_LOCKED = 3;
+  LOCK_STATE_INVALID = 0;
+  LOCK_STATE_UNLOCKED = 1;
+  LOCK_STATE_SHARED_LOCKED = 2;
+  LOCK_STATE_EXCLUSIVE_LOCKED = 3;
 }
 
 message Namespace {
@@ -516,7 +535,7 @@ message CreateBarrierRequest {
   string barrier_name = 2;
   string description = 3;
   uint64 expected_processes = 4;
-  int64 expires_at = 8;
+  int64 delete_inactive_after_seconds = 8;
   map<string, string> metadata = 9;
 }
 
@@ -559,6 +578,7 @@ message UpdateBarrierRequest {
   uint64 expected_processes = 4;
   map<string, string> metadata = 5;
   uint64 expected_version = 6;
+  int64 delete_inactive_after_seconds = 7;
 }
 
 message UpdateBarrierResponse {
@@ -617,6 +637,8 @@ message Barrier {
   int64 updated_at = 7;
   uint64 version = 8;
   map<string, string> metadata = 9;
+  int64 last_activity_at = 10;
+  int64 delete_inactive_after_seconds = 11;
 }
 
 message BarrierParticipant {

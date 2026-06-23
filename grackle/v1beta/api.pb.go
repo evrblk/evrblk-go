@@ -21,28 +21,84 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// WaitGroupStatus is the lifecycle state of a wait group. A wait group starts
+// ACTIVE, becomes COMPLETED once all jobs are completed, or EXPIRED once
+// expires_at passes while still active. Finished (COMPLETED or EXPIRED) wait
+// groups are deleted automatically once delete_after_finished_seconds elapses.
+type WaitGroupStatus int32
+
+const (
+	WaitGroupStatus_WAIT_GROUP_STATUS_INVALID   WaitGroupStatus = 0
+	WaitGroupStatus_WAIT_GROUP_STATUS_ACTIVE    WaitGroupStatus = 1
+	WaitGroupStatus_WAIT_GROUP_STATUS_EXPIRED   WaitGroupStatus = 2
+	WaitGroupStatus_WAIT_GROUP_STATUS_COMPLETED WaitGroupStatus = 3
+)
+
+// Enum value maps for WaitGroupStatus.
+var (
+	WaitGroupStatus_name = map[int32]string{
+		0: "WAIT_GROUP_STATUS_INVALID",
+		1: "WAIT_GROUP_STATUS_ACTIVE",
+		2: "WAIT_GROUP_STATUS_EXPIRED",
+		3: "WAIT_GROUP_STATUS_COMPLETED",
+	}
+	WaitGroupStatus_value = map[string]int32{
+		"WAIT_GROUP_STATUS_INVALID":   0,
+		"WAIT_GROUP_STATUS_ACTIVE":    1,
+		"WAIT_GROUP_STATUS_EXPIRED":   2,
+		"WAIT_GROUP_STATUS_COMPLETED": 3,
+	}
+)
+
+func (x WaitGroupStatus) Enum() *WaitGroupStatus {
+	p := new(WaitGroupStatus)
+	*p = x
+	return p
+}
+
+func (x WaitGroupStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (WaitGroupStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_grackle_v1beta_api_proto_enumTypes[0].Descriptor()
+}
+
+func (WaitGroupStatus) Type() protoreflect.EnumType {
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[0]
+}
+
+func (x WaitGroupStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WaitGroupStatus.Descriptor instead.
+func (WaitGroupStatus) EnumDescriptor() ([]byte, []int) {
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{0}
+}
+
 type LockState int32
 
 const (
-	LockState_INVALID          LockState = 0
-	LockState_UNLOCKED         LockState = 1
-	LockState_SHARED_LOCKED    LockState = 2
-	LockState_EXCLUSIVE_LOCKED LockState = 3
+	LockState_LOCK_STATE_INVALID          LockState = 0
+	LockState_LOCK_STATE_UNLOCKED         LockState = 1
+	LockState_LOCK_STATE_SHARED_LOCKED    LockState = 2
+	LockState_LOCK_STATE_EXCLUSIVE_LOCKED LockState = 3
 )
 
 // Enum value maps for LockState.
 var (
 	LockState_name = map[int32]string{
-		0: "INVALID",
-		1: "UNLOCKED",
-		2: "SHARED_LOCKED",
-		3: "EXCLUSIVE_LOCKED",
+		0: "LOCK_STATE_INVALID",
+		1: "LOCK_STATE_UNLOCKED",
+		2: "LOCK_STATE_SHARED_LOCKED",
+		3: "LOCK_STATE_EXCLUSIVE_LOCKED",
 	}
 	LockState_value = map[string]int32{
-		"INVALID":          0,
-		"UNLOCKED":         1,
-		"SHARED_LOCKED":    2,
-		"EXCLUSIVE_LOCKED": 3,
+		"LOCK_STATE_INVALID":          0,
+		"LOCK_STATE_UNLOCKED":         1,
+		"LOCK_STATE_SHARED_LOCKED":    2,
+		"LOCK_STATE_EXCLUSIVE_LOCKED": 3,
 	}
 )
 
@@ -57,11 +113,11 @@ func (x LockState) String() string {
 }
 
 func (LockState) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_grackle_v1beta_api_proto_enumTypes[0].Descriptor()
+	return file_proto_grackle_v1beta_api_proto_enumTypes[1].Descriptor()
 }
 
 func (LockState) Type() protoreflect.EnumType {
-	return &file_proto_grackle_v1beta_api_proto_enumTypes[0]
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[1]
 }
 
 func (x LockState) Number() protoreflect.EnumNumber {
@@ -70,7 +126,7 @@ func (x LockState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LockState.Descriptor instead.
 func (LockState) EnumDescriptor() ([]byte, []int) {
-	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{1}
 }
 
 type CreateNamespaceRequest struct {
@@ -2096,6 +2152,7 @@ type Semaphore struct {
 	ActiveHolds        uint64                 `protobuf:"varint,7,opt,name=active_holds,json=activeHolds,proto3" json:"active_holds,omitempty"`
 	ActiveHoldersCount uint64                 `protobuf:"varint,8,opt,name=active_holders_count,json=activeHoldersCount,proto3" json:"active_holders_count,omitempty"`
 	Metadata           map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	LastActivityAt     int64                  `protobuf:"varint,10,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -2193,6 +2250,13 @@ func (x *Semaphore) GetMetadata() map[string]string {
 	return nil
 }
 
+func (x *Semaphore) GetLastActivityAt() int64 {
+	if x != nil {
+		return x.LastActivityAt
+	}
+	return 0
+}
+
 type SemaphoreHolder struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	LeaseId       string                 `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
@@ -2262,15 +2326,16 @@ func (x *SemaphoreHolder) GetMetadata() map[string]string {
 }
 
 type CreateWaitGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	WaitGroupName string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Counter       uint64                 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
-	ExpiresAt     int64                  `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                      protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	WaitGroupName              string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
+	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Counter                    uint64                 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
+	ExpiresAt                  int64                  `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	Metadata                   map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	DeleteAfterFinishedSeconds int64                  `protobuf:"varint,7,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *CreateWaitGroupRequest) Reset() {
@@ -2345,6 +2410,13 @@ func (x *CreateWaitGroupRequest) GetMetadata() map[string]string {
 	return nil
 }
 
+func (x *CreateWaitGroupRequest) GetDeleteAfterFinishedSeconds() int64 {
+	if x != nil {
+		return x.DeleteAfterFinishedSeconds
+	}
+	return 0
+}
+
 type CreateWaitGroupResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
@@ -2390,16 +2462,17 @@ func (x *CreateWaitGroupResponse) GetWaitGroup() *WaitGroup {
 }
 
 type UpdateWaitGroupRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName   string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	WaitGroupName   string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
-	Description     string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Counter         uint64                 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
-	ExpiresAt       int64                  `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Metadata        map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExpectedVersion uint64                 `protobuf:"varint,7,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state                      protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	WaitGroupName              string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
+	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Counter                    uint64                 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
+	ExpiresAt                  int64                  `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	Metadata                   map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ExpectedVersion            uint64                 `protobuf:"varint,7,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	DeleteAfterFinishedSeconds int64                  `protobuf:"varint,8,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *UpdateWaitGroupRequest) Reset() {
@@ -2477,6 +2550,13 @@ func (x *UpdateWaitGroupRequest) GetMetadata() map[string]string {
 func (x *UpdateWaitGroupRequest) GetExpectedVersion() uint64 {
 	if x != nil {
 		return x.ExpectedVersion
+	}
+	return 0
+}
+
+func (x *UpdateWaitGroupRequest) GetDeleteAfterFinishedSeconds() int64 {
+	if x != nil {
+		return x.DeleteAfterFinishedSeconds
 	}
 	return 0
 }
@@ -3234,18 +3314,22 @@ func (x *WaitForWaitGroupResponse) GetTimedOut() bool {
 }
 
 type WaitGroup struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     int64                  `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version       uint64                 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
-	ExpiresAt     int64                  `protobuf:"varint,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Counter       uint64                 `protobuf:"varint,7,opt,name=counter,proto3" json:"counter,omitempty"`
-	Completed     uint64                 `protobuf:"varint,8,opt,name=completed,proto3" json:"completed,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                      protoimpl.MessageState `protogen:"open.v1"`
+	Name                       string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description                string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt                  int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt                  int64                  `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Version                    uint64                 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
+	ExpiresAt                  int64                  `protobuf:"varint,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	Counter                    uint64                 `protobuf:"varint,7,opt,name=counter,proto3" json:"counter,omitempty"`
+	CompletedJobs              uint64                 `protobuf:"varint,8,opt,name=completed_jobs,json=completedJobs,proto3" json:"completed_jobs,omitempty"`
+	Metadata                   map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Status                     WaitGroupStatus        `protobuf:"varint,10,opt,name=status,proto3,enum=com.evrblk.grackle.v1beta.WaitGroupStatus" json:"status,omitempty"`
+	DeleteAfterFinishedSeconds int64                  `protobuf:"varint,11,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
+	FinishedAt                 int64                  `protobuf:"varint,12,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty"`
+	LastActivityAt             int64                  `protobuf:"varint,13,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *WaitGroup) Reset() {
@@ -3327,9 +3411,9 @@ func (x *WaitGroup) GetCounter() uint64 {
 	return 0
 }
 
-func (x *WaitGroup) GetCompleted() uint64 {
+func (x *WaitGroup) GetCompletedJobs() uint64 {
 	if x != nil {
-		return x.Completed
+		return x.CompletedJobs
 	}
 	return 0
 }
@@ -3339,6 +3423,34 @@ func (x *WaitGroup) GetMetadata() map[string]string {
 		return x.Metadata
 	}
 	return nil
+}
+
+func (x *WaitGroup) GetStatus() WaitGroupStatus {
+	if x != nil {
+		return x.Status
+	}
+	return WaitGroupStatus_WAIT_GROUP_STATUS_INVALID
+}
+
+func (x *WaitGroup) GetDeleteAfterFinishedSeconds() int64 {
+	if x != nil {
+		return x.DeleteAfterFinishedSeconds
+	}
+	return 0
+}
+
+func (x *WaitGroup) GetFinishedAt() int64 {
+	if x != nil {
+		return x.FinishedAt
+	}
+	return 0
+}
+
+func (x *WaitGroup) GetLastActivityAt() int64 {
+	if x != nil {
+		return x.LastActivityAt
+	}
+	return 0
 }
 
 type WaitGroupJob struct {
@@ -4466,13 +4578,14 @@ func (x *GetLockLeaseResponse) GetLease() *Lease {
 }
 
 type Lock struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	State         LockState              `protobuf:"varint,2,opt,name=state,proto3,enum=com.evrblk.grackle.v1beta.LockState" json:"state,omitempty"`
-	LockedAt      int64                  `protobuf:"varint,3,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
-	LockHolders   []*LockHolder          `protobuf:"bytes,4,rep,name=lock_holders,json=lockHolders,proto3" json:"lock_holders,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	State          LockState              `protobuf:"varint,2,opt,name=state,proto3,enum=com.evrblk.grackle.v1beta.LockState" json:"state,omitempty"`
+	LockedAt       int64                  `protobuf:"varint,3,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
+	LockHolders    []*LockHolder          `protobuf:"bytes,4,rep,name=lock_holders,json=lockHolders,proto3" json:"lock_holders,omitempty"`
+	LastActivityAt int64                  `protobuf:"varint,5,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Lock) Reset() {
@@ -4516,7 +4629,7 @@ func (x *Lock) GetState() LockState {
 	if x != nil {
 		return x.State
 	}
-	return LockState_INVALID
+	return LockState_LOCK_STATE_INVALID
 }
 
 func (x *Lock) GetLockedAt() int64 {
@@ -4531,6 +4644,13 @@ func (x *Lock) GetLockHolders() []*LockHolder {
 		return x.LockHolders
 	}
 	return nil
+}
+
+func (x *Lock) GetLastActivityAt() int64 {
+	if x != nil {
+		return x.LastActivityAt
+	}
+	return 0
 }
 
 type LockHolder struct {
@@ -4678,15 +4798,15 @@ func (x *Namespace) GetMetadata() map[string]string {
 }
 
 type CreateBarrierRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName     string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName       string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	ExpectedProcesses uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
-	ExpiresAt         int64                  `protobuf:"varint,8,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Metadata          map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state                      protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName                string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	ExpectedProcesses          uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	DeleteInactiveAfterSeconds int64                  `protobuf:"varint,8,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
+	Metadata                   map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *CreateBarrierRequest) Reset() {
@@ -4747,9 +4867,9 @@ func (x *CreateBarrierRequest) GetExpectedProcesses() uint64 {
 	return 0
 }
 
-func (x *CreateBarrierRequest) GetExpiresAt() int64 {
+func (x *CreateBarrierRequest) GetDeleteInactiveAfterSeconds() int64 {
 	if x != nil {
-		return x.ExpiresAt
+		return x.DeleteInactiveAfterSeconds
 	}
 	return 0
 }
@@ -5110,15 +5230,16 @@ func (*DeleteBarrierResponse) Descriptor() ([]byte, []int) {
 }
 
 type UpdateBarrierRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName     string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName       string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	ExpectedProcesses uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
-	Metadata          map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExpectedVersion   uint64                 `protobuf:"varint,6,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state                      protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName                string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	ExpectedProcesses          uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	Metadata                   map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ExpectedVersion            uint64                 `protobuf:"varint,6,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	DeleteInactiveAfterSeconds int64                  `protobuf:"varint,7,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *UpdateBarrierRequest) Reset() {
@@ -5189,6 +5310,13 @@ func (x *UpdateBarrierRequest) GetMetadata() map[string]string {
 func (x *UpdateBarrierRequest) GetExpectedVersion() uint64 {
 	if x != nil {
 		return x.ExpectedVersion
+	}
+	return 0
+}
+
+func (x *UpdateBarrierRequest) GetDeleteInactiveAfterSeconds() int64 {
+	if x != nil {
+		return x.DeleteInactiveAfterSeconds
 	}
 	return 0
 }
@@ -5646,18 +5774,20 @@ func (x *ListBarrierParticipantsResponse) GetPreviousPaginationToken() string {
 }
 
 type Barrier struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Name              string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description       string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	ExpectedProcesses uint64                 `protobuf:"varint,3,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
-	ArrivedProcesses  uint64                 `protobuf:"varint,4,opt,name=arrived_processes,json=arrivedProcesses,proto3" json:"arrived_processes,omitempty"`
-	Generation        uint64                 `protobuf:"varint,5,opt,name=generation,proto3" json:"generation,omitempty"`
-	CreatedAt         int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt         int64                  `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version           uint64                 `protobuf:"varint,8,opt,name=version,proto3" json:"version,omitempty"`
-	Metadata          map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state                      protoimpl.MessageState `protogen:"open.v1"`
+	Name                       string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description                string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	ExpectedProcesses          uint64                 `protobuf:"varint,3,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	ArrivedProcesses           uint64                 `protobuf:"varint,4,opt,name=arrived_processes,json=arrivedProcesses,proto3" json:"arrived_processes,omitempty"`
+	Generation                 uint64                 `protobuf:"varint,5,opt,name=generation,proto3" json:"generation,omitempty"`
+	CreatedAt                  int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt                  int64                  `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Version                    uint64                 `protobuf:"varint,8,opt,name=version,proto3" json:"version,omitempty"`
+	Metadata                   map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	LastActivityAt             int64                  `protobuf:"varint,10,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	DeleteInactiveAfterSeconds int64                  `protobuf:"varint,11,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *Barrier) Reset() {
@@ -5751,6 +5881,20 @@ func (x *Barrier) GetMetadata() map[string]string {
 		return x.Metadata
 	}
 	return nil
+}
+
+func (x *Barrier) GetLastActivityAt() int64 {
+	if x != nil {
+		return x.LastActivityAt
+	}
+	return 0
+}
+
+func (x *Barrier) GetDeleteInactiveAfterSeconds() int64 {
+	if x != nil {
+		return x.DeleteInactiveAfterSeconds
+	}
+	return 0
 }
 
 type BarrierParticipant struct {
@@ -5970,7 +6114,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x05 \x03(\v2..com.evrblk.grackle.v1beta.Lease.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x95\x03\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbf\x03\n" +
 	"\tSemaphore\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -5982,7 +6126,9 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\apermits\x18\x06 \x01(\x04R\apermits\x12!\n" +
 	"\factive_holds\x18\a \x01(\x04R\vactiveHolds\x120\n" +
 	"\x14active_holders_count\x18\b \x01(\x04R\x12activeHoldersCount\x12N\n" +
-	"\bmetadata\x18\t \x03(\v22.com.evrblk.grackle.v1beta.Semaphore.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\t \x03(\v22.com.evrblk.grackle.v1beta.Semaphore.MetadataEntryR\bmetadata\x12(\n" +
+	"\x10last_activity_at\x18\n" +
+	" \x01(\x03R\x0elastActivityAt\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf4\x01\n" +
@@ -5993,7 +6139,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x04 \x03(\v28.com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xdc\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x9f\x03\n" +
 	"\x16CreateWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12 \n" +
@@ -6001,13 +6147,14 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\acounter\x18\x04 \x01(\x04R\acounter\x12\x1d\n" +
 	"\n" +
 	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12[\n" +
-	"\bmetadata\x18\x06 \x03(\v2?.com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\x06 \x03(\v2?.com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntryR\bmetadata\x12A\n" +
+	"\x1ddelete_after_finished_seconds\x18\a \x01(\x03R\x1adeleteAfterFinishedSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"^\n" +
 	"\x17CreateWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\x87\x03\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\xca\x03\n" +
 	"\x16UpdateWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12 \n" +
@@ -6016,7 +6163,8 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\n" +
 	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12[\n" +
 	"\bmetadata\x18\x06 \x03(\v2?.com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntryR\bmetadata\x12)\n" +
-	"\x10expected_version\x18\a \x01(\x04R\x0fexpectedVersion\x1a;\n" +
+	"\x10expected_version\x18\a \x01(\x04R\x0fexpectedVersion\x12A\n" +
+	"\x1ddelete_after_finished_seconds\x18\b \x01(\x03R\x1adeleteAfterFinishedSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"^\n" +
@@ -6072,7 +6220,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\n" +
 	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x1c\n" +
 	"\tcompleted\x18\x02 \x01(\bR\tcompleted\x12\x1b\n" +
-	"\ttimed_out\x18\x03 \x01(\bR\btimedOut\"\xfd\x02\n" +
+	"\ttimed_out\x18\x03 \x01(\bR\btimedOut\"\xd8\x04\n" +
 	"\tWaitGroup\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -6083,9 +6231,15 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\aversion\x18\x05 \x01(\x04R\aversion\x12\x1d\n" +
 	"\n" +
 	"expires_at\x18\x06 \x01(\x03R\texpiresAt\x12\x18\n" +
-	"\acounter\x18\a \x01(\x04R\acounter\x12\x1c\n" +
-	"\tcompleted\x18\b \x01(\x04R\tcompleted\x12N\n" +
-	"\bmetadata\x18\t \x03(\v22.com.evrblk.grackle.v1beta.WaitGroup.MetadataEntryR\bmetadata\x1a;\n" +
+	"\acounter\x18\a \x01(\x04R\acounter\x12%\n" +
+	"\x0ecompleted_jobs\x18\b \x01(\x04R\rcompletedJobs\x12N\n" +
+	"\bmetadata\x18\t \x03(\v22.com.evrblk.grackle.v1beta.WaitGroup.MetadataEntryR\bmetadata\x12B\n" +
+	"\x06status\x18\n" +
+	" \x01(\x0e2*.com.evrblk.grackle.v1beta.WaitGroupStatusR\x06status\x12A\n" +
+	"\x1ddelete_after_finished_seconds\x18\v \x01(\x03R\x1adeleteAfterFinishedSeconds\x12\x1f\n" +
+	"\vfinished_at\x18\f \x01(\x03R\n" +
+	"finishedAt\x12(\n" +
+	"\x10last_activity_at\x18\r \x01(\x03R\x0elastActivityAt\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd8\x01\n" +
@@ -6167,12 +6321,13 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\"N\n" +
 	"\x14GetLockLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\xbd\x01\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\xe7\x01\n" +
 	"\x04Lock\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12:\n" +
 	"\x05state\x18\x02 \x01(\x0e2$.com.evrblk.grackle.v1beta.LockStateR\x05state\x12\x1b\n" +
 	"\tlocked_at\x18\x03 \x01(\x03R\blockedAt\x12H\n" +
-	"\flock_holders\x18\x04 \x03(\v2%.com.evrblk.grackle.v1beta.LockHolderR\vlockHolders\"\xd2\x01\n" +
+	"\flock_holders\x18\x04 \x03(\v2%.com.evrblk.grackle.v1beta.LockHolderR\vlockHolders\x12(\n" +
+	"\x10last_activity_at\x18\x05 \x01(\x03R\x0elastActivityAt\"\xd2\x01\n" +
 	"\n" +
 	"LockHolder\x12\x19\n" +
 	"\blease_id\x18\x01 \x01(\tR\aleaseId\x12\x1b\n" +
@@ -6192,14 +6347,13 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x06 \x03(\v22.com.evrblk.grackle.v1beta.Namespace.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe8\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8c\x03\n" +
 	"\x14CreateBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
-	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\x12\x1d\n" +
-	"\n" +
-	"expires_at\x18\b \x01(\x03R\texpiresAt\x12Y\n" +
+	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\x12A\n" +
+	"\x1ddelete_inactive_after_seconds\x18\b \x01(\x03R\x1adeleteInactiveAfterSeconds\x12Y\n" +
 	"\bmetadata\x18\t \x03(\v2=.com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -6222,14 +6376,15 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x14DeleteBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\"\x17\n" +
-	"\x15DeleteBarrierResponse\"\xf4\x02\n" +
+	"\x15DeleteBarrierResponse\"\xb7\x03\n" +
 	"\x14UpdateBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
 	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\x12Y\n" +
 	"\bmetadata\x18\x05 \x03(\v2=.com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntryR\bmetadata\x12)\n" +
-	"\x10expected_version\x18\x06 \x01(\x04R\x0fexpectedVersion\x1a;\n" +
+	"\x10expected_version\x18\x06 \x01(\x04R\x0fexpectedVersion\x12A\n" +
+	"\x1ddelete_inactive_after_seconds\x18\a \x01(\x03R\x1adeleteInactiveAfterSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"U\n" +
@@ -6272,7 +6427,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x1fListBarrierParticipantsResponse\x12Q\n" +
 	"\fparticipants\x18\x01 \x03(\v2-.com.evrblk.grackle.v1beta.BarrierParticipantR\fparticipants\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
-	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\x9e\x03\n" +
+	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\x8b\x04\n" +
 	"\aBarrier\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12-\n" +
@@ -6286,7 +6441,10 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\a \x01(\x03R\tupdatedAt\x12\x18\n" +
 	"\aversion\x18\b \x01(\x04R\aversion\x12L\n" +
-	"\bmetadata\x18\t \x03(\v20.com.evrblk.grackle.v1beta.Barrier.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\t \x03(\v20.com.evrblk.grackle.v1beta.Barrier.MetadataEntryR\bmetadata\x12(\n" +
+	"\x10last_activity_at\x18\n" +
+	" \x01(\x03R\x0elastActivityAt\x12A\n" +
+	"\x1ddelete_inactive_after_seconds\x18\v \x01(\x03R\x1adeleteInactiveAfterSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe8\x01\n" +
@@ -6298,12 +6456,17 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x03 \x03(\v2;.com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*O\n" +
-	"\tLockState\x12\v\n" +
-	"\aINVALID\x10\x00\x12\f\n" +
-	"\bUNLOCKED\x10\x01\x12\x11\n" +
-	"\rSHARED_LOCKED\x10\x02\x12\x14\n" +
-	"\x10EXCLUSIVE_LOCKED\x10\x032\xe8*\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\x8e\x01\n" +
+	"\x0fWaitGroupStatus\x12\x1d\n" +
+	"\x19WAIT_GROUP_STATUS_INVALID\x10\x00\x12\x1c\n" +
+	"\x18WAIT_GROUP_STATUS_ACTIVE\x10\x01\x12\x1d\n" +
+	"\x19WAIT_GROUP_STATUS_EXPIRED\x10\x02\x12\x1f\n" +
+	"\x1bWAIT_GROUP_STATUS_COMPLETED\x10\x03*{\n" +
+	"\tLockState\x12\x16\n" +
+	"\x12LOCK_STATE_INVALID\x10\x00\x12\x17\n" +
+	"\x13LOCK_STATE_UNLOCKED\x10\x01\x12\x1c\n" +
+	"\x18LOCK_STATE_SHARED_LOCKED\x10\x02\x12\x1f\n" +
+	"\x1bLOCK_STATE_EXCLUSIVE_LOCKED\x10\x032\xe8*\n" +
 	"\n" +
 	"GrackleApi\x12z\n" +
 	"\x0fCreateNamespace\x121.com.evrblk.grackle.v1beta.CreateNamespaceRequest\x1a2.com.evrblk.grackle.v1beta.CreateNamespaceResponse\"\x00\x12w\n" +
@@ -6365,290 +6528,292 @@ func file_proto_grackle_v1beta_api_proto_rawDescGZIP() []byte {
 	return file_proto_grackle_v1beta_api_proto_rawDescData
 }
 
-var file_proto_grackle_v1beta_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_grackle_v1beta_api_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_proto_grackle_v1beta_api_proto_msgTypes = make([]protoimpl.MessageInfo, 122)
 var file_proto_grackle_v1beta_api_proto_goTypes = []any{
-	(LockState)(0),                             // 0: com.evrblk.grackle.v1beta.LockState
-	(*CreateNamespaceRequest)(nil),             // 1: com.evrblk.grackle.v1beta.CreateNamespaceRequest
-	(*CreateNamespaceResponse)(nil),            // 2: com.evrblk.grackle.v1beta.CreateNamespaceResponse
-	(*ListNamespacesRequest)(nil),              // 3: com.evrblk.grackle.v1beta.ListNamespacesRequest
-	(*ListNamespacesResponse)(nil),             // 4: com.evrblk.grackle.v1beta.ListNamespacesResponse
-	(*GetNamespaceRequest)(nil),                // 5: com.evrblk.grackle.v1beta.GetNamespaceRequest
-	(*GetNamespaceResponse)(nil),               // 6: com.evrblk.grackle.v1beta.GetNamespaceResponse
-	(*DeleteNamespaceRequest)(nil),             // 7: com.evrblk.grackle.v1beta.DeleteNamespaceRequest
-	(*DeleteNamespaceResponse)(nil),            // 8: com.evrblk.grackle.v1beta.DeleteNamespaceResponse
-	(*UpdateNamespaceRequest)(nil),             // 9: com.evrblk.grackle.v1beta.UpdateNamespaceRequest
-	(*UpdateNamespaceResponse)(nil),            // 10: com.evrblk.grackle.v1beta.UpdateNamespaceResponse
-	(*CreateSemaphoreRequest)(nil),             // 11: com.evrblk.grackle.v1beta.CreateSemaphoreRequest
-	(*CreateSemaphoreResponse)(nil),            // 12: com.evrblk.grackle.v1beta.CreateSemaphoreResponse
-	(*ListSemaphoresRequest)(nil),              // 13: com.evrblk.grackle.v1beta.ListSemaphoresRequest
-	(*ListSemaphoresResponse)(nil),             // 14: com.evrblk.grackle.v1beta.ListSemaphoresResponse
-	(*GetSemaphoreRequest)(nil),                // 15: com.evrblk.grackle.v1beta.GetSemaphoreRequest
-	(*GetSemaphoreResponse)(nil),               // 16: com.evrblk.grackle.v1beta.GetSemaphoreResponse
-	(*AcquireSemaphoreRequest)(nil),            // 17: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
-	(*AcquireSemaphoreResponse)(nil),           // 18: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
-	(*ReleaseSemaphoreRequest)(nil),            // 19: com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
-	(*ReleaseSemaphoreResponse)(nil),           // 20: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
-	(*UpdateSemaphoreRequest)(nil),             // 21: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
-	(*UpdateSemaphoreResponse)(nil),            // 22: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
-	(*DeleteSemaphoreRequest)(nil),             // 23: com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
-	(*DeleteSemaphoreResponse)(nil),            // 24: com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
-	(*ListSemaphoreHoldersRequest)(nil),        // 25: com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
-	(*ListSemaphoreHoldersResponse)(nil),       // 26: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
-	(*CreateSemaphoreLeaseRequest)(nil),        // 27: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
-	(*CreateSemaphoreLeaseResponse)(nil),       // 28: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
-	(*RevokeSemaphoreLeaseRequest)(nil),        // 29: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
-	(*RevokeSemaphoreLeaseResponse)(nil),       // 30: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
-	(*RefreshSemaphoreLeaseRequest)(nil),       // 31: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
-	(*RefreshSemaphoreLeaseResponse)(nil),      // 32: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
-	(*ListSemaphoreLeasesRequest)(nil),         // 33: com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
-	(*ListSemaphoreLeasesResponse)(nil),        // 34: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
-	(*GetSemaphoreLeaseRequest)(nil),           // 35: com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
-	(*GetSemaphoreLeaseResponse)(nil),          // 36: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
-	(*Lease)(nil),                              // 37: com.evrblk.grackle.v1beta.Lease
-	(*Semaphore)(nil),                          // 38: com.evrblk.grackle.v1beta.Semaphore
-	(*SemaphoreHolder)(nil),                    // 39: com.evrblk.grackle.v1beta.SemaphoreHolder
-	(*CreateWaitGroupRequest)(nil),             // 40: com.evrblk.grackle.v1beta.CreateWaitGroupRequest
-	(*CreateWaitGroupResponse)(nil),            // 41: com.evrblk.grackle.v1beta.CreateWaitGroupResponse
-	(*UpdateWaitGroupRequest)(nil),             // 42: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
-	(*UpdateWaitGroupResponse)(nil),            // 43: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
-	(*ListWaitGroupsRequest)(nil),              // 44: com.evrblk.grackle.v1beta.ListWaitGroupsRequest
-	(*ListWaitGroupsResponse)(nil),             // 45: com.evrblk.grackle.v1beta.ListWaitGroupsResponse
-	(*GetWaitGroupRequest)(nil),                // 46: com.evrblk.grackle.v1beta.GetWaitGroupRequest
-	(*GetWaitGroupResponse)(nil),               // 47: com.evrblk.grackle.v1beta.GetWaitGroupResponse
-	(*DeleteWaitGroupRequest)(nil),             // 48: com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
-	(*DeleteWaitGroupResponse)(nil),            // 49: com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
-	(*CompleteJobsFromWaitGroupRequest)(nil),   // 50: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
-	(*CompleteJobRequest)(nil),                 // 51: com.evrblk.grackle.v1beta.CompleteJobRequest
-	(*CompleteJobsFromWaitGroupResponse)(nil),  // 52: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
-	(*ListWaitGroupCompletedJobsRequest)(nil),  // 53: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
-	(*ListWaitGroupCompletedJobsResponse)(nil), // 54: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
-	(*WaitForWaitGroupRequest)(nil),            // 55: com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
-	(*WaitForWaitGroupResponse)(nil),           // 56: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
-	(*WaitGroup)(nil),                          // 57: com.evrblk.grackle.v1beta.WaitGroup
-	(*WaitGroupJob)(nil),                       // 58: com.evrblk.grackle.v1beta.WaitGroupJob
-	(*AcquireLockRequest)(nil),                 // 59: com.evrblk.grackle.v1beta.AcquireLockRequest
-	(*AcquireLockResponse)(nil),                // 60: com.evrblk.grackle.v1beta.AcquireLockResponse
-	(*ReleaseLockRequest)(nil),                 // 61: com.evrblk.grackle.v1beta.ReleaseLockRequest
-	(*ReleaseLockResponse)(nil),                // 62: com.evrblk.grackle.v1beta.ReleaseLockResponse
-	(*GetLockRequest)(nil),                     // 63: com.evrblk.grackle.v1beta.GetLockRequest
-	(*GetLockResponse)(nil),                    // 64: com.evrblk.grackle.v1beta.GetLockResponse
-	(*DeleteLockRequest)(nil),                  // 65: com.evrblk.grackle.v1beta.DeleteLockRequest
-	(*DeleteLockResponse)(nil),                 // 66: com.evrblk.grackle.v1beta.DeleteLockResponse
-	(*ListLocksRequest)(nil),                   // 67: com.evrblk.grackle.v1beta.ListLocksRequest
-	(*ListLocksResponse)(nil),                  // 68: com.evrblk.grackle.v1beta.ListLocksResponse
-	(*CreateLockLeaseRequest)(nil),             // 69: com.evrblk.grackle.v1beta.CreateLockLeaseRequest
-	(*CreateLockLeaseResponse)(nil),            // 70: com.evrblk.grackle.v1beta.CreateLockLeaseResponse
-	(*RevokeLockLeaseRequest)(nil),             // 71: com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
-	(*RevokeLockLeaseResponse)(nil),            // 72: com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
-	(*RefreshLockLeaseRequest)(nil),            // 73: com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
-	(*RefreshLockLeaseResponse)(nil),           // 74: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
-	(*ListLockLeasesRequest)(nil),              // 75: com.evrblk.grackle.v1beta.ListLockLeasesRequest
-	(*ListLockLeasesResponse)(nil),             // 76: com.evrblk.grackle.v1beta.ListLockLeasesResponse
-	(*GetLockLeaseRequest)(nil),                // 77: com.evrblk.grackle.v1beta.GetLockLeaseRequest
-	(*GetLockLeaseResponse)(nil),               // 78: com.evrblk.grackle.v1beta.GetLockLeaseResponse
-	(*Lock)(nil),                               // 79: com.evrblk.grackle.v1beta.Lock
-	(*LockHolder)(nil),                         // 80: com.evrblk.grackle.v1beta.LockHolder
-	(*Namespace)(nil),                          // 81: com.evrblk.grackle.v1beta.Namespace
-	(*CreateBarrierRequest)(nil),               // 82: com.evrblk.grackle.v1beta.CreateBarrierRequest
-	(*CreateBarrierResponse)(nil),              // 83: com.evrblk.grackle.v1beta.CreateBarrierResponse
-	(*ListBarriersRequest)(nil),                // 84: com.evrblk.grackle.v1beta.ListBarriersRequest
-	(*ListBarriersResponse)(nil),               // 85: com.evrblk.grackle.v1beta.ListBarriersResponse
-	(*GetBarrierRequest)(nil),                  // 86: com.evrblk.grackle.v1beta.GetBarrierRequest
-	(*GetBarrierResponse)(nil),                 // 87: com.evrblk.grackle.v1beta.GetBarrierResponse
-	(*DeleteBarrierRequest)(nil),               // 88: com.evrblk.grackle.v1beta.DeleteBarrierRequest
-	(*DeleteBarrierResponse)(nil),              // 89: com.evrblk.grackle.v1beta.DeleteBarrierResponse
-	(*UpdateBarrierRequest)(nil),               // 90: com.evrblk.grackle.v1beta.UpdateBarrierRequest
-	(*UpdateBarrierResponse)(nil),              // 91: com.evrblk.grackle.v1beta.UpdateBarrierResponse
-	(*ArriveAtBarrierRequest)(nil),             // 92: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
-	(*ArriveAtBarrierResponse)(nil),            // 93: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
-	(*WaitAtBarrierRequest)(nil),               // 94: com.evrblk.grackle.v1beta.WaitAtBarrierRequest
-	(*WaitAtBarrierResponse)(nil),              // 95: com.evrblk.grackle.v1beta.WaitAtBarrierResponse
-	(*ListBarrierParticipantsRequest)(nil),     // 96: com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
-	(*ListBarrierParticipantsResponse)(nil),    // 97: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
-	(*Barrier)(nil),                            // 98: com.evrblk.grackle.v1beta.Barrier
-	(*BarrierParticipant)(nil),                 // 99: com.evrblk.grackle.v1beta.BarrierParticipant
-	nil,                                        // 100: com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
-	nil,                                        // 101: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
-	nil,                                        // 102: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
-	nil,                                        // 103: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
-	nil,                                        // 104: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
-	nil,                                        // 105: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
-	nil,                                        // 106: com.evrblk.grackle.v1beta.Lease.MetadataEntry
-	nil,                                        // 107: com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
-	nil,                                        // 108: com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
-	nil,                                        // 109: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
-	nil,                                        // 110: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
-	nil,                                        // 111: com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
-	nil,                                        // 112: com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
-	nil,                                        // 113: com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
-	nil,                                        // 114: com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
-	nil,                                        // 115: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
-	nil,                                        // 116: com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
-	nil,                                        // 117: com.evrblk.grackle.v1beta.Namespace.MetadataEntry
-	nil,                                        // 118: com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
-	nil,                                        // 119: com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
-	nil,                                        // 120: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
-	nil,                                        // 121: com.evrblk.grackle.v1beta.Barrier.MetadataEntry
-	nil,                                        // 122: com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
+	(WaitGroupStatus)(0),                       // 0: com.evrblk.grackle.v1beta.WaitGroupStatus
+	(LockState)(0),                             // 1: com.evrblk.grackle.v1beta.LockState
+	(*CreateNamespaceRequest)(nil),             // 2: com.evrblk.grackle.v1beta.CreateNamespaceRequest
+	(*CreateNamespaceResponse)(nil),            // 3: com.evrblk.grackle.v1beta.CreateNamespaceResponse
+	(*ListNamespacesRequest)(nil),              // 4: com.evrblk.grackle.v1beta.ListNamespacesRequest
+	(*ListNamespacesResponse)(nil),             // 5: com.evrblk.grackle.v1beta.ListNamespacesResponse
+	(*GetNamespaceRequest)(nil),                // 6: com.evrblk.grackle.v1beta.GetNamespaceRequest
+	(*GetNamespaceResponse)(nil),               // 7: com.evrblk.grackle.v1beta.GetNamespaceResponse
+	(*DeleteNamespaceRequest)(nil),             // 8: com.evrblk.grackle.v1beta.DeleteNamespaceRequest
+	(*DeleteNamespaceResponse)(nil),            // 9: com.evrblk.grackle.v1beta.DeleteNamespaceResponse
+	(*UpdateNamespaceRequest)(nil),             // 10: com.evrblk.grackle.v1beta.UpdateNamespaceRequest
+	(*UpdateNamespaceResponse)(nil),            // 11: com.evrblk.grackle.v1beta.UpdateNamespaceResponse
+	(*CreateSemaphoreRequest)(nil),             // 12: com.evrblk.grackle.v1beta.CreateSemaphoreRequest
+	(*CreateSemaphoreResponse)(nil),            // 13: com.evrblk.grackle.v1beta.CreateSemaphoreResponse
+	(*ListSemaphoresRequest)(nil),              // 14: com.evrblk.grackle.v1beta.ListSemaphoresRequest
+	(*ListSemaphoresResponse)(nil),             // 15: com.evrblk.grackle.v1beta.ListSemaphoresResponse
+	(*GetSemaphoreRequest)(nil),                // 16: com.evrblk.grackle.v1beta.GetSemaphoreRequest
+	(*GetSemaphoreResponse)(nil),               // 17: com.evrblk.grackle.v1beta.GetSemaphoreResponse
+	(*AcquireSemaphoreRequest)(nil),            // 18: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
+	(*AcquireSemaphoreResponse)(nil),           // 19: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
+	(*ReleaseSemaphoreRequest)(nil),            // 20: com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
+	(*ReleaseSemaphoreResponse)(nil),           // 21: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
+	(*UpdateSemaphoreRequest)(nil),             // 22: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
+	(*UpdateSemaphoreResponse)(nil),            // 23: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
+	(*DeleteSemaphoreRequest)(nil),             // 24: com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
+	(*DeleteSemaphoreResponse)(nil),            // 25: com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
+	(*ListSemaphoreHoldersRequest)(nil),        // 26: com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
+	(*ListSemaphoreHoldersResponse)(nil),       // 27: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
+	(*CreateSemaphoreLeaseRequest)(nil),        // 28: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
+	(*CreateSemaphoreLeaseResponse)(nil),       // 29: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
+	(*RevokeSemaphoreLeaseRequest)(nil),        // 30: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
+	(*RevokeSemaphoreLeaseResponse)(nil),       // 31: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
+	(*RefreshSemaphoreLeaseRequest)(nil),       // 32: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
+	(*RefreshSemaphoreLeaseResponse)(nil),      // 33: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
+	(*ListSemaphoreLeasesRequest)(nil),         // 34: com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
+	(*ListSemaphoreLeasesResponse)(nil),        // 35: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
+	(*GetSemaphoreLeaseRequest)(nil),           // 36: com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
+	(*GetSemaphoreLeaseResponse)(nil),          // 37: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
+	(*Lease)(nil),                              // 38: com.evrblk.grackle.v1beta.Lease
+	(*Semaphore)(nil),                          // 39: com.evrblk.grackle.v1beta.Semaphore
+	(*SemaphoreHolder)(nil),                    // 40: com.evrblk.grackle.v1beta.SemaphoreHolder
+	(*CreateWaitGroupRequest)(nil),             // 41: com.evrblk.grackle.v1beta.CreateWaitGroupRequest
+	(*CreateWaitGroupResponse)(nil),            // 42: com.evrblk.grackle.v1beta.CreateWaitGroupResponse
+	(*UpdateWaitGroupRequest)(nil),             // 43: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
+	(*UpdateWaitGroupResponse)(nil),            // 44: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
+	(*ListWaitGroupsRequest)(nil),              // 45: com.evrblk.grackle.v1beta.ListWaitGroupsRequest
+	(*ListWaitGroupsResponse)(nil),             // 46: com.evrblk.grackle.v1beta.ListWaitGroupsResponse
+	(*GetWaitGroupRequest)(nil),                // 47: com.evrblk.grackle.v1beta.GetWaitGroupRequest
+	(*GetWaitGroupResponse)(nil),               // 48: com.evrblk.grackle.v1beta.GetWaitGroupResponse
+	(*DeleteWaitGroupRequest)(nil),             // 49: com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
+	(*DeleteWaitGroupResponse)(nil),            // 50: com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
+	(*CompleteJobsFromWaitGroupRequest)(nil),   // 51: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
+	(*CompleteJobRequest)(nil),                 // 52: com.evrblk.grackle.v1beta.CompleteJobRequest
+	(*CompleteJobsFromWaitGroupResponse)(nil),  // 53: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
+	(*ListWaitGroupCompletedJobsRequest)(nil),  // 54: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
+	(*ListWaitGroupCompletedJobsResponse)(nil), // 55: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
+	(*WaitForWaitGroupRequest)(nil),            // 56: com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
+	(*WaitForWaitGroupResponse)(nil),           // 57: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
+	(*WaitGroup)(nil),                          // 58: com.evrblk.grackle.v1beta.WaitGroup
+	(*WaitGroupJob)(nil),                       // 59: com.evrblk.grackle.v1beta.WaitGroupJob
+	(*AcquireLockRequest)(nil),                 // 60: com.evrblk.grackle.v1beta.AcquireLockRequest
+	(*AcquireLockResponse)(nil),                // 61: com.evrblk.grackle.v1beta.AcquireLockResponse
+	(*ReleaseLockRequest)(nil),                 // 62: com.evrblk.grackle.v1beta.ReleaseLockRequest
+	(*ReleaseLockResponse)(nil),                // 63: com.evrblk.grackle.v1beta.ReleaseLockResponse
+	(*GetLockRequest)(nil),                     // 64: com.evrblk.grackle.v1beta.GetLockRequest
+	(*GetLockResponse)(nil),                    // 65: com.evrblk.grackle.v1beta.GetLockResponse
+	(*DeleteLockRequest)(nil),                  // 66: com.evrblk.grackle.v1beta.DeleteLockRequest
+	(*DeleteLockResponse)(nil),                 // 67: com.evrblk.grackle.v1beta.DeleteLockResponse
+	(*ListLocksRequest)(nil),                   // 68: com.evrblk.grackle.v1beta.ListLocksRequest
+	(*ListLocksResponse)(nil),                  // 69: com.evrblk.grackle.v1beta.ListLocksResponse
+	(*CreateLockLeaseRequest)(nil),             // 70: com.evrblk.grackle.v1beta.CreateLockLeaseRequest
+	(*CreateLockLeaseResponse)(nil),            // 71: com.evrblk.grackle.v1beta.CreateLockLeaseResponse
+	(*RevokeLockLeaseRequest)(nil),             // 72: com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
+	(*RevokeLockLeaseResponse)(nil),            // 73: com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
+	(*RefreshLockLeaseRequest)(nil),            // 74: com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
+	(*RefreshLockLeaseResponse)(nil),           // 75: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
+	(*ListLockLeasesRequest)(nil),              // 76: com.evrblk.grackle.v1beta.ListLockLeasesRequest
+	(*ListLockLeasesResponse)(nil),             // 77: com.evrblk.grackle.v1beta.ListLockLeasesResponse
+	(*GetLockLeaseRequest)(nil),                // 78: com.evrblk.grackle.v1beta.GetLockLeaseRequest
+	(*GetLockLeaseResponse)(nil),               // 79: com.evrblk.grackle.v1beta.GetLockLeaseResponse
+	(*Lock)(nil),                               // 80: com.evrblk.grackle.v1beta.Lock
+	(*LockHolder)(nil),                         // 81: com.evrblk.grackle.v1beta.LockHolder
+	(*Namespace)(nil),                          // 82: com.evrblk.grackle.v1beta.Namespace
+	(*CreateBarrierRequest)(nil),               // 83: com.evrblk.grackle.v1beta.CreateBarrierRequest
+	(*CreateBarrierResponse)(nil),              // 84: com.evrblk.grackle.v1beta.CreateBarrierResponse
+	(*ListBarriersRequest)(nil),                // 85: com.evrblk.grackle.v1beta.ListBarriersRequest
+	(*ListBarriersResponse)(nil),               // 86: com.evrblk.grackle.v1beta.ListBarriersResponse
+	(*GetBarrierRequest)(nil),                  // 87: com.evrblk.grackle.v1beta.GetBarrierRequest
+	(*GetBarrierResponse)(nil),                 // 88: com.evrblk.grackle.v1beta.GetBarrierResponse
+	(*DeleteBarrierRequest)(nil),               // 89: com.evrblk.grackle.v1beta.DeleteBarrierRequest
+	(*DeleteBarrierResponse)(nil),              // 90: com.evrblk.grackle.v1beta.DeleteBarrierResponse
+	(*UpdateBarrierRequest)(nil),               // 91: com.evrblk.grackle.v1beta.UpdateBarrierRequest
+	(*UpdateBarrierResponse)(nil),              // 92: com.evrblk.grackle.v1beta.UpdateBarrierResponse
+	(*ArriveAtBarrierRequest)(nil),             // 93: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
+	(*ArriveAtBarrierResponse)(nil),            // 94: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
+	(*WaitAtBarrierRequest)(nil),               // 95: com.evrblk.grackle.v1beta.WaitAtBarrierRequest
+	(*WaitAtBarrierResponse)(nil),              // 96: com.evrblk.grackle.v1beta.WaitAtBarrierResponse
+	(*ListBarrierParticipantsRequest)(nil),     // 97: com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
+	(*ListBarrierParticipantsResponse)(nil),    // 98: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
+	(*Barrier)(nil),                            // 99: com.evrblk.grackle.v1beta.Barrier
+	(*BarrierParticipant)(nil),                 // 100: com.evrblk.grackle.v1beta.BarrierParticipant
+	nil,                                        // 101: com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
+	nil,                                        // 102: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
+	nil,                                        // 103: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
+	nil,                                        // 104: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
+	nil,                                        // 105: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
+	nil,                                        // 106: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
+	nil,                                        // 107: com.evrblk.grackle.v1beta.Lease.MetadataEntry
+	nil,                                        // 108: com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
+	nil,                                        // 109: com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
+	nil,                                        // 110: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
+	nil,                                        // 111: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
+	nil,                                        // 112: com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
+	nil,                                        // 113: com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
+	nil,                                        // 114: com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
+	nil,                                        // 115: com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
+	nil,                                        // 116: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
+	nil,                                        // 117: com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
+	nil,                                        // 118: com.evrblk.grackle.v1beta.Namespace.MetadataEntry
+	nil,                                        // 119: com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
+	nil,                                        // 120: com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
+	nil,                                        // 121: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
+	nil,                                        // 122: com.evrblk.grackle.v1beta.Barrier.MetadataEntry
+	nil,                                        // 123: com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
 }
 var file_proto_grackle_v1beta_api_proto_depIdxs = []int32{
-	100, // 0: com.evrblk.grackle.v1beta.CreateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
-	81,  // 1: com.evrblk.grackle.v1beta.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
-	81,  // 2: com.evrblk.grackle.v1beta.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.v1beta.Namespace
-	81,  // 3: com.evrblk.grackle.v1beta.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
-	101, // 4: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
-	81,  // 5: com.evrblk.grackle.v1beta.UpdateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
-	102, // 6: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
-	38,  // 7: com.evrblk.grackle.v1beta.CreateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	38,  // 8: com.evrblk.grackle.v1beta.ListSemaphoresResponse.semaphores:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	38,  // 9: com.evrblk.grackle.v1beta.GetSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	103, // 10: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
-	38,  // 11: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	38,  // 12: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	104, // 13: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
-	38,  // 14: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	39,  // 15: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse.holders:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder
-	105, // 16: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
-	37,  // 17: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	37,  // 18: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	37,  // 19: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
-	37,  // 20: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	106, // 21: com.evrblk.grackle.v1beta.Lease.metadata:type_name -> com.evrblk.grackle.v1beta.Lease.MetadataEntry
-	107, // 22: com.evrblk.grackle.v1beta.Semaphore.metadata:type_name -> com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
-	108, // 23: com.evrblk.grackle.v1beta.SemaphoreHolder.metadata:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
-	109, // 24: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
-	57,  // 25: com.evrblk.grackle.v1beta.CreateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	110, // 26: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
-	57,  // 27: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	57,  // 28: com.evrblk.grackle.v1beta.ListWaitGroupsResponse.wait_groups:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	57,  // 29: com.evrblk.grackle.v1beta.GetWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	51,  // 30: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest.jobs:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest
-	111, // 31: com.evrblk.grackle.v1beta.CompleteJobRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
-	57,  // 32: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	58,  // 33: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse.jobs:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob
-	57,  // 34: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	112, // 35: com.evrblk.grackle.v1beta.WaitGroup.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
-	113, // 36: com.evrblk.grackle.v1beta.WaitGroupJob.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
-	114, // 37: com.evrblk.grackle.v1beta.AcquireLockRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
-	79,  // 38: com.evrblk.grackle.v1beta.AcquireLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
-	79,  // 39: com.evrblk.grackle.v1beta.ReleaseLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
-	79,  // 40: com.evrblk.grackle.v1beta.GetLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
-	79,  // 41: com.evrblk.grackle.v1beta.ListLocksResponse.locks:type_name -> com.evrblk.grackle.v1beta.Lock
-	115, // 42: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
-	37,  // 43: com.evrblk.grackle.v1beta.CreateLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	37,  // 44: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	37,  // 45: com.evrblk.grackle.v1beta.ListLockLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
-	37,  // 46: com.evrblk.grackle.v1beta.GetLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	0,   // 47: com.evrblk.grackle.v1beta.Lock.state:type_name -> com.evrblk.grackle.v1beta.LockState
-	80,  // 48: com.evrblk.grackle.v1beta.Lock.lock_holders:type_name -> com.evrblk.grackle.v1beta.LockHolder
-	116, // 49: com.evrblk.grackle.v1beta.LockHolder.metadata:type_name -> com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
-	117, // 50: com.evrblk.grackle.v1beta.Namespace.metadata:type_name -> com.evrblk.grackle.v1beta.Namespace.MetadataEntry
-	118, // 51: com.evrblk.grackle.v1beta.CreateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
-	98,  // 52: com.evrblk.grackle.v1beta.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	98,  // 53: com.evrblk.grackle.v1beta.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.v1beta.Barrier
-	98,  // 54: com.evrblk.grackle.v1beta.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	119, // 55: com.evrblk.grackle.v1beta.UpdateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
-	98,  // 56: com.evrblk.grackle.v1beta.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	120, // 57: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
-	98,  // 58: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	98,  // 59: com.evrblk.grackle.v1beta.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	99,  // 60: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant
-	121, // 61: com.evrblk.grackle.v1beta.Barrier.metadata:type_name -> com.evrblk.grackle.v1beta.Barrier.MetadataEntry
-	122, // 62: com.evrblk.grackle.v1beta.BarrierParticipant.metadata:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
-	1,   // 63: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:input_type -> com.evrblk.grackle.v1beta.CreateNamespaceRequest
-	3,   // 64: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:input_type -> com.evrblk.grackle.v1beta.ListNamespacesRequest
-	5,   // 65: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:input_type -> com.evrblk.grackle.v1beta.GetNamespaceRequest
-	7,   // 66: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:input_type -> com.evrblk.grackle.v1beta.DeleteNamespaceRequest
-	9,   // 67: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:input_type -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest
-	11,  // 68: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest
-	13,  // 69: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:input_type -> com.evrblk.grackle.v1beta.ListSemaphoresRequest
-	15,  // 70: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreRequest
-	17,  // 71: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:input_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
-	19,  // 72: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
-	21,  // 73: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:input_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
-	23,  // 74: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:input_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
-	25,  // 75: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
-	27,  // 76: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
-	29,  // 77: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
-	31,  // 78: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
-	33,  // 79: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
-	35,  // 80: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
-	40,  // 81: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:input_type -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest
-	42,  // 82: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:input_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
-	44,  // 83: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupsRequest
-	46,  // 84: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:input_type -> com.evrblk.grackle.v1beta.GetWaitGroupRequest
-	48,  // 85: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
-	50,  // 86: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
-	53,  // 87: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
-	55,  // 88: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
-	59,  // 89: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:input_type -> com.evrblk.grackle.v1beta.AcquireLockRequest
-	61,  // 90: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:input_type -> com.evrblk.grackle.v1beta.ReleaseLockRequest
-	63,  // 91: com.evrblk.grackle.v1beta.GrackleApi.GetLock:input_type -> com.evrblk.grackle.v1beta.GetLockRequest
-	65,  // 92: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:input_type -> com.evrblk.grackle.v1beta.DeleteLockRequest
-	67,  // 93: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:input_type -> com.evrblk.grackle.v1beta.ListLocksRequest
-	69,  // 94: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:input_type -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest
-	71,  // 95: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:input_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
-	73,  // 96: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:input_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
-	75,  // 97: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:input_type -> com.evrblk.grackle.v1beta.ListLockLeasesRequest
-	77,  // 98: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:input_type -> com.evrblk.grackle.v1beta.GetLockLeaseRequest
-	82,  // 99: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:input_type -> com.evrblk.grackle.v1beta.CreateBarrierRequest
-	84,  // 100: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:input_type -> com.evrblk.grackle.v1beta.ListBarriersRequest
-	86,  // 101: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:input_type -> com.evrblk.grackle.v1beta.GetBarrierRequest
-	88,  // 102: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:input_type -> com.evrblk.grackle.v1beta.DeleteBarrierRequest
-	90,  // 103: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:input_type -> com.evrblk.grackle.v1beta.UpdateBarrierRequest
-	92,  // 104: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
-	94,  // 105: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:input_type -> com.evrblk.grackle.v1beta.WaitAtBarrierRequest
-	96,  // 106: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
-	2,   // 107: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:output_type -> com.evrblk.grackle.v1beta.CreateNamespaceResponse
-	4,   // 108: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:output_type -> com.evrblk.grackle.v1beta.ListNamespacesResponse
-	6,   // 109: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:output_type -> com.evrblk.grackle.v1beta.GetNamespaceResponse
-	8,   // 110: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:output_type -> com.evrblk.grackle.v1beta.DeleteNamespaceResponse
-	10,  // 111: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:output_type -> com.evrblk.grackle.v1beta.UpdateNamespaceResponse
-	12,  // 112: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreResponse
-	14,  // 113: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:output_type -> com.evrblk.grackle.v1beta.ListSemaphoresResponse
-	16,  // 114: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreResponse
-	18,  // 115: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:output_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
-	20,  // 116: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
-	22,  // 117: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:output_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
-	24,  // 118: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:output_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
-	26,  // 119: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
-	28,  // 120: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
-	30,  // 121: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
-	32,  // 122: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
-	34,  // 123: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
-	36,  // 124: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
-	41,  // 125: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:output_type -> com.evrblk.grackle.v1beta.CreateWaitGroupResponse
-	43,  // 126: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:output_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
-	45,  // 127: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupsResponse
-	47,  // 128: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:output_type -> com.evrblk.grackle.v1beta.GetWaitGroupResponse
-	49,  // 129: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
-	52,  // 130: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
-	54,  // 131: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
-	56,  // 132: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
-	60,  // 133: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:output_type -> com.evrblk.grackle.v1beta.AcquireLockResponse
-	62,  // 134: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:output_type -> com.evrblk.grackle.v1beta.ReleaseLockResponse
-	64,  // 135: com.evrblk.grackle.v1beta.GrackleApi.GetLock:output_type -> com.evrblk.grackle.v1beta.GetLockResponse
-	66,  // 136: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:output_type -> com.evrblk.grackle.v1beta.DeleteLockResponse
-	68,  // 137: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:output_type -> com.evrblk.grackle.v1beta.ListLocksResponse
-	70,  // 138: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:output_type -> com.evrblk.grackle.v1beta.CreateLockLeaseResponse
-	72,  // 139: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:output_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
-	74,  // 140: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:output_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
-	76,  // 141: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:output_type -> com.evrblk.grackle.v1beta.ListLockLeasesResponse
-	78,  // 142: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:output_type -> com.evrblk.grackle.v1beta.GetLockLeaseResponse
-	83,  // 143: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:output_type -> com.evrblk.grackle.v1beta.CreateBarrierResponse
-	85,  // 144: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:output_type -> com.evrblk.grackle.v1beta.ListBarriersResponse
-	87,  // 145: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:output_type -> com.evrblk.grackle.v1beta.GetBarrierResponse
-	89,  // 146: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:output_type -> com.evrblk.grackle.v1beta.DeleteBarrierResponse
-	91,  // 147: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:output_type -> com.evrblk.grackle.v1beta.UpdateBarrierResponse
-	93,  // 148: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
-	95,  // 149: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:output_type -> com.evrblk.grackle.v1beta.WaitAtBarrierResponse
-	97,  // 150: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
-	107, // [107:151] is the sub-list for method output_type
-	63,  // [63:107] is the sub-list for method input_type
-	63,  // [63:63] is the sub-list for extension type_name
-	63,  // [63:63] is the sub-list for extension extendee
-	0,   // [0:63] is the sub-list for field type_name
+	101, // 0: com.evrblk.grackle.v1beta.CreateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
+	82,  // 1: com.evrblk.grackle.v1beta.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	82,  // 2: com.evrblk.grackle.v1beta.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.v1beta.Namespace
+	82,  // 3: com.evrblk.grackle.v1beta.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	102, // 4: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
+	82,  // 5: com.evrblk.grackle.v1beta.UpdateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	103, // 6: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
+	39,  // 7: com.evrblk.grackle.v1beta.CreateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	39,  // 8: com.evrblk.grackle.v1beta.ListSemaphoresResponse.semaphores:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	39,  // 9: com.evrblk.grackle.v1beta.GetSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	104, // 10: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
+	39,  // 11: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	39,  // 12: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	105, // 13: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
+	39,  // 14: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	40,  // 15: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse.holders:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder
+	106, // 16: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
+	38,  // 17: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	38,  // 18: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	38,  // 19: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
+	38,  // 20: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	107, // 21: com.evrblk.grackle.v1beta.Lease.metadata:type_name -> com.evrblk.grackle.v1beta.Lease.MetadataEntry
+	108, // 22: com.evrblk.grackle.v1beta.Semaphore.metadata:type_name -> com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
+	109, // 23: com.evrblk.grackle.v1beta.SemaphoreHolder.metadata:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
+	110, // 24: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
+	58,  // 25: com.evrblk.grackle.v1beta.CreateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	111, // 26: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
+	58,  // 27: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	58,  // 28: com.evrblk.grackle.v1beta.ListWaitGroupsResponse.wait_groups:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	58,  // 29: com.evrblk.grackle.v1beta.GetWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	52,  // 30: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest.jobs:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest
+	112, // 31: com.evrblk.grackle.v1beta.CompleteJobRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
+	58,  // 32: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	59,  // 33: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse.jobs:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob
+	58,  // 34: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	113, // 35: com.evrblk.grackle.v1beta.WaitGroup.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
+	0,   // 36: com.evrblk.grackle.v1beta.WaitGroup.status:type_name -> com.evrblk.grackle.v1beta.WaitGroupStatus
+	114, // 37: com.evrblk.grackle.v1beta.WaitGroupJob.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
+	115, // 38: com.evrblk.grackle.v1beta.AcquireLockRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
+	80,  // 39: com.evrblk.grackle.v1beta.AcquireLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	80,  // 40: com.evrblk.grackle.v1beta.ReleaseLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	80,  // 41: com.evrblk.grackle.v1beta.GetLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	80,  // 42: com.evrblk.grackle.v1beta.ListLocksResponse.locks:type_name -> com.evrblk.grackle.v1beta.Lock
+	116, // 43: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
+	38,  // 44: com.evrblk.grackle.v1beta.CreateLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	38,  // 45: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	38,  // 46: com.evrblk.grackle.v1beta.ListLockLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
+	38,  // 47: com.evrblk.grackle.v1beta.GetLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	1,   // 48: com.evrblk.grackle.v1beta.Lock.state:type_name -> com.evrblk.grackle.v1beta.LockState
+	81,  // 49: com.evrblk.grackle.v1beta.Lock.lock_holders:type_name -> com.evrblk.grackle.v1beta.LockHolder
+	117, // 50: com.evrblk.grackle.v1beta.LockHolder.metadata:type_name -> com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
+	118, // 51: com.evrblk.grackle.v1beta.Namespace.metadata:type_name -> com.evrblk.grackle.v1beta.Namespace.MetadataEntry
+	119, // 52: com.evrblk.grackle.v1beta.CreateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
+	99,  // 53: com.evrblk.grackle.v1beta.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	99,  // 54: com.evrblk.grackle.v1beta.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.v1beta.Barrier
+	99,  // 55: com.evrblk.grackle.v1beta.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	120, // 56: com.evrblk.grackle.v1beta.UpdateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
+	99,  // 57: com.evrblk.grackle.v1beta.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	121, // 58: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
+	99,  // 59: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	99,  // 60: com.evrblk.grackle.v1beta.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	100, // 61: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant
+	122, // 62: com.evrblk.grackle.v1beta.Barrier.metadata:type_name -> com.evrblk.grackle.v1beta.Barrier.MetadataEntry
+	123, // 63: com.evrblk.grackle.v1beta.BarrierParticipant.metadata:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
+	2,   // 64: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:input_type -> com.evrblk.grackle.v1beta.CreateNamespaceRequest
+	4,   // 65: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:input_type -> com.evrblk.grackle.v1beta.ListNamespacesRequest
+	6,   // 66: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:input_type -> com.evrblk.grackle.v1beta.GetNamespaceRequest
+	8,   // 67: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:input_type -> com.evrblk.grackle.v1beta.DeleteNamespaceRequest
+	10,  // 68: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:input_type -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest
+	12,  // 69: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest
+	14,  // 70: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:input_type -> com.evrblk.grackle.v1beta.ListSemaphoresRequest
+	16,  // 71: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreRequest
+	18,  // 72: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:input_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
+	20,  // 73: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
+	22,  // 74: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:input_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
+	24,  // 75: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:input_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
+	26,  // 76: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
+	28,  // 77: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
+	30,  // 78: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
+	32,  // 79: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
+	34,  // 80: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
+	36,  // 81: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
+	41,  // 82: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:input_type -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest
+	43,  // 83: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:input_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
+	45,  // 84: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupsRequest
+	47,  // 85: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:input_type -> com.evrblk.grackle.v1beta.GetWaitGroupRequest
+	49,  // 86: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
+	51,  // 87: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
+	54,  // 88: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
+	56,  // 89: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
+	60,  // 90: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:input_type -> com.evrblk.grackle.v1beta.AcquireLockRequest
+	62,  // 91: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:input_type -> com.evrblk.grackle.v1beta.ReleaseLockRequest
+	64,  // 92: com.evrblk.grackle.v1beta.GrackleApi.GetLock:input_type -> com.evrblk.grackle.v1beta.GetLockRequest
+	66,  // 93: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:input_type -> com.evrblk.grackle.v1beta.DeleteLockRequest
+	68,  // 94: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:input_type -> com.evrblk.grackle.v1beta.ListLocksRequest
+	70,  // 95: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:input_type -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest
+	72,  // 96: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:input_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
+	74,  // 97: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:input_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
+	76,  // 98: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:input_type -> com.evrblk.grackle.v1beta.ListLockLeasesRequest
+	78,  // 99: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:input_type -> com.evrblk.grackle.v1beta.GetLockLeaseRequest
+	83,  // 100: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:input_type -> com.evrblk.grackle.v1beta.CreateBarrierRequest
+	85,  // 101: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:input_type -> com.evrblk.grackle.v1beta.ListBarriersRequest
+	87,  // 102: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:input_type -> com.evrblk.grackle.v1beta.GetBarrierRequest
+	89,  // 103: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:input_type -> com.evrblk.grackle.v1beta.DeleteBarrierRequest
+	91,  // 104: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:input_type -> com.evrblk.grackle.v1beta.UpdateBarrierRequest
+	93,  // 105: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
+	95,  // 106: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:input_type -> com.evrblk.grackle.v1beta.WaitAtBarrierRequest
+	97,  // 107: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
+	3,   // 108: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:output_type -> com.evrblk.grackle.v1beta.CreateNamespaceResponse
+	5,   // 109: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:output_type -> com.evrblk.grackle.v1beta.ListNamespacesResponse
+	7,   // 110: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:output_type -> com.evrblk.grackle.v1beta.GetNamespaceResponse
+	9,   // 111: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:output_type -> com.evrblk.grackle.v1beta.DeleteNamespaceResponse
+	11,  // 112: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:output_type -> com.evrblk.grackle.v1beta.UpdateNamespaceResponse
+	13,  // 113: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreResponse
+	15,  // 114: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:output_type -> com.evrblk.grackle.v1beta.ListSemaphoresResponse
+	17,  // 115: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreResponse
+	19,  // 116: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:output_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
+	21,  // 117: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
+	23,  // 118: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:output_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
+	25,  // 119: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:output_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
+	27,  // 120: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
+	29,  // 121: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
+	31,  // 122: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
+	33,  // 123: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
+	35,  // 124: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
+	37,  // 125: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
+	42,  // 126: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:output_type -> com.evrblk.grackle.v1beta.CreateWaitGroupResponse
+	44,  // 127: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:output_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
+	46,  // 128: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupsResponse
+	48,  // 129: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:output_type -> com.evrblk.grackle.v1beta.GetWaitGroupResponse
+	50,  // 130: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
+	53,  // 131: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
+	55,  // 132: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
+	57,  // 133: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
+	61,  // 134: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:output_type -> com.evrblk.grackle.v1beta.AcquireLockResponse
+	63,  // 135: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:output_type -> com.evrblk.grackle.v1beta.ReleaseLockResponse
+	65,  // 136: com.evrblk.grackle.v1beta.GrackleApi.GetLock:output_type -> com.evrblk.grackle.v1beta.GetLockResponse
+	67,  // 137: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:output_type -> com.evrblk.grackle.v1beta.DeleteLockResponse
+	69,  // 138: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:output_type -> com.evrblk.grackle.v1beta.ListLocksResponse
+	71,  // 139: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:output_type -> com.evrblk.grackle.v1beta.CreateLockLeaseResponse
+	73,  // 140: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:output_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
+	75,  // 141: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:output_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
+	77,  // 142: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:output_type -> com.evrblk.grackle.v1beta.ListLockLeasesResponse
+	79,  // 143: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:output_type -> com.evrblk.grackle.v1beta.GetLockLeaseResponse
+	84,  // 144: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:output_type -> com.evrblk.grackle.v1beta.CreateBarrierResponse
+	86,  // 145: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:output_type -> com.evrblk.grackle.v1beta.ListBarriersResponse
+	88,  // 146: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:output_type -> com.evrblk.grackle.v1beta.GetBarrierResponse
+	90,  // 147: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:output_type -> com.evrblk.grackle.v1beta.DeleteBarrierResponse
+	92,  // 148: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:output_type -> com.evrblk.grackle.v1beta.UpdateBarrierResponse
+	94,  // 149: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
+	96,  // 150: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:output_type -> com.evrblk.grackle.v1beta.WaitAtBarrierResponse
+	98,  // 151: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
+	108, // [108:152] is the sub-list for method output_type
+	64,  // [64:108] is the sub-list for method input_type
+	64,  // [64:64] is the sub-list for extension type_name
+	64,  // [64:64] is the sub-list for extension extendee
+	0,   // [0:64] is the sub-list for field type_name
 }
 
 func init() { file_proto_grackle_v1beta_api_proto_init() }
@@ -6661,7 +6826,7 @@ func file_proto_grackle_v1beta_api_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_grackle_v1beta_api_proto_rawDesc), len(file_proto_grackle_v1beta_api_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   122,
 			NumExtensions: 0,
 			NumServices:   1,
