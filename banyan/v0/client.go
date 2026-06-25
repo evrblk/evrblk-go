@@ -47,7 +47,7 @@ type BanyanApi interface {
 	ResumeWorkflowRun(ctx context.Context, request *ResumeWorkflowRunRequest) (*ResumeWorkflowRunResponse, error)
 }
 type BanyanGrpcClient struct {
-	grpc   BanyanPreviewApiClient
+	grpc   BanyanApiClient
 	conn   *grpc.ClientConn
 	signer evrblk.RequestSigner
 }
@@ -617,7 +617,7 @@ func NewBanyanGrpcClient(address string, signer evrblk.RequestSigner) *BanyanGrp
 	}
 	return &BanyanGrpcClient{
 		conn:   conn,
-		grpc:   NewBanyanPreviewApiClient(conn),
+		grpc:   NewBanyanApiClient(conn),
 		signer: signer,
 	}
 }

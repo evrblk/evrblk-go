@@ -18,41 +18,41 @@ generate-proto:
 		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/grackle/v1beta \
 		./proto/grackle/v1beta/*.proto
 	protoc --proto_path=. \
-		--go_out=./banyan/preview \
-		--go_opt=module=github.com/evrblk/evrblk-go/banyan/preview \
-		--go-grpc_out=./banyan/preview \
-		--go-grpc_opt=module=github.com/evrblk/evrblk-go/banyan/preview \
-		--go-vtproto_out=./banyan/preview \
+		--go_out=./banyan/v0 \
+		--go_opt=module=github.com/evrblk/evrblk-go/banyan/v0 \
+		--go-grpc_out=./banyan/v0 \
+		--go-grpc_opt=module=github.com/evrblk/evrblk-go/banyan/v0 \
+		--go-vtproto_out=./banyan/v0 \
 		--go-vtproto_opt=features=marshal+unmarshal+size \
-		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/banyan/preview \
-		./proto/banyan/preview/*.proto
+		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/banyan/v0 \
+		./proto/banyan/v0/*.proto
 	protoc --proto_path=. \
-		--go_out=./iam/preview \
-		--go_opt=module=github.com/evrblk/evrblk-go/iam/preview \
-		--go-grpc_out=./iam/preview \
-		--go-grpc_opt=module=github.com/evrblk/evrblk-go/iam/preview \
-		--go-vtproto_out=./iam/preview \
+		--go_out=./iam/v0 \
+		--go_opt=module=github.com/evrblk/evrblk-go/iam/v0 \
+		--go-grpc_out=./iam/v0 \
+		--go-grpc_opt=module=github.com/evrblk/evrblk-go/iam/v0 \
+		--go-vtproto_out=./iam/v0 \
 		--go-vtproto_opt=features=marshal+unmarshal+size \
-		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/iam/preview \
-		./proto/iam/preview/*.proto
+		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/iam/v0 \
+		./proto/iam/v0/*.proto
 	protoc --proto_path=. \
-		--go_out=./moab/preview \
-		--go_opt=module=github.com/evrblk/evrblk-go/moab/preview \
-		--go-grpc_out=./moab/preview \
-		--go-grpc_opt=module=github.com/evrblk/evrblk-go/moab/preview \
-		--go-vtproto_out=./moab/preview \
+		--go_out=./moab/v0 \
+		--go_opt=module=github.com/evrblk/evrblk-go/moab/v0 \
+		--go-grpc_out=./moab/v0 \
+		--go-grpc_opt=module=github.com/evrblk/evrblk-go/moab/v0 \
+		--go-vtproto_out=./moab/v0 \
 		--go-vtproto_opt=features=marshal+unmarshal+size \
-		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/moab/preview \
-		./proto/moab/preview/*.proto
+		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/moab/v0 \
+		./proto/moab/v0/*.proto
 	protoc --proto_path=. \
-		--go_out=./myaccount/preview \
-		--go_opt=module=github.com/evrblk/evrblk-go/myaccount/preview \
-		--go-grpc_out=./myaccount/preview \
-		--go-grpc_opt=module=github.com/evrblk/evrblk-go/myaccount/preview \
-		--go-vtproto_out=./myaccount/preview \
+		--go_out=./myaccount/v0 \
+		--go_opt=module=github.com/evrblk/evrblk-go/myaccount/v0 \
+		--go-grpc_out=./myaccount/v0 \
+		--go-grpc_opt=module=github.com/evrblk/evrblk-go/myaccount/v0 \
+		--go-vtproto_out=./myaccount/v0 \
 		--go-vtproto_opt=features=marshal+unmarshal+size \
-		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/myaccount/preview \
-		./proto/myaccount/preview/*.proto
+		--go-vtproto_opt=module=github.com/evrblk/evrblk-go/myaccount/v0 \
+		./proto/myaccount/v0/*.proto
 
 generate-code:
 	@echo "Running code generate..."
@@ -64,25 +64,25 @@ generate-code:
 		--proto-file-path=./proto/grackle/v1beta/api.proto
 	go run ./cmd/codegen \
 		--service-name=Banyan \
-		--go-package-path=github.com/evrblk/evrblk-go/banyan/preview \
+		--go-package-path=github.com/evrblk/evrblk-go/banyan/v0 \
 		--go-package-name=banyan \
-		--output-path=./banyan/preview/client.go \
-		--proto-file-path=./proto/banyan/preview/api.proto
+		--output-path=./banyan/v0/client.go \
+		--proto-file-path=./proto/banyan/v0/api.proto
 	go run ./cmd/codegen \
 		--service-name=IAM \
-		--go-package-path=github.com/evrblk/evrblk-go/iam/preview \
+		--go-package-path=github.com/evrblk/evrblk-go/iam/v0 \
 		--go-package-name=iam \
-		--output-path=./iam/preview/client.go \
-		--proto-file-path=./proto/iam/preview/api.proto
+		--output-path=./iam/v0/client.go \
+		--proto-file-path=./proto/iam/v0/api.proto
 	go run ./cmd/codegen \
 		--service-name=Moab \
-		--go-package-path=github.com/evrblk/evrblk-go/moab/preview \
+		--go-package-path=github.com/evrblk/evrblk-go/moab/v0 \
 		--go-package-name=moab \
-		--output-path=./moab/preview/client.go \
-		--proto-file-path=./proto/moab/preview/api.proto
+		--output-path=./moab/v0/client.go \
+		--proto-file-path=./proto/moab/v0/api.proto
 	go run ./cmd/codegen \
 		--service-name=MyAccount \
-		--go-package-path=github.com/evrblk/evrblk-go/myaccount/preview \
+		--go-package-path=github.com/evrblk/evrblk-go/myaccount/v0 \
 		--go-package-name=myaccount \
-		--output-path=./myaccount/preview/client.go \
-		--proto-file-path=./proto/myaccount/preview/api.proto
+		--output-path=./myaccount/v0/client.go \
+		--proto-file-path=./proto/myaccount/v0/api.proto

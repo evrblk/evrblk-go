@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-option go_package = "github.com/evrblk/evrblk-go/moab/preview;moab";
-option ruby_package = "Evrblk::Moab::Preview";
+package com.evrblk.moab.v0;
 
-package com.evrblk.moab.preview;
+option go_package = "github.com/evrblk/evrblk-go/moab/v0;moab";
+option ruby_package = "Evrblk::Moab::V0";
 
-service MoabPreviewApi {
+service MoabApi {
   rpc CreateQueue(CreateQueueRequest) returns (CreateQueueResponse) {}
   rpc GetQueue(GetQueueRequest) returns (GetQueueResponse) {}
   rpc UpdateQueue(UpdateQueueRequest) returns (UpdateQueueResponse) {}
@@ -82,7 +82,7 @@ message ListQueuesResponse {
 
 message EnqueueRequest {
   string queue_name = 1;
-  repeated EnqueueRequestEntry entries = 2;  // TODO rename to tasks?
+  repeated EnqueueRequestEntry entries = 2; // TODO rename to tasks?
 }
 
 message EnqueueRequestEntry {
@@ -270,8 +270,8 @@ message Queue {
 
 message DeadLetterQueueConfig {
   bool enable = 1;
-  int64 max_size = 2;                     // 0 - unlimited
-  int64 retention_period_in_seconds = 3;  // TODO units? 0 - unlimited
+  int64 max_size = 2; // 0 - unlimited
+  int64 retention_period_in_seconds = 3; // TODO units? 0 - unlimited
 }
 
 // message CompletedTasksSetConfig {

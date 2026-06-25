@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-option go_package = "github.com/evrblk/evrblk-go/myaccount/preview;myaccount";
-option ruby_package = "Evrblk::MyAccount::Preview";
+package com.evrblk.myaccount.v0;
 
-package com.evrblk.myaccount.preview;
+option go_package = "github.com/evrblk/evrblk-go/myaccount/v0;myaccount";
+option ruby_package = "Evrblk::MyAccount::V0";
 
-service MyAccountPreviewApi {
+service MyAccountApi {
   rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {}
   // request service limit increase
   // update billing info
@@ -15,9 +15,7 @@ service MyAccountPreviewApi {
   //
 }
 
-message GetAccountRequest {
-
-}
+message GetAccountRequest {}
 
 message GetAccountResponse {
   Account account = 1;
@@ -63,6 +61,4 @@ message MoabServiceLimits {
   int64 purge_queue_request_rate = 11;
 }
 
-message BisonServiceLimits {
-
-}
+message BisonServiceLimits {}

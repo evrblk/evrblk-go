@@ -18,7 +18,7 @@ go get -u github.com/evrblk/evrblk-go@latest
 ```go
 import (
     evrblk "github.com/evrblk/evrblk-go"
-    moab "github.com/evrblk/evrblk-go/moab/preview"
+    moab "github.com/evrblk/evrblk-go/moab/v0"
 )
 
 apiKeyId := "key_alfa_z141pKeFzfmGGyYlUyPsbF"
@@ -54,21 +54,21 @@ To learn more about how it generates SDKs see `cmd/codegen/main.go` and `Makefil
 
 ## API Versioning
 
-Each service is versioned independently of each other. Packages are organized by major versions. For example, Preview
-version of Moab API is available with `import moab "github.com/evrblk/evrblk-go/moab/preview"`, V1 version will be 
-available with `import moab "github.com/evrblk/evrblk-go/moab/v1"`, and so forth. It is guaranteed that all minor changes
-are backward compatible with old SDKs.
+Each service is versioned independently of each other. Packages are organized by major versions. For example, V0
+version of Moab API is available with `import moab "github.com/evrblk/evrblk-go/moab/v0"`, V1 version will be 
+available with `import moab "github.com/evrblk/evrblk-go/moab/v1"`, and so forth. V0 is experimental and breaking 
+changes are expected. Starting with V1, it is guaranteed that all minor changes are backward compatible. 
 
 Currently available versions:
 
 * Grackle
     * `v1beta`
 * Moab
-    * `preview`
+    * `v0`
 * IAM
-    * `preview`
+    * `v0`
 * My Account
-    * `preview`
+    * `v0`
 
 ## License
 

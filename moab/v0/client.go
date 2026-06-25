@@ -31,7 +31,7 @@ type MoabApi interface {
 	DeleteSchedule(ctx context.Context, request *DeleteScheduleRequest) (*DeleteScheduleResponse, error)
 }
 type MoabGrpcClient struct {
-	grpc   MoabPreviewApiClient
+	grpc   MoabApiClient
 	conn   *grpc.ClientConn
 	signer evrblk.RequestSigner
 }
@@ -329,7 +329,7 @@ func NewMoabGrpcClient(address string, signer evrblk.RequestSigner) *MoabGrpcCli
 	}
 	return &MoabGrpcClient{
 		conn:   conn,
-		grpc:   NewMoabPreviewApiClient(conn),
+		grpc:   NewMoabApiClient(conn),
 		signer: signer,
 	}
 }

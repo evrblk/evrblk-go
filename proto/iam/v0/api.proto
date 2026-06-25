@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-option go_package = "github.com/evrblk/evrblk-go/iam/preview;iam";
-option ruby_package = "Evrblk::IAM::Preview";
+package com.evrblk.iam.v0;
 
-package com.evrblk.iam.preview;
+option go_package = "github.com/evrblk/evrblk-go/iam/v0;iam";
+option ruby_package = "Evrblk::IAM::V0";
 
-service IamPreviewApi {
+service IamApi {
   rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse) {}
   rpc GetRole(GetRoleRequest) returns (GetRoleResponse) {}
   rpc UpdateRole(UpdateRoleRequest) returns (UpdateRoleResponse) {}

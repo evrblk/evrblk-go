@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.9
 // 	protoc        v7.35.0
-// source: proto/iam/preview/api.proto
+// source: proto/iam/v0/api.proto
 
 package iam
 
@@ -31,7 +31,7 @@ type CreateRoleRequest struct {
 
 func (x *CreateRoleRequest) Reset() {
 	*x = CreateRoleRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[0]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *CreateRoleRequest) String() string {
 func (*CreateRoleRequest) ProtoMessage() {}
 
 func (x *CreateRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[0]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *CreateRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRoleRequest.ProtoReflect.Descriptor instead.
 func (*CreateRoleRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateRoleRequest) GetName() string {
@@ -82,7 +82,7 @@ type CreateRoleResponse struct {
 
 func (x *CreateRoleResponse) Reset() {
 	*x = CreateRoleResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[1]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +94,7 @@ func (x *CreateRoleResponse) String() string {
 func (*CreateRoleResponse) ProtoMessage() {}
 
 func (x *CreateRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[1]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +107,7 @@ func (x *CreateRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRoleResponse.ProtoReflect.Descriptor instead.
 func (*CreateRoleResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{1}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateRoleResponse) GetRole() *Role {
@@ -126,7 +126,7 @@ type GetRoleRequest struct {
 
 func (x *GetRoleRequest) Reset() {
 	*x = GetRoleRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[2]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +138,7 @@ func (x *GetRoleRequest) String() string {
 func (*GetRoleRequest) ProtoMessage() {}
 
 func (x *GetRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[2]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +151,7 @@ func (x *GetRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleRequest.ProtoReflect.Descriptor instead.
 func (*GetRoleRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{2}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetRoleRequest) GetRoleId() string {
@@ -170,7 +170,7 @@ type GetRoleResponse struct {
 
 func (x *GetRoleResponse) Reset() {
 	*x = GetRoleResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[3]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -182,7 +182,7 @@ func (x *GetRoleResponse) String() string {
 func (*GetRoleResponse) ProtoMessage() {}
 
 func (x *GetRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[3]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -195,7 +195,7 @@ func (x *GetRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleResponse.ProtoReflect.Descriptor instead.
 func (*GetRoleResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{3}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetRoleResponse) GetRole() *Role {
@@ -216,7 +216,7 @@ type UpdateRoleRequest struct {
 
 func (x *UpdateRoleRequest) Reset() {
 	*x = UpdateRoleRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[4]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -228,7 +228,7 @@ func (x *UpdateRoleRequest) String() string {
 func (*UpdateRoleRequest) ProtoMessage() {}
 
 func (x *UpdateRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[4]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +241,7 @@ func (x *UpdateRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleRequest.ProtoReflect.Descriptor instead.
 func (*UpdateRoleRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{4}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateRoleRequest) GetRoleId() string {
@@ -274,7 +274,7 @@ type UpdateRoleResponse struct {
 
 func (x *UpdateRoleResponse) Reset() {
 	*x = UpdateRoleResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[5]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -286,7 +286,7 @@ func (x *UpdateRoleResponse) String() string {
 func (*UpdateRoleResponse) ProtoMessage() {}
 
 func (x *UpdateRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[5]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -299,7 +299,7 @@ func (x *UpdateRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleResponse.ProtoReflect.Descriptor instead.
 func (*UpdateRoleResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{5}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateRoleResponse) GetRole() *Role {
@@ -319,7 +319,7 @@ type ListRolesRequest struct {
 
 func (x *ListRolesRequest) Reset() {
 	*x = ListRolesRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[6]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -331,7 +331,7 @@ func (x *ListRolesRequest) String() string {
 func (*ListRolesRequest) ProtoMessage() {}
 
 func (x *ListRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[6]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -344,7 +344,7 @@ func (x *ListRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRolesRequest.ProtoReflect.Descriptor instead.
 func (*ListRolesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{6}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListRolesRequest) GetPaginationToken() string {
@@ -372,7 +372,7 @@ type ListRolesResponse struct {
 
 func (x *ListRolesResponse) Reset() {
 	*x = ListRolesResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[7]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -384,7 +384,7 @@ func (x *ListRolesResponse) String() string {
 func (*ListRolesResponse) ProtoMessage() {}
 
 func (x *ListRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[7]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -397,7 +397,7 @@ func (x *ListRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRolesResponse.ProtoReflect.Descriptor instead.
 func (*ListRolesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{7}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListRolesResponse) GetRoles() []*Role {
@@ -430,7 +430,7 @@ type DeleteRoleRequest struct {
 
 func (x *DeleteRoleRequest) Reset() {
 	*x = DeleteRoleRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[8]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -442,7 +442,7 @@ func (x *DeleteRoleRequest) String() string {
 func (*DeleteRoleRequest) ProtoMessage() {}
 
 func (x *DeleteRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[8]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -455,7 +455,7 @@ func (x *DeleteRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRoleRequest.ProtoReflect.Descriptor instead.
 func (*DeleteRoleRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{8}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteRoleRequest) GetRoleId() string {
@@ -473,7 +473,7 @@ type DeleteRoleResponse struct {
 
 func (x *DeleteRoleResponse) Reset() {
 	*x = DeleteRoleResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[9]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -485,7 +485,7 @@ func (x *DeleteRoleResponse) String() string {
 func (*DeleteRoleResponse) ProtoMessage() {}
 
 func (x *DeleteRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[9]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -498,7 +498,7 @@ func (x *DeleteRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRoleResponse.ProtoReflect.Descriptor instead.
 func (*DeleteRoleResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{9}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{9}
 }
 
 type CreateUserRequest struct {
@@ -514,7 +514,7 @@ type CreateUserRequest struct {
 
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[10]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -526,7 +526,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[10]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -539,7 +539,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{10}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CreateUserRequest) GetName() string {
@@ -586,7 +586,7 @@ type CreateUserResponse struct {
 
 func (x *CreateUserResponse) Reset() {
 	*x = CreateUserResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[11]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -598,7 +598,7 @@ func (x *CreateUserResponse) String() string {
 func (*CreateUserResponse) ProtoMessage() {}
 
 func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[11]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -611,7 +611,7 @@ func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{11}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateUserResponse) GetUser() *User {
@@ -630,7 +630,7 @@ type GetUserRequest struct {
 
 func (x *GetUserRequest) Reset() {
 	*x = GetUserRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[12]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -642,7 +642,7 @@ func (x *GetUserRequest) String() string {
 func (*GetUserRequest) ProtoMessage() {}
 
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[12]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -655,7 +655,7 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{12}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetUserRequest) GetUserId() string {
@@ -674,7 +674,7 @@ type GetUserResponse struct {
 
 func (x *GetUserResponse) Reset() {
 	*x = GetUserResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[13]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -686,7 +686,7 @@ func (x *GetUserResponse) String() string {
 func (*GetUserResponse) ProtoMessage() {}
 
 func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[13]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -699,7 +699,7 @@ func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
 func (*GetUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{13}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetUserResponse) GetUser() *User {
@@ -718,7 +718,7 @@ type UpdateUserRequest struct {
 
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[14]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -730,7 +730,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[14]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -743,7 +743,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{14}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UpdateUserRequest) GetUserId() string {
@@ -762,7 +762,7 @@ type UpdateUserResponse struct {
 
 func (x *UpdateUserResponse) Reset() {
 	*x = UpdateUserResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[15]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -774,7 +774,7 @@ func (x *UpdateUserResponse) String() string {
 func (*UpdateUserResponse) ProtoMessage() {}
 
 func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[15]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -787,7 +787,7 @@ func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{15}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *UpdateUserResponse) GetUser() *User {
@@ -807,7 +807,7 @@ type ListUsersRequest struct {
 
 func (x *ListUsersRequest) Reset() {
 	*x = ListUsersRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[16]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -819,7 +819,7 @@ func (x *ListUsersRequest) String() string {
 func (*ListUsersRequest) ProtoMessage() {}
 
 func (x *ListUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[16]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -832,7 +832,7 @@ func (x *ListUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUsersRequest.ProtoReflect.Descriptor instead.
 func (*ListUsersRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{16}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ListUsersRequest) GetPaginationToken() string {
@@ -860,7 +860,7 @@ type ListUsersResponse struct {
 
 func (x *ListUsersResponse) Reset() {
 	*x = ListUsersResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[17]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -872,7 +872,7 @@ func (x *ListUsersResponse) String() string {
 func (*ListUsersResponse) ProtoMessage() {}
 
 func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[17]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -885,7 +885,7 @@ func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUsersResponse.ProtoReflect.Descriptor instead.
 func (*ListUsersResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{17}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ListUsersResponse) GetUsers() []*User {
@@ -918,7 +918,7 @@ type DeleteUserRequest struct {
 
 func (x *DeleteUserRequest) Reset() {
 	*x = DeleteUserRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[18]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -930,7 +930,7 @@ func (x *DeleteUserRequest) String() string {
 func (*DeleteUserRequest) ProtoMessage() {}
 
 func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[18]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -943,7 +943,7 @@ func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{18}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *DeleteUserRequest) GetUserId() string {
@@ -961,7 +961,7 @@ type DeleteUserResponse struct {
 
 func (x *DeleteUserResponse) Reset() {
 	*x = DeleteUserResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[19]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -973,7 +973,7 @@ func (x *DeleteUserResponse) String() string {
 func (*DeleteUserResponse) ProtoMessage() {}
 
 func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[19]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -986,7 +986,7 @@ func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{19}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{19}
 }
 
 type CreateApiKeyRequest struct {
@@ -1008,7 +1008,7 @@ type CreateApiKeyRequest struct {
 
 func (x *CreateApiKeyRequest) Reset() {
 	*x = CreateApiKeyRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[20]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1020,7 +1020,7 @@ func (x *CreateApiKeyRequest) String() string {
 func (*CreateApiKeyRequest) ProtoMessage() {}
 
 func (x *CreateApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[20]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1033,7 +1033,7 @@ func (x *CreateApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*CreateApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{20}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *CreateApiKeyRequest) GetName() string {
@@ -1136,7 +1136,7 @@ type CreateAlfaKeyRequest struct {
 
 func (x *CreateAlfaKeyRequest) Reset() {
 	*x = CreateAlfaKeyRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[21]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1148,7 +1148,7 @@ func (x *CreateAlfaKeyRequest) String() string {
 func (*CreateAlfaKeyRequest) ProtoMessage() {}
 
 func (x *CreateAlfaKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[21]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1161,7 +1161,7 @@ func (x *CreateAlfaKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateAlfaKeyRequest.ProtoReflect.Descriptor instead.
 func (*CreateAlfaKeyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{21}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *CreateAlfaKeyRequest) GetPublicPem() string {
@@ -1179,7 +1179,7 @@ type CreateBravoKeyRequest struct {
 
 func (x *CreateBravoKeyRequest) Reset() {
 	*x = CreateBravoKeyRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[22]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1191,7 +1191,7 @@ func (x *CreateBravoKeyRequest) String() string {
 func (*CreateBravoKeyRequest) ProtoMessage() {}
 
 func (x *CreateBravoKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[22]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1204,7 +1204,7 @@ func (x *CreateBravoKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBravoKeyRequest.ProtoReflect.Descriptor instead.
 func (*CreateBravoKeyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{22}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{22}
 }
 
 type CreateCharlieKeyRequest struct {
@@ -1215,7 +1215,7 @@ type CreateCharlieKeyRequest struct {
 
 func (x *CreateCharlieKeyRequest) Reset() {
 	*x = CreateCharlieKeyRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[23]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1227,7 +1227,7 @@ func (x *CreateCharlieKeyRequest) String() string {
 func (*CreateCharlieKeyRequest) ProtoMessage() {}
 
 func (x *CreateCharlieKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[23]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1240,7 +1240,7 @@ func (x *CreateCharlieKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCharlieKeyRequest.ProtoReflect.Descriptor instead.
 func (*CreateCharlieKeyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{23}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{23}
 }
 
 type CreateApiKeyResponse struct {
@@ -1252,7 +1252,7 @@ type CreateApiKeyResponse struct {
 
 func (x *CreateApiKeyResponse) Reset() {
 	*x = CreateApiKeyResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[24]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1264,7 +1264,7 @@ func (x *CreateApiKeyResponse) String() string {
 func (*CreateApiKeyResponse) ProtoMessage() {}
 
 func (x *CreateApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[24]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1277,7 +1277,7 @@ func (x *CreateApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*CreateApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{24}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CreateApiKeyResponse) GetApiKey() *NewApiKey {
@@ -1309,7 +1309,7 @@ type NewApiKey struct {
 
 func (x *NewApiKey) Reset() {
 	*x = NewApiKey{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[25]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1321,7 +1321,7 @@ func (x *NewApiKey) String() string {
 func (*NewApiKey) ProtoMessage() {}
 
 func (x *NewApiKey) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[25]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1334,7 +1334,7 @@ func (x *NewApiKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewApiKey.ProtoReflect.Descriptor instead.
 func (*NewApiKey) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{25}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *NewApiKey) GetId() string {
@@ -1458,7 +1458,7 @@ type NewAlfaKey struct {
 
 func (x *NewAlfaKey) Reset() {
 	*x = NewAlfaKey{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[26]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1470,7 +1470,7 @@ func (x *NewAlfaKey) String() string {
 func (*NewAlfaKey) ProtoMessage() {}
 
 func (x *NewAlfaKey) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[26]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1483,7 +1483,7 @@ func (x *NewAlfaKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewAlfaKey.ProtoReflect.Descriptor instead.
 func (*NewAlfaKey) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{26}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *NewAlfaKey) GetPublicPem() string {
@@ -1502,7 +1502,7 @@ type NewBravoKey struct {
 
 func (x *NewBravoKey) Reset() {
 	*x = NewBravoKey{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[27]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1514,7 +1514,7 @@ func (x *NewBravoKey) String() string {
 func (*NewBravoKey) ProtoMessage() {}
 
 func (x *NewBravoKey) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[27]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1527,7 +1527,7 @@ func (x *NewBravoKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewBravoKey.ProtoReflect.Descriptor instead.
 func (*NewBravoKey) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{27}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *NewBravoKey) GetSecret() string {
@@ -1545,7 +1545,7 @@ type NewCharlieKey struct {
 
 func (x *NewCharlieKey) Reset() {
 	*x = NewCharlieKey{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[28]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1557,7 +1557,7 @@ func (x *NewCharlieKey) String() string {
 func (*NewCharlieKey) ProtoMessage() {}
 
 func (x *NewCharlieKey) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[28]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1570,7 +1570,7 @@ func (x *NewCharlieKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewCharlieKey.ProtoReflect.Descriptor instead.
 func (*NewCharlieKey) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{28}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{28}
 }
 
 type GetApiKeyRequest struct {
@@ -1582,7 +1582,7 @@ type GetApiKeyRequest struct {
 
 func (x *GetApiKeyRequest) Reset() {
 	*x = GetApiKeyRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[29]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1594,7 +1594,7 @@ func (x *GetApiKeyRequest) String() string {
 func (*GetApiKeyRequest) ProtoMessage() {}
 
 func (x *GetApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[29]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1607,7 +1607,7 @@ func (x *GetApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*GetApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{29}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *GetApiKeyRequest) GetApiKeyId() string {
@@ -1626,7 +1626,7 @@ type GetApiKeyResponse struct {
 
 func (x *GetApiKeyResponse) Reset() {
 	*x = GetApiKeyResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[30]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1638,7 +1638,7 @@ func (x *GetApiKeyResponse) String() string {
 func (*GetApiKeyResponse) ProtoMessage() {}
 
 func (x *GetApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[30]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1651,7 +1651,7 @@ func (x *GetApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*GetApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{30}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *GetApiKeyResponse) GetApiKey() *ApiKey {
@@ -1671,7 +1671,7 @@ type ListApiKeysRequest struct {
 
 func (x *ListApiKeysRequest) Reset() {
 	*x = ListApiKeysRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[31]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1683,7 +1683,7 @@ func (x *ListApiKeysRequest) String() string {
 func (*ListApiKeysRequest) ProtoMessage() {}
 
 func (x *ListApiKeysRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[31]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1696,7 +1696,7 @@ func (x *ListApiKeysRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListApiKeysRequest.ProtoReflect.Descriptor instead.
 func (*ListApiKeysRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{31}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ListApiKeysRequest) GetPaginationToken() string {
@@ -1724,7 +1724,7 @@ type ListApiKeysResponse struct {
 
 func (x *ListApiKeysResponse) Reset() {
 	*x = ListApiKeysResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[32]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1736,7 +1736,7 @@ func (x *ListApiKeysResponse) String() string {
 func (*ListApiKeysResponse) ProtoMessage() {}
 
 func (x *ListApiKeysResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[32]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1749,7 +1749,7 @@ func (x *ListApiKeysResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListApiKeysResponse.ProtoReflect.Descriptor instead.
 func (*ListApiKeysResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{32}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ListApiKeysResponse) GetApiKeys() []*ApiKey {
@@ -1782,7 +1782,7 @@ type DeleteApiKeyRequest struct {
 
 func (x *DeleteApiKeyRequest) Reset() {
 	*x = DeleteApiKeyRequest{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[33]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1794,7 +1794,7 @@ func (x *DeleteApiKeyRequest) String() string {
 func (*DeleteApiKeyRequest) ProtoMessage() {}
 
 func (x *DeleteApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[33]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1807,7 +1807,7 @@ func (x *DeleteApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*DeleteApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{33}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *DeleteApiKeyRequest) GetApiKeyId() string {
@@ -1825,7 +1825,7 @@ type DeleteApiKeyResponse struct {
 
 func (x *DeleteApiKeyResponse) Reset() {
 	*x = DeleteApiKeyResponse{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[34]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1837,7 +1837,7 @@ func (x *DeleteApiKeyResponse) String() string {
 func (*DeleteApiKeyResponse) ProtoMessage() {}
 
 func (x *DeleteApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[34]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1850,7 +1850,7 @@ func (x *DeleteApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*DeleteApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{34}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{34}
 }
 
 type Role struct {
@@ -1866,7 +1866,7 @@ type Role struct {
 
 func (x *Role) Reset() {
 	*x = Role{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[35]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1878,7 +1878,7 @@ func (x *Role) String() string {
 func (*Role) ProtoMessage() {}
 
 func (x *Role) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[35]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1891,7 +1891,7 @@ func (x *Role) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Role.ProtoReflect.Descriptor instead.
 func (*Role) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{35}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *Role) GetId() string {
@@ -1945,7 +1945,7 @@ type User struct {
 
 func (x *User) Reset() {
 	*x = User{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[36]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1957,7 +1957,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[36]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1970,7 +1970,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{36}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *User) GetId() string {
@@ -2045,7 +2045,7 @@ type ApiKey struct {
 
 func (x *ApiKey) Reset() {
 	*x = ApiKey{}
-	mi := &file_proto_iam_preview_api_proto_msgTypes[37]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2057,7 +2057,7 @@ func (x *ApiKey) String() string {
 func (*ApiKey) ProtoMessage() {}
 
 func (x *ApiKey) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_iam_preview_api_proto_msgTypes[37]
+	mi := &file_proto_iam_v0_api_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2070,7 +2070,7 @@ func (x *ApiKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApiKey.ProtoReflect.Descriptor instead.
 func (*ApiKey) Descriptor() ([]byte, []int) {
-	return file_proto_iam_preview_api_proto_rawDescGZIP(), []int{37}
+	return file_proto_iam_v0_api_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *ApiKey) GetId() string {
@@ -2129,31 +2129,31 @@ func (x *ApiKey) GetExpiresAt() int64 {
 	return 0
 }
 
-var File_proto_iam_preview_api_proto protoreflect.FileDescriptor
+var File_proto_iam_v0_api_proto protoreflect.FileDescriptor
 
-const file_proto_iam_preview_api_proto_rawDesc = "" +
+const file_proto_iam_v0_api_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/iam/preview/api.proto\x12\x16com.evrblk.iam.preview\"I\n" +
+	"\x16proto/iam/v0/api.proto\x12\x11com.evrblk.iam.v0\"I\n" +
 	"\x11CreateRoleRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"F\n" +
-	"\x12CreateRoleResponse\x120\n" +
-	"\x04role\x18\x01 \x01(\v2\x1c.com.evrblk.iam.preview.RoleR\x04role\")\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\"A\n" +
+	"\x12CreateRoleResponse\x12+\n" +
+	"\x04role\x18\x01 \x01(\v2\x17.com.evrblk.iam.v0.RoleR\x04role\")\n" +
 	"\x0eGetRoleRequest\x12\x17\n" +
-	"\arole_id\x18\x01 \x01(\tR\x06roleId\"C\n" +
-	"\x0fGetRoleResponse\x120\n" +
-	"\x04role\x18\x01 \x01(\v2\x1c.com.evrblk.iam.preview.RoleR\x04role\"b\n" +
+	"\arole_id\x18\x01 \x01(\tR\x06roleId\">\n" +
+	"\x0fGetRoleResponse\x12+\n" +
+	"\x04role\x18\x01 \x01(\v2\x17.com.evrblk.iam.v0.RoleR\x04role\"b\n" +
 	"\x11UpdateRoleRequest\x12\x17\n" +
 	"\arole_id\x18\x01 \x01(\tR\x06roleId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"F\n" +
-	"\x12UpdateRoleResponse\x120\n" +
-	"\x04role\x18\x01 \x01(\v2\x1c.com.evrblk.iam.preview.RoleR\x04role\"S\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"A\n" +
+	"\x12UpdateRoleResponse\x12+\n" +
+	"\x04role\x18\x01 \x01(\v2\x17.com.evrblk.iam.v0.RoleR\x04role\"S\n" +
 	"\x10ListRolesRequest\x12)\n" +
 	"\x10pagination_token\x18\x01 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xb7\x01\n" +
-	"\x11ListRolesResponse\x122\n" +
-	"\x05roles\x18\x01 \x03(\v2\x1c.com.evrblk.iam.preview.RoleR\x05roles\x122\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xb2\x01\n" +
+	"\x11ListRolesResponse\x12-\n" +
+	"\x05roles\x18\x01 \x03(\v2\x17.com.evrblk.iam.v0.RoleR\x05roles\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\",\n" +
 	"\x11DeleteRoleRequest\x12\x17\n" +
@@ -2164,46 +2164,46 @@ const file_proto_iam_preview_api_proto_rawDesc = "" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x04 \x01(\tR\bpassword\x12\x17\n" +
-	"\arole_id\x18\x05 \x01(\tR\x06roleId\"F\n" +
-	"\x12CreateUserResponse\x120\n" +
-	"\x04user\x18\x01 \x01(\v2\x1c.com.evrblk.iam.preview.UserR\x04user\")\n" +
+	"\arole_id\x18\x05 \x01(\tR\x06roleId\"A\n" +
+	"\x12CreateUserResponse\x12+\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.com.evrblk.iam.v0.UserR\x04user\")\n" +
 	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"C\n" +
-	"\x0fGetUserResponse\x120\n" +
-	"\x04user\x18\x01 \x01(\v2\x1c.com.evrblk.iam.preview.UserR\x04user\",\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\">\n" +
+	"\x0fGetUserResponse\x12+\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.com.evrblk.iam.v0.UserR\x04user\",\n" +
 	"\x11UpdateUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"F\n" +
-	"\x12UpdateUserResponse\x120\n" +
-	"\x04user\x18\x01 \x01(\v2\x1c.com.evrblk.iam.preview.UserR\x04user\"S\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"A\n" +
+	"\x12UpdateUserResponse\x12+\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.com.evrblk.iam.v0.UserR\x04user\"S\n" +
 	"\x10ListUsersRequest\x12)\n" +
 	"\x10pagination_token\x18\x01 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xb7\x01\n" +
-	"\x11ListUsersResponse\x122\n" +
-	"\x05users\x18\x01 \x03(\v2\x1c.com.evrblk.iam.preview.UserR\x05users\x122\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xb2\x01\n" +
+	"\x11ListUsersResponse\x12-\n" +
+	"\x05users\x18\x01 \x03(\v2\x17.com.evrblk.iam.v0.UserR\x05users\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\",\n" +
 	"\x11DeleteUserRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x14\n" +
-	"\x12DeleteUserResponse\"\x80\x03\n" +
+	"\x12DeleteUserResponse\"\xf1\x02\n" +
 	"\x13CreateApiKeyRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x17\n" +
 	"\arole_id\x18\x03 \x01(\tR\x06roleId\x12\x17\n" +
 	"\auser_id\x18\x04 \x01(\tR\x06userId\x12\x1d\n" +
 	"\n" +
-	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12B\n" +
-	"\x04alfa\x18\x06 \x01(\v2,.com.evrblk.iam.preview.CreateAlfaKeyRequestH\x00R\x04alfa\x12E\n" +
-	"\x05bravo\x18\a \x01(\v2-.com.evrblk.iam.preview.CreateBravoKeyRequestH\x00R\x05bravo\x12K\n" +
-	"\acharlie\x18\b \x01(\v2/.com.evrblk.iam.preview.CreateCharlieKeyRequestH\x00R\acharlieB\n" +
+	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12=\n" +
+	"\x04alfa\x18\x06 \x01(\v2'.com.evrblk.iam.v0.CreateAlfaKeyRequestH\x00R\x04alfa\x12@\n" +
+	"\x05bravo\x18\a \x01(\v2(.com.evrblk.iam.v0.CreateBravoKeyRequestH\x00R\x05bravo\x12F\n" +
+	"\acharlie\x18\b \x01(\v2*.com.evrblk.iam.v0.CreateCharlieKeyRequestH\x00R\acharlieB\n" +
 	"\n" +
 	"\bkey_type\"5\n" +
 	"\x14CreateAlfaKeyRequest\x12\x1d\n" +
 	"\n" +
 	"public_pem\x18\x01 \x01(\tR\tpublicPem\"\x17\n" +
 	"\x15CreateBravoKeyRequest\"\x19\n" +
-	"\x17CreateCharlieKeyRequest\"R\n" +
-	"\x14CreateApiKeyResponse\x12:\n" +
-	"\aapi_key\x18\x01 \x01(\v2!.com.evrblk.iam.preview.NewApiKeyR\x06apiKey\"\xa6\x03\n" +
+	"\x17CreateCharlieKeyRequest\"M\n" +
+	"\x14CreateApiKeyResponse\x125\n" +
+	"\aapi_key\x18\x01 \x01(\v2\x1c.com.evrblk.iam.v0.NewApiKeyR\x06apiKey\"\x97\x03\n" +
 	"\tNewApiKey\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -2215,11 +2215,11 @@ const file_proto_iam_preview_api_proto_rawDesc = "" +
 	"\arole_id\x18\x06 \x01(\tR\x06roleId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\tR\x06userId\x12\x1d\n" +
 	"\n" +
-	"expires_at\x18\b \x01(\x03R\texpiresAt\x128\n" +
-	"\x04alfa\x18\t \x01(\v2\".com.evrblk.iam.preview.NewAlfaKeyH\x00R\x04alfa\x12;\n" +
+	"expires_at\x18\b \x01(\x03R\texpiresAt\x123\n" +
+	"\x04alfa\x18\t \x01(\v2\x1d.com.evrblk.iam.v0.NewAlfaKeyH\x00R\x04alfa\x126\n" +
 	"\x05bravo\x18\n" +
-	" \x01(\v2#.com.evrblk.iam.preview.NewBravoKeyH\x00R\x05bravo\x12A\n" +
-	"\acharlie\x18\v \x01(\v2%.com.evrblk.iam.preview.NewCharlieKeyH\x00R\acharlieB\n" +
+	" \x01(\v2\x1e.com.evrblk.iam.v0.NewBravoKeyH\x00R\x05bravo\x12<\n" +
+	"\acharlie\x18\v \x01(\v2 .com.evrblk.iam.v0.NewCharlieKeyH\x00R\acharlieB\n" +
 	"\n" +
 	"\bkey_type\"+\n" +
 	"\n" +
@@ -2231,14 +2231,14 @@ const file_proto_iam_preview_api_proto_rawDesc = "" +
 	"\rNewCharlieKey\"0\n" +
 	"\x10GetApiKeyRequest\x12\x1c\n" +
 	"\n" +
-	"api_key_id\x18\x01 \x01(\tR\bapiKeyId\"L\n" +
-	"\x11GetApiKeyResponse\x127\n" +
-	"\aapi_key\x18\x01 \x01(\v2\x1e.com.evrblk.iam.preview.ApiKeyR\x06apiKey\"U\n" +
+	"api_key_id\x18\x01 \x01(\tR\bapiKeyId\"G\n" +
+	"\x11GetApiKeyResponse\x122\n" +
+	"\aapi_key\x18\x01 \x01(\v2\x19.com.evrblk.iam.v0.ApiKeyR\x06apiKey\"U\n" +
 	"\x12ListApiKeysRequest\x12)\n" +
 	"\x10pagination_token\x18\x01 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xc0\x01\n" +
-	"\x13ListApiKeysResponse\x129\n" +
-	"\bapi_keys\x18\x01 \x03(\v2\x1e.com.evrblk.iam.preview.ApiKeyR\aapiKeys\x122\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xbb\x01\n" +
+	"\x13ListApiKeysResponse\x124\n" +
+	"\bapi_keys\x18\x01 \x03(\v2\x19.com.evrblk.iam.v0.ApiKeyR\aapiKeys\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
 	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"3\n" +
 	"\x13DeleteApiKeyRequest\x12\x1c\n" +
@@ -2276,128 +2276,129 @@ const file_proto_iam_preview_api_proto_rawDesc = "" +
 	"\arole_id\x18\x06 \x01(\tR\x06roleId\x12\x17\n" +
 	"\auser_id\x18\a \x01(\tR\x06userId\x12\x1d\n" +
 	"\n" +
-	"expires_at\x18\b \x01(\x03R\texpiresAt2\xa5\v\n" +
-	"\rIamPreviewApi\x12e\n" +
+	"expires_at\x18\b \x01(\x03R\texpiresAt2\x92\n" +
 	"\n" +
-	"CreateRole\x12).com.evrblk.iam.preview.CreateRoleRequest\x1a*.com.evrblk.iam.preview.CreateRoleResponse\"\x00\x12\\\n" +
-	"\aGetRole\x12&.com.evrblk.iam.preview.GetRoleRequest\x1a'.com.evrblk.iam.preview.GetRoleResponse\"\x00\x12e\n" +
+	"\x06IamApi\x12[\n" +
 	"\n" +
-	"UpdateRole\x12).com.evrblk.iam.preview.UpdateRoleRequest\x1a*.com.evrblk.iam.preview.UpdateRoleResponse\"\x00\x12b\n" +
-	"\tListRoles\x12(.com.evrblk.iam.preview.ListRolesRequest\x1a).com.evrblk.iam.preview.ListRolesResponse\"\x00\x12e\n" +
+	"CreateRole\x12$.com.evrblk.iam.v0.CreateRoleRequest\x1a%.com.evrblk.iam.v0.CreateRoleResponse\"\x00\x12R\n" +
+	"\aGetRole\x12!.com.evrblk.iam.v0.GetRoleRequest\x1a\".com.evrblk.iam.v0.GetRoleResponse\"\x00\x12[\n" +
 	"\n" +
-	"DeleteRole\x12).com.evrblk.iam.preview.DeleteRoleRequest\x1a*.com.evrblk.iam.preview.DeleteRoleResponse\"\x00\x12e\n" +
+	"UpdateRole\x12$.com.evrblk.iam.v0.UpdateRoleRequest\x1a%.com.evrblk.iam.v0.UpdateRoleResponse\"\x00\x12X\n" +
+	"\tListRoles\x12#.com.evrblk.iam.v0.ListRolesRequest\x1a$.com.evrblk.iam.v0.ListRolesResponse\"\x00\x12[\n" +
 	"\n" +
-	"CreateUser\x12).com.evrblk.iam.preview.CreateUserRequest\x1a*.com.evrblk.iam.preview.CreateUserResponse\"\x00\x12\\\n" +
-	"\aGetUser\x12&.com.evrblk.iam.preview.GetUserRequest\x1a'.com.evrblk.iam.preview.GetUserResponse\"\x00\x12e\n" +
+	"DeleteRole\x12$.com.evrblk.iam.v0.DeleteRoleRequest\x1a%.com.evrblk.iam.v0.DeleteRoleResponse\"\x00\x12[\n" +
 	"\n" +
-	"UpdateUser\x12).com.evrblk.iam.preview.UpdateUserRequest\x1a*.com.evrblk.iam.preview.UpdateUserResponse\"\x00\x12b\n" +
-	"\tListUsers\x12(.com.evrblk.iam.preview.ListUsersRequest\x1a).com.evrblk.iam.preview.ListUsersResponse\"\x00\x12e\n" +
+	"CreateUser\x12$.com.evrblk.iam.v0.CreateUserRequest\x1a%.com.evrblk.iam.v0.CreateUserResponse\"\x00\x12R\n" +
+	"\aGetUser\x12!.com.evrblk.iam.v0.GetUserRequest\x1a\".com.evrblk.iam.v0.GetUserResponse\"\x00\x12[\n" +
 	"\n" +
-	"DeleteUser\x12).com.evrblk.iam.preview.DeleteUserRequest\x1a*.com.evrblk.iam.preview.DeleteUserResponse\"\x00\x12k\n" +
-	"\fCreateApiKey\x12+.com.evrblk.iam.preview.CreateApiKeyRequest\x1a,.com.evrblk.iam.preview.CreateApiKeyResponse\"\x00\x12b\n" +
-	"\tGetApiKey\x12(.com.evrblk.iam.preview.GetApiKeyRequest\x1a).com.evrblk.iam.preview.GetApiKeyResponse\"\x00\x12h\n" +
-	"\vListApiKeys\x12*.com.evrblk.iam.preview.ListApiKeysRequest\x1a+.com.evrblk.iam.preview.ListApiKeysResponse\"\x00\x12k\n" +
-	"\fDeleteApiKey\x12+.com.evrblk.iam.preview.DeleteApiKeyRequest\x1a,.com.evrblk.iam.preview.DeleteApiKeyResponse\"\x00BDZ+github.com/evrblk/evrblk-go/iam/preview;iam\xea\x02\x14Evrblk::IAM::Previewb\x06proto3"
+	"UpdateUser\x12$.com.evrblk.iam.v0.UpdateUserRequest\x1a%.com.evrblk.iam.v0.UpdateUserResponse\"\x00\x12X\n" +
+	"\tListUsers\x12#.com.evrblk.iam.v0.ListUsersRequest\x1a$.com.evrblk.iam.v0.ListUsersResponse\"\x00\x12[\n" +
+	"\n" +
+	"DeleteUser\x12$.com.evrblk.iam.v0.DeleteUserRequest\x1a%.com.evrblk.iam.v0.DeleteUserResponse\"\x00\x12a\n" +
+	"\fCreateApiKey\x12&.com.evrblk.iam.v0.CreateApiKeyRequest\x1a'.com.evrblk.iam.v0.CreateApiKeyResponse\"\x00\x12X\n" +
+	"\tGetApiKey\x12#.com.evrblk.iam.v0.GetApiKeyRequest\x1a$.com.evrblk.iam.v0.GetApiKeyResponse\"\x00\x12^\n" +
+	"\vListApiKeys\x12%.com.evrblk.iam.v0.ListApiKeysRequest\x1a&.com.evrblk.iam.v0.ListApiKeysResponse\"\x00\x12a\n" +
+	"\fDeleteApiKey\x12&.com.evrblk.iam.v0.DeleteApiKeyRequest\x1a'.com.evrblk.iam.v0.DeleteApiKeyResponse\"\x00B:Z&github.com/evrblk/evrblk-go/iam/v0;iam\xea\x02\x0fEvrblk::IAM::V0b\x06proto3"
 
 var (
-	file_proto_iam_preview_api_proto_rawDescOnce sync.Once
-	file_proto_iam_preview_api_proto_rawDescData []byte
+	file_proto_iam_v0_api_proto_rawDescOnce sync.Once
+	file_proto_iam_v0_api_proto_rawDescData []byte
 )
 
-func file_proto_iam_preview_api_proto_rawDescGZIP() []byte {
-	file_proto_iam_preview_api_proto_rawDescOnce.Do(func() {
-		file_proto_iam_preview_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_iam_preview_api_proto_rawDesc), len(file_proto_iam_preview_api_proto_rawDesc)))
+func file_proto_iam_v0_api_proto_rawDescGZIP() []byte {
+	file_proto_iam_v0_api_proto_rawDescOnce.Do(func() {
+		file_proto_iam_v0_api_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_iam_v0_api_proto_rawDesc), len(file_proto_iam_v0_api_proto_rawDesc)))
 	})
-	return file_proto_iam_preview_api_proto_rawDescData
+	return file_proto_iam_v0_api_proto_rawDescData
 }
 
-var file_proto_iam_preview_api_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
-var file_proto_iam_preview_api_proto_goTypes = []any{
-	(*CreateRoleRequest)(nil),       // 0: com.evrblk.iam.preview.CreateRoleRequest
-	(*CreateRoleResponse)(nil),      // 1: com.evrblk.iam.preview.CreateRoleResponse
-	(*GetRoleRequest)(nil),          // 2: com.evrblk.iam.preview.GetRoleRequest
-	(*GetRoleResponse)(nil),         // 3: com.evrblk.iam.preview.GetRoleResponse
-	(*UpdateRoleRequest)(nil),       // 4: com.evrblk.iam.preview.UpdateRoleRequest
-	(*UpdateRoleResponse)(nil),      // 5: com.evrblk.iam.preview.UpdateRoleResponse
-	(*ListRolesRequest)(nil),        // 6: com.evrblk.iam.preview.ListRolesRequest
-	(*ListRolesResponse)(nil),       // 7: com.evrblk.iam.preview.ListRolesResponse
-	(*DeleteRoleRequest)(nil),       // 8: com.evrblk.iam.preview.DeleteRoleRequest
-	(*DeleteRoleResponse)(nil),      // 9: com.evrblk.iam.preview.DeleteRoleResponse
-	(*CreateUserRequest)(nil),       // 10: com.evrblk.iam.preview.CreateUserRequest
-	(*CreateUserResponse)(nil),      // 11: com.evrblk.iam.preview.CreateUserResponse
-	(*GetUserRequest)(nil),          // 12: com.evrblk.iam.preview.GetUserRequest
-	(*GetUserResponse)(nil),         // 13: com.evrblk.iam.preview.GetUserResponse
-	(*UpdateUserRequest)(nil),       // 14: com.evrblk.iam.preview.UpdateUserRequest
-	(*UpdateUserResponse)(nil),      // 15: com.evrblk.iam.preview.UpdateUserResponse
-	(*ListUsersRequest)(nil),        // 16: com.evrblk.iam.preview.ListUsersRequest
-	(*ListUsersResponse)(nil),       // 17: com.evrblk.iam.preview.ListUsersResponse
-	(*DeleteUserRequest)(nil),       // 18: com.evrblk.iam.preview.DeleteUserRequest
-	(*DeleteUserResponse)(nil),      // 19: com.evrblk.iam.preview.DeleteUserResponse
-	(*CreateApiKeyRequest)(nil),     // 20: com.evrblk.iam.preview.CreateApiKeyRequest
-	(*CreateAlfaKeyRequest)(nil),    // 21: com.evrblk.iam.preview.CreateAlfaKeyRequest
-	(*CreateBravoKeyRequest)(nil),   // 22: com.evrblk.iam.preview.CreateBravoKeyRequest
-	(*CreateCharlieKeyRequest)(nil), // 23: com.evrblk.iam.preview.CreateCharlieKeyRequest
-	(*CreateApiKeyResponse)(nil),    // 24: com.evrblk.iam.preview.CreateApiKeyResponse
-	(*NewApiKey)(nil),               // 25: com.evrblk.iam.preview.NewApiKey
-	(*NewAlfaKey)(nil),              // 26: com.evrblk.iam.preview.NewAlfaKey
-	(*NewBravoKey)(nil),             // 27: com.evrblk.iam.preview.NewBravoKey
-	(*NewCharlieKey)(nil),           // 28: com.evrblk.iam.preview.NewCharlieKey
-	(*GetApiKeyRequest)(nil),        // 29: com.evrblk.iam.preview.GetApiKeyRequest
-	(*GetApiKeyResponse)(nil),       // 30: com.evrblk.iam.preview.GetApiKeyResponse
-	(*ListApiKeysRequest)(nil),      // 31: com.evrblk.iam.preview.ListApiKeysRequest
-	(*ListApiKeysResponse)(nil),     // 32: com.evrblk.iam.preview.ListApiKeysResponse
-	(*DeleteApiKeyRequest)(nil),     // 33: com.evrblk.iam.preview.DeleteApiKeyRequest
-	(*DeleteApiKeyResponse)(nil),    // 34: com.evrblk.iam.preview.DeleteApiKeyResponse
-	(*Role)(nil),                    // 35: com.evrblk.iam.preview.Role
-	(*User)(nil),                    // 36: com.evrblk.iam.preview.User
-	(*ApiKey)(nil),                  // 37: com.evrblk.iam.preview.ApiKey
+var file_proto_iam_v0_api_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
+var file_proto_iam_v0_api_proto_goTypes = []any{
+	(*CreateRoleRequest)(nil),       // 0: com.evrblk.iam.v0.CreateRoleRequest
+	(*CreateRoleResponse)(nil),      // 1: com.evrblk.iam.v0.CreateRoleResponse
+	(*GetRoleRequest)(nil),          // 2: com.evrblk.iam.v0.GetRoleRequest
+	(*GetRoleResponse)(nil),         // 3: com.evrblk.iam.v0.GetRoleResponse
+	(*UpdateRoleRequest)(nil),       // 4: com.evrblk.iam.v0.UpdateRoleRequest
+	(*UpdateRoleResponse)(nil),      // 5: com.evrblk.iam.v0.UpdateRoleResponse
+	(*ListRolesRequest)(nil),        // 6: com.evrblk.iam.v0.ListRolesRequest
+	(*ListRolesResponse)(nil),       // 7: com.evrblk.iam.v0.ListRolesResponse
+	(*DeleteRoleRequest)(nil),       // 8: com.evrblk.iam.v0.DeleteRoleRequest
+	(*DeleteRoleResponse)(nil),      // 9: com.evrblk.iam.v0.DeleteRoleResponse
+	(*CreateUserRequest)(nil),       // 10: com.evrblk.iam.v0.CreateUserRequest
+	(*CreateUserResponse)(nil),      // 11: com.evrblk.iam.v0.CreateUserResponse
+	(*GetUserRequest)(nil),          // 12: com.evrblk.iam.v0.GetUserRequest
+	(*GetUserResponse)(nil),         // 13: com.evrblk.iam.v0.GetUserResponse
+	(*UpdateUserRequest)(nil),       // 14: com.evrblk.iam.v0.UpdateUserRequest
+	(*UpdateUserResponse)(nil),      // 15: com.evrblk.iam.v0.UpdateUserResponse
+	(*ListUsersRequest)(nil),        // 16: com.evrblk.iam.v0.ListUsersRequest
+	(*ListUsersResponse)(nil),       // 17: com.evrblk.iam.v0.ListUsersResponse
+	(*DeleteUserRequest)(nil),       // 18: com.evrblk.iam.v0.DeleteUserRequest
+	(*DeleteUserResponse)(nil),      // 19: com.evrblk.iam.v0.DeleteUserResponse
+	(*CreateApiKeyRequest)(nil),     // 20: com.evrblk.iam.v0.CreateApiKeyRequest
+	(*CreateAlfaKeyRequest)(nil),    // 21: com.evrblk.iam.v0.CreateAlfaKeyRequest
+	(*CreateBravoKeyRequest)(nil),   // 22: com.evrblk.iam.v0.CreateBravoKeyRequest
+	(*CreateCharlieKeyRequest)(nil), // 23: com.evrblk.iam.v0.CreateCharlieKeyRequest
+	(*CreateApiKeyResponse)(nil),    // 24: com.evrblk.iam.v0.CreateApiKeyResponse
+	(*NewApiKey)(nil),               // 25: com.evrblk.iam.v0.NewApiKey
+	(*NewAlfaKey)(nil),              // 26: com.evrblk.iam.v0.NewAlfaKey
+	(*NewBravoKey)(nil),             // 27: com.evrblk.iam.v0.NewBravoKey
+	(*NewCharlieKey)(nil),           // 28: com.evrblk.iam.v0.NewCharlieKey
+	(*GetApiKeyRequest)(nil),        // 29: com.evrblk.iam.v0.GetApiKeyRequest
+	(*GetApiKeyResponse)(nil),       // 30: com.evrblk.iam.v0.GetApiKeyResponse
+	(*ListApiKeysRequest)(nil),      // 31: com.evrblk.iam.v0.ListApiKeysRequest
+	(*ListApiKeysResponse)(nil),     // 32: com.evrblk.iam.v0.ListApiKeysResponse
+	(*DeleteApiKeyRequest)(nil),     // 33: com.evrblk.iam.v0.DeleteApiKeyRequest
+	(*DeleteApiKeyResponse)(nil),    // 34: com.evrblk.iam.v0.DeleteApiKeyResponse
+	(*Role)(nil),                    // 35: com.evrblk.iam.v0.Role
+	(*User)(nil),                    // 36: com.evrblk.iam.v0.User
+	(*ApiKey)(nil),                  // 37: com.evrblk.iam.v0.ApiKey
 }
-var file_proto_iam_preview_api_proto_depIdxs = []int32{
-	35, // 0: com.evrblk.iam.preview.CreateRoleResponse.role:type_name -> com.evrblk.iam.preview.Role
-	35, // 1: com.evrblk.iam.preview.GetRoleResponse.role:type_name -> com.evrblk.iam.preview.Role
-	35, // 2: com.evrblk.iam.preview.UpdateRoleResponse.role:type_name -> com.evrblk.iam.preview.Role
-	35, // 3: com.evrblk.iam.preview.ListRolesResponse.roles:type_name -> com.evrblk.iam.preview.Role
-	36, // 4: com.evrblk.iam.preview.CreateUserResponse.user:type_name -> com.evrblk.iam.preview.User
-	36, // 5: com.evrblk.iam.preview.GetUserResponse.user:type_name -> com.evrblk.iam.preview.User
-	36, // 6: com.evrblk.iam.preview.UpdateUserResponse.user:type_name -> com.evrblk.iam.preview.User
-	36, // 7: com.evrblk.iam.preview.ListUsersResponse.users:type_name -> com.evrblk.iam.preview.User
-	21, // 8: com.evrblk.iam.preview.CreateApiKeyRequest.alfa:type_name -> com.evrblk.iam.preview.CreateAlfaKeyRequest
-	22, // 9: com.evrblk.iam.preview.CreateApiKeyRequest.bravo:type_name -> com.evrblk.iam.preview.CreateBravoKeyRequest
-	23, // 10: com.evrblk.iam.preview.CreateApiKeyRequest.charlie:type_name -> com.evrblk.iam.preview.CreateCharlieKeyRequest
-	25, // 11: com.evrblk.iam.preview.CreateApiKeyResponse.api_key:type_name -> com.evrblk.iam.preview.NewApiKey
-	26, // 12: com.evrblk.iam.preview.NewApiKey.alfa:type_name -> com.evrblk.iam.preview.NewAlfaKey
-	27, // 13: com.evrblk.iam.preview.NewApiKey.bravo:type_name -> com.evrblk.iam.preview.NewBravoKey
-	28, // 14: com.evrblk.iam.preview.NewApiKey.charlie:type_name -> com.evrblk.iam.preview.NewCharlieKey
-	37, // 15: com.evrblk.iam.preview.GetApiKeyResponse.api_key:type_name -> com.evrblk.iam.preview.ApiKey
-	37, // 16: com.evrblk.iam.preview.ListApiKeysResponse.api_keys:type_name -> com.evrblk.iam.preview.ApiKey
-	0,  // 17: com.evrblk.iam.preview.IamPreviewApi.CreateRole:input_type -> com.evrblk.iam.preview.CreateRoleRequest
-	2,  // 18: com.evrblk.iam.preview.IamPreviewApi.GetRole:input_type -> com.evrblk.iam.preview.GetRoleRequest
-	4,  // 19: com.evrblk.iam.preview.IamPreviewApi.UpdateRole:input_type -> com.evrblk.iam.preview.UpdateRoleRequest
-	6,  // 20: com.evrblk.iam.preview.IamPreviewApi.ListRoles:input_type -> com.evrblk.iam.preview.ListRolesRequest
-	8,  // 21: com.evrblk.iam.preview.IamPreviewApi.DeleteRole:input_type -> com.evrblk.iam.preview.DeleteRoleRequest
-	10, // 22: com.evrblk.iam.preview.IamPreviewApi.CreateUser:input_type -> com.evrblk.iam.preview.CreateUserRequest
-	12, // 23: com.evrblk.iam.preview.IamPreviewApi.GetUser:input_type -> com.evrblk.iam.preview.GetUserRequest
-	14, // 24: com.evrblk.iam.preview.IamPreviewApi.UpdateUser:input_type -> com.evrblk.iam.preview.UpdateUserRequest
-	16, // 25: com.evrblk.iam.preview.IamPreviewApi.ListUsers:input_type -> com.evrblk.iam.preview.ListUsersRequest
-	18, // 26: com.evrblk.iam.preview.IamPreviewApi.DeleteUser:input_type -> com.evrblk.iam.preview.DeleteUserRequest
-	20, // 27: com.evrblk.iam.preview.IamPreviewApi.CreateApiKey:input_type -> com.evrblk.iam.preview.CreateApiKeyRequest
-	29, // 28: com.evrblk.iam.preview.IamPreviewApi.GetApiKey:input_type -> com.evrblk.iam.preview.GetApiKeyRequest
-	31, // 29: com.evrblk.iam.preview.IamPreviewApi.ListApiKeys:input_type -> com.evrblk.iam.preview.ListApiKeysRequest
-	33, // 30: com.evrblk.iam.preview.IamPreviewApi.DeleteApiKey:input_type -> com.evrblk.iam.preview.DeleteApiKeyRequest
-	1,  // 31: com.evrblk.iam.preview.IamPreviewApi.CreateRole:output_type -> com.evrblk.iam.preview.CreateRoleResponse
-	3,  // 32: com.evrblk.iam.preview.IamPreviewApi.GetRole:output_type -> com.evrblk.iam.preview.GetRoleResponse
-	5,  // 33: com.evrblk.iam.preview.IamPreviewApi.UpdateRole:output_type -> com.evrblk.iam.preview.UpdateRoleResponse
-	7,  // 34: com.evrblk.iam.preview.IamPreviewApi.ListRoles:output_type -> com.evrblk.iam.preview.ListRolesResponse
-	9,  // 35: com.evrblk.iam.preview.IamPreviewApi.DeleteRole:output_type -> com.evrblk.iam.preview.DeleteRoleResponse
-	11, // 36: com.evrblk.iam.preview.IamPreviewApi.CreateUser:output_type -> com.evrblk.iam.preview.CreateUserResponse
-	13, // 37: com.evrblk.iam.preview.IamPreviewApi.GetUser:output_type -> com.evrblk.iam.preview.GetUserResponse
-	15, // 38: com.evrblk.iam.preview.IamPreviewApi.UpdateUser:output_type -> com.evrblk.iam.preview.UpdateUserResponse
-	17, // 39: com.evrblk.iam.preview.IamPreviewApi.ListUsers:output_type -> com.evrblk.iam.preview.ListUsersResponse
-	19, // 40: com.evrblk.iam.preview.IamPreviewApi.DeleteUser:output_type -> com.evrblk.iam.preview.DeleteUserResponse
-	24, // 41: com.evrblk.iam.preview.IamPreviewApi.CreateApiKey:output_type -> com.evrblk.iam.preview.CreateApiKeyResponse
-	30, // 42: com.evrblk.iam.preview.IamPreviewApi.GetApiKey:output_type -> com.evrblk.iam.preview.GetApiKeyResponse
-	32, // 43: com.evrblk.iam.preview.IamPreviewApi.ListApiKeys:output_type -> com.evrblk.iam.preview.ListApiKeysResponse
-	34, // 44: com.evrblk.iam.preview.IamPreviewApi.DeleteApiKey:output_type -> com.evrblk.iam.preview.DeleteApiKeyResponse
+var file_proto_iam_v0_api_proto_depIdxs = []int32{
+	35, // 0: com.evrblk.iam.v0.CreateRoleResponse.role:type_name -> com.evrblk.iam.v0.Role
+	35, // 1: com.evrblk.iam.v0.GetRoleResponse.role:type_name -> com.evrblk.iam.v0.Role
+	35, // 2: com.evrblk.iam.v0.UpdateRoleResponse.role:type_name -> com.evrblk.iam.v0.Role
+	35, // 3: com.evrblk.iam.v0.ListRolesResponse.roles:type_name -> com.evrblk.iam.v0.Role
+	36, // 4: com.evrblk.iam.v0.CreateUserResponse.user:type_name -> com.evrblk.iam.v0.User
+	36, // 5: com.evrblk.iam.v0.GetUserResponse.user:type_name -> com.evrblk.iam.v0.User
+	36, // 6: com.evrblk.iam.v0.UpdateUserResponse.user:type_name -> com.evrblk.iam.v0.User
+	36, // 7: com.evrblk.iam.v0.ListUsersResponse.users:type_name -> com.evrblk.iam.v0.User
+	21, // 8: com.evrblk.iam.v0.CreateApiKeyRequest.alfa:type_name -> com.evrblk.iam.v0.CreateAlfaKeyRequest
+	22, // 9: com.evrblk.iam.v0.CreateApiKeyRequest.bravo:type_name -> com.evrblk.iam.v0.CreateBravoKeyRequest
+	23, // 10: com.evrblk.iam.v0.CreateApiKeyRequest.charlie:type_name -> com.evrblk.iam.v0.CreateCharlieKeyRequest
+	25, // 11: com.evrblk.iam.v0.CreateApiKeyResponse.api_key:type_name -> com.evrblk.iam.v0.NewApiKey
+	26, // 12: com.evrblk.iam.v0.NewApiKey.alfa:type_name -> com.evrblk.iam.v0.NewAlfaKey
+	27, // 13: com.evrblk.iam.v0.NewApiKey.bravo:type_name -> com.evrblk.iam.v0.NewBravoKey
+	28, // 14: com.evrblk.iam.v0.NewApiKey.charlie:type_name -> com.evrblk.iam.v0.NewCharlieKey
+	37, // 15: com.evrblk.iam.v0.GetApiKeyResponse.api_key:type_name -> com.evrblk.iam.v0.ApiKey
+	37, // 16: com.evrblk.iam.v0.ListApiKeysResponse.api_keys:type_name -> com.evrblk.iam.v0.ApiKey
+	0,  // 17: com.evrblk.iam.v0.IamApi.CreateRole:input_type -> com.evrblk.iam.v0.CreateRoleRequest
+	2,  // 18: com.evrblk.iam.v0.IamApi.GetRole:input_type -> com.evrblk.iam.v0.GetRoleRequest
+	4,  // 19: com.evrblk.iam.v0.IamApi.UpdateRole:input_type -> com.evrblk.iam.v0.UpdateRoleRequest
+	6,  // 20: com.evrblk.iam.v0.IamApi.ListRoles:input_type -> com.evrblk.iam.v0.ListRolesRequest
+	8,  // 21: com.evrblk.iam.v0.IamApi.DeleteRole:input_type -> com.evrblk.iam.v0.DeleteRoleRequest
+	10, // 22: com.evrblk.iam.v0.IamApi.CreateUser:input_type -> com.evrblk.iam.v0.CreateUserRequest
+	12, // 23: com.evrblk.iam.v0.IamApi.GetUser:input_type -> com.evrblk.iam.v0.GetUserRequest
+	14, // 24: com.evrblk.iam.v0.IamApi.UpdateUser:input_type -> com.evrblk.iam.v0.UpdateUserRequest
+	16, // 25: com.evrblk.iam.v0.IamApi.ListUsers:input_type -> com.evrblk.iam.v0.ListUsersRequest
+	18, // 26: com.evrblk.iam.v0.IamApi.DeleteUser:input_type -> com.evrblk.iam.v0.DeleteUserRequest
+	20, // 27: com.evrblk.iam.v0.IamApi.CreateApiKey:input_type -> com.evrblk.iam.v0.CreateApiKeyRequest
+	29, // 28: com.evrblk.iam.v0.IamApi.GetApiKey:input_type -> com.evrblk.iam.v0.GetApiKeyRequest
+	31, // 29: com.evrblk.iam.v0.IamApi.ListApiKeys:input_type -> com.evrblk.iam.v0.ListApiKeysRequest
+	33, // 30: com.evrblk.iam.v0.IamApi.DeleteApiKey:input_type -> com.evrblk.iam.v0.DeleteApiKeyRequest
+	1,  // 31: com.evrblk.iam.v0.IamApi.CreateRole:output_type -> com.evrblk.iam.v0.CreateRoleResponse
+	3,  // 32: com.evrblk.iam.v0.IamApi.GetRole:output_type -> com.evrblk.iam.v0.GetRoleResponse
+	5,  // 33: com.evrblk.iam.v0.IamApi.UpdateRole:output_type -> com.evrblk.iam.v0.UpdateRoleResponse
+	7,  // 34: com.evrblk.iam.v0.IamApi.ListRoles:output_type -> com.evrblk.iam.v0.ListRolesResponse
+	9,  // 35: com.evrblk.iam.v0.IamApi.DeleteRole:output_type -> com.evrblk.iam.v0.DeleteRoleResponse
+	11, // 36: com.evrblk.iam.v0.IamApi.CreateUser:output_type -> com.evrblk.iam.v0.CreateUserResponse
+	13, // 37: com.evrblk.iam.v0.IamApi.GetUser:output_type -> com.evrblk.iam.v0.GetUserResponse
+	15, // 38: com.evrblk.iam.v0.IamApi.UpdateUser:output_type -> com.evrblk.iam.v0.UpdateUserResponse
+	17, // 39: com.evrblk.iam.v0.IamApi.ListUsers:output_type -> com.evrblk.iam.v0.ListUsersResponse
+	19, // 40: com.evrblk.iam.v0.IamApi.DeleteUser:output_type -> com.evrblk.iam.v0.DeleteUserResponse
+	24, // 41: com.evrblk.iam.v0.IamApi.CreateApiKey:output_type -> com.evrblk.iam.v0.CreateApiKeyResponse
+	30, // 42: com.evrblk.iam.v0.IamApi.GetApiKey:output_type -> com.evrblk.iam.v0.GetApiKeyResponse
+	32, // 43: com.evrblk.iam.v0.IamApi.ListApiKeys:output_type -> com.evrblk.iam.v0.ListApiKeysResponse
+	34, // 44: com.evrblk.iam.v0.IamApi.DeleteApiKey:output_type -> com.evrblk.iam.v0.DeleteApiKeyResponse
 	31, // [31:45] is the sub-list for method output_type
 	17, // [17:31] is the sub-list for method input_type
 	17, // [17:17] is the sub-list for extension type_name
@@ -2405,17 +2406,17 @@ var file_proto_iam_preview_api_proto_depIdxs = []int32{
 	0,  // [0:17] is the sub-list for field type_name
 }
 
-func init() { file_proto_iam_preview_api_proto_init() }
-func file_proto_iam_preview_api_proto_init() {
-	if File_proto_iam_preview_api_proto != nil {
+func init() { file_proto_iam_v0_api_proto_init() }
+func file_proto_iam_v0_api_proto_init() {
+	if File_proto_iam_v0_api_proto != nil {
 		return
 	}
-	file_proto_iam_preview_api_proto_msgTypes[20].OneofWrappers = []any{
+	file_proto_iam_v0_api_proto_msgTypes[20].OneofWrappers = []any{
 		(*CreateApiKeyRequest_Alfa)(nil),
 		(*CreateApiKeyRequest_Bravo)(nil),
 		(*CreateApiKeyRequest_Charlie)(nil),
 	}
-	file_proto_iam_preview_api_proto_msgTypes[25].OneofWrappers = []any{
+	file_proto_iam_v0_api_proto_msgTypes[25].OneofWrappers = []any{
 		(*NewApiKey_Alfa)(nil),
 		(*NewApiKey_Bravo)(nil),
 		(*NewApiKey_Charlie)(nil),
@@ -2424,17 +2425,17 @@ func file_proto_iam_preview_api_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_iam_preview_api_proto_rawDesc), len(file_proto_iam_preview_api_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_iam_v0_api_proto_rawDesc), len(file_proto_iam_v0_api_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_iam_preview_api_proto_goTypes,
-		DependencyIndexes: file_proto_iam_preview_api_proto_depIdxs,
-		MessageInfos:      file_proto_iam_preview_api_proto_msgTypes,
+		GoTypes:           file_proto_iam_v0_api_proto_goTypes,
+		DependencyIndexes: file_proto_iam_v0_api_proto_depIdxs,
+		MessageInfos:      file_proto_iam_v0_api_proto_msgTypes,
 	}.Build()
-	File_proto_iam_preview_api_proto = out.File
-	file_proto_iam_preview_api_proto_goTypes = nil
-	file_proto_iam_preview_api_proto_depIdxs = nil
+	File_proto_iam_v0_api_proto = out.File
+	file_proto_iam_v0_api_proto_goTypes = nil
+	file_proto_iam_v0_api_proto_depIdxs = nil
 }

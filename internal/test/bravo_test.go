@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/evrblk/evrblk-go/authn"
-	moab "github.com/evrblk/evrblk-go/moab/preview"
+	moab "github.com/evrblk/evrblk-go/moab/v0"
 	"github.com/labstack/gommon/random"
 	"github.com/stretchr/testify/require"
 )

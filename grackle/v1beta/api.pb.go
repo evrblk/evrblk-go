@@ -21,6 +21,126 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// AcquireOutcome is the terminal result of an AcquireLock or AcquireSemaphore
+// call. These outcomes describe a request that was valid and processed —
+// malformed requests (bad lease id, weight <= 0, weight exceeding permits) and
+// missing resources are reported as gRPC errors (InvalidArgument / NotFound),
+// never as an outcome.
+type AcquireOutcome int32
+
+const (
+	AcquireOutcome_ACQUIRE_OUTCOME_INVALID AcquireOutcome = 0
+	// ACQUIRED: the lease now holds the lock/semaphore.
+	AcquireOutcome_ACQUIRE_OUTCOME_ACQUIRED AcquireOutcome = 1
+	// UNAVAILABLE: a non-blocking attempt (timeout_seconds = 0) found the
+	// primitive held by someone else and returned without waiting.
+	AcquireOutcome_ACQUIRE_OUTCOME_UNAVAILABLE AcquireOutcome = 2
+	// TIMED_OUT: the call blocked until timeout_seconds elapsed without the
+	// primitive ever becoming available.
+	AcquireOutcome_ACQUIRE_OUTCOME_TIMED_OUT AcquireOutcome = 3
+)
+
+// Enum value maps for AcquireOutcome.
+var (
+	AcquireOutcome_name = map[int32]string{
+		0: "ACQUIRE_OUTCOME_INVALID",
+		1: "ACQUIRE_OUTCOME_ACQUIRED",
+		2: "ACQUIRE_OUTCOME_UNAVAILABLE",
+		3: "ACQUIRE_OUTCOME_TIMED_OUT",
+	}
+	AcquireOutcome_value = map[string]int32{
+		"ACQUIRE_OUTCOME_INVALID":     0,
+		"ACQUIRE_OUTCOME_ACQUIRED":    1,
+		"ACQUIRE_OUTCOME_UNAVAILABLE": 2,
+		"ACQUIRE_OUTCOME_TIMED_OUT":   3,
+	}
+)
+
+func (x AcquireOutcome) Enum() *AcquireOutcome {
+	p := new(AcquireOutcome)
+	*p = x
+	return p
+}
+
+func (x AcquireOutcome) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AcquireOutcome) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_grackle_v1beta_api_proto_enumTypes[0].Descriptor()
+}
+
+func (AcquireOutcome) Type() protoreflect.EnumType {
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[0]
+}
+
+func (x AcquireOutcome) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AcquireOutcome.Descriptor instead.
+func (AcquireOutcome) EnumDescriptor() ([]byte, []int) {
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{0}
+}
+
+// WaitGroupWaitOutcome is the terminal result of a WaitForWaitGroup call. The
+// wait group's intrinsic lifecycle state is also available on
+// WaitGroup.status; this outcome reports why this particular call returned.
+type WaitGroupWaitOutcome int32
+
+const (
+	WaitGroupWaitOutcome_WAIT_GROUP_WAIT_OUTCOME_INVALID WaitGroupWaitOutcome = 0
+	// COMPLETED: all jobs were completed.
+	WaitGroupWaitOutcome_WAIT_GROUP_WAIT_OUTCOME_COMPLETED WaitGroupWaitOutcome = 1
+	// EXPIRED: the wait group's expires_at passed while still active.
+	WaitGroupWaitOutcome_WAIT_GROUP_WAIT_OUTCOME_EXPIRED WaitGroupWaitOutcome = 2
+	// TIMED_OUT: timeout_seconds elapsed while the wait group was still active.
+	WaitGroupWaitOutcome_WAIT_GROUP_WAIT_OUTCOME_TIMED_OUT WaitGroupWaitOutcome = 3
+)
+
+// Enum value maps for WaitGroupWaitOutcome.
+var (
+	WaitGroupWaitOutcome_name = map[int32]string{
+		0: "WAIT_GROUP_WAIT_OUTCOME_INVALID",
+		1: "WAIT_GROUP_WAIT_OUTCOME_COMPLETED",
+		2: "WAIT_GROUP_WAIT_OUTCOME_EXPIRED",
+		3: "WAIT_GROUP_WAIT_OUTCOME_TIMED_OUT",
+	}
+	WaitGroupWaitOutcome_value = map[string]int32{
+		"WAIT_GROUP_WAIT_OUTCOME_INVALID":   0,
+		"WAIT_GROUP_WAIT_OUTCOME_COMPLETED": 1,
+		"WAIT_GROUP_WAIT_OUTCOME_EXPIRED":   2,
+		"WAIT_GROUP_WAIT_OUTCOME_TIMED_OUT": 3,
+	}
+)
+
+func (x WaitGroupWaitOutcome) Enum() *WaitGroupWaitOutcome {
+	p := new(WaitGroupWaitOutcome)
+	*p = x
+	return p
+}
+
+func (x WaitGroupWaitOutcome) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (WaitGroupWaitOutcome) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_grackle_v1beta_api_proto_enumTypes[1].Descriptor()
+}
+
+func (WaitGroupWaitOutcome) Type() protoreflect.EnumType {
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[1]
+}
+
+func (x WaitGroupWaitOutcome) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WaitGroupWaitOutcome.Descriptor instead.
+func (WaitGroupWaitOutcome) EnumDescriptor() ([]byte, []int) {
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{1}
+}
+
 // WaitGroupStatus is the lifecycle state of a wait group. A wait group starts
 // ACTIVE, becomes COMPLETED once all jobs are completed, or EXPIRED once
 // expires_at passes while still active. Finished (COMPLETED or EXPIRED) wait
@@ -61,11 +181,11 @@ func (x WaitGroupStatus) String() string {
 }
 
 func (WaitGroupStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_grackle_v1beta_api_proto_enumTypes[0].Descriptor()
+	return file_proto_grackle_v1beta_api_proto_enumTypes[2].Descriptor()
 }
 
 func (WaitGroupStatus) Type() protoreflect.EnumType {
-	return &file_proto_grackle_v1beta_api_proto_enumTypes[0]
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[2]
 }
 
 func (x WaitGroupStatus) Number() protoreflect.EnumNumber {
@@ -74,15 +194,20 @@ func (x WaitGroupStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WaitGroupStatus.Descriptor instead.
 func (WaitGroupStatus) EnumDescriptor() ([]byte, []int) {
-	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{2}
 }
 
+// LockState is the current hold state of a lock.
 type LockState int32
 
 const (
-	LockState_LOCK_STATE_INVALID          LockState = 0
-	LockState_LOCK_STATE_UNLOCKED         LockState = 1
-	LockState_LOCK_STATE_SHARED_LOCKED    LockState = 2
+	LockState_LOCK_STATE_INVALID LockState = 0
+	// No holders (the lock effectively does not exist).
+	LockState_LOCK_STATE_UNLOCKED LockState = 1
+	// Held shared by one or more leases; further shared acquires succeed, exclusive
+	// acquires block.
+	LockState_LOCK_STATE_SHARED_LOCKED LockState = 2
+	// Held exclusively by a single lease; all other acquires block.
 	LockState_LOCK_STATE_EXCLUSIVE_LOCKED LockState = 3
 )
 
@@ -113,11 +238,11 @@ func (x LockState) String() string {
 }
 
 func (LockState) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_grackle_v1beta_api_proto_enumTypes[1].Descriptor()
+	return file_proto_grackle_v1beta_api_proto_enumTypes[3].Descriptor()
 }
 
 func (LockState) Type() protoreflect.EnumType {
-	return &file_proto_grackle_v1beta_api_proto_enumTypes[1]
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[3]
 }
 
 func (x LockState) Number() protoreflect.EnumNumber {
@@ -126,7 +251,60 @@ func (x LockState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LockState.Descriptor instead.
 func (LockState) EnumDescriptor() ([]byte, []int) {
-	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{1}
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{3}
+}
+
+// BarrierWaitOutcome is the terminal result of a WaitAtBarrier call.
+type BarrierWaitOutcome int32
+
+const (
+	BarrierWaitOutcome_BARRIER_WAIT_OUTCOME_INVALID BarrierWaitOutcome = 0
+	// TRIPPED: all expected processes arrived and the barrier advanced to the
+	// next generation.
+	BarrierWaitOutcome_BARRIER_WAIT_OUTCOME_TRIPPED BarrierWaitOutcome = 1
+	// TIMED_OUT: timeout_seconds elapsed before the barrier tripped.
+	BarrierWaitOutcome_BARRIER_WAIT_OUTCOME_TIMED_OUT BarrierWaitOutcome = 2
+)
+
+// Enum value maps for BarrierWaitOutcome.
+var (
+	BarrierWaitOutcome_name = map[int32]string{
+		0: "BARRIER_WAIT_OUTCOME_INVALID",
+		1: "BARRIER_WAIT_OUTCOME_TRIPPED",
+		2: "BARRIER_WAIT_OUTCOME_TIMED_OUT",
+	}
+	BarrierWaitOutcome_value = map[string]int32{
+		"BARRIER_WAIT_OUTCOME_INVALID":   0,
+		"BARRIER_WAIT_OUTCOME_TRIPPED":   1,
+		"BARRIER_WAIT_OUTCOME_TIMED_OUT": 2,
+	}
+)
+
+func (x BarrierWaitOutcome) Enum() *BarrierWaitOutcome {
+	p := new(BarrierWaitOutcome)
+	*p = x
+	return p
+}
+
+func (x BarrierWaitOutcome) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BarrierWaitOutcome) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_grackle_v1beta_api_proto_enumTypes[4].Descriptor()
+}
+
+func (BarrierWaitOutcome) Type() protoreflect.EnumType {
+	return &file_proto_grackle_v1beta_api_proto_enumTypes[4]
+}
+
+func (x BarrierWaitOutcome) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BarrierWaitOutcome.Descriptor instead.
+func (BarrierWaitOutcome) EnumDescriptor() ([]byte, []int) {
+	return file_proto_grackle_v1beta_api_proto_rawDescGZIP(), []int{4}
 }
 
 type CreateNamespaceRequest struct {
@@ -514,11 +692,13 @@ func (*DeleteNamespaceResponse) Descriptor() ([]byte, []int) {
 }
 
 type UpdateNamespaceRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName   string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	Description     string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	Metadata        map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExpectedVersion uint64                 `protobuf:"varint,4,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Optimistic concurrency: must equal the namespace's current version or the
+	// update is rejected.
+	ExpectedVersion int64 `protobuf:"varint,4,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -574,7 +754,7 @@ func (x *UpdateNamespaceRequest) GetMetadata() map[string]string {
 	return nil
 }
 
-func (x *UpdateNamespaceRequest) GetExpectedVersion() uint64 {
+func (x *UpdateNamespaceRequest) GetExpectedVersion() int64 {
 	if x != nil {
 		return x.ExpectedVersion
 	}
@@ -630,8 +810,9 @@ type CreateSemaphoreRequest struct {
 	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
 	SemaphoreName string                 `protobuf:"bytes,2,opt,name=semaphore_name,json=semaphoreName,proto3" json:"semaphore_name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Permits       uint64                 `protobuf:"varint,4,opt,name=permits,proto3" json:"permits,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Total capacity: the maximum sum of holder weights that can be held at once.
+	Permits       int64             `protobuf:"varint,4,opt,name=permits,proto3" json:"permits,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -687,7 +868,7 @@ func (x *CreateSemaphoreRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateSemaphoreRequest) GetPermits() uint64 {
+func (x *CreateSemaphoreRequest) GetPermits() int64 {
 	if x != nil {
 		return x.Permits
 	}
@@ -962,13 +1143,20 @@ func (x *GetSemaphoreResponse) GetSemaphore() *Semaphore {
 }
 
 type AcquireSemaphoreRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName  string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	SemaphoreName  string                 `protobuf:"bytes,2,opt,name=semaphore_name,json=semaphoreName,proto3" json:"semaphore_name,omitempty"`
-	LeaseId        string                 `protobuf:"bytes,3,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	Weight         uint64                 `protobuf:"varint,4,opt,name=weight,proto3" json:"weight,omitempty"`
-	TimeoutSeconds int32                  `protobuf:"varint,5,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
-	Metadata       map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	SemaphoreName string                 `protobuf:"bytes,2,opt,name=semaphore_name,json=semaphoreName,proto3" json:"semaphore_name,omitempty"`
+	// Lease the permits are acquired under; the hold is released when this lease is
+	// released, revoked, or expires. Re-acquiring under the same lease adjusts the
+	// existing hold's weight rather than creating a second hold.
+	LeaseId string `protobuf:"bytes,3,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
+	// Number of permits to acquire. The acquire is all-or-nothing: it succeeds only
+	// when weight permits are free. Must be > 0 and <= the semaphore's permits.
+	Weight int64 `protobuf:"varint,4,opt,name=weight,proto3" json:"weight,omitempty"`
+	// How long to block waiting for permits to become available. 0 returns
+	// immediately (non-blocking try); see AcquireOutcome.
+	TimeoutSeconds int32             `protobuf:"varint,5,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
+	Metadata       map[string]string `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1024,7 +1212,7 @@ func (x *AcquireSemaphoreRequest) GetLeaseId() string {
 	return ""
 }
 
-func (x *AcquireSemaphoreRequest) GetWeight() uint64 {
+func (x *AcquireSemaphoreRequest) GetWeight() int64 {
 	if x != nil {
 		return x.Weight
 	}
@@ -1048,7 +1236,7 @@ func (x *AcquireSemaphoreRequest) GetMetadata() map[string]string {
 type AcquireSemaphoreResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Semaphore     *Semaphore             `protobuf:"bytes,1,opt,name=semaphore,proto3" json:"semaphore,omitempty"`
-	Success       bool                   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	Outcome       AcquireOutcome         `protobuf:"varint,2,opt,name=outcome,proto3,enum=com.evrblk.grackle.v1beta.AcquireOutcome" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1090,11 +1278,11 @@ func (x *AcquireSemaphoreResponse) GetSemaphore() *Semaphore {
 	return nil
 }
 
-func (x *AcquireSemaphoreResponse) GetSuccess() bool {
+func (x *AcquireSemaphoreResponse) GetOutcome() AcquireOutcome {
 	if x != nil {
-		return x.Success
+		return x.Outcome
 	}
-	return false
+	return AcquireOutcome_ACQUIRE_OUTCOME_INVALID
 }
 
 type ReleaseSemaphoreRequest struct {
@@ -1202,13 +1390,17 @@ func (x *ReleaseSemaphoreResponse) GetSemaphore() *Semaphore {
 }
 
 type UpdateSemaphoreRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName   string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	SemaphoreName   string                 `protobuf:"bytes,2,opt,name=semaphore_name,json=semaphoreName,proto3" json:"semaphore_name,omitempty"`
-	Description     string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Permits         uint64                 `protobuf:"varint,4,opt,name=permits,proto3" json:"permits,omitempty"`
-	Metadata        map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExpectedVersion uint64                 `protobuf:"varint,6,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	SemaphoreName string                 `protobuf:"bytes,2,opt,name=semaphore_name,json=semaphoreName,proto3" json:"semaphore_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// New total capacity. Cannot be lowered below the permits currently held
+	// (active_holds).
+	Permits  int64             `protobuf:"varint,4,opt,name=permits,proto3" json:"permits,omitempty"`
+	Metadata map[string]string `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Optimistic concurrency: must equal the semaphore's current version or the
+	// update is rejected.
+	ExpectedVersion int64 `protobuf:"varint,6,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1264,7 +1456,7 @@ func (x *UpdateSemaphoreRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateSemaphoreRequest) GetPermits() uint64 {
+func (x *UpdateSemaphoreRequest) GetPermits() int64 {
 	if x != nil {
 		return x.Permits
 	}
@@ -1278,7 +1470,7 @@ func (x *UpdateSemaphoreRequest) GetMetadata() map[string]string {
 	return nil
 }
 
-func (x *UpdateSemaphoreRequest) GetExpectedVersion() uint64 {
+func (x *UpdateSemaphoreRequest) GetExpectedVersion() int64 {
 	if x != nil {
 		return x.ExpectedVersion
 	}
@@ -1548,9 +1740,13 @@ func (x *ListSemaphoreHoldersResponse) GetPreviousPaginationToken() string {
 type CreateSemaphoreLeaseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	ProcessId     string                 `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
-	TtlSeconds    uint64                 `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Caller-supplied identifier of the owning process (free-form, e.g.
+	// "host-123/pid-4567"). Surfaced on holders for diagnostics.
+	ProcessId string `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	// Lease lifetime in seconds, measured from now. The lease (and everything held
+	// under it) is released automatically if not refreshed before it elapses.
+	TtlSeconds    int64             `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1599,7 +1795,7 @@ func (x *CreateSemaphoreLeaseRequest) GetProcessId() string {
 	return ""
 }
 
-func (x *CreateSemaphoreLeaseRequest) GetTtlSeconds() uint64 {
+func (x *CreateSemaphoreLeaseRequest) GetTtlSeconds() int64 {
 	if x != nil {
 		return x.TtlSeconds
 	}
@@ -1749,7 +1945,8 @@ type RefreshSemaphoreLeaseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
 	LeaseId       string                 `protobuf:"bytes,2,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	TtlSeconds    uint64                 `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
+	// New lifetime in seconds from now; extends the lease and every hold it owns.
+	TtlSeconds    int64 `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1798,7 +1995,7 @@ func (x *RefreshSemaphoreLeaseRequest) GetLeaseId() string {
 	return ""
 }
 
-func (x *RefreshSemaphoreLeaseRequest) GetTtlSeconds() uint64 {
+func (x *RefreshSemaphoreLeaseRequest) GetTtlSeconds() int64 {
 	if x != nil {
 		return x.TtlSeconds
 	}
@@ -2065,13 +2262,26 @@ func (x *GetSemaphoreLeaseResponse) GetLease() *Lease {
 	return nil
 }
 
+// Lease is a time-bounded ownership token. It is the unit that holds locks and
+// semaphore permits: a client creates a lease, then acquires locks/semaphores
+// under it, and must keep it alive by refreshing before it expires (a heartbeat).
+// When a lease expires or is revoked, the server automatically releases
+// everything held under it — so a crashed client never leaves dangling holds.
+// Locks and semaphores use separate leases (CreateLockLease vs
+// CreateSemaphoreLease) and a lease is scoped to a single namespace.
 type Lease struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LeaseId       string                 `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	ProcessId     string                 `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	ExpiresAt     int64                  `protobuf:"varint,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	LeaseId string                 `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
+	// Caller-supplied identifier of the owning process (free-form). Server does not
+	// interpret it; it is echoed back for diagnostics.
+	ProcessId string `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	// Creation time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Absolute expiration time, Unix nanoseconds. Once the server clock passes this,
+	// the lease and all holds under it are released. Push it forward with
+	// Refresh{Lock,Semaphore}Lease.
+	ExpiresAt     int64             `protobuf:"varint,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2141,20 +2351,33 @@ func (x *Lease) GetMetadata() map[string]string {
 	return nil
 }
 
+// Semaphore is a weighted counting semaphore: it admits concurrent holders as
+// long as the sum of their weights stays within permits. Holders are leases;
+// expired holders are pruned, so the active_* fields always reflect only holders
+// whose leases are still valid.
 type Semaphore struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Name               string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description        string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt          int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt          int64                  `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version            uint64                 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
-	Permits            uint64                 `protobuf:"varint,6,opt,name=permits,proto3" json:"permits,omitempty"`
-	ActiveHolds        uint64                 `protobuf:"varint,7,opt,name=active_holds,json=activeHolds,proto3" json:"active_holds,omitempty"`
-	ActiveHoldersCount uint64                 `protobuf:"varint,8,opt,name=active_holders_count,json=activeHoldersCount,proto3" json:"active_holders_count,omitempty"`
-	Metadata           map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	LastActivityAt     int64                  `protobuf:"varint,10,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Creation / last-modification time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt int64 `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Monotonic version, bumped on every successful update. Pass as expected_version
+	// in UpdateSemaphore for optimistic concurrency control.
+	Version int64 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
+	// Total capacity (maximum sum of holder weights held at once).
+	Permits int64 `protobuf:"varint,6,opt,name=permits,proto3" json:"permits,omitempty"`
+	// Currently consumed capacity: the sum of all active holders' weights
+	// (0 <= active_holds <= permits).
+	ActiveHolds int64 `protobuf:"varint,7,opt,name=active_holds,json=activeHolds,proto3" json:"active_holds,omitempty"`
+	// Number of distinct leases currently holding permits.
+	ActiveHoldersCount int64             `protobuf:"varint,8,opt,name=active_holders_count,json=activeHoldersCount,proto3" json:"active_holders_count,omitempty"`
+	Metadata           map[string]string `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Time of the most recent acquire attempt (successful or not), Unix nanoseconds.
+	// Useful for reaping idle semaphores.
+	LastActivityAt int64 `protobuf:"varint,10,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Semaphore) Reset() {
@@ -2215,28 +2438,28 @@ func (x *Semaphore) GetUpdatedAt() int64 {
 	return 0
 }
 
-func (x *Semaphore) GetVersion() uint64 {
+func (x *Semaphore) GetVersion() int64 {
 	if x != nil {
 		return x.Version
 	}
 	return 0
 }
 
-func (x *Semaphore) GetPermits() uint64 {
+func (x *Semaphore) GetPermits() int64 {
 	if x != nil {
 		return x.Permits
 	}
 	return 0
 }
 
-func (x *Semaphore) GetActiveHolds() uint64 {
+func (x *Semaphore) GetActiveHolds() int64 {
 	if x != nil {
 		return x.ActiveHolds
 	}
 	return 0
 }
 
-func (x *Semaphore) GetActiveHoldersCount() uint64 {
+func (x *Semaphore) GetActiveHoldersCount() int64 {
 	if x != nil {
 		return x.ActiveHoldersCount
 	}
@@ -2257,12 +2480,16 @@ func (x *Semaphore) GetLastActivityAt() int64 {
 	return 0
 }
 
+// SemaphoreHolder is one lease's hold on a semaphore (see ListSemaphoreHolders).
 type SemaphoreHolder struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LeaseId       string                 `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	LockedAt      int64                  `protobuf:"varint,2,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
-	Weight        uint64                 `protobuf:"varint,3,opt,name=weight,proto3" json:"weight,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The lease holding these permits.
+	LeaseId string `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
+	// When the hold was acquired, Unix nanoseconds.
+	LockedAt int64 `protobuf:"varint,2,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
+	// Number of permits this holder consumes.
+	Weight        int64             `protobuf:"varint,3,opt,name=weight,proto3" json:"weight,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2311,7 +2538,7 @@ func (x *SemaphoreHolder) GetLockedAt() int64 {
 	return 0
 }
 
-func (x *SemaphoreHolder) GetWeight() uint64 {
+func (x *SemaphoreHolder) GetWeight() int64 {
 	if x != nil {
 		return x.Weight
 	}
@@ -2326,14 +2553,19 @@ func (x *SemaphoreHolder) GetMetadata() map[string]string {
 }
 
 type CreateWaitGroupRequest struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	WaitGroupName              string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
-	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Counter                    uint64                 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
-	ExpiresAt                  int64                  `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Metadata                   map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	DeleteAfterFinishedSeconds int64                  `protobuf:"varint,7,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	WaitGroupName string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// Total number of jobs that must complete before the group is COMPLETED.
+	Counter int64 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
+	// Absolute deadline, Unix nanoseconds. If the group has not completed by then it
+	// becomes EXPIRED.
+	ExpiresAt int64             `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	Metadata  map[string]string `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Retention after finishing: the group is automatically deleted this many
+	// seconds after it finishes (completes or expires).
+	DeleteAfterFinishedSeconds int64 `protobuf:"varint,7,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
 	unknownFields              protoimpl.UnknownFields
 	sizeCache                  protoimpl.SizeCache
 }
@@ -2389,7 +2621,7 @@ func (x *CreateWaitGroupRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateWaitGroupRequest) GetCounter() uint64 {
+func (x *CreateWaitGroupRequest) GetCounter() int64 {
 	if x != nil {
 		return x.Counter
 	}
@@ -2462,15 +2694,20 @@ func (x *CreateWaitGroupResponse) GetWaitGroup() *WaitGroup {
 }
 
 type UpdateWaitGroupRequest struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	WaitGroupName              string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
-	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Counter                    uint64                 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
-	ExpiresAt                  int64                  `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Metadata                   map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExpectedVersion            uint64                 `protobuf:"varint,7,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
-	DeleteAfterFinishedSeconds int64                  `protobuf:"varint,8,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	WaitGroupName string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// New total number of jobs required to complete the group.
+	Counter int64 `protobuf:"varint,4,opt,name=counter,proto3" json:"counter,omitempty"`
+	// New absolute deadline, Unix nanoseconds.
+	ExpiresAt int64             `protobuf:"varint,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	Metadata  map[string]string `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Optimistic concurrency: must equal the wait group's current version or the
+	// update is rejected.
+	ExpectedVersion int64 `protobuf:"varint,7,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	// New retention period (seconds after finishing) before automatic deletion.
+	DeleteAfterFinishedSeconds int64 `protobuf:"varint,8,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
 	unknownFields              protoimpl.UnknownFields
 	sizeCache                  protoimpl.SizeCache
 }
@@ -2526,7 +2763,7 @@ func (x *UpdateWaitGroupRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateWaitGroupRequest) GetCounter() uint64 {
+func (x *UpdateWaitGroupRequest) GetCounter() int64 {
 	if x != nil {
 		return x.Counter
 	}
@@ -2547,7 +2784,7 @@ func (x *UpdateWaitGroupRequest) GetMetadata() map[string]string {
 	return nil
 }
 
-func (x *UpdateWaitGroupRequest) GetExpectedVersion() uint64 {
+func (x *UpdateWaitGroupRequest) GetExpectedVersion() int64 {
 	if x != nil {
 		return x.ExpectedVersion
 	}
@@ -2970,9 +3207,11 @@ func (x *CompleteJobsFromWaitGroupRequest) GetJobs() []*CompleteJobRequest {
 }
 
 type CompleteJobRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Caller-chosen identifier of the completed job. Completion is idempotent per
+	// job_id: completing the same id twice counts once, so retries are safe.
+	JobId         string            `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3194,10 +3433,12 @@ func (x *ListWaitGroupCompletedJobsResponse) GetPreviousPaginationToken() string
 }
 
 type WaitForWaitGroupRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName  string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	WaitGroupName  string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
-	TimeoutSeconds int32                  `protobuf:"varint,3,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	WaitGroupName string                 `protobuf:"bytes,2,opt,name=wait_group_name,json=waitGroupName,proto3" json:"wait_group_name,omitempty"`
+	// How long to block waiting for the group to finish. 0 returns immediately with
+	// the current state; see WaitGroupWaitOutcome.
+	TimeoutSeconds int32 `protobuf:"varint,3,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -3256,8 +3497,7 @@ func (x *WaitForWaitGroupRequest) GetTimeoutSeconds() int32 {
 type WaitForWaitGroupResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
-	Completed     bool                   `protobuf:"varint,2,opt,name=completed,proto3" json:"completed,omitempty"`
-	TimedOut      bool                   `protobuf:"varint,3,opt,name=timed_out,json=timedOut,proto3" json:"timed_out,omitempty"`
+	Outcome       WaitGroupWaitOutcome   `protobuf:"varint,2,opt,name=outcome,proto3,enum=com.evrblk.grackle.v1beta.WaitGroupWaitOutcome" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3299,37 +3539,48 @@ func (x *WaitForWaitGroupResponse) GetWaitGroup() *WaitGroup {
 	return nil
 }
 
-func (x *WaitForWaitGroupResponse) GetCompleted() bool {
+func (x *WaitForWaitGroupResponse) GetOutcome() WaitGroupWaitOutcome {
 	if x != nil {
-		return x.Completed
+		return x.Outcome
 	}
-	return false
+	return WaitGroupWaitOutcome_WAIT_GROUP_WAIT_OUTCOME_INVALID
 }
 
-func (x *WaitForWaitGroupResponse) GetTimedOut() bool {
-	if x != nil {
-		return x.TimedOut
-	}
-	return false
-}
-
+// WaitGroup tracks completion of a fixed set of jobs — a distributed, durable
+// sync.WaitGroup for fan-in of up to millions of jobs. It starts with counter
+// jobs outstanding; each job reported via CompleteJobsFromWaitGroup increments
+// completed_jobs, and the group becomes COMPLETED once completed_jobs reaches
+// counter (or EXPIRED if expires_at passes first). WaitForWaitGroup blocks until
+// it finishes.
 type WaitGroup struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	Name                       string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description                string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt                  int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt                  int64                  `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version                    uint64                 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
-	ExpiresAt                  int64                  `protobuf:"varint,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	Counter                    uint64                 `protobuf:"varint,7,opt,name=counter,proto3" json:"counter,omitempty"`
-	CompletedJobs              uint64                 `protobuf:"varint,8,opt,name=completed_jobs,json=completedJobs,proto3" json:"completed_jobs,omitempty"`
-	Metadata                   map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Status                     WaitGroupStatus        `protobuf:"varint,10,opt,name=status,proto3,enum=com.evrblk.grackle.v1beta.WaitGroupStatus" json:"status,omitempty"`
-	DeleteAfterFinishedSeconds int64                  `protobuf:"varint,11,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
-	FinishedAt                 int64                  `protobuf:"varint,12,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty"`
-	LastActivityAt             int64                  `protobuf:"varint,13,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
-	unknownFields              protoimpl.UnknownFields
-	sizeCache                  protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Creation / last-modification time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt int64 `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Monotonic version, bumped on every successful update. Pass as expected_version
+	// in UpdateWaitGroup for optimistic concurrency control.
+	Version int64 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
+	// Absolute deadline, Unix nanoseconds; the group becomes EXPIRED if it has not
+	// completed by then.
+	ExpiresAt int64 `protobuf:"varint,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	// Total number of jobs required to complete the group.
+	Counter int64 `protobuf:"varint,7,opt,name=counter,proto3" json:"counter,omitempty"`
+	// Number of distinct jobs completed so far (0 <= completed_jobs <= counter).
+	CompletedJobs int64             `protobuf:"varint,8,opt,name=completed_jobs,json=completedJobs,proto3" json:"completed_jobs,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Status        WaitGroupStatus   `protobuf:"varint,10,opt,name=status,proto3,enum=com.evrblk.grackle.v1beta.WaitGroupStatus" json:"status,omitempty"`
+	// Retention period: the group is automatically deleted this many seconds after
+	// finished_at.
+	DeleteAfterFinishedSeconds int64 `protobuf:"varint,11,opt,name=delete_after_finished_seconds,json=deleteAfterFinishedSeconds,proto3" json:"delete_after_finished_seconds,omitempty"`
+	// When the group finished (reached COMPLETED or EXPIRED), Unix nanoseconds; 0
+	// while still ACTIVE.
+	FinishedAt int64 `protobuf:"varint,12,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty"`
+	// Time of the most recent activity (e.g. a job completion), Unix nanoseconds.
+	LastActivityAt int64 `protobuf:"varint,13,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WaitGroup) Reset() {
@@ -3390,7 +3641,7 @@ func (x *WaitGroup) GetUpdatedAt() int64 {
 	return 0
 }
 
-func (x *WaitGroup) GetVersion() uint64 {
+func (x *WaitGroup) GetVersion() int64 {
 	if x != nil {
 		return x.Version
 	}
@@ -3404,14 +3655,14 @@ func (x *WaitGroup) GetExpiresAt() int64 {
 	return 0
 }
 
-func (x *WaitGroup) GetCounter() uint64 {
+func (x *WaitGroup) GetCounter() int64 {
 	if x != nil {
 		return x.Counter
 	}
 	return 0
 }
 
-func (x *WaitGroup) GetCompletedJobs() uint64 {
+func (x *WaitGroup) GetCompletedJobs() int64 {
 	if x != nil {
 		return x.CompletedJobs
 	}
@@ -3453,11 +3704,14 @@ func (x *WaitGroup) GetLastActivityAt() int64 {
 	return 0
 }
 
+// WaitGroupJob is one completed job recorded against a wait group (see
+// ListWaitGroupCompletedJobs).
 type WaitGroupJob struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	CompletedAt   int64                  `protobuf:"varint,2,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	JobId string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	// When the job was reported complete, Unix nanoseconds.
+	CompletedAt   int64             `protobuf:"varint,2,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3514,13 +3768,23 @@ func (x *WaitGroupJob) GetMetadata() map[string]string {
 }
 
 type AcquireLockRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName  string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	LockName       string                 `protobuf:"bytes,2,opt,name=lock_name,json=lockName,proto3" json:"lock_name,omitempty"`
-	Exclusive      bool                   `protobuf:"varint,3,opt,name=exclusive,proto3" json:"exclusive,omitempty"`
-	LeaseId        string                 `protobuf:"bytes,4,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	TimeoutSeconds int32                  `protobuf:"varint,5,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
-	Metadata       map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	// Lock name, a '/'-separated path (e.g. "users/123/profile"). Paths form a
+	// hierarchy: a lock conflicts with locks on its ancestor and descendant paths
+	// (see Lock), so guarding a subtree does not require enumerating every leaf.
+	LockName string `protobuf:"bytes,2,opt,name=lock_name,json=lockName,proto3" json:"lock_name,omitempty"`
+	// true acquires the lock exclusively (one holder); false acquires it shared
+	// (multiple shared holders coexist, but block exclusive acquirers).
+	Exclusive bool `protobuf:"varint,3,opt,name=exclusive,proto3" json:"exclusive,omitempty"`
+	// Lease the lock is held under; the lock is released when this lease is
+	// released, revoked, or expires. Re-acquiring under a lease that already holds
+	// the lock just refreshes it.
+	LeaseId string `protobuf:"bytes,4,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
+	// How long to block waiting for the lock. 0 returns immediately (non-blocking
+	// try); see AcquireOutcome.
+	TimeoutSeconds int32             `protobuf:"varint,5,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
+	Metadata       map[string]string `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -3600,7 +3864,7 @@ func (x *AcquireLockRequest) GetMetadata() map[string]string {
 type AcquireLockResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Lock          *Lock                  `protobuf:"bytes,1,opt,name=lock,proto3" json:"lock,omitempty"`
-	Success       bool                   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	Outcome       AcquireOutcome         `protobuf:"varint,2,opt,name=outcome,proto3,enum=com.evrblk.grackle.v1beta.AcquireOutcome" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3642,11 +3906,11 @@ func (x *AcquireLockResponse) GetLock() *Lock {
 	return nil
 }
 
-func (x *AcquireLockResponse) GetSuccess() bool {
+func (x *AcquireLockResponse) GetOutcome() AcquireOutcome {
 	if x != nil {
-		return x.Success
+		return x.Outcome
 	}
-	return false
+	return AcquireOutcome_ACQUIRE_OUTCOME_INVALID
 }
 
 type ReleaseLockRequest struct {
@@ -4060,9 +4324,13 @@ func (x *ListLocksResponse) GetPreviousPaginationToken() string {
 type CreateLockLeaseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	ProcessId     string                 `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
-	TtlSeconds    uint64                 `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Caller-supplied identifier of the owning process (free-form). Surfaced on lock
+	// holders for diagnostics.
+	ProcessId string `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	// Lease lifetime in seconds, measured from now. The lease (and every lock held
+	// under it) is released automatically if not refreshed before it elapses.
+	TtlSeconds    int64             `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4111,7 +4379,7 @@ func (x *CreateLockLeaseRequest) GetProcessId() string {
 	return ""
 }
 
-func (x *CreateLockLeaseRequest) GetTtlSeconds() uint64 {
+func (x *CreateLockLeaseRequest) GetTtlSeconds() int64 {
 	if x != nil {
 		return x.TtlSeconds
 	}
@@ -4261,7 +4529,8 @@ type RefreshLockLeaseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
 	LeaseId       string                 `protobuf:"bytes,2,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	TtlSeconds    uint64                 `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
+	// New lifetime in seconds from now; extends the lease and every lock it holds.
+	TtlSeconds    int64 `protobuf:"varint,3,opt,name=ttl_seconds,json=ttlSeconds,proto3" json:"ttl_seconds,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4310,7 +4579,7 @@ func (x *RefreshLockLeaseRequest) GetLeaseId() string {
 	return ""
 }
 
-func (x *RefreshLockLeaseRequest) GetTtlSeconds() uint64 {
+func (x *RefreshLockLeaseRequest) GetTtlSeconds() int64 {
 	if x != nil {
 		return x.TtlSeconds
 	}
@@ -4577,13 +4846,28 @@ func (x *GetLockLeaseResponse) GetLease() *Lease {
 	return nil
 }
 
+// Lock is a distributed read/write (shared/exclusive) lock, held under a lease.
+// Locks are not created explicitly: the first successful AcquireLock creates the
+// lock, and it disappears once no holders remain. A lock can have many shared
+// holders at once, or a single exclusive holder, never both.
+//
+// Lock names are '/'-separated paths and form a hierarchy. An exclusive lock at
+// any path conflicts with acquires on its ancestors and descendants; a shared
+// lock blocks only exclusive acquires up and down the path. Sibling paths are
+// independent. This lets a caller guard a whole subtree without locking every
+// leaf — acquire root-to-leaf and release leaf-to-root to avoid deadlocks.
 type Lock struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	State          LockState              `protobuf:"varint,2,opt,name=state,proto3,enum=com.evrblk.grackle.v1beta.LockState" json:"state,omitempty"`
-	LockedAt       int64                  `protobuf:"varint,3,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
-	LockHolders    []*LockHolder          `protobuf:"bytes,4,rep,name=lock_holders,json=lockHolders,proto3" json:"lock_holders,omitempty"`
-	LastActivityAt int64                  `protobuf:"varint,5,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	State LockState              `protobuf:"varint,2,opt,name=state,proto3,enum=com.evrblk.grackle.v1beta.LockState" json:"state,omitempty"`
+	// When the lock first became held (by its current set of holders), Unix
+	// nanoseconds.
+	LockedAt int64 `protobuf:"varint,3,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
+	// The leases currently holding the lock: exactly one when EXCLUSIVE_LOCKED,
+	// one or more when SHARED_LOCKED, empty when UNLOCKED.
+	LockHolders []*LockHolder `protobuf:"bytes,4,rep,name=lock_holders,json=lockHolders,proto3" json:"lock_holders,omitempty"`
+	// Time of the most recent acquire attempt against this lock, Unix nanoseconds.
+	LastActivityAt int64 `protobuf:"varint,5,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -4653,11 +4937,14 @@ func (x *Lock) GetLastActivityAt() int64 {
 	return 0
 }
 
+// LockHolder is one lease's hold on a lock.
 type LockHolder struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LeaseId       string                 `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
-	LockedAt      int64                  `protobuf:"varint,2,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The lease holding the lock.
+	LeaseId string `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"lease_id,omitempty"`
+	// When this holder acquired the lock, Unix nanoseconds.
+	LockedAt      int64             `protobuf:"varint,2,opt,name=locked_at,json=lockedAt,proto3" json:"locked_at,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4713,14 +5000,21 @@ func (x *LockHolder) GetMetadata() map[string]string {
 	return nil
 }
 
+// Namespace is the container for all primitives (locks, semaphores, wait groups,
+// barriers) and their leases. Names are unique per account, and every other API
+// call is scoped to a namespace. Deleting a namespace asynchronously deletes
+// everything inside it.
 type Namespace struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     int64                  `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version       uint64                 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Creation / last-modification time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt int64 `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Monotonic version, bumped on every successful update. Pass as expected_version
+	// in UpdateNamespace for optimistic concurrency control.
+	Version       int64             `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4783,7 +5077,7 @@ func (x *Namespace) GetUpdatedAt() int64 {
 	return 0
 }
 
-func (x *Namespace) GetVersion() uint64 {
+func (x *Namespace) GetVersion() int64 {
 	if x != nil {
 		return x.Version
 	}
@@ -4798,13 +5092,17 @@ func (x *Namespace) GetMetadata() map[string]string {
 }
 
 type CreateBarrierRequest struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName                string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	ExpectedProcesses          uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
-	DeleteInactiveAfterSeconds int64                  `protobuf:"varint,8,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
-	Metadata                   map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName   string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// Number of processes that must arrive before the barrier trips (releases) for
+	// a generation.
+	ExpectedProcesses int64 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	// The barrier is automatically deleted this many seconds after its last
+	// activity (creation or an arrival).
+	DeleteInactiveAfterSeconds int64             `protobuf:"varint,8,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
+	Metadata                   map[string]string `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields              protoimpl.UnknownFields
 	sizeCache                  protoimpl.SizeCache
 }
@@ -4860,7 +5158,7 @@ func (x *CreateBarrierRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateBarrierRequest) GetExpectedProcesses() uint64 {
+func (x *CreateBarrierRequest) GetExpectedProcesses() int64 {
 	if x != nil {
 		return x.ExpectedProcesses
 	}
@@ -5230,14 +5528,18 @@ func (*DeleteBarrierResponse) Descriptor() ([]byte, []int) {
 }
 
 type UpdateBarrierRequest struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName              string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName                string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	Description                string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	ExpectedProcesses          uint64                 `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
-	Metadata                   map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExpectedVersion            uint64                 `protobuf:"varint,6,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
-	DeleteInactiveAfterSeconds int64                  `protobuf:"varint,7,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName   string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// New number of processes required to trip the barrier.
+	ExpectedProcesses int64             `protobuf:"varint,4,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	Metadata          map[string]string `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Optimistic concurrency: must equal the barrier's current version or the update
+	// is rejected.
+	ExpectedVersion int64 `protobuf:"varint,6,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	// New inactivity period (seconds) before automatic deletion.
+	DeleteInactiveAfterSeconds int64 `protobuf:"varint,7,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
 	unknownFields              protoimpl.UnknownFields
 	sizeCache                  protoimpl.SizeCache
 }
@@ -5293,7 +5595,7 @@ func (x *UpdateBarrierRequest) GetDescription() string {
 	return ""
 }
 
-func (x *UpdateBarrierRequest) GetExpectedProcesses() uint64 {
+func (x *UpdateBarrierRequest) GetExpectedProcesses() int64 {
 	if x != nil {
 		return x.ExpectedProcesses
 	}
@@ -5307,7 +5609,7 @@ func (x *UpdateBarrierRequest) GetMetadata() map[string]string {
 	return nil
 }
 
-func (x *UpdateBarrierRequest) GetExpectedVersion() uint64 {
+func (x *UpdateBarrierRequest) GetExpectedVersion() int64 {
 	if x != nil {
 		return x.ExpectedVersion
 	}
@@ -5366,12 +5668,18 @@ func (x *UpdateBarrierResponse) GetBarrier() *Barrier {
 }
 
 type ArriveAtBarrierRequest struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName      string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName        string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	ProcessId          string                 `protobuf:"bytes,3,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
-	ExpectedGeneration uint64                 `protobuf:"varint,4,opt,name=expected_generation,json=expectedGeneration,proto3" json:"expected_generation,omitempty"`
-	Metadata           map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName   string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	// Identifier of the arriving process. Arrival is idempotent per
+	// (generation, process_id): the same process arriving twice in a generation
+	// counts once.
+	ProcessId string `protobuf:"bytes,3,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	// The generation the caller is arriving for; must match the barrier's current
+	// generation, otherwise the call is rejected (guards against contributing to
+	// the wrong cycle).
+	ExpectedGeneration int64             `protobuf:"varint,4,opt,name=expected_generation,json=expectedGeneration,proto3" json:"expected_generation,omitempty"`
+	Metadata           map[string]string `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -5427,7 +5735,7 @@ func (x *ArriveAtBarrierRequest) GetProcessId() string {
 	return ""
 }
 
-func (x *ArriveAtBarrierRequest) GetExpectedGeneration() uint64 {
+func (x *ArriveAtBarrierRequest) GetExpectedGeneration() int64 {
 	if x != nil {
 		return x.ExpectedGeneration
 	}
@@ -5442,12 +5750,13 @@ func (x *ArriveAtBarrierRequest) GetMetadata() map[string]string {
 }
 
 type ArriveAtBarrierResponse struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Barrier        *Barrier               `protobuf:"bytes,1,opt,name=barrier,proto3" json:"barrier,omitempty"`
-	AllArrived     bool                   `protobuf:"varint,2,opt,name=all_arrived,json=allArrived,proto3" json:"all_arrived,omitempty"`
-	NextGeneration uint64                 `protobuf:"varint,3,opt,name=next_generation,json=nextGeneration,proto3" json:"next_generation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Barrier *Barrier               `protobuf:"bytes,1,opt,name=barrier,proto3" json:"barrier,omitempty"`
+	// true if this arrival was the last one needed and the barrier tripped (its
+	// generation has now advanced and arrived_processes reset to 0).
+	AllArrived    bool `protobuf:"varint,2,opt,name=all_arrived,json=allArrived,proto3" json:"all_arrived,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ArriveAtBarrierResponse) Reset() {
@@ -5494,21 +5803,19 @@ func (x *ArriveAtBarrierResponse) GetAllArrived() bool {
 	return false
 }
 
-func (x *ArriveAtBarrierResponse) GetNextGeneration() uint64 {
-	if x != nil {
-		return x.NextGeneration
-	}
-	return 0
-}
-
 type WaitAtBarrierRequest struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName      string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName        string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	ExpectedGeneration uint64                 `protobuf:"varint,3,opt,name=expected_generation,json=expectedGeneration,proto3" json:"expected_generation,omitempty"`
-	TimeoutSeconds     int32                  `protobuf:"varint,4,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName   string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	// The generation the caller is waiting on. The call returns once the barrier
+	// advances past it (trips). Waiting on a generation that has already passed
+	// returns immediately. WaitAtBarrier does not itself register an arrival.
+	ExpectedGeneration int64 `protobuf:"varint,3,opt,name=expected_generation,json=expectedGeneration,proto3" json:"expected_generation,omitempty"`
+	// How long to block waiting for the barrier to trip. 0 returns immediately; see
+	// BarrierWaitOutcome.
+	TimeoutSeconds int32 `protobuf:"varint,4,opt,name=timeout_seconds,json=timeoutSeconds,proto3" json:"timeout_seconds,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WaitAtBarrierRequest) Reset() {
@@ -5555,7 +5862,7 @@ func (x *WaitAtBarrierRequest) GetBarrierName() string {
 	return ""
 }
 
-func (x *WaitAtBarrierRequest) GetExpectedGeneration() uint64 {
+func (x *WaitAtBarrierRequest) GetExpectedGeneration() int64 {
 	if x != nil {
 		return x.ExpectedGeneration
 	}
@@ -5570,13 +5877,11 @@ func (x *WaitAtBarrierRequest) GetTimeoutSeconds() int32 {
 }
 
 type WaitAtBarrierResponse struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Barrier        *Barrier               `protobuf:"bytes,1,opt,name=barrier,proto3" json:"barrier,omitempty"`
-	AllArrived     bool                   `protobuf:"varint,2,opt,name=all_arrived,json=allArrived,proto3" json:"all_arrived,omitempty"`
-	NextGeneration uint64                 `protobuf:"varint,3,opt,name=next_generation,json=nextGeneration,proto3" json:"next_generation,omitempty"`
-	TimedOut       bool                   `protobuf:"varint,4,opt,name=timed_out,json=timedOut,proto3" json:"timed_out,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Barrier       *Barrier               `protobuf:"bytes,1,opt,name=barrier,proto3" json:"barrier,omitempty"`
+	Outcome       BarrierWaitOutcome     `protobuf:"varint,2,opt,name=outcome,proto3,enum=com.evrblk.grackle.v1beta.BarrierWaitOutcome" json:"outcome,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WaitAtBarrierResponse) Reset() {
@@ -5616,34 +5921,22 @@ func (x *WaitAtBarrierResponse) GetBarrier() *Barrier {
 	return nil
 }
 
-func (x *WaitAtBarrierResponse) GetAllArrived() bool {
+func (x *WaitAtBarrierResponse) GetOutcome() BarrierWaitOutcome {
 	if x != nil {
-		return x.AllArrived
+		return x.Outcome
 	}
-	return false
-}
-
-func (x *WaitAtBarrierResponse) GetNextGeneration() uint64 {
-	if x != nil {
-		return x.NextGeneration
-	}
-	return 0
-}
-
-func (x *WaitAtBarrierResponse) GetTimedOut() bool {
-	if x != nil {
-		return x.TimedOut
-	}
-	return false
+	return BarrierWaitOutcome_BARRIER_WAIT_OUTCOME_INVALID
 }
 
 type ListBarrierParticipantsRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	NamespaceName   string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
-	BarrierName     string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
-	Generation      uint64                 `protobuf:"varint,3,opt,name=generation,proto3" json:"generation,omitempty"`
-	PaginationToken string                 `protobuf:"bytes,4,opt,name=pagination_token,json=paginationToken,proto3" json:"pagination_token,omitempty"`
-	Limit           int32                  `protobuf:"varint,5,opt,name=limit,proto3" json:"limit,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	NamespaceName string                 `protobuf:"bytes,1,opt,name=namespace_name,json=namespaceName,proto3" json:"namespace_name,omitempty"`
+	BarrierName   string                 `protobuf:"bytes,2,opt,name=barrier_name,json=barrierName,proto3" json:"barrier_name,omitempty"`
+	// Which generation's arrivals to list (participant records are kept per
+	// generation).
+	Generation      int64  `protobuf:"varint,3,opt,name=generation,proto3" json:"generation,omitempty"`
+	PaginationToken string `protobuf:"bytes,4,opt,name=pagination_token,json=paginationToken,proto3" json:"pagination_token,omitempty"`
+	Limit           int32  `protobuf:"varint,5,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -5692,7 +5985,7 @@ func (x *ListBarrierParticipantsRequest) GetBarrierName() string {
 	return ""
 }
 
-func (x *ListBarrierParticipantsRequest) GetGeneration() uint64 {
+func (x *ListBarrierParticipantsRequest) GetGeneration() int64 {
 	if x != nil {
 		return x.Generation
 	}
@@ -5773,19 +6066,36 @@ func (x *ListBarrierParticipantsResponse) GetPreviousPaginationToken() string {
 	return ""
 }
 
+// Barrier is a reusable, generational rendezvous point for a fixed number of
+// processes (like a cyclic barrier). Processes call ArriveAtBarrier; once
+// expected_processes of them have arrived, the barrier "trips": all waiters are
+// released, generation advances by one, and arrived_processes resets to 0 for
+// the next cycle. The generation lets a fast process wait for exactly the cycle
+// it cares about and a slow one avoid contributing to the wrong cycle.
 type Barrier struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	Name                       string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description                string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	ExpectedProcesses          uint64                 `protobuf:"varint,3,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
-	ArrivedProcesses           uint64                 `protobuf:"varint,4,opt,name=arrived_processes,json=arrivedProcesses,proto3" json:"arrived_processes,omitempty"`
-	Generation                 uint64                 `protobuf:"varint,5,opt,name=generation,proto3" json:"generation,omitempty"`
-	CreatedAt                  int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt                  int64                  `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version                    uint64                 `protobuf:"varint,8,opt,name=version,proto3" json:"version,omitempty"`
-	Metadata                   map[string]string      `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	LastActivityAt             int64                  `protobuf:"varint,10,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
-	DeleteInactiveAfterSeconds int64                  `protobuf:"varint,11,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Number of arrivals required to trip the barrier.
+	ExpectedProcesses int64 `protobuf:"varint,3,opt,name=expected_processes,json=expectedProcesses,proto3" json:"expected_processes,omitempty"`
+	// Arrivals recorded in the current generation so far (0 <= arrived_processes <
+	// expected_processes; reaching it trips the barrier and resets this to 0).
+	ArrivedProcesses int64 `protobuf:"varint,4,opt,name=arrived_processes,json=arrivedProcesses,proto3" json:"arrived_processes,omitempty"`
+	// Current cycle number, starting at 1 and incremented by exactly one on each
+	// trip.
+	Generation int64 `protobuf:"varint,5,opt,name=generation,proto3" json:"generation,omitempty"`
+	// Creation / last-modification time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt int64 `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Monotonic version, bumped on every successful update. Pass as expected_version
+	// in UpdateBarrier for optimistic concurrency control.
+	Version  int64             `protobuf:"varint,8,opt,name=version,proto3" json:"version,omitempty"`
+	Metadata map[string]string `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Time of the most recent activity (creation or an arrival), Unix nanoseconds.
+	// Drives inactivity-based auto-deletion.
+	LastActivityAt int64 `protobuf:"varint,10,opt,name=last_activity_at,json=lastActivityAt,proto3" json:"last_activity_at,omitempty"`
+	// The barrier is automatically deleted this many seconds after last_activity_at.
+	DeleteInactiveAfterSeconds int64 `protobuf:"varint,11,opt,name=delete_inactive_after_seconds,json=deleteInactiveAfterSeconds,proto3" json:"delete_inactive_after_seconds,omitempty"`
 	unknownFields              protoimpl.UnknownFields
 	sizeCache                  protoimpl.SizeCache
 }
@@ -5834,21 +6144,21 @@ func (x *Barrier) GetDescription() string {
 	return ""
 }
 
-func (x *Barrier) GetExpectedProcesses() uint64 {
+func (x *Barrier) GetExpectedProcesses() int64 {
 	if x != nil {
 		return x.ExpectedProcesses
 	}
 	return 0
 }
 
-func (x *Barrier) GetArrivedProcesses() uint64 {
+func (x *Barrier) GetArrivedProcesses() int64 {
 	if x != nil {
 		return x.ArrivedProcesses
 	}
 	return 0
 }
 
-func (x *Barrier) GetGeneration() uint64 {
+func (x *Barrier) GetGeneration() int64 {
 	if x != nil {
 		return x.Generation
 	}
@@ -5869,7 +6179,7 @@ func (x *Barrier) GetUpdatedAt() int64 {
 	return 0
 }
 
-func (x *Barrier) GetVersion() uint64 {
+func (x *Barrier) GetVersion() int64 {
 	if x != nil {
 		return x.Version
 	}
@@ -5897,11 +6207,14 @@ func (x *Barrier) GetDeleteInactiveAfterSeconds() int64 {
 	return 0
 }
 
+// BarrierParticipant is one process's arrival in a given generation (see
+// ListBarrierParticipants).
 type BarrierParticipant struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProcessId     string                 `protobuf:"bytes,1,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
-	ArrivedAt     int64                  `protobuf:"varint,2,opt,name=arrived_at,json=arrivedAt,proto3" json:"arrived_at,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ProcessId string                 `protobuf:"bytes,1,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	// When the process arrived, Unix nanoseconds.
+	ArrivedAt     int64             `protobuf:"varint,2,opt,name=arrived_at,json=arrivedAt,proto3" json:"arrived_at,omitempty"`
+	Metadata      map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -5991,7 +6304,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12[\n" +
 	"\bmetadata\x18\x03 \x03(\v2?.com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntryR\bmetadata\x12)\n" +
-	"\x10expected_version\x18\x04 \x01(\x04R\x0fexpectedVersion\x1a;\n" +
+	"\x10expected_version\x18\x04 \x01(\x03R\x0fexpectedVersion\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"]\n" +
@@ -6001,7 +6314,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
-	"\apermits\x18\x04 \x01(\x04R\apermits\x12[\n" +
+	"\apermits\x18\x04 \x01(\x03R\apermits\x12[\n" +
 	"\bmetadata\x18\x05 \x03(\v2?.com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -6027,15 +6340,15 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12\x19\n" +
 	"\blease_id\x18\x03 \x01(\tR\aleaseId\x12\x16\n" +
-	"\x06weight\x18\x04 \x01(\x04R\x06weight\x12'\n" +
+	"\x06weight\x18\x04 \x01(\x03R\x06weight\x12'\n" +
 	"\x0ftimeout_seconds\x18\x05 \x01(\x05R\x0etimeoutSeconds\x12\\\n" +
 	"\bmetadata\x18\x06 \x03(\v2@.com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"x\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa3\x01\n" +
 	"\x18AcquireSemaphoreResponse\x12B\n" +
-	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\x12\x18\n" +
-	"\asuccess\x18\x02 \x01(\bR\asuccess\"\x82\x01\n" +
+	"\tsemaphore\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.SemaphoreR\tsemaphore\x12C\n" +
+	"\aoutcome\x18\x02 \x01(\x0e2).com.evrblk.grackle.v1beta.AcquireOutcomeR\aoutcome\"\x82\x01\n" +
 	"\x17ReleaseSemaphoreRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12\x19\n" +
@@ -6046,9 +6359,9 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12%\n" +
 	"\x0esemaphore_name\x18\x02 \x01(\tR\rsemaphoreName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
-	"\apermits\x18\x04 \x01(\x04R\apermits\x12[\n" +
+	"\apermits\x18\x04 \x01(\x03R\apermits\x12[\n" +
 	"\bmetadata\x18\x05 \x03(\v2?.com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntryR\bmetadata\x12)\n" +
-	"\x10expected_version\x18\x06 \x01(\x04R\x0fexpectedVersion\x1a;\n" +
+	"\x10expected_version\x18\x06 \x01(\x03R\x0fexpectedVersion\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"]\n" +
@@ -6071,7 +6384,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1d\n" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x12\x1f\n" +
-	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
+	"\vttl_seconds\x18\x03 \x01(\x03R\n" +
 	"ttlSeconds\x12`\n" +
 	"\bmetadata\x18\x04 \x03(\v2D.com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
@@ -6086,7 +6399,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x1cRefreshSemaphoreLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\x12\x1f\n" +
-	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
+	"\vttl_seconds\x18\x03 \x01(\x03R\n" +
 	"ttlSeconds\"W\n" +
 	"\x1dRefreshSemaphoreLeaseResponse\x126\n" +
 	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x84\x01\n" +
@@ -6122,10 +6435,10 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"created_at\x18\x03 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\x04 \x01(\x03R\tupdatedAt\x12\x18\n" +
-	"\aversion\x18\x05 \x01(\x04R\aversion\x12\x18\n" +
-	"\apermits\x18\x06 \x01(\x04R\apermits\x12!\n" +
-	"\factive_holds\x18\a \x01(\x04R\vactiveHolds\x120\n" +
-	"\x14active_holders_count\x18\b \x01(\x04R\x12activeHoldersCount\x12N\n" +
+	"\aversion\x18\x05 \x01(\x03R\aversion\x12\x18\n" +
+	"\apermits\x18\x06 \x01(\x03R\apermits\x12!\n" +
+	"\factive_holds\x18\a \x01(\x03R\vactiveHolds\x120\n" +
+	"\x14active_holders_count\x18\b \x01(\x03R\x12activeHoldersCount\x12N\n" +
 	"\bmetadata\x18\t \x03(\v22.com.evrblk.grackle.v1beta.Semaphore.MetadataEntryR\bmetadata\x12(\n" +
 	"\x10last_activity_at\x18\n" +
 	" \x01(\x03R\x0elastActivityAt\x1a;\n" +
@@ -6135,7 +6448,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0fSemaphoreHolder\x12\x19\n" +
 	"\blease_id\x18\x01 \x01(\tR\aleaseId\x12\x1b\n" +
 	"\tlocked_at\x18\x02 \x01(\x03R\blockedAt\x12\x16\n" +
-	"\x06weight\x18\x03 \x01(\x04R\x06weight\x12T\n" +
+	"\x06weight\x18\x03 \x01(\x03R\x06weight\x12T\n" +
 	"\bmetadata\x18\x04 \x03(\v28.com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -6144,7 +6457,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
-	"\acounter\x18\x04 \x01(\x04R\acounter\x12\x1d\n" +
+	"\acounter\x18\x04 \x01(\x03R\acounter\x12\x1d\n" +
 	"\n" +
 	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12[\n" +
 	"\bmetadata\x18\x06 \x03(\v2?.com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntryR\bmetadata\x12A\n" +
@@ -6159,11 +6472,11 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
-	"\acounter\x18\x04 \x01(\x04R\acounter\x12\x1d\n" +
+	"\acounter\x18\x04 \x01(\x03R\acounter\x12\x1d\n" +
 	"\n" +
 	"expires_at\x18\x05 \x01(\x03R\texpiresAt\x12[\n" +
 	"\bmetadata\x18\x06 \x03(\v2?.com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntryR\bmetadata\x12)\n" +
-	"\x10expected_version\x18\a \x01(\x04R\x0fexpectedVersion\x12A\n" +
+	"\x10expected_version\x18\a \x01(\x03R\x0fexpectedVersion\x12A\n" +
 	"\x1ddelete_after_finished_seconds\x18\b \x01(\x03R\x1adeleteAfterFinishedSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -6215,12 +6528,11 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x17WaitForWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12'\n" +
-	"\x0ftimeout_seconds\x18\x03 \x01(\x05R\x0etimeoutSeconds\"\x9a\x01\n" +
+	"\x0ftimeout_seconds\x18\x03 \x01(\x05R\x0etimeoutSeconds\"\xaa\x01\n" +
 	"\x18WaitForWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x1c\n" +
-	"\tcompleted\x18\x02 \x01(\bR\tcompleted\x12\x1b\n" +
-	"\ttimed_out\x18\x03 \x01(\bR\btimedOut\"\xd8\x04\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12I\n" +
+	"\aoutcome\x18\x02 \x01(\x0e2/.com.evrblk.grackle.v1beta.WaitGroupWaitOutcomeR\aoutcome\"\xd8\x04\n" +
 	"\tWaitGroup\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -6228,11 +6540,11 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"created_at\x18\x03 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\x04 \x01(\x03R\tupdatedAt\x12\x18\n" +
-	"\aversion\x18\x05 \x01(\x04R\aversion\x12\x1d\n" +
+	"\aversion\x18\x05 \x01(\x03R\aversion\x12\x1d\n" +
 	"\n" +
 	"expires_at\x18\x06 \x01(\x03R\texpiresAt\x12\x18\n" +
-	"\acounter\x18\a \x01(\x04R\acounter\x12%\n" +
-	"\x0ecompleted_jobs\x18\b \x01(\x04R\rcompletedJobs\x12N\n" +
+	"\acounter\x18\a \x01(\x03R\acounter\x12%\n" +
+	"\x0ecompleted_jobs\x18\b \x01(\x03R\rcompletedJobs\x12N\n" +
 	"\bmetadata\x18\t \x03(\v22.com.evrblk.grackle.v1beta.WaitGroup.MetadataEntryR\bmetadata\x12B\n" +
 	"\x06status\x18\n" +
 	" \x01(\x0e2*.com.evrblk.grackle.v1beta.WaitGroupStatusR\x06status\x12A\n" +
@@ -6259,10 +6571,10 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x06 \x03(\v2;.com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"d\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8f\x01\n" +
 	"\x13AcquireLockResponse\x123\n" +
-	"\x04lock\x18\x01 \x01(\v2\x1f.com.evrblk.grackle.v1beta.LockR\x04lock\x12\x18\n" +
-	"\asuccess\x18\x02 \x01(\bR\asuccess\"s\n" +
+	"\x04lock\x18\x01 \x01(\v2\x1f.com.evrblk.grackle.v1beta.LockR\x04lock\x12C\n" +
+	"\aoutcome\x18\x02 \x01(\x0e2).com.evrblk.grackle.v1beta.AcquireOutcomeR\aoutcome\"s\n" +
 	"\x12ReleaseLockRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1b\n" +
 	"\tlock_name\x18\x02 \x01(\tR\blockName\x12\x19\n" +
@@ -6290,7 +6602,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x1d\n" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x12\x1f\n" +
-	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
+	"\vttl_seconds\x18\x03 \x01(\x03R\n" +
 	"ttlSeconds\x12[\n" +
 	"\bmetadata\x18\x04 \x03(\v2?.com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
@@ -6305,7 +6617,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x17RefreshLockLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\x12\x1f\n" +
-	"\vttl_seconds\x18\x03 \x01(\x04R\n" +
+	"\vttl_seconds\x18\x03 \x01(\x03R\n" +
 	"ttlSeconds\"R\n" +
 	"\x18RefreshLockLeaseResponse\x126\n" +
 	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x7f\n" +
@@ -6343,7 +6655,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"created_at\x18\x03 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\x04 \x01(\x03R\tupdatedAt\x12\x18\n" +
-	"\aversion\x18\x05 \x01(\x04R\aversion\x12N\n" +
+	"\aversion\x18\x05 \x01(\x03R\aversion\x12N\n" +
 	"\bmetadata\x18\x06 \x03(\v22.com.evrblk.grackle.v1beta.Namespace.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -6352,7 +6664,7 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
-	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\x12A\n" +
+	"\x12expected_processes\x18\x04 \x01(\x03R\x11expectedProcesses\x12A\n" +
 	"\x1ddelete_inactive_after_seconds\x18\b \x01(\x03R\x1adeleteInactiveAfterSeconds\x12Y\n" +
 	"\bmetadata\x18\t \x03(\v2=.com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
@@ -6381,9 +6693,9 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12-\n" +
-	"\x12expected_processes\x18\x04 \x01(\x04R\x11expectedProcesses\x12Y\n" +
+	"\x12expected_processes\x18\x04 \x01(\x03R\x11expectedProcesses\x12Y\n" +
 	"\bmetadata\x18\x05 \x03(\v2=.com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntryR\bmetadata\x12)\n" +
-	"\x10expected_version\x18\x06 \x01(\x04R\x0fexpectedVersion\x12A\n" +
+	"\x10expected_version\x18\x06 \x01(\x03R\x0fexpectedVersion\x12A\n" +
 	"\x1ddelete_inactive_after_seconds\x18\a \x01(\x03R\x1adeleteInactiveAfterSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -6395,32 +6707,28 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12\x1d\n" +
 	"\n" +
 	"process_id\x18\x03 \x01(\tR\tprocessId\x12/\n" +
-	"\x13expected_generation\x18\x04 \x01(\x04R\x12expectedGeneration\x12[\n" +
+	"\x13expected_generation\x18\x04 \x01(\x03R\x12expectedGeneration\x12[\n" +
 	"\bmetadata\x18\x05 \x03(\v2?.com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa1\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"x\n" +
 	"\x17ArriveAtBarrierResponse\x12<\n" +
 	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\x12\x1f\n" +
 	"\vall_arrived\x18\x02 \x01(\bR\n" +
-	"allArrived\x12'\n" +
-	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\"\xba\x01\n" +
+	"allArrived\"\xba\x01\n" +
 	"\x14WaitAtBarrierRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12/\n" +
-	"\x13expected_generation\x18\x03 \x01(\x04R\x12expectedGeneration\x12'\n" +
-	"\x0ftimeout_seconds\x18\x04 \x01(\x05R\x0etimeoutSeconds\"\xbc\x01\n" +
+	"\x13expected_generation\x18\x03 \x01(\x03R\x12expectedGeneration\x12'\n" +
+	"\x0ftimeout_seconds\x18\x04 \x01(\x05R\x0etimeoutSeconds\"\x9e\x01\n" +
 	"\x15WaitAtBarrierResponse\x12<\n" +
-	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\x12\x1f\n" +
-	"\vall_arrived\x18\x02 \x01(\bR\n" +
-	"allArrived\x12'\n" +
-	"\x0fnext_generation\x18\x03 \x01(\x04R\x0enextGeneration\x12\x1b\n" +
-	"\ttimed_out\x18\x04 \x01(\bR\btimedOut\"\xcb\x01\n" +
+	"\abarrier\x18\x01 \x01(\v2\".com.evrblk.grackle.v1beta.BarrierR\abarrier\x12G\n" +
+	"\aoutcome\x18\x02 \x01(\x0e2-.com.evrblk.grackle.v1beta.BarrierWaitOutcomeR\aoutcome\"\xcb\x01\n" +
 	"\x1eListBarrierParticipantsRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12!\n" +
 	"\fbarrier_name\x18\x02 \x01(\tR\vbarrierName\x12\x1e\n" +
 	"\n" +
-	"generation\x18\x03 \x01(\x04R\n" +
+	"generation\x18\x03 \x01(\x03R\n" +
 	"generation\x12)\n" +
 	"\x10pagination_token\x18\x04 \x01(\tR\x0fpaginationToken\x12\x14\n" +
 	"\x05limit\x18\x05 \x01(\x05R\x05limit\"\xe4\x01\n" +
@@ -6431,16 +6739,16 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\aBarrier\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12-\n" +
-	"\x12expected_processes\x18\x03 \x01(\x04R\x11expectedProcesses\x12+\n" +
-	"\x11arrived_processes\x18\x04 \x01(\x04R\x10arrivedProcesses\x12\x1e\n" +
+	"\x12expected_processes\x18\x03 \x01(\x03R\x11expectedProcesses\x12+\n" +
+	"\x11arrived_processes\x18\x04 \x01(\x03R\x10arrivedProcesses\x12\x1e\n" +
 	"\n" +
-	"generation\x18\x05 \x01(\x04R\n" +
+	"generation\x18\x05 \x01(\x03R\n" +
 	"generation\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\x06 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\a \x01(\x03R\tupdatedAt\x12\x18\n" +
-	"\aversion\x18\b \x01(\x04R\aversion\x12L\n" +
+	"\aversion\x18\b \x01(\x03R\aversion\x12L\n" +
 	"\bmetadata\x18\t \x03(\v20.com.evrblk.grackle.v1beta.Barrier.MetadataEntryR\bmetadata\x12(\n" +
 	"\x10last_activity_at\x18\n" +
 	" \x01(\x03R\x0elastActivityAt\x12A\n" +
@@ -6456,7 +6764,17 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x03 \x03(\v2;.com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\x8e\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\x8b\x01\n" +
+	"\x0eAcquireOutcome\x12\x1b\n" +
+	"\x17ACQUIRE_OUTCOME_INVALID\x10\x00\x12\x1c\n" +
+	"\x18ACQUIRE_OUTCOME_ACQUIRED\x10\x01\x12\x1f\n" +
+	"\x1bACQUIRE_OUTCOME_UNAVAILABLE\x10\x02\x12\x1d\n" +
+	"\x19ACQUIRE_OUTCOME_TIMED_OUT\x10\x03*\xae\x01\n" +
+	"\x14WaitGroupWaitOutcome\x12#\n" +
+	"\x1fWAIT_GROUP_WAIT_OUTCOME_INVALID\x10\x00\x12%\n" +
+	"!WAIT_GROUP_WAIT_OUTCOME_COMPLETED\x10\x01\x12#\n" +
+	"\x1fWAIT_GROUP_WAIT_OUTCOME_EXPIRED\x10\x02\x12%\n" +
+	"!WAIT_GROUP_WAIT_OUTCOME_TIMED_OUT\x10\x03*\x8e\x01\n" +
 	"\x0fWaitGroupStatus\x12\x1d\n" +
 	"\x19WAIT_GROUP_STATUS_INVALID\x10\x00\x12\x1c\n" +
 	"\x18WAIT_GROUP_STATUS_ACTIVE\x10\x01\x12\x1d\n" +
@@ -6466,7 +6784,11 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x12LOCK_STATE_INVALID\x10\x00\x12\x17\n" +
 	"\x13LOCK_STATE_UNLOCKED\x10\x01\x12\x1c\n" +
 	"\x18LOCK_STATE_SHARED_LOCKED\x10\x02\x12\x1f\n" +
-	"\x1bLOCK_STATE_EXCLUSIVE_LOCKED\x10\x032\xe8*\n" +
+	"\x1bLOCK_STATE_EXCLUSIVE_LOCKED\x10\x03*|\n" +
+	"\x12BarrierWaitOutcome\x12 \n" +
+	"\x1cBARRIER_WAIT_OUTCOME_INVALID\x10\x00\x12 \n" +
+	"\x1cBARRIER_WAIT_OUTCOME_TRIPPED\x10\x01\x12\"\n" +
+	"\x1eBARRIER_WAIT_OUTCOME_TIMED_OUT\x10\x022\xe8*\n" +
 	"\n" +
 	"GrackleApi\x12z\n" +
 	"\x0fCreateNamespace\x121.com.evrblk.grackle.v1beta.CreateNamespaceRequest\x1a2.com.evrblk.grackle.v1beta.CreateNamespaceResponse\"\x00\x12w\n" +
@@ -6528,292 +6850,299 @@ func file_proto_grackle_v1beta_api_proto_rawDescGZIP() []byte {
 	return file_proto_grackle_v1beta_api_proto_rawDescData
 }
 
-var file_proto_grackle_v1beta_api_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_proto_grackle_v1beta_api_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
 var file_proto_grackle_v1beta_api_proto_msgTypes = make([]protoimpl.MessageInfo, 122)
 var file_proto_grackle_v1beta_api_proto_goTypes = []any{
-	(WaitGroupStatus)(0),                       // 0: com.evrblk.grackle.v1beta.WaitGroupStatus
-	(LockState)(0),                             // 1: com.evrblk.grackle.v1beta.LockState
-	(*CreateNamespaceRequest)(nil),             // 2: com.evrblk.grackle.v1beta.CreateNamespaceRequest
-	(*CreateNamespaceResponse)(nil),            // 3: com.evrblk.grackle.v1beta.CreateNamespaceResponse
-	(*ListNamespacesRequest)(nil),              // 4: com.evrblk.grackle.v1beta.ListNamespacesRequest
-	(*ListNamespacesResponse)(nil),             // 5: com.evrblk.grackle.v1beta.ListNamespacesResponse
-	(*GetNamespaceRequest)(nil),                // 6: com.evrblk.grackle.v1beta.GetNamespaceRequest
-	(*GetNamespaceResponse)(nil),               // 7: com.evrblk.grackle.v1beta.GetNamespaceResponse
-	(*DeleteNamespaceRequest)(nil),             // 8: com.evrblk.grackle.v1beta.DeleteNamespaceRequest
-	(*DeleteNamespaceResponse)(nil),            // 9: com.evrblk.grackle.v1beta.DeleteNamespaceResponse
-	(*UpdateNamespaceRequest)(nil),             // 10: com.evrblk.grackle.v1beta.UpdateNamespaceRequest
-	(*UpdateNamespaceResponse)(nil),            // 11: com.evrblk.grackle.v1beta.UpdateNamespaceResponse
-	(*CreateSemaphoreRequest)(nil),             // 12: com.evrblk.grackle.v1beta.CreateSemaphoreRequest
-	(*CreateSemaphoreResponse)(nil),            // 13: com.evrblk.grackle.v1beta.CreateSemaphoreResponse
-	(*ListSemaphoresRequest)(nil),              // 14: com.evrblk.grackle.v1beta.ListSemaphoresRequest
-	(*ListSemaphoresResponse)(nil),             // 15: com.evrblk.grackle.v1beta.ListSemaphoresResponse
-	(*GetSemaphoreRequest)(nil),                // 16: com.evrblk.grackle.v1beta.GetSemaphoreRequest
-	(*GetSemaphoreResponse)(nil),               // 17: com.evrblk.grackle.v1beta.GetSemaphoreResponse
-	(*AcquireSemaphoreRequest)(nil),            // 18: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
-	(*AcquireSemaphoreResponse)(nil),           // 19: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
-	(*ReleaseSemaphoreRequest)(nil),            // 20: com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
-	(*ReleaseSemaphoreResponse)(nil),           // 21: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
-	(*UpdateSemaphoreRequest)(nil),             // 22: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
-	(*UpdateSemaphoreResponse)(nil),            // 23: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
-	(*DeleteSemaphoreRequest)(nil),             // 24: com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
-	(*DeleteSemaphoreResponse)(nil),            // 25: com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
-	(*ListSemaphoreHoldersRequest)(nil),        // 26: com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
-	(*ListSemaphoreHoldersResponse)(nil),       // 27: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
-	(*CreateSemaphoreLeaseRequest)(nil),        // 28: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
-	(*CreateSemaphoreLeaseResponse)(nil),       // 29: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
-	(*RevokeSemaphoreLeaseRequest)(nil),        // 30: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
-	(*RevokeSemaphoreLeaseResponse)(nil),       // 31: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
-	(*RefreshSemaphoreLeaseRequest)(nil),       // 32: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
-	(*RefreshSemaphoreLeaseResponse)(nil),      // 33: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
-	(*ListSemaphoreLeasesRequest)(nil),         // 34: com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
-	(*ListSemaphoreLeasesResponse)(nil),        // 35: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
-	(*GetSemaphoreLeaseRequest)(nil),           // 36: com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
-	(*GetSemaphoreLeaseResponse)(nil),          // 37: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
-	(*Lease)(nil),                              // 38: com.evrblk.grackle.v1beta.Lease
-	(*Semaphore)(nil),                          // 39: com.evrblk.grackle.v1beta.Semaphore
-	(*SemaphoreHolder)(nil),                    // 40: com.evrblk.grackle.v1beta.SemaphoreHolder
-	(*CreateWaitGroupRequest)(nil),             // 41: com.evrblk.grackle.v1beta.CreateWaitGroupRequest
-	(*CreateWaitGroupResponse)(nil),            // 42: com.evrblk.grackle.v1beta.CreateWaitGroupResponse
-	(*UpdateWaitGroupRequest)(nil),             // 43: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
-	(*UpdateWaitGroupResponse)(nil),            // 44: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
-	(*ListWaitGroupsRequest)(nil),              // 45: com.evrblk.grackle.v1beta.ListWaitGroupsRequest
-	(*ListWaitGroupsResponse)(nil),             // 46: com.evrblk.grackle.v1beta.ListWaitGroupsResponse
-	(*GetWaitGroupRequest)(nil),                // 47: com.evrblk.grackle.v1beta.GetWaitGroupRequest
-	(*GetWaitGroupResponse)(nil),               // 48: com.evrblk.grackle.v1beta.GetWaitGroupResponse
-	(*DeleteWaitGroupRequest)(nil),             // 49: com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
-	(*DeleteWaitGroupResponse)(nil),            // 50: com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
-	(*CompleteJobsFromWaitGroupRequest)(nil),   // 51: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
-	(*CompleteJobRequest)(nil),                 // 52: com.evrblk.grackle.v1beta.CompleteJobRequest
-	(*CompleteJobsFromWaitGroupResponse)(nil),  // 53: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
-	(*ListWaitGroupCompletedJobsRequest)(nil),  // 54: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
-	(*ListWaitGroupCompletedJobsResponse)(nil), // 55: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
-	(*WaitForWaitGroupRequest)(nil),            // 56: com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
-	(*WaitForWaitGroupResponse)(nil),           // 57: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
-	(*WaitGroup)(nil),                          // 58: com.evrblk.grackle.v1beta.WaitGroup
-	(*WaitGroupJob)(nil),                       // 59: com.evrblk.grackle.v1beta.WaitGroupJob
-	(*AcquireLockRequest)(nil),                 // 60: com.evrblk.grackle.v1beta.AcquireLockRequest
-	(*AcquireLockResponse)(nil),                // 61: com.evrblk.grackle.v1beta.AcquireLockResponse
-	(*ReleaseLockRequest)(nil),                 // 62: com.evrblk.grackle.v1beta.ReleaseLockRequest
-	(*ReleaseLockResponse)(nil),                // 63: com.evrblk.grackle.v1beta.ReleaseLockResponse
-	(*GetLockRequest)(nil),                     // 64: com.evrblk.grackle.v1beta.GetLockRequest
-	(*GetLockResponse)(nil),                    // 65: com.evrblk.grackle.v1beta.GetLockResponse
-	(*DeleteLockRequest)(nil),                  // 66: com.evrblk.grackle.v1beta.DeleteLockRequest
-	(*DeleteLockResponse)(nil),                 // 67: com.evrblk.grackle.v1beta.DeleteLockResponse
-	(*ListLocksRequest)(nil),                   // 68: com.evrblk.grackle.v1beta.ListLocksRequest
-	(*ListLocksResponse)(nil),                  // 69: com.evrblk.grackle.v1beta.ListLocksResponse
-	(*CreateLockLeaseRequest)(nil),             // 70: com.evrblk.grackle.v1beta.CreateLockLeaseRequest
-	(*CreateLockLeaseResponse)(nil),            // 71: com.evrblk.grackle.v1beta.CreateLockLeaseResponse
-	(*RevokeLockLeaseRequest)(nil),             // 72: com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
-	(*RevokeLockLeaseResponse)(nil),            // 73: com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
-	(*RefreshLockLeaseRequest)(nil),            // 74: com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
-	(*RefreshLockLeaseResponse)(nil),           // 75: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
-	(*ListLockLeasesRequest)(nil),              // 76: com.evrblk.grackle.v1beta.ListLockLeasesRequest
-	(*ListLockLeasesResponse)(nil),             // 77: com.evrblk.grackle.v1beta.ListLockLeasesResponse
-	(*GetLockLeaseRequest)(nil),                // 78: com.evrblk.grackle.v1beta.GetLockLeaseRequest
-	(*GetLockLeaseResponse)(nil),               // 79: com.evrblk.grackle.v1beta.GetLockLeaseResponse
-	(*Lock)(nil),                               // 80: com.evrblk.grackle.v1beta.Lock
-	(*LockHolder)(nil),                         // 81: com.evrblk.grackle.v1beta.LockHolder
-	(*Namespace)(nil),                          // 82: com.evrblk.grackle.v1beta.Namespace
-	(*CreateBarrierRequest)(nil),               // 83: com.evrblk.grackle.v1beta.CreateBarrierRequest
-	(*CreateBarrierResponse)(nil),              // 84: com.evrblk.grackle.v1beta.CreateBarrierResponse
-	(*ListBarriersRequest)(nil),                // 85: com.evrblk.grackle.v1beta.ListBarriersRequest
-	(*ListBarriersResponse)(nil),               // 86: com.evrblk.grackle.v1beta.ListBarriersResponse
-	(*GetBarrierRequest)(nil),                  // 87: com.evrblk.grackle.v1beta.GetBarrierRequest
-	(*GetBarrierResponse)(nil),                 // 88: com.evrblk.grackle.v1beta.GetBarrierResponse
-	(*DeleteBarrierRequest)(nil),               // 89: com.evrblk.grackle.v1beta.DeleteBarrierRequest
-	(*DeleteBarrierResponse)(nil),              // 90: com.evrblk.grackle.v1beta.DeleteBarrierResponse
-	(*UpdateBarrierRequest)(nil),               // 91: com.evrblk.grackle.v1beta.UpdateBarrierRequest
-	(*UpdateBarrierResponse)(nil),              // 92: com.evrblk.grackle.v1beta.UpdateBarrierResponse
-	(*ArriveAtBarrierRequest)(nil),             // 93: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
-	(*ArriveAtBarrierResponse)(nil),            // 94: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
-	(*WaitAtBarrierRequest)(nil),               // 95: com.evrblk.grackle.v1beta.WaitAtBarrierRequest
-	(*WaitAtBarrierResponse)(nil),              // 96: com.evrblk.grackle.v1beta.WaitAtBarrierResponse
-	(*ListBarrierParticipantsRequest)(nil),     // 97: com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
-	(*ListBarrierParticipantsResponse)(nil),    // 98: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
-	(*Barrier)(nil),                            // 99: com.evrblk.grackle.v1beta.Barrier
-	(*BarrierParticipant)(nil),                 // 100: com.evrblk.grackle.v1beta.BarrierParticipant
-	nil,                                        // 101: com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
-	nil,                                        // 102: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
-	nil,                                        // 103: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
-	nil,                                        // 104: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
-	nil,                                        // 105: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
-	nil,                                        // 106: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
-	nil,                                        // 107: com.evrblk.grackle.v1beta.Lease.MetadataEntry
-	nil,                                        // 108: com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
-	nil,                                        // 109: com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
-	nil,                                        // 110: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
-	nil,                                        // 111: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
-	nil,                                        // 112: com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
-	nil,                                        // 113: com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
-	nil,                                        // 114: com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
-	nil,                                        // 115: com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
-	nil,                                        // 116: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
-	nil,                                        // 117: com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
-	nil,                                        // 118: com.evrblk.grackle.v1beta.Namespace.MetadataEntry
-	nil,                                        // 119: com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
-	nil,                                        // 120: com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
-	nil,                                        // 121: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
-	nil,                                        // 122: com.evrblk.grackle.v1beta.Barrier.MetadataEntry
-	nil,                                        // 123: com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
+	(AcquireOutcome)(0),                        // 0: com.evrblk.grackle.v1beta.AcquireOutcome
+	(WaitGroupWaitOutcome)(0),                  // 1: com.evrblk.grackle.v1beta.WaitGroupWaitOutcome
+	(WaitGroupStatus)(0),                       // 2: com.evrblk.grackle.v1beta.WaitGroupStatus
+	(LockState)(0),                             // 3: com.evrblk.grackle.v1beta.LockState
+	(BarrierWaitOutcome)(0),                    // 4: com.evrblk.grackle.v1beta.BarrierWaitOutcome
+	(*CreateNamespaceRequest)(nil),             // 5: com.evrblk.grackle.v1beta.CreateNamespaceRequest
+	(*CreateNamespaceResponse)(nil),            // 6: com.evrblk.grackle.v1beta.CreateNamespaceResponse
+	(*ListNamespacesRequest)(nil),              // 7: com.evrblk.grackle.v1beta.ListNamespacesRequest
+	(*ListNamespacesResponse)(nil),             // 8: com.evrblk.grackle.v1beta.ListNamespacesResponse
+	(*GetNamespaceRequest)(nil),                // 9: com.evrblk.grackle.v1beta.GetNamespaceRequest
+	(*GetNamespaceResponse)(nil),               // 10: com.evrblk.grackle.v1beta.GetNamespaceResponse
+	(*DeleteNamespaceRequest)(nil),             // 11: com.evrblk.grackle.v1beta.DeleteNamespaceRequest
+	(*DeleteNamespaceResponse)(nil),            // 12: com.evrblk.grackle.v1beta.DeleteNamespaceResponse
+	(*UpdateNamespaceRequest)(nil),             // 13: com.evrblk.grackle.v1beta.UpdateNamespaceRequest
+	(*UpdateNamespaceResponse)(nil),            // 14: com.evrblk.grackle.v1beta.UpdateNamespaceResponse
+	(*CreateSemaphoreRequest)(nil),             // 15: com.evrblk.grackle.v1beta.CreateSemaphoreRequest
+	(*CreateSemaphoreResponse)(nil),            // 16: com.evrblk.grackle.v1beta.CreateSemaphoreResponse
+	(*ListSemaphoresRequest)(nil),              // 17: com.evrblk.grackle.v1beta.ListSemaphoresRequest
+	(*ListSemaphoresResponse)(nil),             // 18: com.evrblk.grackle.v1beta.ListSemaphoresResponse
+	(*GetSemaphoreRequest)(nil),                // 19: com.evrblk.grackle.v1beta.GetSemaphoreRequest
+	(*GetSemaphoreResponse)(nil),               // 20: com.evrblk.grackle.v1beta.GetSemaphoreResponse
+	(*AcquireSemaphoreRequest)(nil),            // 21: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
+	(*AcquireSemaphoreResponse)(nil),           // 22: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
+	(*ReleaseSemaphoreRequest)(nil),            // 23: com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
+	(*ReleaseSemaphoreResponse)(nil),           // 24: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
+	(*UpdateSemaphoreRequest)(nil),             // 25: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
+	(*UpdateSemaphoreResponse)(nil),            // 26: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
+	(*DeleteSemaphoreRequest)(nil),             // 27: com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
+	(*DeleteSemaphoreResponse)(nil),            // 28: com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
+	(*ListSemaphoreHoldersRequest)(nil),        // 29: com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
+	(*ListSemaphoreHoldersResponse)(nil),       // 30: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
+	(*CreateSemaphoreLeaseRequest)(nil),        // 31: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
+	(*CreateSemaphoreLeaseResponse)(nil),       // 32: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
+	(*RevokeSemaphoreLeaseRequest)(nil),        // 33: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
+	(*RevokeSemaphoreLeaseResponse)(nil),       // 34: com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
+	(*RefreshSemaphoreLeaseRequest)(nil),       // 35: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
+	(*RefreshSemaphoreLeaseResponse)(nil),      // 36: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
+	(*ListSemaphoreLeasesRequest)(nil),         // 37: com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
+	(*ListSemaphoreLeasesResponse)(nil),        // 38: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
+	(*GetSemaphoreLeaseRequest)(nil),           // 39: com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
+	(*GetSemaphoreLeaseResponse)(nil),          // 40: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
+	(*Lease)(nil),                              // 41: com.evrblk.grackle.v1beta.Lease
+	(*Semaphore)(nil),                          // 42: com.evrblk.grackle.v1beta.Semaphore
+	(*SemaphoreHolder)(nil),                    // 43: com.evrblk.grackle.v1beta.SemaphoreHolder
+	(*CreateWaitGroupRequest)(nil),             // 44: com.evrblk.grackle.v1beta.CreateWaitGroupRequest
+	(*CreateWaitGroupResponse)(nil),            // 45: com.evrblk.grackle.v1beta.CreateWaitGroupResponse
+	(*UpdateWaitGroupRequest)(nil),             // 46: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
+	(*UpdateWaitGroupResponse)(nil),            // 47: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
+	(*ListWaitGroupsRequest)(nil),              // 48: com.evrblk.grackle.v1beta.ListWaitGroupsRequest
+	(*ListWaitGroupsResponse)(nil),             // 49: com.evrblk.grackle.v1beta.ListWaitGroupsResponse
+	(*GetWaitGroupRequest)(nil),                // 50: com.evrblk.grackle.v1beta.GetWaitGroupRequest
+	(*GetWaitGroupResponse)(nil),               // 51: com.evrblk.grackle.v1beta.GetWaitGroupResponse
+	(*DeleteWaitGroupRequest)(nil),             // 52: com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
+	(*DeleteWaitGroupResponse)(nil),            // 53: com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
+	(*CompleteJobsFromWaitGroupRequest)(nil),   // 54: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
+	(*CompleteJobRequest)(nil),                 // 55: com.evrblk.grackle.v1beta.CompleteJobRequest
+	(*CompleteJobsFromWaitGroupResponse)(nil),  // 56: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
+	(*ListWaitGroupCompletedJobsRequest)(nil),  // 57: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
+	(*ListWaitGroupCompletedJobsResponse)(nil), // 58: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
+	(*WaitForWaitGroupRequest)(nil),            // 59: com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
+	(*WaitForWaitGroupResponse)(nil),           // 60: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
+	(*WaitGroup)(nil),                          // 61: com.evrblk.grackle.v1beta.WaitGroup
+	(*WaitGroupJob)(nil),                       // 62: com.evrblk.grackle.v1beta.WaitGroupJob
+	(*AcquireLockRequest)(nil),                 // 63: com.evrblk.grackle.v1beta.AcquireLockRequest
+	(*AcquireLockResponse)(nil),                // 64: com.evrblk.grackle.v1beta.AcquireLockResponse
+	(*ReleaseLockRequest)(nil),                 // 65: com.evrblk.grackle.v1beta.ReleaseLockRequest
+	(*ReleaseLockResponse)(nil),                // 66: com.evrblk.grackle.v1beta.ReleaseLockResponse
+	(*GetLockRequest)(nil),                     // 67: com.evrblk.grackle.v1beta.GetLockRequest
+	(*GetLockResponse)(nil),                    // 68: com.evrblk.grackle.v1beta.GetLockResponse
+	(*DeleteLockRequest)(nil),                  // 69: com.evrblk.grackle.v1beta.DeleteLockRequest
+	(*DeleteLockResponse)(nil),                 // 70: com.evrblk.grackle.v1beta.DeleteLockResponse
+	(*ListLocksRequest)(nil),                   // 71: com.evrblk.grackle.v1beta.ListLocksRequest
+	(*ListLocksResponse)(nil),                  // 72: com.evrblk.grackle.v1beta.ListLocksResponse
+	(*CreateLockLeaseRequest)(nil),             // 73: com.evrblk.grackle.v1beta.CreateLockLeaseRequest
+	(*CreateLockLeaseResponse)(nil),            // 74: com.evrblk.grackle.v1beta.CreateLockLeaseResponse
+	(*RevokeLockLeaseRequest)(nil),             // 75: com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
+	(*RevokeLockLeaseResponse)(nil),            // 76: com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
+	(*RefreshLockLeaseRequest)(nil),            // 77: com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
+	(*RefreshLockLeaseResponse)(nil),           // 78: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
+	(*ListLockLeasesRequest)(nil),              // 79: com.evrblk.grackle.v1beta.ListLockLeasesRequest
+	(*ListLockLeasesResponse)(nil),             // 80: com.evrblk.grackle.v1beta.ListLockLeasesResponse
+	(*GetLockLeaseRequest)(nil),                // 81: com.evrblk.grackle.v1beta.GetLockLeaseRequest
+	(*GetLockLeaseResponse)(nil),               // 82: com.evrblk.grackle.v1beta.GetLockLeaseResponse
+	(*Lock)(nil),                               // 83: com.evrblk.grackle.v1beta.Lock
+	(*LockHolder)(nil),                         // 84: com.evrblk.grackle.v1beta.LockHolder
+	(*Namespace)(nil),                          // 85: com.evrblk.grackle.v1beta.Namespace
+	(*CreateBarrierRequest)(nil),               // 86: com.evrblk.grackle.v1beta.CreateBarrierRequest
+	(*CreateBarrierResponse)(nil),              // 87: com.evrblk.grackle.v1beta.CreateBarrierResponse
+	(*ListBarriersRequest)(nil),                // 88: com.evrblk.grackle.v1beta.ListBarriersRequest
+	(*ListBarriersResponse)(nil),               // 89: com.evrblk.grackle.v1beta.ListBarriersResponse
+	(*GetBarrierRequest)(nil),                  // 90: com.evrblk.grackle.v1beta.GetBarrierRequest
+	(*GetBarrierResponse)(nil),                 // 91: com.evrblk.grackle.v1beta.GetBarrierResponse
+	(*DeleteBarrierRequest)(nil),               // 92: com.evrblk.grackle.v1beta.DeleteBarrierRequest
+	(*DeleteBarrierResponse)(nil),              // 93: com.evrblk.grackle.v1beta.DeleteBarrierResponse
+	(*UpdateBarrierRequest)(nil),               // 94: com.evrblk.grackle.v1beta.UpdateBarrierRequest
+	(*UpdateBarrierResponse)(nil),              // 95: com.evrblk.grackle.v1beta.UpdateBarrierResponse
+	(*ArriveAtBarrierRequest)(nil),             // 96: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
+	(*ArriveAtBarrierResponse)(nil),            // 97: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
+	(*WaitAtBarrierRequest)(nil),               // 98: com.evrblk.grackle.v1beta.WaitAtBarrierRequest
+	(*WaitAtBarrierResponse)(nil),              // 99: com.evrblk.grackle.v1beta.WaitAtBarrierResponse
+	(*ListBarrierParticipantsRequest)(nil),     // 100: com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
+	(*ListBarrierParticipantsResponse)(nil),    // 101: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
+	(*Barrier)(nil),                            // 102: com.evrblk.grackle.v1beta.Barrier
+	(*BarrierParticipant)(nil),                 // 103: com.evrblk.grackle.v1beta.BarrierParticipant
+	nil,                                        // 104: com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
+	nil,                                        // 105: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
+	nil,                                        // 106: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
+	nil,                                        // 107: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
+	nil,                                        // 108: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
+	nil,                                        // 109: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
+	nil,                                        // 110: com.evrblk.grackle.v1beta.Lease.MetadataEntry
+	nil,                                        // 111: com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
+	nil,                                        // 112: com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
+	nil,                                        // 113: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
+	nil,                                        // 114: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
+	nil,                                        // 115: com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
+	nil,                                        // 116: com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
+	nil,                                        // 117: com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
+	nil,                                        // 118: com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
+	nil,                                        // 119: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
+	nil,                                        // 120: com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
+	nil,                                        // 121: com.evrblk.grackle.v1beta.Namespace.MetadataEntry
+	nil,                                        // 122: com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
+	nil,                                        // 123: com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
+	nil,                                        // 124: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
+	nil,                                        // 125: com.evrblk.grackle.v1beta.Barrier.MetadataEntry
+	nil,                                        // 126: com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
 }
 var file_proto_grackle_v1beta_api_proto_depIdxs = []int32{
-	101, // 0: com.evrblk.grackle.v1beta.CreateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
-	82,  // 1: com.evrblk.grackle.v1beta.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
-	82,  // 2: com.evrblk.grackle.v1beta.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.v1beta.Namespace
-	82,  // 3: com.evrblk.grackle.v1beta.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
-	102, // 4: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
-	82,  // 5: com.evrblk.grackle.v1beta.UpdateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
-	103, // 6: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
-	39,  // 7: com.evrblk.grackle.v1beta.CreateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	39,  // 8: com.evrblk.grackle.v1beta.ListSemaphoresResponse.semaphores:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	39,  // 9: com.evrblk.grackle.v1beta.GetSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	104, // 10: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
-	39,  // 11: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	39,  // 12: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	105, // 13: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
-	39,  // 14: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
-	40,  // 15: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse.holders:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder
-	106, // 16: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
-	38,  // 17: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	38,  // 18: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	38,  // 19: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
-	38,  // 20: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	107, // 21: com.evrblk.grackle.v1beta.Lease.metadata:type_name -> com.evrblk.grackle.v1beta.Lease.MetadataEntry
-	108, // 22: com.evrblk.grackle.v1beta.Semaphore.metadata:type_name -> com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
-	109, // 23: com.evrblk.grackle.v1beta.SemaphoreHolder.metadata:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
-	110, // 24: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
-	58,  // 25: com.evrblk.grackle.v1beta.CreateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	111, // 26: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
-	58,  // 27: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	58,  // 28: com.evrblk.grackle.v1beta.ListWaitGroupsResponse.wait_groups:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	58,  // 29: com.evrblk.grackle.v1beta.GetWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	52,  // 30: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest.jobs:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest
-	112, // 31: com.evrblk.grackle.v1beta.CompleteJobRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
-	58,  // 32: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	59,  // 33: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse.jobs:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob
-	58,  // 34: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
-	113, // 35: com.evrblk.grackle.v1beta.WaitGroup.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
-	0,   // 36: com.evrblk.grackle.v1beta.WaitGroup.status:type_name -> com.evrblk.grackle.v1beta.WaitGroupStatus
-	114, // 37: com.evrblk.grackle.v1beta.WaitGroupJob.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
-	115, // 38: com.evrblk.grackle.v1beta.AcquireLockRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
-	80,  // 39: com.evrblk.grackle.v1beta.AcquireLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
-	80,  // 40: com.evrblk.grackle.v1beta.ReleaseLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
-	80,  // 41: com.evrblk.grackle.v1beta.GetLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
-	80,  // 42: com.evrblk.grackle.v1beta.ListLocksResponse.locks:type_name -> com.evrblk.grackle.v1beta.Lock
-	116, // 43: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
-	38,  // 44: com.evrblk.grackle.v1beta.CreateLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	38,  // 45: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	38,  // 46: com.evrblk.grackle.v1beta.ListLockLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
-	38,  // 47: com.evrblk.grackle.v1beta.GetLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
-	1,   // 48: com.evrblk.grackle.v1beta.Lock.state:type_name -> com.evrblk.grackle.v1beta.LockState
-	81,  // 49: com.evrblk.grackle.v1beta.Lock.lock_holders:type_name -> com.evrblk.grackle.v1beta.LockHolder
-	117, // 50: com.evrblk.grackle.v1beta.LockHolder.metadata:type_name -> com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
-	118, // 51: com.evrblk.grackle.v1beta.Namespace.metadata:type_name -> com.evrblk.grackle.v1beta.Namespace.MetadataEntry
-	119, // 52: com.evrblk.grackle.v1beta.CreateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
-	99,  // 53: com.evrblk.grackle.v1beta.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	99,  // 54: com.evrblk.grackle.v1beta.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.v1beta.Barrier
-	99,  // 55: com.evrblk.grackle.v1beta.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	120, // 56: com.evrblk.grackle.v1beta.UpdateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
-	99,  // 57: com.evrblk.grackle.v1beta.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	121, // 58: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
-	99,  // 59: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	99,  // 60: com.evrblk.grackle.v1beta.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
-	100, // 61: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant
-	122, // 62: com.evrblk.grackle.v1beta.Barrier.metadata:type_name -> com.evrblk.grackle.v1beta.Barrier.MetadataEntry
-	123, // 63: com.evrblk.grackle.v1beta.BarrierParticipant.metadata:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
-	2,   // 64: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:input_type -> com.evrblk.grackle.v1beta.CreateNamespaceRequest
-	4,   // 65: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:input_type -> com.evrblk.grackle.v1beta.ListNamespacesRequest
-	6,   // 66: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:input_type -> com.evrblk.grackle.v1beta.GetNamespaceRequest
-	8,   // 67: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:input_type -> com.evrblk.grackle.v1beta.DeleteNamespaceRequest
-	10,  // 68: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:input_type -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest
-	12,  // 69: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest
-	14,  // 70: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:input_type -> com.evrblk.grackle.v1beta.ListSemaphoresRequest
-	16,  // 71: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreRequest
-	18,  // 72: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:input_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
-	20,  // 73: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
-	22,  // 74: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:input_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
-	24,  // 75: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:input_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
-	26,  // 76: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
-	28,  // 77: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
-	30,  // 78: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
-	32,  // 79: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
-	34,  // 80: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
-	36,  // 81: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
-	41,  // 82: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:input_type -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest
-	43,  // 83: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:input_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
-	45,  // 84: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupsRequest
-	47,  // 85: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:input_type -> com.evrblk.grackle.v1beta.GetWaitGroupRequest
-	49,  // 86: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
-	51,  // 87: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
-	54,  // 88: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
-	56,  // 89: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
-	60,  // 90: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:input_type -> com.evrblk.grackle.v1beta.AcquireLockRequest
-	62,  // 91: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:input_type -> com.evrblk.grackle.v1beta.ReleaseLockRequest
-	64,  // 92: com.evrblk.grackle.v1beta.GrackleApi.GetLock:input_type -> com.evrblk.grackle.v1beta.GetLockRequest
-	66,  // 93: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:input_type -> com.evrblk.grackle.v1beta.DeleteLockRequest
-	68,  // 94: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:input_type -> com.evrblk.grackle.v1beta.ListLocksRequest
-	70,  // 95: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:input_type -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest
-	72,  // 96: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:input_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
-	74,  // 97: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:input_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
-	76,  // 98: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:input_type -> com.evrblk.grackle.v1beta.ListLockLeasesRequest
-	78,  // 99: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:input_type -> com.evrblk.grackle.v1beta.GetLockLeaseRequest
-	83,  // 100: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:input_type -> com.evrblk.grackle.v1beta.CreateBarrierRequest
-	85,  // 101: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:input_type -> com.evrblk.grackle.v1beta.ListBarriersRequest
-	87,  // 102: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:input_type -> com.evrblk.grackle.v1beta.GetBarrierRequest
-	89,  // 103: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:input_type -> com.evrblk.grackle.v1beta.DeleteBarrierRequest
-	91,  // 104: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:input_type -> com.evrblk.grackle.v1beta.UpdateBarrierRequest
-	93,  // 105: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
-	95,  // 106: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:input_type -> com.evrblk.grackle.v1beta.WaitAtBarrierRequest
-	97,  // 107: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
-	3,   // 108: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:output_type -> com.evrblk.grackle.v1beta.CreateNamespaceResponse
-	5,   // 109: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:output_type -> com.evrblk.grackle.v1beta.ListNamespacesResponse
-	7,   // 110: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:output_type -> com.evrblk.grackle.v1beta.GetNamespaceResponse
-	9,   // 111: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:output_type -> com.evrblk.grackle.v1beta.DeleteNamespaceResponse
-	11,  // 112: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:output_type -> com.evrblk.grackle.v1beta.UpdateNamespaceResponse
-	13,  // 113: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreResponse
-	15,  // 114: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:output_type -> com.evrblk.grackle.v1beta.ListSemaphoresResponse
-	17,  // 115: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreResponse
-	19,  // 116: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:output_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
-	21,  // 117: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
-	23,  // 118: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:output_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
-	25,  // 119: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:output_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
-	27,  // 120: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
-	29,  // 121: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
-	31,  // 122: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
-	33,  // 123: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
-	35,  // 124: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
-	37,  // 125: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
-	42,  // 126: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:output_type -> com.evrblk.grackle.v1beta.CreateWaitGroupResponse
-	44,  // 127: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:output_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
-	46,  // 128: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupsResponse
-	48,  // 129: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:output_type -> com.evrblk.grackle.v1beta.GetWaitGroupResponse
-	50,  // 130: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
-	53,  // 131: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
-	55,  // 132: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
-	57,  // 133: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
-	61,  // 134: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:output_type -> com.evrblk.grackle.v1beta.AcquireLockResponse
-	63,  // 135: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:output_type -> com.evrblk.grackle.v1beta.ReleaseLockResponse
-	65,  // 136: com.evrblk.grackle.v1beta.GrackleApi.GetLock:output_type -> com.evrblk.grackle.v1beta.GetLockResponse
-	67,  // 137: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:output_type -> com.evrblk.grackle.v1beta.DeleteLockResponse
-	69,  // 138: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:output_type -> com.evrblk.grackle.v1beta.ListLocksResponse
-	71,  // 139: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:output_type -> com.evrblk.grackle.v1beta.CreateLockLeaseResponse
-	73,  // 140: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:output_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
-	75,  // 141: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:output_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
-	77,  // 142: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:output_type -> com.evrblk.grackle.v1beta.ListLockLeasesResponse
-	79,  // 143: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:output_type -> com.evrblk.grackle.v1beta.GetLockLeaseResponse
-	84,  // 144: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:output_type -> com.evrblk.grackle.v1beta.CreateBarrierResponse
-	86,  // 145: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:output_type -> com.evrblk.grackle.v1beta.ListBarriersResponse
-	88,  // 146: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:output_type -> com.evrblk.grackle.v1beta.GetBarrierResponse
-	90,  // 147: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:output_type -> com.evrblk.grackle.v1beta.DeleteBarrierResponse
-	92,  // 148: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:output_type -> com.evrblk.grackle.v1beta.UpdateBarrierResponse
-	94,  // 149: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
-	96,  // 150: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:output_type -> com.evrblk.grackle.v1beta.WaitAtBarrierResponse
-	98,  // 151: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
-	108, // [108:152] is the sub-list for method output_type
-	64,  // [64:108] is the sub-list for method input_type
-	64,  // [64:64] is the sub-list for extension type_name
-	64,  // [64:64] is the sub-list for extension extendee
-	0,   // [0:64] is the sub-list for field type_name
+	104, // 0: com.evrblk.grackle.v1beta.CreateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateNamespaceRequest.MetadataEntry
+	85,  // 1: com.evrblk.grackle.v1beta.CreateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	85,  // 2: com.evrblk.grackle.v1beta.ListNamespacesResponse.namespaces:type_name -> com.evrblk.grackle.v1beta.Namespace
+	85,  // 3: com.evrblk.grackle.v1beta.GetNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	105, // 4: com.evrblk.grackle.v1beta.UpdateNamespaceRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest.MetadataEntry
+	85,  // 5: com.evrblk.grackle.v1beta.UpdateNamespaceResponse.namespace:type_name -> com.evrblk.grackle.v1beta.Namespace
+	106, // 6: com.evrblk.grackle.v1beta.CreateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest.MetadataEntry
+	42,  // 7: com.evrblk.grackle.v1beta.CreateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	42,  // 8: com.evrblk.grackle.v1beta.ListSemaphoresResponse.semaphores:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	42,  // 9: com.evrblk.grackle.v1beta.GetSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	107, // 10: com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest.MetadataEntry
+	42,  // 11: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	0,   // 12: com.evrblk.grackle.v1beta.AcquireSemaphoreResponse.outcome:type_name -> com.evrblk.grackle.v1beta.AcquireOutcome
+	42,  // 13: com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	108, // 14: com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest.MetadataEntry
+	42,  // 15: com.evrblk.grackle.v1beta.UpdateSemaphoreResponse.semaphore:type_name -> com.evrblk.grackle.v1beta.Semaphore
+	43,  // 16: com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse.holders:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder
+	109, // 17: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntry
+	41,  // 18: com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	41,  // 19: com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	41,  // 20: com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
+	41,  // 21: com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	110, // 22: com.evrblk.grackle.v1beta.Lease.metadata:type_name -> com.evrblk.grackle.v1beta.Lease.MetadataEntry
+	111, // 23: com.evrblk.grackle.v1beta.Semaphore.metadata:type_name -> com.evrblk.grackle.v1beta.Semaphore.MetadataEntry
+	112, // 24: com.evrblk.grackle.v1beta.SemaphoreHolder.metadata:type_name -> com.evrblk.grackle.v1beta.SemaphoreHolder.MetadataEntry
+	113, // 25: com.evrblk.grackle.v1beta.CreateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest.MetadataEntry
+	61,  // 26: com.evrblk.grackle.v1beta.CreateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	114, // 27: com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest.MetadataEntry
+	61,  // 28: com.evrblk.grackle.v1beta.UpdateWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	61,  // 29: com.evrblk.grackle.v1beta.ListWaitGroupsResponse.wait_groups:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	61,  // 30: com.evrblk.grackle.v1beta.GetWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	55,  // 31: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest.jobs:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest
+	115, // 32: com.evrblk.grackle.v1beta.CompleteJobRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntry
+	61,  // 33: com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	62,  // 34: com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse.jobs:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob
+	61,  // 35: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse.wait_group:type_name -> com.evrblk.grackle.v1beta.WaitGroup
+	1,   // 36: com.evrblk.grackle.v1beta.WaitForWaitGroupResponse.outcome:type_name -> com.evrblk.grackle.v1beta.WaitGroupWaitOutcome
+	116, // 37: com.evrblk.grackle.v1beta.WaitGroup.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroup.MetadataEntry
+	2,   // 38: com.evrblk.grackle.v1beta.WaitGroup.status:type_name -> com.evrblk.grackle.v1beta.WaitGroupStatus
+	117, // 39: com.evrblk.grackle.v1beta.WaitGroupJob.metadata:type_name -> com.evrblk.grackle.v1beta.WaitGroupJob.MetadataEntry
+	118, // 40: com.evrblk.grackle.v1beta.AcquireLockRequest.metadata:type_name -> com.evrblk.grackle.v1beta.AcquireLockRequest.MetadataEntry
+	83,  // 41: com.evrblk.grackle.v1beta.AcquireLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	0,   // 42: com.evrblk.grackle.v1beta.AcquireLockResponse.outcome:type_name -> com.evrblk.grackle.v1beta.AcquireOutcome
+	83,  // 43: com.evrblk.grackle.v1beta.ReleaseLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	83,  // 44: com.evrblk.grackle.v1beta.GetLockResponse.lock:type_name -> com.evrblk.grackle.v1beta.Lock
+	83,  // 45: com.evrblk.grackle.v1beta.ListLocksResponse.locks:type_name -> com.evrblk.grackle.v1beta.Lock
+	119, // 46: com.evrblk.grackle.v1beta.CreateLockLeaseRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntry
+	41,  // 47: com.evrblk.grackle.v1beta.CreateLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	41,  // 48: com.evrblk.grackle.v1beta.RefreshLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	41,  // 49: com.evrblk.grackle.v1beta.ListLockLeasesResponse.leases:type_name -> com.evrblk.grackle.v1beta.Lease
+	41,  // 50: com.evrblk.grackle.v1beta.GetLockLeaseResponse.lease:type_name -> com.evrblk.grackle.v1beta.Lease
+	3,   // 51: com.evrblk.grackle.v1beta.Lock.state:type_name -> com.evrblk.grackle.v1beta.LockState
+	84,  // 52: com.evrblk.grackle.v1beta.Lock.lock_holders:type_name -> com.evrblk.grackle.v1beta.LockHolder
+	120, // 53: com.evrblk.grackle.v1beta.LockHolder.metadata:type_name -> com.evrblk.grackle.v1beta.LockHolder.MetadataEntry
+	121, // 54: com.evrblk.grackle.v1beta.Namespace.metadata:type_name -> com.evrblk.grackle.v1beta.Namespace.MetadataEntry
+	122, // 55: com.evrblk.grackle.v1beta.CreateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.CreateBarrierRequest.MetadataEntry
+	102, // 56: com.evrblk.grackle.v1beta.CreateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	102, // 57: com.evrblk.grackle.v1beta.ListBarriersResponse.barriers:type_name -> com.evrblk.grackle.v1beta.Barrier
+	102, // 58: com.evrblk.grackle.v1beta.GetBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	123, // 59: com.evrblk.grackle.v1beta.UpdateBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.UpdateBarrierRequest.MetadataEntry
+	102, // 60: com.evrblk.grackle.v1beta.UpdateBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	124, // 61: com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.metadata:type_name -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest.MetadataEntry
+	102, // 62: com.evrblk.grackle.v1beta.ArriveAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	102, // 63: com.evrblk.grackle.v1beta.WaitAtBarrierResponse.barrier:type_name -> com.evrblk.grackle.v1beta.Barrier
+	4,   // 64: com.evrblk.grackle.v1beta.WaitAtBarrierResponse.outcome:type_name -> com.evrblk.grackle.v1beta.BarrierWaitOutcome
+	103, // 65: com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse.participants:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant
+	125, // 66: com.evrblk.grackle.v1beta.Barrier.metadata:type_name -> com.evrblk.grackle.v1beta.Barrier.MetadataEntry
+	126, // 67: com.evrblk.grackle.v1beta.BarrierParticipant.metadata:type_name -> com.evrblk.grackle.v1beta.BarrierParticipant.MetadataEntry
+	5,   // 68: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:input_type -> com.evrblk.grackle.v1beta.CreateNamespaceRequest
+	7,   // 69: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:input_type -> com.evrblk.grackle.v1beta.ListNamespacesRequest
+	9,   // 70: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:input_type -> com.evrblk.grackle.v1beta.GetNamespaceRequest
+	11,  // 71: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:input_type -> com.evrblk.grackle.v1beta.DeleteNamespaceRequest
+	13,  // 72: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:input_type -> com.evrblk.grackle.v1beta.UpdateNamespaceRequest
+	15,  // 73: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreRequest
+	17,  // 74: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:input_type -> com.evrblk.grackle.v1beta.ListSemaphoresRequest
+	19,  // 75: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreRequest
+	21,  // 76: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:input_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreRequest
+	23,  // 77: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:input_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreRequest
+	25,  // 78: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:input_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreRequest
+	27,  // 79: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:input_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreRequest
+	29,  // 80: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersRequest
+	31,  // 81: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest
+	33,  // 82: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseRequest
+	35,  // 83: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseRequest
+	37,  // 84: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:input_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesRequest
+	39,  // 85: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:input_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseRequest
+	44,  // 86: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:input_type -> com.evrblk.grackle.v1beta.CreateWaitGroupRequest
+	46,  // 87: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:input_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupRequest
+	48,  // 88: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupsRequest
+	50,  // 89: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:input_type -> com.evrblk.grackle.v1beta.GetWaitGroupRequest
+	52,  // 90: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:input_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupRequest
+	54,  // 91: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:input_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupRequest
+	57,  // 92: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:input_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsRequest
+	59,  // 93: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:input_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupRequest
+	63,  // 94: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:input_type -> com.evrblk.grackle.v1beta.AcquireLockRequest
+	65,  // 95: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:input_type -> com.evrblk.grackle.v1beta.ReleaseLockRequest
+	67,  // 96: com.evrblk.grackle.v1beta.GrackleApi.GetLock:input_type -> com.evrblk.grackle.v1beta.GetLockRequest
+	69,  // 97: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:input_type -> com.evrblk.grackle.v1beta.DeleteLockRequest
+	71,  // 98: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:input_type -> com.evrblk.grackle.v1beta.ListLocksRequest
+	73,  // 99: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:input_type -> com.evrblk.grackle.v1beta.CreateLockLeaseRequest
+	75,  // 100: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:input_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseRequest
+	77,  // 101: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:input_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseRequest
+	79,  // 102: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:input_type -> com.evrblk.grackle.v1beta.ListLockLeasesRequest
+	81,  // 103: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:input_type -> com.evrblk.grackle.v1beta.GetLockLeaseRequest
+	86,  // 104: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:input_type -> com.evrblk.grackle.v1beta.CreateBarrierRequest
+	88,  // 105: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:input_type -> com.evrblk.grackle.v1beta.ListBarriersRequest
+	90,  // 106: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:input_type -> com.evrblk.grackle.v1beta.GetBarrierRequest
+	92,  // 107: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:input_type -> com.evrblk.grackle.v1beta.DeleteBarrierRequest
+	94,  // 108: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:input_type -> com.evrblk.grackle.v1beta.UpdateBarrierRequest
+	96,  // 109: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:input_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierRequest
+	98,  // 110: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:input_type -> com.evrblk.grackle.v1beta.WaitAtBarrierRequest
+	100, // 111: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:input_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsRequest
+	6,   // 112: com.evrblk.grackle.v1beta.GrackleApi.CreateNamespace:output_type -> com.evrblk.grackle.v1beta.CreateNamespaceResponse
+	8,   // 113: com.evrblk.grackle.v1beta.GrackleApi.ListNamespaces:output_type -> com.evrblk.grackle.v1beta.ListNamespacesResponse
+	10,  // 114: com.evrblk.grackle.v1beta.GrackleApi.GetNamespace:output_type -> com.evrblk.grackle.v1beta.GetNamespaceResponse
+	12,  // 115: com.evrblk.grackle.v1beta.GrackleApi.DeleteNamespace:output_type -> com.evrblk.grackle.v1beta.DeleteNamespaceResponse
+	14,  // 116: com.evrblk.grackle.v1beta.GrackleApi.UpdateNamespace:output_type -> com.evrblk.grackle.v1beta.UpdateNamespaceResponse
+	16,  // 117: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphore:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreResponse
+	18,  // 118: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphores:output_type -> com.evrblk.grackle.v1beta.ListSemaphoresResponse
+	20,  // 119: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphore:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreResponse
+	22,  // 120: com.evrblk.grackle.v1beta.GrackleApi.AcquireSemaphore:output_type -> com.evrblk.grackle.v1beta.AcquireSemaphoreResponse
+	24,  // 121: com.evrblk.grackle.v1beta.GrackleApi.ReleaseSemaphore:output_type -> com.evrblk.grackle.v1beta.ReleaseSemaphoreResponse
+	26,  // 122: com.evrblk.grackle.v1beta.GrackleApi.UpdateSemaphore:output_type -> com.evrblk.grackle.v1beta.UpdateSemaphoreResponse
+	28,  // 123: com.evrblk.grackle.v1beta.GrackleApi.DeleteSemaphore:output_type -> com.evrblk.grackle.v1beta.DeleteSemaphoreResponse
+	30,  // 124: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreHolders:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreHoldersResponse
+	32,  // 125: com.evrblk.grackle.v1beta.GrackleApi.CreateSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.CreateSemaphoreLeaseResponse
+	34,  // 126: com.evrblk.grackle.v1beta.GrackleApi.RevokeSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RevokeSemaphoreLeaseResponse
+	36,  // 127: com.evrblk.grackle.v1beta.GrackleApi.RefreshSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.RefreshSemaphoreLeaseResponse
+	38,  // 128: com.evrblk.grackle.v1beta.GrackleApi.ListSemaphoreLeases:output_type -> com.evrblk.grackle.v1beta.ListSemaphoreLeasesResponse
+	40,  // 129: com.evrblk.grackle.v1beta.GrackleApi.GetSemaphoreLease:output_type -> com.evrblk.grackle.v1beta.GetSemaphoreLeaseResponse
+	45,  // 130: com.evrblk.grackle.v1beta.GrackleApi.CreateWaitGroup:output_type -> com.evrblk.grackle.v1beta.CreateWaitGroupResponse
+	47,  // 131: com.evrblk.grackle.v1beta.GrackleApi.UpdateWaitGroup:output_type -> com.evrblk.grackle.v1beta.UpdateWaitGroupResponse
+	49,  // 132: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroups:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupsResponse
+	51,  // 133: com.evrblk.grackle.v1beta.GrackleApi.GetWaitGroup:output_type -> com.evrblk.grackle.v1beta.GetWaitGroupResponse
+	53,  // 134: com.evrblk.grackle.v1beta.GrackleApi.DeleteWaitGroup:output_type -> com.evrblk.grackle.v1beta.DeleteWaitGroupResponse
+	56,  // 135: com.evrblk.grackle.v1beta.GrackleApi.CompleteJobsFromWaitGroup:output_type -> com.evrblk.grackle.v1beta.CompleteJobsFromWaitGroupResponse
+	58,  // 136: com.evrblk.grackle.v1beta.GrackleApi.ListWaitGroupCompletedJobs:output_type -> com.evrblk.grackle.v1beta.ListWaitGroupCompletedJobsResponse
+	60,  // 137: com.evrblk.grackle.v1beta.GrackleApi.WaitForWaitGroup:output_type -> com.evrblk.grackle.v1beta.WaitForWaitGroupResponse
+	64,  // 138: com.evrblk.grackle.v1beta.GrackleApi.AcquireLock:output_type -> com.evrblk.grackle.v1beta.AcquireLockResponse
+	66,  // 139: com.evrblk.grackle.v1beta.GrackleApi.ReleaseLock:output_type -> com.evrblk.grackle.v1beta.ReleaseLockResponse
+	68,  // 140: com.evrblk.grackle.v1beta.GrackleApi.GetLock:output_type -> com.evrblk.grackle.v1beta.GetLockResponse
+	70,  // 141: com.evrblk.grackle.v1beta.GrackleApi.DeleteLock:output_type -> com.evrblk.grackle.v1beta.DeleteLockResponse
+	72,  // 142: com.evrblk.grackle.v1beta.GrackleApi.ListLocks:output_type -> com.evrblk.grackle.v1beta.ListLocksResponse
+	74,  // 143: com.evrblk.grackle.v1beta.GrackleApi.CreateLockLease:output_type -> com.evrblk.grackle.v1beta.CreateLockLeaseResponse
+	76,  // 144: com.evrblk.grackle.v1beta.GrackleApi.RevokeLockLease:output_type -> com.evrblk.grackle.v1beta.RevokeLockLeaseResponse
+	78,  // 145: com.evrblk.grackle.v1beta.GrackleApi.RefreshLockLease:output_type -> com.evrblk.grackle.v1beta.RefreshLockLeaseResponse
+	80,  // 146: com.evrblk.grackle.v1beta.GrackleApi.ListLockLeases:output_type -> com.evrblk.grackle.v1beta.ListLockLeasesResponse
+	82,  // 147: com.evrblk.grackle.v1beta.GrackleApi.GetLockLease:output_type -> com.evrblk.grackle.v1beta.GetLockLeaseResponse
+	87,  // 148: com.evrblk.grackle.v1beta.GrackleApi.CreateBarrier:output_type -> com.evrblk.grackle.v1beta.CreateBarrierResponse
+	89,  // 149: com.evrblk.grackle.v1beta.GrackleApi.ListBarriers:output_type -> com.evrblk.grackle.v1beta.ListBarriersResponse
+	91,  // 150: com.evrblk.grackle.v1beta.GrackleApi.GetBarrier:output_type -> com.evrblk.grackle.v1beta.GetBarrierResponse
+	93,  // 151: com.evrblk.grackle.v1beta.GrackleApi.DeleteBarrier:output_type -> com.evrblk.grackle.v1beta.DeleteBarrierResponse
+	95,  // 152: com.evrblk.grackle.v1beta.GrackleApi.UpdateBarrier:output_type -> com.evrblk.grackle.v1beta.UpdateBarrierResponse
+	97,  // 153: com.evrblk.grackle.v1beta.GrackleApi.ArriveAtBarrier:output_type -> com.evrblk.grackle.v1beta.ArriveAtBarrierResponse
+	99,  // 154: com.evrblk.grackle.v1beta.GrackleApi.WaitAtBarrier:output_type -> com.evrblk.grackle.v1beta.WaitAtBarrierResponse
+	101, // 155: com.evrblk.grackle.v1beta.GrackleApi.ListBarrierParticipants:output_type -> com.evrblk.grackle.v1beta.ListBarrierParticipantsResponse
+	112, // [112:156] is the sub-list for method output_type
+	68,  // [68:112] is the sub-list for method input_type
+	68,  // [68:68] is the sub-list for extension type_name
+	68,  // [68:68] is the sub-list for extension extendee
+	0,   // [0:68] is the sub-list for field type_name
 }
 
 func init() { file_proto_grackle_v1beta_api_proto_init() }
@@ -6826,7 +7155,7 @@ func file_proto_grackle_v1beta_api_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_grackle_v1beta_api_proto_rawDesc), len(file_proto_grackle_v1beta_api_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      5,
 			NumMessages:   122,
 			NumExtensions: 0,
 			NumServices:   1,

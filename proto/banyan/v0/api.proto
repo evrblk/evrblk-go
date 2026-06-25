@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package com.evrblk.banyan.preview;
+package com.evrblk.banyan.v0;
 
-option go_package = "github.com/evrblk/evrblk-go/banyan/preview;banyan";
-option ruby_package = "Evrblk::Banyan::Preview";
+option go_package = "github.com/evrblk/evrblk-go/banyan/v0;banyan";
+option ruby_package = "Evrblk::Banyan::V0";
 
-service BanyanPreviewApi {
+service BanyanApi {
   rpc CreateNamespace(CreateNamespaceRequest) returns (CreateNamespaceResponse) {}
   rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse) {}
   rpc GetNamespace(GetNamespaceRequest) returns (GetNamespaceResponse) {}

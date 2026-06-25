@@ -16,7 +16,7 @@ type MyAccountApi interface {
 	GetAccount(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error)
 }
 type MyAccountGrpcClient struct {
-	grpc   MyAccountPreviewApiClient
+	grpc   MyAccountApiClient
 	conn   *grpc.ClientConn
 	signer evrblk.RequestSigner
 }
@@ -59,7 +59,7 @@ func NewMyAccountGrpcClient(address string, signer evrblk.RequestSigner) *MyAcco
 	}
 	return &MyAccountGrpcClient{
 		conn:   conn,
-		grpc:   NewMyAccountPreviewApiClient(conn),
+		grpc:   NewMyAccountApiClient(conn),
 		signer: signer,
 	}
 }

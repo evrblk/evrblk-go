@@ -29,7 +29,7 @@ type IAMApi interface {
 	DeleteApiKey(ctx context.Context, request *DeleteApiKeyRequest) (*DeleteApiKeyResponse, error)
 }
 type IAMGrpcClient struct {
-	grpc   IamPreviewApiClient
+	grpc   IamApiClient
 	conn   *grpc.ClientConn
 	signer evrblk.RequestSigner
 }
@@ -293,7 +293,7 @@ func NewIAMGrpcClient(address string, signer evrblk.RequestSigner) *IAMGrpcClien
 	}
 	return &IAMGrpcClient{
 		conn:   conn,
-		grpc:   NewIamPreviewApiClient(conn),
+		grpc:   NewIamApiClient(conn),
 		signer: signer,
 	}
 }

@@ -936,13 +936,8 @@ func (m *AcquireSemaphoreResponse) MarshalToSizedBufferVT(dAtA []byte) (int, err
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if m.Success {
-		i--
-		if m.Success {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
+	if m.Outcome != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Outcome))
 		i--
 		dAtA[i] = 0x10
 	}
@@ -3025,23 +3020,8 @@ func (m *WaitForWaitGroupResponse) MarshalToSizedBufferVT(dAtA []byte) (int, err
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if m.TimedOut {
-		i--
-		if m.TimedOut {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x18
-	}
-	if m.Completed {
-		i--
-		if m.Completed {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
+	if m.Outcome != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Outcome))
 		i--
 		dAtA[i] = 0x10
 	}
@@ -3356,13 +3336,8 @@ func (m *AcquireLockResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if m.Success {
-		i--
-		if m.Success {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
+	if m.Outcome != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Outcome))
 		i--
 		dAtA[i] = 0x10
 	}
@@ -5105,11 +5080,6 @@ func (m *ArriveAtBarrierResponse) MarshalToSizedBufferVT(dAtA []byte) (int, erro
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if m.NextGeneration != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.NextGeneration))
-		i--
-		dAtA[i] = 0x18
-	}
 	if m.AllArrived {
 		i--
 		if m.AllArrived {
@@ -5220,28 +5190,8 @@ func (m *WaitAtBarrierResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
-	if m.TimedOut {
-		i--
-		if m.TimedOut {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x20
-	}
-	if m.NextGeneration != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.NextGeneration))
-		i--
-		dAtA[i] = 0x18
-	}
-	if m.AllArrived {
-		i--
-		if m.AllArrived {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
+	if m.Outcome != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Outcome))
 		i--
 		dAtA[i] = 0x10
 	}
@@ -5897,8 +5847,8 @@ func (m *AcquireSemaphoreResponse) SizeVT() (n int) {
 		l = m.Semaphore.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if m.Success {
-		n += 2
+	if m.Outcome != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Outcome))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -6711,11 +6661,8 @@ func (m *WaitForWaitGroupResponse) SizeVT() (n int) {
 		l = m.WaitGroup.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if m.Completed {
-		n += 2
-	}
-	if m.TimedOut {
-		n += 2
+	if m.Outcome != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Outcome))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -6848,8 +6795,8 @@ func (m *AcquireLockResponse) SizeVT() (n int) {
 		l = m.Lock.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if m.Success {
-		n += 2
+	if m.Outcome != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Outcome))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -7522,9 +7469,6 @@ func (m *ArriveAtBarrierResponse) SizeVT() (n int) {
 	if m.AllArrived {
 		n += 2
 	}
-	if m.NextGeneration != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.NextGeneration))
-	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -7563,14 +7507,8 @@ func (m *WaitAtBarrierResponse) SizeVT() (n int) {
 		l = m.Barrier.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if m.AllArrived {
-		n += 2
-	}
-	if m.NextGeneration != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.NextGeneration))
-	}
-	if m.TimedOut {
-		n += 2
+	if m.Outcome != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Outcome))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -8821,7 +8759,7 @@ func (m *UpdateNamespaceRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedVersion |= uint64(b&0x7F) << shift
+				m.ExpectedVersion |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -9074,7 +9012,7 @@ func (m *CreateSemaphoreRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Permits |= uint64(b&0x7F) << shift
+				m.Permits |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -9939,7 +9877,7 @@ func (m *AcquireSemaphoreRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Weight |= uint64(b&0x7F) << shift
+				m.Weight |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -10179,9 +10117,9 @@ func (m *AcquireSemaphoreResponse) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Success", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Outcome", wireType)
 			}
-			var v int
+			m.Outcome = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return protohelpers.ErrIntOverflow
@@ -10191,12 +10129,11 @@ func (m *AcquireSemaphoreResponse) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				v |= int(b&0x7F) << shift
+				m.Outcome |= AcquireOutcome(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			m.Success = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -10592,7 +10529,7 @@ func (m *UpdateSemaphoreRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Permits |= uint64(b&0x7F) << shift
+				m.Permits |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -10738,7 +10675,7 @@ func (m *UpdateSemaphoreRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedVersion |= uint64(b&0x7F) << shift
+				m.ExpectedVersion |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -11440,7 +11377,7 @@ func (m *CreateSemaphoreLeaseRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TtlSeconds |= uint64(b&0x7F) << shift
+				m.TtlSeconds |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -11954,7 +11891,7 @@ func (m *RefreshSemaphoreLeaseRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TtlSeconds |= uint64(b&0x7F) << shift
+				m.TtlSeconds |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -12978,7 +12915,7 @@ func (m *Semaphore) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Version |= uint64(b&0x7F) << shift
+				m.Version |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -12997,7 +12934,7 @@ func (m *Semaphore) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Permits |= uint64(b&0x7F) << shift
+				m.Permits |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -13016,7 +12953,7 @@ func (m *Semaphore) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ActiveHolds |= uint64(b&0x7F) << shift
+				m.ActiveHolds |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -13035,7 +12972,7 @@ func (m *Semaphore) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ActiveHoldersCount |= uint64(b&0x7F) << shift
+				m.ActiveHoldersCount |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -13302,7 +13239,7 @@ func (m *SemaphoreHolder) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Weight |= uint64(b&0x7F) << shift
+				m.Weight |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -13595,7 +13532,7 @@ func (m *CreateWaitGroupRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Counter |= uint64(b&0x7F) << shift
+				m.Counter |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -14013,7 +13950,7 @@ func (m *UpdateWaitGroupRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Counter |= uint64(b&0x7F) << shift
+				m.Counter |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -14178,7 +14115,7 @@ func (m *UpdateWaitGroupRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedVersion |= uint64(b&0x7F) << shift
+				m.ExpectedVersion |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -15924,9 +15861,9 @@ func (m *WaitForWaitGroupResponse) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Completed", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Outcome", wireType)
 			}
-			var v int
+			m.Outcome = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return protohelpers.ErrIntOverflow
@@ -15936,32 +15873,11 @@ func (m *WaitForWaitGroupResponse) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				v |= int(b&0x7F) << shift
+				m.Outcome |= WaitGroupWaitOutcome(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			m.Completed = bool(v != 0)
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TimedOut", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.TimedOut = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -16129,7 +16045,7 @@ func (m *WaitGroup) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Version |= uint64(b&0x7F) << shift
+				m.Version |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -16167,7 +16083,7 @@ func (m *WaitGroup) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Counter |= uint64(b&0x7F) << shift
+				m.Counter |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -16186,7 +16102,7 @@ func (m *WaitGroup) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.CompletedJobs |= uint64(b&0x7F) << shift
+				m.CompletedJobs |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -17025,9 +16941,9 @@ func (m *AcquireLockResponse) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Success", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Outcome", wireType)
 			}
-			var v int
+			m.Outcome = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return protohelpers.ErrIntOverflow
@@ -17037,12 +16953,11 @@ func (m *AcquireLockResponse) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				v |= int(b&0x7F) << shift
+				m.Outcome |= AcquireOutcome(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			m.Success = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -18057,7 +17972,7 @@ func (m *CreateLockLeaseRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TtlSeconds |= uint64(b&0x7F) << shift
+				m.TtlSeconds |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -18571,7 +18486,7 @@ func (m *RefreshLockLeaseRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TtlSeconds |= uint64(b&0x7F) << shift
+				m.TtlSeconds |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -19718,7 +19633,7 @@ func (m *Namespace) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Version |= uint64(b&0x7F) << shift
+				m.Version |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -20011,7 +19926,7 @@ func (m *CreateBarrierRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedProcesses |= uint64(b&0x7F) << shift
+				m.ExpectedProcesses |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -21061,7 +20976,7 @@ func (m *UpdateBarrierRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedProcesses |= uint64(b&0x7F) << shift
+				m.ExpectedProcesses |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -21207,7 +21122,7 @@ func (m *UpdateBarrierRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedVersion |= uint64(b&0x7F) << shift
+				m.ExpectedVersion |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -21479,7 +21394,7 @@ func (m *ArriveAtBarrierRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedGeneration |= uint64(b&0x7F) << shift
+				m.ExpectedGeneration |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -21718,25 +21633,6 @@ func (m *ArriveAtBarrierResponse) UnmarshalVT(dAtA []byte) error {
 				}
 			}
 			m.AllArrived = bool(v != 0)
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NextGeneration", wireType)
-			}
-			m.NextGeneration = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.NextGeneration |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -21866,7 +21762,7 @@ func (m *WaitAtBarrierRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedGeneration |= uint64(b&0x7F) << shift
+				m.ExpectedGeneration |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -21979,9 +21875,9 @@ func (m *WaitAtBarrierResponse) UnmarshalVT(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AllArrived", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Outcome", wireType)
 			}
-			var v int
+			m.Outcome = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return protohelpers.ErrIntOverflow
@@ -21991,51 +21887,11 @@ func (m *WaitAtBarrierResponse) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				v |= int(b&0x7F) << shift
+				m.Outcome |= BarrierWaitOutcome(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			m.AllArrived = bool(v != 0)
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NextGeneration", wireType)
-			}
-			m.NextGeneration = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.NextGeneration |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field TimedOut", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.TimedOut = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -22165,7 +22021,7 @@ func (m *ListBarrierParticipantsRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Generation |= uint64(b&0x7F) << shift
+				m.Generation |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -22499,7 +22355,7 @@ func (m *Barrier) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpectedProcesses |= uint64(b&0x7F) << shift
+				m.ExpectedProcesses |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -22518,7 +22374,7 @@ func (m *Barrier) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ArrivedProcesses |= uint64(b&0x7F) << shift
+				m.ArrivedProcesses |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -22537,7 +22393,7 @@ func (m *Barrier) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Generation |= uint64(b&0x7F) << shift
+				m.Generation |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -22594,7 +22450,7 @@ func (m *Barrier) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Version |= uint64(b&0x7F) << shift
+				m.Version |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
