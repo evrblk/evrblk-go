@@ -534,6 +534,36 @@ message AcquireLockRequest {
 message AcquireLockResponse {
   Lock lock = 1;
   AcquireOutcome outcome = 2;
+  // When outcome is not ACQUIRED, a best-effort hint at what the lock was
+  // blocked on. Diagnostic only: it is a point-in-time snapshot of the last
+  // acquire attempt and may be stale by the time it is read, so clients must
+  // not build control flow on it. UNSPECIFIED when the lock was acquired.
+  ContentionReason reason = 3;
+  // The locks currently blocking this acquire, to show the caller what stands
+  // in the way: the blocking ancestor lock(s) (ANCESTOR) or blocking descendant
+  // locks (DESCENDANT). Empty for PEER — there the conflicting lock is the one
+  // being acquired, already returned in the lock field above, so it is not
+  // duplicated here. Like reason this is a best-effort, point-in-time snapshot
+  // and may be stale. It is always bounded — at most 50 locks are returned (a
+  // descendant subtree may hold more) — so it is cheap and safe to read. Empty
+  // when the lock was acquired.
+  repeated Lock blocking_locks = 4;
+}
+
+// ContentionReason explains why an AcquireLock attempt found the lock
+// unavailable. Locks form a '/'-separated hierarchy (see Lock), so a request
+// can be blocked by the lock itself, by an ancestor path, or by a descendant
+// path. This is a diagnostic hint, not part of the acquire control flow —
+// branch on AcquireOutcome, not on this.
+enum ContentionReason {
+  CONTENTION_REASON_UNSPECIFIED = 0;
+  // PEER: the lock itself is held in an incompatible mode by another lease
+  // (held shared while exclusive was requested, or held exclusively).
+  CONTENTION_REASON_PEER = 1;
+  // ANCESTOR: a lock on an ancestor path blocks this acquire.
+  CONTENTION_REASON_ANCESTOR = 2;
+  // DESCENDANT: one or more locks on descendant paths block this acquire.
+  CONTENTION_REASON_DESCENDANT = 3;
 }
 
 message ReleaseLockRequest {
