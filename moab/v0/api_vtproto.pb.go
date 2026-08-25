@@ -486,6 +486,18 @@ func (m *ListQueuesRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.Limit != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Limit))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.PaginationToken) > 0 {
+		i -= len(m.PaginationToken)
+		copy(dAtA[i:], m.PaginationToken)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.PaginationToken)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -518,6 +530,20 @@ func (m *ListQueuesResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if len(m.PreviousPaginationToken) > 0 {
+		i -= len(m.PreviousPaginationToken)
+		copy(dAtA[i:], m.PreviousPaginationToken)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.PreviousPaginationToken)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.NextPaginationToken) > 0 {
+		i -= len(m.NextPaginationToken)
+		copy(dAtA[i:], m.NextPaginationToken)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.NextPaginationToken)))
+		i--
+		dAtA[i] = 0x12
 	}
 	if len(m.Queues) > 0 {
 		for iNdEx := len(m.Queues) - 1; iNdEx >= 0; iNdEx-- {
@@ -2484,6 +2510,13 @@ func (m *ListQueuesRequest) SizeVT() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.PaginationToken)
+	if l > 0 {
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	if m.Limit != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Limit))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -2499,6 +2532,14 @@ func (m *ListQueuesResponse) SizeVT() (n int) {
 			l = e.SizeVT()
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
+	}
+	l = len(m.NextPaginationToken)
+	if l > 0 {
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	l = len(m.PreviousPaginationToken)
+	if l > 0 {
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -4305,6 +4346,57 @@ func (m *ListQueuesRequest) UnmarshalVT(dAtA []byte) error {
 			return fmt.Errorf("proto: ListQueuesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PaginationToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PaginationToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Limit", wireType)
+			}
+			m.Limit = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Limit |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -4389,6 +4481,70 @@ func (m *ListQueuesResponse) UnmarshalVT(dAtA []byte) error {
 			if err := m.Queues[len(m.Queues)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NextPaginationToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NextPaginationToken = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviousPaginationToken", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviousPaginationToken = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -5000,7 +5156,7 @@ func (m *DequeueRequest) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.BatchSize |= int64(b&0x7F) << shift
+				m.BatchSize |= int32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8841,7 +8997,7 @@ func (m *QueueStats) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.EnqueuedTasksCount |= uint64(b&0x7F) << shift
+				m.EnqueuedTasksCount |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8860,7 +9016,7 @@ func (m *QueueStats) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.InProgressTasksCount |= uint64(b&0x7F) << shift
+				m.InProgressTasksCount |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8879,7 +9035,7 @@ func (m *QueueStats) UnmarshalVT(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.DeadTasksCount |= uint64(b&0x7F) << shift
+				m.DeadTasksCount |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}

@@ -72,10 +72,15 @@ message DeleteQueueRequest {
 
 message DeleteQueueResponse {}
 
-message ListQueuesRequest {}
+message ListQueuesRequest {
+  string pagination_token = 1;
+  int32 limit = 2;
+}
 
 message ListQueuesResponse {
   repeated Queue queues = 1;
+  string next_pagination_token = 2;
+  string previous_pagination_token = 3;
 }
 
 // Enqueue/Dequeue APIs
@@ -109,7 +114,7 @@ message EnqueueResponse {
 
 message DequeueRequest {
   string queue_name = 1;
-  int64 batch_size = 2;
+  int32 batch_size = 2;
 }
 
 message DequeueResponse {
@@ -293,9 +298,9 @@ message TokenBucketRateLimiting {
 }
 
 message QueueStats {
-  uint64 enqueued_tasks_count = 1;
-  uint64 in_progress_tasks_count = 2;
-  uint64 dead_tasks_count = 3;
+  int64 enqueued_tasks_count = 1;
+  int64 in_progress_tasks_count = 2;
+  int64 dead_tasks_count = 3;
   int64 age_of_oldest_enqueued_task = 4;
 }
 

@@ -634,9 +634,11 @@ func (*DeleteQueueResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListQueuesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	PaginationToken string                 `protobuf:"bytes,1,opt,name=pagination_token,json=paginationToken,proto3" json:"pagination_token,omitempty"`
+	Limit           int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ListQueuesRequest) Reset() {
@@ -669,11 +671,27 @@ func (*ListQueuesRequest) Descriptor() ([]byte, []int) {
 	return file_proto_moab_v0_api_proto_rawDescGZIP(), []int{8}
 }
 
+func (x *ListQueuesRequest) GetPaginationToken() string {
+	if x != nil {
+		return x.PaginationToken
+	}
+	return ""
+}
+
+func (x *ListQueuesRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
 type ListQueuesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Queues        []*Queue               `protobuf:"bytes,1,rep,name=queues,proto3" json:"queues,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	Queues                  []*Queue               `protobuf:"bytes,1,rep,name=queues,proto3" json:"queues,omitempty"`
+	NextPaginationToken     string                 `protobuf:"bytes,2,opt,name=next_pagination_token,json=nextPaginationToken,proto3" json:"next_pagination_token,omitempty"`
+	PreviousPaginationToken string                 `protobuf:"bytes,3,opt,name=previous_pagination_token,json=previousPaginationToken,proto3" json:"previous_pagination_token,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *ListQueuesResponse) Reset() {
@@ -711,6 +729,20 @@ func (x *ListQueuesResponse) GetQueues() []*Queue {
 		return x.Queues
 	}
 	return nil
+}
+
+func (x *ListQueuesResponse) GetNextPaginationToken() string {
+	if x != nil {
+		return x.NextPaginationToken
+	}
+	return ""
+}
+
+func (x *ListQueuesResponse) GetPreviousPaginationToken() string {
+	if x != nil {
+		return x.PreviousPaginationToken
+	}
+	return ""
 }
 
 type EnqueueRequest struct {
@@ -912,7 +944,7 @@ func (x *EnqueueResponse) GetTasks() []*Task {
 type DequeueRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	QueueName     string                 `protobuf:"bytes,1,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
-	BatchSize     int64                  `protobuf:"varint,2,opt,name=batch_size,json=batchSize,proto3" json:"batch_size,omitempty"`
+	BatchSize     int32                  `protobuf:"varint,2,opt,name=batch_size,json=batchSize,proto3" json:"batch_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -954,7 +986,7 @@ func (x *DequeueRequest) GetQueueName() string {
 	return ""
 }
 
-func (x *DequeueRequest) GetBatchSize() int64 {
+func (x *DequeueRequest) GetBatchSize() int32 {
 	if x != nil {
 		return x.BatchSize
 	}
@@ -2600,9 +2632,9 @@ func (x *TokenBucketRateLimiting) GetIntervalUnit() IntervalUnit {
 
 type QueueStats struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
-	EnqueuedTasksCount      uint64                 `protobuf:"varint,1,opt,name=enqueued_tasks_count,json=enqueuedTasksCount,proto3" json:"enqueued_tasks_count,omitempty"`
-	InProgressTasksCount    uint64                 `protobuf:"varint,2,opt,name=in_progress_tasks_count,json=inProgressTasksCount,proto3" json:"in_progress_tasks_count,omitempty"`
-	DeadTasksCount          uint64                 `protobuf:"varint,3,opt,name=dead_tasks_count,json=deadTasksCount,proto3" json:"dead_tasks_count,omitempty"`
+	EnqueuedTasksCount      int64                  `protobuf:"varint,1,opt,name=enqueued_tasks_count,json=enqueuedTasksCount,proto3" json:"enqueued_tasks_count,omitempty"`
+	InProgressTasksCount    int64                  `protobuf:"varint,2,opt,name=in_progress_tasks_count,json=inProgressTasksCount,proto3" json:"in_progress_tasks_count,omitempty"`
+	DeadTasksCount          int64                  `protobuf:"varint,3,opt,name=dead_tasks_count,json=deadTasksCount,proto3" json:"dead_tasks_count,omitempty"`
 	AgeOfOldestEnqueuedTask int64                  `protobuf:"varint,4,opt,name=age_of_oldest_enqueued_task,json=ageOfOldestEnqueuedTask,proto3" json:"age_of_oldest_enqueued_task,omitempty"`
 	unknownFields           protoimpl.UnknownFields
 	sizeCache               protoimpl.SizeCache
@@ -2638,21 +2670,21 @@ func (*QueueStats) Descriptor() ([]byte, []int) {
 	return file_proto_moab_v0_api_proto_rawDescGZIP(), []int{41}
 }
 
-func (x *QueueStats) GetEnqueuedTasksCount() uint64 {
+func (x *QueueStats) GetEnqueuedTasksCount() int64 {
 	if x != nil {
 		return x.EnqueuedTasksCount
 	}
 	return 0
 }
 
-func (x *QueueStats) GetInProgressTasksCount() uint64 {
+func (x *QueueStats) GetInProgressTasksCount() int64 {
 	if x != nil {
 		return x.InProgressTasksCount
 	}
 	return 0
 }
 
-func (x *QueueStats) GetDeadTasksCount() uint64 {
+func (x *QueueStats) GetDeadTasksCount() int64 {
 	if x != nil {
 		return x.DeadTasksCount
 	}
@@ -2702,10 +2734,14 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\x12DeleteQueueRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\"\x15\n" +
-	"\x13DeleteQueueResponse\"\x13\n" +
-	"\x11ListQueuesRequest\"G\n" +
+	"\x13DeleteQueueResponse\"T\n" +
+	"\x11ListQueuesRequest\x12)\n" +
+	"\x10pagination_token\x18\x01 \x01(\tR\x0fpaginationToken\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\"\xb7\x01\n" +
 	"\x12ListQueuesResponse\x121\n" +
-	"\x06queues\x18\x01 \x03(\v2\x19.com.evrblk.moab.v0.QueueR\x06queues\"r\n" +
+	"\x06queues\x18\x01 \x03(\v2\x19.com.evrblk.moab.v0.QueueR\x06queues\x122\n" +
+	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
+	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"r\n" +
 	"\x0eEnqueueRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12A\n" +
@@ -2732,7 +2768,7 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12\x1d\n" +
 	"\n" +
-	"batch_size\x18\x02 \x01(\x03R\tbatchSize\"A\n" +
+	"batch_size\x18\x02 \x01(\x05R\tbatchSize\"A\n" +
 	"\x0fDequeueResponse\x12.\n" +
 	"\x05tasks\x18\x01 \x03(\v2\x18.com.evrblk.moab.v0.TaskR\x05tasks\"|\n" +
 	"\x13ReportStatusRequest\x12\x1d\n" +
@@ -2876,9 +2912,9 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\rinterval_unit\x18\x03 \x01(\x0e2 .com.evrblk.moab.v0.IntervalUnitR\fintervalUnit\"\xdd\x01\n" +
 	"\n" +
 	"QueueStats\x120\n" +
-	"\x14enqueued_tasks_count\x18\x01 \x01(\x04R\x12enqueuedTasksCount\x125\n" +
-	"\x17in_progress_tasks_count\x18\x02 \x01(\x04R\x14inProgressTasksCount\x12(\n" +
-	"\x10dead_tasks_count\x18\x03 \x01(\x04R\x0edeadTasksCount\x12<\n" +
+	"\x14enqueued_tasks_count\x18\x01 \x01(\x03R\x12enqueuedTasksCount\x125\n" +
+	"\x17in_progress_tasks_count\x18\x02 \x01(\x03R\x14inProgressTasksCount\x12(\n" +
+	"\x10dead_tasks_count\x18\x03 \x01(\x03R\x0edeadTasksCount\x12<\n" +
 	"\x1bage_of_oldest_enqueued_task\x18\x04 \x01(\x03R\x17ageOfOldestEnqueuedTask*x\n" +
 	"\fIntervalUnit\x12\x19\n" +
 	"\x15INTERVAL_UNIT_INVALID\x10\x00\x12\x19\n" +
