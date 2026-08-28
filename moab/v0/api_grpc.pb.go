@@ -35,6 +35,7 @@ const (
 	MoabApi_GetSchedule_FullMethodName    = "/com.evrblk.moab.v0.MoabApi/GetSchedule"
 	MoabApi_UpdateSchedule_FullMethodName = "/com.evrblk.moab.v0.MoabApi/UpdateSchedule"
 	MoabApi_DeleteSchedule_FullMethodName = "/com.evrblk.moab.v0.MoabApi/DeleteSchedule"
+	MoabApi_ListSchedules_FullMethodName  = "/com.evrblk.moab.v0.MoabApi/ListSchedules"
 )
 
 // MoabApiClient is the client API for MoabApi service.
@@ -57,6 +58,7 @@ type MoabApiClient interface {
 	GetSchedule(ctx context.Context, in *GetScheduleRequest, opts ...grpc.CallOption) (*GetScheduleResponse, error)
 	UpdateSchedule(ctx context.Context, in *UpdateScheduleRequest, opts ...grpc.CallOption) (*UpdateScheduleResponse, error)
 	DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error)
+	ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
 }
 
 type moabApiClient struct {
@@ -227,6 +229,16 @@ func (c *moabApiClient) DeleteSchedule(ctx context.Context, in *DeleteScheduleRe
 	return out, nil
 }
 
+func (c *moabApiClient) ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSchedulesResponse)
+	err := c.cc.Invoke(ctx, MoabApi_ListSchedules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MoabApiServer is the server API for MoabApi service.
 // All implementations must embed UnimplementedMoabApiServer
 // for forward compatibility.
@@ -247,6 +259,7 @@ type MoabApiServer interface {
 	GetSchedule(context.Context, *GetScheduleRequest) (*GetScheduleResponse, error)
 	UpdateSchedule(context.Context, *UpdateScheduleRequest) (*UpdateScheduleResponse, error)
 	DeleteSchedule(context.Context, *DeleteScheduleRequest) (*DeleteScheduleResponse, error)
+	ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error)
 	mustEmbedUnimplementedMoabApiServer()
 }
 
@@ -304,6 +317,9 @@ func (UnimplementedMoabApiServer) UpdateSchedule(context.Context, *UpdateSchedul
 }
 func (UnimplementedMoabApiServer) DeleteSchedule(context.Context, *DeleteScheduleRequest) (*DeleteScheduleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSchedule not implemented")
+}
+func (UnimplementedMoabApiServer) ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSchedules not implemented")
 }
 func (UnimplementedMoabApiServer) mustEmbedUnimplementedMoabApiServer() {}
 func (UnimplementedMoabApiServer) testEmbeddedByValue()                 {}
@@ -614,6 +630,24 @@ func _MoabApi_DeleteSchedule_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MoabApi_ListSchedules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSchedulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MoabApiServer).ListSchedules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MoabApi_ListSchedules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MoabApiServer).ListSchedules(ctx, req.(*ListSchedulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MoabApi_ServiceDesc is the grpc.ServiceDesc for MoabApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -684,6 +718,10 @@ var MoabApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteSchedule",
 			Handler:    _MoabApi_DeleteSchedule_Handler,
+		},
+		{
+			MethodName: "ListSchedules",
+			Handler:    _MoabApi_ListSchedules_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
