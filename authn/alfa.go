@@ -41,6 +41,9 @@ func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time,
 
 	// Deserialize public PEM string
 	block, _ := pem.Decode([]byte(publicPem))
+	if block == nil {
+		return errors.New("invalid public PEM")
+	}
 
 	// Deserialize ECDSA public key
 	publicKey, err := x509.ParsePKIXPublicKey(block.Bytes)
@@ -54,6 +57,21 @@ func VerifyAlfaSignature(signatureBase64 string, timestamp int64, now time.Time,
 
 	// Verify timestamped request
 	return VerifyP256(data, signature, ecdsaPublicKey)
+}
+
+// ValidateAlfaPrivateKey checks that privatePem is a well-formed PEM-encoded EC private key usable
+// for Alfa signing.
+func ValidateAlfaPrivateKey(privatePem string) error {
+	block, _ := pem.Decode([]byte(privatePem))
+	if block == nil {
+		return errors.New("invalid private PEM")
+	}
+
+	if _, err := x509.ParseECPrivateKey(block.Bytes); err != nil {
+		return fmt.Errorf("invalid private key: %w", err)
+	}
+
+	return nil
 }
 
 func GenerateAlfaKeys() (privatePem string, publicPem string, err error) {
@@ -93,6 +111,9 @@ func SignAlfa(timestamp int64, privatePem string, request VTProtoMessage, servic
 
 	// Deserialize private PEM string
 	block, _ := pem.Decode([]byte(privatePem))
+	if block == nil {
+		return "", errors.New("invalid private PEM")
+	}
 
 	// Deserialize ECDSA private key
 	privateKey, err := x509.ParseECPrivateKey(block.Bytes)

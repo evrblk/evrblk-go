@@ -44,9 +44,12 @@ func VerifyP256(data []byte, signature []byte, publicKey *ecdsa.PublicKey) error
 	hash := sha256.Sum256(data)
 
 	sig := ECDSASignature{}
-	_, err := asn1.Unmarshal(signature, &sig)
+	rest, err := asn1.Unmarshal(signature, &sig)
 	if err != nil {
 		return err
+	}
+	if len(rest) > 0 {
+		return errors.New("invalid signature")
 	}
 
 	valid := ecdsa.Verify(publicKey, hash[:], sig.R, sig.S)

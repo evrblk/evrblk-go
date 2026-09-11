@@ -18,7 +18,8 @@ func TestBravoSignAndVerify(t *testing.T) {
 	timestamp := now.Unix()
 
 	// Generate a new Bravo secret string
-	secret := authn.GenerateBravoSecret()
+	secret, err := authn.GenerateBravoSecret()
+	require.NoError(t, err)
 
 	// Build a random request with non-trivial values and nested objects
 	request := &moab.CreateQueueRequest{

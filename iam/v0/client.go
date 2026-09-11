@@ -8,7 +8,6 @@ import (
 	internal "github.com/evrblk/evrblk-go/internal"
 	grpc "google.golang.org/grpc"
 	insecure "google.golang.org/grpc/credentials/insecure"
-	"log"
 	"time"
 )
 
@@ -286,14 +285,14 @@ func (c *IAMGrpcClient) DeleteApiKey(ctx context.Context, request *DeleteApiKeyR
 	return resp, internal.ErrorFromRpcError(err)
 }
 
-func NewIAMGrpcClient(address string, signer evrblk.RequestSigner) *IAMGrpcClient {
+func NewIAMGrpcClient(address string, signer evrblk.RequestSigner) (*IAMGrpcClient, error) {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		return nil, err
 	}
 	return &IAMGrpcClient{
 		conn:   conn,
 		grpc:   NewIamApiClient(conn),
 		signer: signer,
-	}
+	}, nil
 }

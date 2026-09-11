@@ -31,6 +31,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error: %v\n", err)
 	}
+	if len(serviceDescs) == 0 {
+		log.Fatalf("no gRPC services found in %s", *protoFilePath)
+	}
 
 	_, err = fmt.Fprint(out, generateClient(*serviceName, *goPackagePath, *goPackageName, serviceDescs[0]))
 	if err != nil {
@@ -166,6 +169,7 @@ func generateClient(serviceName string, packagePath string, packageName string, 
 		Id("signer").Qual("github.com/evrblk/evrblk-go", "RequestSigner"),
 	).Params(
 		Op("*").Id(grpcClientType),
+		Error(),
 	).Block(
 		List(Id("conn"), Err()).Op(":=").Qual("google.golang.org/grpc", "NewClient").Call(
 			Id("address"),
@@ -176,7 +180,7 @@ func generateClient(serviceName string, packagePath string, packageName string, 
 		If(
 			Err().Op("!=").Nil(),
 		).Block(
-			Qual("log", "Fatalf").Call(Lit("did not connect: %v"), Err()),
+			Return(Nil(), Err()),
 		),
 		Return(
 			Op("&").Id(grpcClientType).Values(Dict{
@@ -184,6 +188,7 @@ func generateClient(serviceName string, packagePath string, packageName string, 
 				Id("grpc"):   Id("New" + grpcServiceName + "Client").Call(Id("conn")),
 				Id("signer"): Id("signer"),
 			}),
+			Nil(),
 		),
 	)
 	f.Line()

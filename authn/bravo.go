@@ -8,7 +8,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 )
 
@@ -43,16 +42,31 @@ func VerifyBravoSignature(signatureHex string, timestamp int64, now time.Time, h
 	}
 }
 
-func GenerateBravoSecret() string {
+// ValidateBravoSecret checks that secretBase64 is a well-formed, non-empty Base64-encoded Bravo
+// secret.
+func ValidateBravoSecret(secretBase64 string) error {
+	secret, err := base64.StdEncoding.DecodeString(secretBase64)
+	if err != nil {
+		return fmt.Errorf("invalid secret: %w", err)
+	}
+
+	if len(secret) == 0 {
+		return errors.New("secret must not be empty")
+	}
+
+	return nil
+}
+
+func GenerateBravoSecret() (string, error) {
 	// Generate random bytes
 	buf := make([]byte, 512)
 	_, err := rand.Read(buf)
 	if err != nil {
-		log.Fatalf("error while generating random string: %s", err)
+		return "", fmt.Errorf("error while generating random string: %w", err)
 	}
 
 	// Return Base64 of those bytes
-	return base64.StdEncoding.EncodeToString(buf)
+	return base64.StdEncoding.EncodeToString(buf), nil
 }
 
 func SignBravo(timestamp int64, secretBase64 string, request VTProtoMessage, service string, method string) (string, error) {
@@ -84,7 +98,7 @@ func SignBravo(timestamp int64, secretBase64 string, request VTProtoMessage, ser
 }
 
 func GetDateOfTimestamp(timestamp int64) string {
-	return time.Unix(timestamp, 0).Format("2006-01-02")
+	return time.Unix(timestamp, 0).UTC().Format("2006-01-02")
 }
 
 func HashBravoSecretWithDate(secretBase64 string, date string) ([]byte, error) {

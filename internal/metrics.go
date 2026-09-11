@@ -38,22 +38,22 @@ func MetricLabelFromGrpcError(err error) string {
 		case codes.OK:
 			return ""
 
-		case codes.DeadlineExceeded:
-		case codes.Canceled:
+		case codes.DeadlineExceeded,
+			codes.Canceled:
 			return "timeout"
 
-		case codes.Aborted:
-		case codes.FailedPrecondition:
-		case codes.AlreadyExists:
-		case codes.InvalidArgument:
-		case codes.OutOfRange:
+		case codes.Aborted,
+			codes.FailedPrecondition,
+			codes.AlreadyExists,
+			codes.InvalidArgument,
+			codes.OutOfRange:
 			return "invalid_request"
 
-		case codes.Unknown:
-		case codes.Unimplemented:
-		case codes.Internal:
-		case codes.Unavailable:
-		case codes.DataLoss:
+		case codes.Unknown,
+			codes.Unimplemented,
+			codes.Internal,
+			codes.Unavailable,
+			codes.DataLoss:
 			return "internal"
 
 		case codes.NotFound:

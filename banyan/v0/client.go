@@ -8,7 +8,6 @@ import (
 	internal "github.com/evrblk/evrblk-go/internal"
 	grpc "google.golang.org/grpc"
 	insecure "google.golang.org/grpc/credentials/insecure"
-	"log"
 	"time"
 )
 
@@ -610,14 +609,14 @@ func (c *BanyanGrpcClient) ResumeWorkflowRun(ctx context.Context, request *Resum
 	return resp, internal.ErrorFromRpcError(err)
 }
 
-func NewBanyanGrpcClient(address string, signer evrblk.RequestSigner) *BanyanGrpcClient {
+func NewBanyanGrpcClient(address string, signer evrblk.RequestSigner) (*BanyanGrpcClient, error) {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		return nil, err
 	}
 	return &BanyanGrpcClient{
 		conn:   conn,
 		grpc:   NewBanyanApiClient(conn),
 		signer: signer,
-	}
+	}, nil
 }

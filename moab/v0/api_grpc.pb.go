@@ -25,6 +25,7 @@ const (
 	MoabApi_DeleteQueue_FullMethodName    = "/com.evrblk.moab.v0.MoabApi/DeleteQueue"
 	MoabApi_ListQueues_FullMethodName     = "/com.evrblk.moab.v0.MoabApi/ListQueues"
 	MoabApi_GetTask_FullMethodName        = "/com.evrblk.moab.v0.MoabApi/GetTask"
+	MoabApi_ListTasks_FullMethodName      = "/com.evrblk.moab.v0.MoabApi/ListTasks"
 	MoabApi_Enqueue_FullMethodName        = "/com.evrblk.moab.v0.MoabApi/Enqueue"
 	MoabApi_Dequeue_FullMethodName        = "/com.evrblk.moab.v0.MoabApi/Dequeue"
 	MoabApi_ReportStatus_FullMethodName   = "/com.evrblk.moab.v0.MoabApi/ReportStatus"
@@ -48,6 +49,7 @@ type MoabApiClient interface {
 	DeleteQueue(ctx context.Context, in *DeleteQueueRequest, opts ...grpc.CallOption) (*DeleteQueueResponse, error)
 	ListQueues(ctx context.Context, in *ListQueuesRequest, opts ...grpc.CallOption) (*ListQueuesResponse, error)
 	GetTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*GetTaskResponse, error)
+	ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error)
 	Enqueue(ctx context.Context, in *EnqueueRequest, opts ...grpc.CallOption) (*EnqueueResponse, error)
 	Dequeue(ctx context.Context, in *DequeueRequest, opts ...grpc.CallOption) (*DequeueResponse, error)
 	ReportStatus(ctx context.Context, in *ReportStatusRequest, opts ...grpc.CallOption) (*ReportStatusResponse, error)
@@ -123,6 +125,16 @@ func (c *moabApiClient) GetTask(ctx context.Context, in *GetTaskRequest, opts ..
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetTaskResponse)
 	err := c.cc.Invoke(ctx, MoabApi_GetTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moabApiClient) ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListTasksResponse)
+	err := c.cc.Invoke(ctx, MoabApi_ListTasks_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -249,6 +261,7 @@ type MoabApiServer interface {
 	DeleteQueue(context.Context, *DeleteQueueRequest) (*DeleteQueueResponse, error)
 	ListQueues(context.Context, *ListQueuesRequest) (*ListQueuesResponse, error)
 	GetTask(context.Context, *GetTaskRequest) (*GetTaskResponse, error)
+	ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error)
 	Enqueue(context.Context, *EnqueueRequest) (*EnqueueResponse, error)
 	Dequeue(context.Context, *DequeueRequest) (*DequeueResponse, error)
 	ReportStatus(context.Context, *ReportStatusRequest) (*ReportStatusResponse, error)
@@ -287,6 +300,9 @@ func (UnimplementedMoabApiServer) ListQueues(context.Context, *ListQueuesRequest
 }
 func (UnimplementedMoabApiServer) GetTask(context.Context, *GetTaskRequest) (*GetTaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTask not implemented")
+}
+func (UnimplementedMoabApiServer) ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTasks not implemented")
 }
 func (UnimplementedMoabApiServer) Enqueue(context.Context, *EnqueueRequest) (*EnqueueResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Enqueue not implemented")
@@ -446,6 +462,24 @@ func _MoabApi_GetTask_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MoabApiServer).GetTask(ctx, req.(*GetTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MoabApi_ListTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTasksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MoabApiServer).ListTasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MoabApi_ListTasks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MoabApiServer).ListTasks(ctx, req.(*ListTasksRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -678,6 +712,10 @@ var MoabApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTask",
 			Handler:    _MoabApi_GetTask_Handler,
+		},
+		{
+			MethodName: "ListTasks",
+			Handler:    _MoabApi_ListTasks_Handler,
 		},
 		{
 			MethodName: "Enqueue",

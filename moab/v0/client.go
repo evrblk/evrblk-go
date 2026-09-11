@@ -8,7 +8,6 @@ import (
 	internal "github.com/evrblk/evrblk-go/internal"
 	grpc "google.golang.org/grpc"
 	insecure "google.golang.org/grpc/credentials/insecure"
-	"log"
 	"time"
 )
 
@@ -19,6 +18,7 @@ type MoabApi interface {
 	DeleteQueue(ctx context.Context, request *DeleteQueueRequest) (*DeleteQueueResponse, error)
 	ListQueues(ctx context.Context, request *ListQueuesRequest) (*ListQueuesResponse, error)
 	GetTask(ctx context.Context, request *GetTaskRequest) (*GetTaskResponse, error)
+	ListTasks(ctx context.Context, request *ListTasksRequest) (*ListTasksResponse, error)
 	Enqueue(ctx context.Context, request *EnqueueRequest) (*EnqueueResponse, error)
 	Dequeue(ctx context.Context, request *DequeueRequest) (*DequeueResponse, error)
 	ReportStatus(ctx context.Context, request *ReportStatusRequest) (*ReportStatusResponse, error)
@@ -29,6 +29,7 @@ type MoabApi interface {
 	GetSchedule(ctx context.Context, request *GetScheduleRequest) (*GetScheduleResponse, error)
 	UpdateSchedule(ctx context.Context, request *UpdateScheduleRequest) (*UpdateScheduleResponse, error)
 	DeleteSchedule(ctx context.Context, request *DeleteScheduleRequest) (*DeleteScheduleResponse, error)
+	ListSchedules(ctx context.Context, request *ListSchedulesRequest) (*ListSchedulesResponse, error)
 }
 type MoabGrpcClient struct {
 	grpc   MoabApiClient
@@ -147,6 +148,23 @@ func (c *MoabGrpcClient) GetTask(ctx context.Context, request *GetTaskRequest) (
 	resp, err := c.grpc.GetTask(signedCtx, request, grpc.WaitForReady(true))
 	if err != nil {
 		internal.FailedRequestsCounter.WithLabelValues("Moab", "GetTask", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func (c *MoabGrpcClient) ListTasks(ctx context.Context, request *ListTasksRequest) (*ListTasksResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Moab", "ListTasks").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "ListTasks"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "ListTasks")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListTasks(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Moab", "ListTasks", internal.MetricLabelFromGrpcError(err)).Inc()
 	}
 
 	return resp, internal.ErrorFromRpcError(err)
@@ -322,14 +340,31 @@ func (c *MoabGrpcClient) DeleteSchedule(ctx context.Context, request *DeleteSche
 	return resp, internal.ErrorFromRpcError(err)
 }
 
-func NewMoabGrpcClient(address string, signer evrblk.RequestSigner) *MoabGrpcClient {
+func (c *MoabGrpcClient) ListSchedules(ctx context.Context, request *ListSchedulesRequest) (*ListSchedulesResponse, error) {
+	internal.TotalRequestsCounter.WithLabelValues("Moab", "ListSchedules").Inc()
+	defer internal.MeasureSince(internal.RequestsDuration.WithLabelValues("Moab", "ListSchedules"), time.Now())
+
+	signedCtx, err := c.signer.Sign(ctx, request, "Moab", "ListSchedules")
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.grpc.ListSchedules(signedCtx, request, grpc.WaitForReady(true))
+	if err != nil {
+		internal.FailedRequestsCounter.WithLabelValues("Moab", "ListSchedules", internal.MetricLabelFromGrpcError(err)).Inc()
+	}
+
+	return resp, internal.ErrorFromRpcError(err)
+}
+
+func NewMoabGrpcClient(address string, signer evrblk.RequestSigner) (*MoabGrpcClient, error) {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		return nil, err
 	}
 	return &MoabGrpcClient{
 		conn:   conn,
 		grpc:   NewMoabApiClient(conn),
 		signer: signer,
-	}
+	}, nil
 }

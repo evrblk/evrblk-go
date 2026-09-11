@@ -8,7 +8,6 @@ import (
 	internal "github.com/evrblk/evrblk-go/internal"
 	grpc "google.golang.org/grpc"
 	insecure "google.golang.org/grpc/credentials/insecure"
-	"log"
 	"time"
 )
 
@@ -52,14 +51,14 @@ func (c *MyAccountGrpcClient) GetAccount(ctx context.Context, request *GetAccoun
 	return resp, internal.ErrorFromRpcError(err)
 }
 
-func NewMyAccountGrpcClient(address string, signer evrblk.RequestSigner) *MyAccountGrpcClient {
+func NewMyAccountGrpcClient(address string, signer evrblk.RequestSigner) (*MyAccountGrpcClient, error) {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		return nil, err
 	}
 	return &MyAccountGrpcClient{
 		conn:   conn,
 		grpc:   NewMyAccountApiClient(conn),
 		signer: signer,
-	}
+	}, nil
 }

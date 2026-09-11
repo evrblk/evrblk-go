@@ -8,7 +8,6 @@ import (
 	internal "github.com/evrblk/evrblk-go/internal"
 	grpc "google.golang.org/grpc"
 	insecure "google.golang.org/grpc/credentials/insecure"
-	"log"
 	"time"
 )
 
@@ -826,14 +825,14 @@ func (c *GrackleGrpcClient) ListBarrierParticipants(ctx context.Context, request
 	return resp, internal.ErrorFromRpcError(err)
 }
 
-func NewGrackleGrpcClient(address string, signer evrblk.RequestSigner) *GrackleGrpcClient {
+func NewGrackleGrpcClient(address string, signer evrblk.RequestSigner) (*GrackleGrpcClient, error) {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		return nil, err
 	}
 	return &GrackleGrpcClient{
 		conn:   conn,
 		grpc:   NewGrackleApiClient(conn),
 		signer: signer,
-	}
+	}, nil
 }

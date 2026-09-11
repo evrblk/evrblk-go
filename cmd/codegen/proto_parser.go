@@ -66,7 +66,7 @@ func ReadProtoFileAndExtractServices(protoFilePath string) ([]ProtoServiceDesc, 
 	}
 
 	// Parse the descriptor file
-	fileDesc, err := parseDescriptorFile(descriptorData)
+	fileDesc, err := parseDescriptorFile(descriptorData, protoFileName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse descriptor file: %w", err)
 	}
@@ -75,7 +75,7 @@ func ReadProtoFileAndExtractServices(protoFilePath string) ([]ProtoServiceDesc, 
 	return extractServiceDescriptors(fileDesc), nil
 }
 
-func parseDescriptorFile(descriptorData []byte) (protoreflect.FileDescriptor, error) {
+func parseDescriptorFile(descriptorData []byte, protoFileName string) (protoreflect.FileDescriptor, error) {
 	// Parse the descriptor set
 	descriptorSet := &descriptorpb.FileDescriptorSet{}
 	err := proto.Unmarshal(descriptorData, descriptorSet)
@@ -87,18 +87,20 @@ func parseDescriptorFile(descriptorData []byte) (protoreflect.FileDescriptor, er
 		return nil, fmt.Errorf("no files in descriptor set")
 	}
 
-	// Create file descriptors for all files in the set
-	fileDescs := make([]protoreflect.FileDescriptor, len(descriptorSet.File))
-	for i, fd := range descriptorSet.File {
-		fileDesc, err := protodesc.NewFile(fd, nil)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create file descriptor for %s: %w", fd.GetName(), err)
-		}
-		fileDescs[i] = fileDesc
+	// protoc (with --include_imports) lists the requested file's dependencies before the file
+	// itself, in no guaranteed absolute position, so build a resolver over the whole set and look
+	// up the requested file by name rather than assuming it's first (or last).
+	files, err := protodesc.NewFiles(descriptorSet)
+	if err != nil {
+		return nil, fmt.Errorf("failed to resolve descriptor set: %w", err)
 	}
 
-	// Return the first file descriptor (main proto file)
-	return fileDescs[0], nil
+	fileDesc, err := files.FindFileByPath(protoFileName)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find %s in descriptor set: %w", protoFileName, err)
+	}
+
+	return fileDesc, nil
 }
 
 func extractServiceDescriptors(fileDesc protoreflect.FileDescriptor) []ProtoServiceDesc {

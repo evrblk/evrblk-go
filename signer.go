@@ -14,6 +14,9 @@ const (
 	signatureKey = "evrblk-signature"
 	apiKeyKey    = "evrblk-api-key-id"
 	timestampKey = "evrblk-timestamp"
+
+	alfaApiKeyIdPrefix  = "key_alfa_"
+	bravoApiKeyIdPrefix = "key_bravo_"
 )
 
 type RequestSigner interface {
@@ -47,7 +50,13 @@ func (s *alfaRequestSigner) Sign(ctx context.Context, request authn.VTProtoMessa
 
 // NewAlfaRequestSigner creates a new request signer for Alfa API keys.
 func NewAlfaRequestSigner(apiKeyId string, privatePem string) (RequestSigner, error) {
-	// TODO add validations: key is alfa, pem is valid
+	if !strings.HasPrefix(apiKeyId, alfaApiKeyIdPrefix) {
+		return nil, fmt.Errorf("invalid alfa api key id: %q", apiKeyId)
+	}
+	if err := authn.ValidateAlfaPrivateKey(privatePem); err != nil {
+		return nil, fmt.Errorf("invalid alfa private key: %w", err)
+	}
+
 	return &alfaRequestSigner{
 		privatePem: privatePem,
 		apiKeyId:   apiKeyId,
@@ -81,7 +90,13 @@ func (s *bravoRequestSigner) Sign(ctx context.Context, request authn.VTProtoMess
 
 // NewBravoRequestSigner creates a new request signer for Bravo API keys.
 func NewBravoRequestSigner(apiKeyId string, apiSecretKey string) (RequestSigner, error) {
-	// TODO add validations: key is bravo, secret is valid
+	if !strings.HasPrefix(apiKeyId, bravoApiKeyIdPrefix) {
+		return nil, fmt.Errorf("invalid bravo api key id: %q", apiKeyId)
+	}
+	if err := authn.ValidateBravoSecret(apiSecretKey); err != nil {
+		return nil, fmt.Errorf("invalid bravo secret: %w", err)
+	}
+
 	return &bravoRequestSigner{
 		secret:   apiSecretKey,
 		apiKeyId: apiKeyId,
@@ -90,10 +105,13 @@ func NewBravoRequestSigner(apiKeyId string, apiSecretKey string) (RequestSigner,
 
 // NewRequestSigner creates a new request signer for Alfa or Bravo API keys based on provided API key ID.
 func NewRequestSigner(apiKeyId string, apiSecretKey string) (RequestSigner, error) {
-	if strings.HasPrefix(apiKeyId, "key_alfa_") {
+	switch {
+	case strings.HasPrefix(apiKeyId, alfaApiKeyIdPrefix):
 		return NewAlfaRequestSigner(apiKeyId, apiSecretKey)
-	} else {
+	case strings.HasPrefix(apiKeyId, bravoApiKeyIdPrefix):
 		return NewBravoRequestSigner(apiKeyId, apiSecretKey)
+	default:
+		return nil, fmt.Errorf("unsupported api key id: %q", apiKeyId)
 	}
 }
 
