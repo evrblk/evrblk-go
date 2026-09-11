@@ -17,7 +17,6 @@ go get -u github.com/evrblk/evrblk-go@latest
 
 ```go
 import (
-	"log"
   evrblk "github.com/evrblk/evrblk-go"
   moab "github.com/evrblk/evrblk-go/moab/v0"
 )
@@ -26,14 +25,7 @@ apiKeyId := "key_alfa_z141pKeFzfmGGyYlUyPsbF"
 privatePem := "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIN33cCNGxsuxwMaJ2jWvWcgxBSVr8HV7WUUSKGc71/BtoAoGCCqGSM49\nAwEHoUQDQgAE0m8+ZVijytLp01dsupG7QF8ZpjX5UmP20wj/sluPdoHW3BgiiyCn\n/pMwYptUs0yJUtUZ/0wzEyp8PgAWWhxglw==\n-----END EC PRIVATE KEY-----"
 
 signer, err := evrblk.NewAlfaRequestSigner(apiKeyId, privatePem)
-if err != nil {
-	log.Fatalf("failed to create signer: %v", err)
-}
-
 moabClient, err := moab.NewMoabGrpcClient("moab.us-east-2.api.evrblk.com", signer)
-if err != nil {
-	log.Fatalf("failed to create client: %v", err)
-}
 
 createQueueResp, err := moabClient.CreateQueue(context.Background(), &moab.CreateQueueRequest{
 	Name:                      "my_queue_1",
