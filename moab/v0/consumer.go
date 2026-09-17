@@ -66,9 +66,8 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 					}
 
 					ctx2, cancel := context.WithTimeout(ctx, time.Millisecond*time.Duration(5000))
-					defer cancel()
-
 					_, err := c.moabClient.ReportStatus(ctx2, req)
+					cancel()
 					if err != nil {
 						//log.Println(err)
 					}
@@ -90,9 +89,15 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 					err := h.HandleTask(task)
 					// TODO catch panics
 
-					c.statusCh <- taskCompletionStatus{
+					// statusReporter may have already exited on ctx.Done(),
+					// in which case nothing will ever receive on statusCh; an
+					// unconditional send here would block this worker forever.
+					select {
+					case c.statusCh <- taskCompletionStatus{
 						taskId: task.Id,
 						err:    err,
+					}:
+					case <-ctx.Done():
 					}
 				}
 			}
@@ -108,12 +113,11 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 			//log.Println("consumer: Polling")
 
 			ctx2, cancel := context.WithTimeout(ctx, time.Millisecond*time.Duration(5000))
-			defer cancel()
-
 			resp, err := c.moabClient.Dequeue(ctx2, &DequeueRequest{
 				BatchSize: 10,
 				QueueName: c.queueName,
 			})
+			cancel()
 
 			if err != nil {
 				//log.Println(err)
@@ -128,7 +132,14 @@ func (c *MoabConsumer) Start(ctx context.Context, h Handler) {
 				}
 				c.mu.Unlock()
 				for i := range resp.Tasks {
-					c.bufCh <- resp.Tasks[i]
+					// Workers may have already exited on ctx.Done(), in which
+					// case nothing will ever drain bufCh; an unconditional
+					// send here would block this loop (and Start) forever.
+					select {
+					case c.bufCh <- resp.Tasks[i]:
+					case <-ctx.Done():
+						return
+					}
 				}
 			} else {
 				//log.Println("Empty. Sleeping...")
