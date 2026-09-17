@@ -236,6 +236,10 @@ message CreateSemaphoreLeaseRequest {
 
 message CreateSemaphoreLeaseResponse {
   Lease lease = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against lease.expires_at.
+  int64 now = 2;
 }
 
 message RevokeSemaphoreLeaseRequest {
@@ -254,6 +258,10 @@ message RefreshSemaphoreLeaseRequest {
 
 message RefreshSemaphoreLeaseResponse {
   Lease lease = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against lease.expires_at.
+  int64 now = 2;
 }
 
 message ListSemaphoreLeasesRequest {
@@ -266,6 +274,10 @@ message ListSemaphoreLeasesResponse {
   repeated Lease leases = 1;
   string next_pagination_token = 2;
   string previous_pagination_token = 3;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against each lease's expires_at.
+  int64 now = 4;
 }
 
 message GetSemaphoreLeaseRequest {
@@ -275,6 +287,10 @@ message GetSemaphoreLeaseRequest {
 
 message GetSemaphoreLeaseResponse {
   Lease lease = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against lease.expires_at.
+  int64 now = 2;
 }
 
 // Lease is a time-bounded ownership token. It is the unit that holds locks and
@@ -352,6 +368,10 @@ message CreateWaitGroupRequest {
 
 message CreateWaitGroupResponse {
   WaitGroup wait_group = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against wait_group.expires_at.
+  int64 now = 2;
 }
 
 message UpdateWaitGroupRequest {
@@ -372,6 +392,10 @@ message UpdateWaitGroupRequest {
 
 message UpdateWaitGroupResponse {
   WaitGroup wait_group = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against wait_group.expires_at.
+  int64 now = 2;
 }
 
 message ListWaitGroupsRequest {
@@ -384,6 +408,10 @@ message ListWaitGroupsResponse {
   repeated WaitGroup wait_groups = 1;
   string next_pagination_token = 2;
   string previous_pagination_token = 3;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against each wait group's expires_at.
+  int64 now = 4;
 }
 
 message GetWaitGroupRequest {
@@ -393,6 +421,10 @@ message GetWaitGroupRequest {
 
 message GetWaitGroupResponse {
   WaitGroup wait_group = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against wait_group.expires_at.
+  int64 now = 2;
 }
 
 message DeleteWaitGroupRequest {
@@ -417,6 +449,10 @@ message CompleteJobRequest {
 
 message CompleteJobsFromWaitGroupResponse {
   WaitGroup wait_group = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against wait_group.expires_at.
+  int64 now = 2;
 }
 
 message ListWaitGroupCompletedJobsRequest {
@@ -443,6 +479,10 @@ message WaitForWaitGroupRequest {
 message WaitForWaitGroupResponse {
   WaitGroup wait_group = 1;
   WaitGroupWaitOutcome outcome = 2;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against wait_group.expires_at.
+  int64 now = 3;
 }
 
 // WaitGroupWaitOutcome is the terminal result of a WaitForWaitGroup call. The
@@ -617,6 +657,10 @@ message CreateLockLeaseRequest {
 
 message CreateLockLeaseResponse {
   Lease lease = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against lease.expires_at.
+  int64 now = 2;
 }
 
 message RevokeLockLeaseRequest {
@@ -635,6 +679,10 @@ message RefreshLockLeaseRequest {
 
 message RefreshLockLeaseResponse {
   Lease lease = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against lease.expires_at.
+  int64 now = 2;
 }
 
 message ListLockLeasesRequest {
@@ -647,6 +695,10 @@ message ListLockLeasesResponse {
   repeated Lease leases = 1;
   string next_pagination_token = 2;
   string previous_pagination_token = 3;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against each lease's expires_at.
+  int64 now = 4;
 }
 
 message GetLockLeaseRequest {
@@ -656,6 +708,10 @@ message GetLockLeaseRequest {
 
 message GetLockLeaseResponse {
   Lease lease = 1;
+  // now is the server clock at the moment this response was produced, Unix
+  // nanoseconds. Use it (not your local clock) to compute remaining time
+  // against lease.expires_at.
+  int64 now = 2;
 }
 
 // Lock is a distributed read/write (shared/exclusive) lock, held under a lease.

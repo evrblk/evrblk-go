@@ -1871,8 +1871,12 @@ func (x *CreateSemaphoreLeaseRequest) GetMetadata() map[string]string {
 }
 
 type CreateSemaphoreLeaseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lease         *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Lease *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against lease.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1912,6 +1916,13 @@ func (x *CreateSemaphoreLeaseResponse) GetLease() *Lease {
 		return x.Lease
 	}
 	return nil
+}
+
+func (x *CreateSemaphoreLeaseResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type RevokeSemaphoreLeaseRequest struct {
@@ -2064,8 +2075,12 @@ func (x *RefreshSemaphoreLeaseRequest) GetTtlSeconds() int64 {
 }
 
 type RefreshSemaphoreLeaseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lease         *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Lease *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against lease.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2105,6 +2120,13 @@ func (x *RefreshSemaphoreLeaseResponse) GetLease() *Lease {
 		return x.Lease
 	}
 	return nil
+}
+
+func (x *RefreshSemaphoreLeaseResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type ListSemaphoreLeasesRequest struct {
@@ -2172,8 +2194,12 @@ type ListSemaphoreLeasesResponse struct {
 	Leases                  []*Lease               `protobuf:"bytes,1,rep,name=leases,proto3" json:"leases,omitempty"`
 	NextPaginationToken     string                 `protobuf:"bytes,2,opt,name=next_pagination_token,json=nextPaginationToken,proto3" json:"next_pagination_token,omitempty"`
 	PreviousPaginationToken string                 `protobuf:"bytes,3,opt,name=previous_pagination_token,json=previousPaginationToken,proto3" json:"previous_pagination_token,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against each lease's expires_at.
+	Now           int64 `protobuf:"varint,4,opt,name=now,proto3" json:"now,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListSemaphoreLeasesResponse) Reset() {
@@ -2225,6 +2251,13 @@ func (x *ListSemaphoreLeasesResponse) GetPreviousPaginationToken() string {
 		return x.PreviousPaginationToken
 	}
 	return ""
+}
+
+func (x *ListSemaphoreLeasesResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type GetSemaphoreLeaseRequest struct {
@@ -2280,8 +2313,12 @@ func (x *GetSemaphoreLeaseRequest) GetLeaseId() string {
 }
 
 type GetSemaphoreLeaseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lease         *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Lease *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against lease.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2321,6 +2358,13 @@ func (x *GetSemaphoreLeaseResponse) GetLease() *Lease {
 		return x.Lease
 	}
 	return nil
+}
+
+func (x *GetSemaphoreLeaseResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 // Lease is a time-bounded ownership token. It is the unit that holds locks and
@@ -2711,8 +2755,12 @@ func (x *CreateWaitGroupRequest) GetDeleteAfterFinishedSeconds() int64 {
 }
 
 type CreateWaitGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	WaitGroup *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against wait_group.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2752,6 +2800,13 @@ func (x *CreateWaitGroupResponse) GetWaitGroup() *WaitGroup {
 		return x.WaitGroup
 	}
 	return nil
+}
+
+func (x *CreateWaitGroupResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type UpdateWaitGroupRequest struct {
@@ -2860,8 +2915,12 @@ func (x *UpdateWaitGroupRequest) GetDeleteAfterFinishedSeconds() int64 {
 }
 
 type UpdateWaitGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	WaitGroup *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against wait_group.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2901,6 +2960,13 @@ func (x *UpdateWaitGroupResponse) GetWaitGroup() *WaitGroup {
 		return x.WaitGroup
 	}
 	return nil
+}
+
+func (x *UpdateWaitGroupResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type ListWaitGroupsRequest struct {
@@ -2968,8 +3034,12 @@ type ListWaitGroupsResponse struct {
 	WaitGroups              []*WaitGroup           `protobuf:"bytes,1,rep,name=wait_groups,json=waitGroups,proto3" json:"wait_groups,omitempty"`
 	NextPaginationToken     string                 `protobuf:"bytes,2,opt,name=next_pagination_token,json=nextPaginationToken,proto3" json:"next_pagination_token,omitempty"`
 	PreviousPaginationToken string                 `protobuf:"bytes,3,opt,name=previous_pagination_token,json=previousPaginationToken,proto3" json:"previous_pagination_token,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against each wait group's expires_at.
+	Now           int64 `protobuf:"varint,4,opt,name=now,proto3" json:"now,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListWaitGroupsResponse) Reset() {
@@ -3021,6 +3091,13 @@ func (x *ListWaitGroupsResponse) GetPreviousPaginationToken() string {
 		return x.PreviousPaginationToken
 	}
 	return ""
+}
+
+func (x *ListWaitGroupsResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type GetWaitGroupRequest struct {
@@ -3076,8 +3153,12 @@ func (x *GetWaitGroupRequest) GetWaitGroupName() string {
 }
 
 type GetWaitGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	WaitGroup *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against wait_group.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3117,6 +3198,13 @@ func (x *GetWaitGroupResponse) GetWaitGroup() *WaitGroup {
 		return x.WaitGroup
 	}
 	return nil
+}
+
+func (x *GetWaitGroupResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type DeleteWaitGroupRequest struct {
@@ -3322,8 +3410,12 @@ func (x *CompleteJobRequest) GetMetadata() map[string]string {
 }
 
 type CompleteJobsFromWaitGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	WaitGroup *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against wait_group.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3363,6 +3455,13 @@ func (x *CompleteJobsFromWaitGroupResponse) GetWaitGroup() *WaitGroup {
 		return x.WaitGroup
 	}
 	return nil
+}
+
+func (x *CompleteJobsFromWaitGroupResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type ListWaitGroupCompletedJobsRequest struct {
@@ -3556,9 +3655,13 @@ func (x *WaitForWaitGroupRequest) GetTimeoutSeconds() int32 {
 }
 
 type WaitForWaitGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WaitGroup     *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
-	Outcome       WaitGroupWaitOutcome   `protobuf:"varint,2,opt,name=outcome,proto3,enum=com.evrblk.grackle.v1beta.WaitGroupWaitOutcome" json:"outcome,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	WaitGroup *WaitGroup             `protobuf:"bytes,1,opt,name=wait_group,json=waitGroup,proto3" json:"wait_group,omitempty"`
+	Outcome   WaitGroupWaitOutcome   `protobuf:"varint,2,opt,name=outcome,proto3,enum=com.evrblk.grackle.v1beta.WaitGroupWaitOutcome" json:"outcome,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against wait_group.expires_at.
+	Now           int64 `protobuf:"varint,3,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3605,6 +3708,13 @@ func (x *WaitForWaitGroupResponse) GetOutcome() WaitGroupWaitOutcome {
 		return x.Outcome
 	}
 	return WaitGroupWaitOutcome_WAIT_GROUP_WAIT_OUTCOME_INVALID
+}
+
+func (x *WaitForWaitGroupResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 // WaitGroup tracks completion of a fixed set of jobs — a distributed, durable
@@ -4483,8 +4593,12 @@ func (x *CreateLockLeaseRequest) GetMetadata() map[string]string {
 }
 
 type CreateLockLeaseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lease         *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Lease *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against lease.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4524,6 +4638,13 @@ func (x *CreateLockLeaseResponse) GetLease() *Lease {
 		return x.Lease
 	}
 	return nil
+}
+
+func (x *CreateLockLeaseResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type RevokeLockLeaseRequest struct {
@@ -4676,8 +4797,12 @@ func (x *RefreshLockLeaseRequest) GetTtlSeconds() int64 {
 }
 
 type RefreshLockLeaseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lease         *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Lease *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against lease.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4717,6 +4842,13 @@ func (x *RefreshLockLeaseResponse) GetLease() *Lease {
 		return x.Lease
 	}
 	return nil
+}
+
+func (x *RefreshLockLeaseResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type ListLockLeasesRequest struct {
@@ -4784,8 +4916,12 @@ type ListLockLeasesResponse struct {
 	Leases                  []*Lease               `protobuf:"bytes,1,rep,name=leases,proto3" json:"leases,omitempty"`
 	NextPaginationToken     string                 `protobuf:"bytes,2,opt,name=next_pagination_token,json=nextPaginationToken,proto3" json:"next_pagination_token,omitempty"`
 	PreviousPaginationToken string                 `protobuf:"bytes,3,opt,name=previous_pagination_token,json=previousPaginationToken,proto3" json:"previous_pagination_token,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against each lease's expires_at.
+	Now           int64 `protobuf:"varint,4,opt,name=now,proto3" json:"now,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListLockLeasesResponse) Reset() {
@@ -4837,6 +4973,13 @@ func (x *ListLockLeasesResponse) GetPreviousPaginationToken() string {
 		return x.PreviousPaginationToken
 	}
 	return ""
+}
+
+func (x *ListLockLeasesResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type GetLockLeaseRequest struct {
@@ -4892,8 +5035,12 @@ func (x *GetLockLeaseRequest) GetLeaseId() string {
 }
 
 type GetLockLeaseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lease         *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Lease *Lease                 `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease,omitempty"`
+	// now is the server clock at the moment this response was produced, Unix
+	// nanoseconds. Use it (not your local clock) to compute remaining time
+	// against lease.expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4933,6 +5080,13 @@ func (x *GetLockLeaseResponse) GetLease() *Lease {
 		return x.Lease
 	}
 	return nil
+}
+
+func (x *GetLockLeaseResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 // Lock is a distributed read/write (shared/exclusive) lock, held under a lease.
@@ -6478,9 +6632,10 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x04 \x03(\v2D.com.evrblk.grackle.v1beta.CreateSemaphoreLeaseRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"V\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"h\n" +
 	"\x1cCreateSemaphoreLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"_\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"_\n" +
 	"\x1bRevokeSemaphoreLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\"\x1e\n" +
@@ -6489,22 +6644,25 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\x12\x1f\n" +
 	"\vttl_seconds\x18\x03 \x01(\x03R\n" +
-	"ttlSeconds\"W\n" +
+	"ttlSeconds\"i\n" +
 	"\x1dRefreshSemaphoreLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x84\x01\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\x84\x01\n" +
 	"\x1aListSemaphoreLeasesRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc7\x01\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xd9\x01\n" +
 	"\x1bListSemaphoreLeasesResponse\x128\n" +
 	"\x06leases\x18\x01 \x03(\v2 .com.evrblk.grackle.v1beta.LeaseR\x06leases\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
-	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"\\\n" +
+	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\x12\x10\n" +
+	"\x03now\x18\x04 \x01(\x03R\x03now\"\\\n" +
 	"\x18GetSemaphoreLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
-	"\blease_id\x18\x02 \x01(\tR\aleaseId\"S\n" +
+	"\blease_id\x18\x02 \x01(\tR\aleaseId\"e\n" +
 	"\x19GetSemaphoreLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x88\x02\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\x88\x02\n" +
 	"\x05Lease\x12\x19\n" +
 	"\blease_id\x18\x01 \x01(\tR\aleaseId\x12\x1d\n" +
 	"\n" +
@@ -6553,10 +6711,11 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x1ddelete_after_finished_seconds\x18\a \x01(\x03R\x1adeleteAfterFinishedSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"^\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"p\n" +
 	"\x17CreateWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\xca\x03\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\xca\x03\n" +
 	"\x16UpdateWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12 \n" +
@@ -6569,25 +6728,28 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x1ddelete_after_finished_seconds\x18\b \x01(\x03R\x1adeleteAfterFinishedSeconds\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"^\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"p\n" +
 	"\x17UpdateWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\x7f\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\x7f\n" +
 	"\x15ListWaitGroupsRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xcf\x01\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xe1\x01\n" +
 	"\x16ListWaitGroupsResponse\x12E\n" +
 	"\vwait_groups\x18\x01 \x03(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\n" +
 	"waitGroups\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
-	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"d\n" +
+	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\x12\x10\n" +
+	"\x03now\x18\x04 \x01(\x03R\x03now\"d\n" +
 	"\x13GetWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
-	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\"[\n" +
+	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\"m\n" +
 	"\x14GetWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"g\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"g\n" +
 	"\x16DeleteWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\"\x19\n" +
@@ -6601,10 +6763,11 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x02 \x03(\v2;.com.evrblk.grackle.v1beta.CompleteJobRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"h\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"z\n" +
 	"!CompleteJobsFromWaitGroupResponse\x12C\n" +
 	"\n" +
-	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\"\xb3\x01\n" +
+	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\xb3\x01\n" +
 	"!ListWaitGroupCompletedJobsRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12)\n" +
@@ -6617,11 +6780,12 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x17WaitForWaitGroupRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12&\n" +
 	"\x0fwait_group_name\x18\x02 \x01(\tR\rwaitGroupName\x12'\n" +
-	"\x0ftimeout_seconds\x18\x03 \x01(\x05R\x0etimeoutSeconds\"\xaa\x01\n" +
+	"\x0ftimeout_seconds\x18\x03 \x01(\x05R\x0etimeoutSeconds\"\xbc\x01\n" +
 	"\x18WaitForWaitGroupResponse\x12C\n" +
 	"\n" +
 	"wait_group\x18\x01 \x01(\v2$.com.evrblk.grackle.v1beta.WaitGroupR\twaitGroup\x12I\n" +
-	"\aoutcome\x18\x02 \x01(\x0e2/.com.evrblk.grackle.v1beta.WaitGroupWaitOutcomeR\aoutcome\"\xd8\x04\n" +
+	"\aoutcome\x18\x02 \x01(\x0e2/.com.evrblk.grackle.v1beta.WaitGroupWaitOutcomeR\aoutcome\x12\x10\n" +
+	"\x03now\x18\x03 \x01(\x03R\x03now\"\xd8\x04\n" +
 	"\tWaitGroup\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1d\n" +
@@ -6698,9 +6862,10 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\bmetadata\x18\x04 \x03(\v2?.com.evrblk.grackle.v1beta.CreateLockLeaseRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"Q\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"c\n" +
 	"\x17CreateLockLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"Z\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"Z\n" +
 	"\x16RevokeLockLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\"\x19\n" +
@@ -6709,22 +6874,25 @@ const file_proto_grackle_v1beta_api_proto_rawDesc = "" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
 	"\blease_id\x18\x02 \x01(\tR\aleaseId\x12\x1f\n" +
 	"\vttl_seconds\x18\x03 \x01(\x03R\n" +
-	"ttlSeconds\"R\n" +
+	"ttlSeconds\"d\n" +
 	"\x18RefreshLockLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\x7f\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\x7f\n" +
 	"\x15ListLockLeasesRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
-	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xc2\x01\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xd4\x01\n" +
 	"\x16ListLockLeasesResponse\x128\n" +
 	"\x06leases\x18\x01 \x03(\v2 .com.evrblk.grackle.v1beta.LeaseR\x06leases\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
-	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"W\n" +
+	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\x12\x10\n" +
+	"\x03now\x18\x04 \x01(\x03R\x03now\"W\n" +
 	"\x13GetLockLeaseRequest\x12%\n" +
 	"\x0enamespace_name\x18\x01 \x01(\tR\rnamespaceName\x12\x19\n" +
-	"\blease_id\x18\x02 \x01(\tR\aleaseId\"N\n" +
+	"\blease_id\x18\x02 \x01(\tR\aleaseId\"`\n" +
 	"\x14GetLockLeaseResponse\x126\n" +
-	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\"\xe7\x01\n" +
+	"\x05lease\x18\x01 \x01(\v2 .com.evrblk.grackle.v1beta.LeaseR\x05lease\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\xe7\x01\n" +
 	"\x04Lock\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12:\n" +
 	"\x05state\x18\x02 \x01(\x0e2$.com.evrblk.grackle.v1beta.LockStateR\x05state\x12\x1b\n" +
