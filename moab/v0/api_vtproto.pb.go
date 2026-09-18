@@ -218,6 +218,11 @@ func (m *GetQueueResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.Now != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Now))
+		i--
+		dAtA[i] = 0x20
+	}
 	if m.Stats != nil {
 		size, err := m.Stats.MarshalToSizedBufferVT(dAtA[:i])
 		if err != nil {
@@ -735,6 +740,11 @@ func (m *EnqueueResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.Now != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Now))
+		i--
+		dAtA[i] = 0x10
+	}
 	if len(m.Tasks) > 0 {
 		for iNdEx := len(m.Tasks) - 1; iNdEx >= 0; iNdEx-- {
 			size, err := m.Tasks[iNdEx].MarshalToSizedBufferVT(dAtA[:i])
@@ -824,6 +834,11 @@ func (m *DequeueResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.Now != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Now))
+		i--
+		dAtA[i] = 0x10
 	}
 	if len(m.Tasks) > 0 {
 		for iNdEx := len(m.Tasks) - 1; iNdEx >= 0; iNdEx-- {
@@ -1134,6 +1149,11 @@ func (m *GetTaskResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.Now != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Now))
+		i--
+		dAtA[i] = 0x10
+	}
 	if m.Task != nil {
 		size, err := m.Task.MarshalToSizedBufferVT(dAtA[:i])
 		if err != nil {
@@ -1233,6 +1253,11 @@ func (m *ListTasksResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.Now != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Now))
+		i--
+		dAtA[i] = 0x20
 	}
 	if len(m.PreviousPaginationToken) > 0 {
 		i -= len(m.PreviousPaginationToken)
@@ -1394,6 +1419,11 @@ func (m *RestartTasksResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) 
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.Now != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Now))
+		i--
+		dAtA[i] = 0x10
 	}
 	if len(m.Entries) > 0 {
 		for iNdEx := len(m.Entries) - 1; iNdEx >= 0; iNdEx-- {
@@ -2780,6 +2810,9 @@ func (m *GetQueueResponse) SizeVT() (n int) {
 		l = m.Stats.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+	if m.Now != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Now))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -2976,6 +3009,9 @@ func (m *EnqueueResponse) SizeVT() (n int) {
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
 	}
+	if m.Now != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Now))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -3008,6 +3044,9 @@ func (m *DequeueResponse) SizeVT() (n int) {
 			l = e.SizeVT()
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
+	}
+	if m.Now != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Now))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -3121,6 +3160,9 @@ func (m *GetTaskResponse) SizeVT() (n int) {
 		l = m.Task.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+	if m.Now != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Now))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -3168,6 +3210,9 @@ func (m *ListTasksResponse) SizeVT() (n int) {
 	l = len(m.PreviousPaginationToken)
 	if l > 0 {
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	if m.Now != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Now))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -3224,6 +3269,9 @@ func (m *RestartTasksResponse) SizeVT() (n int) {
 			l = e.SizeVT()
 			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 		}
+	}
+	if m.Now != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Now))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -4288,6 +4336,25 @@ func (m *GetQueueResponse) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Now", wireType)
+			}
+			m.Now = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Now |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -5553,6 +5620,25 @@ func (m *EnqueueResponse) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Now", wireType)
+			}
+			m.Now = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Now |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -5740,6 +5826,25 @@ func (m *DequeueResponse) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Now", wireType)
+			}
+			m.Now = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Now |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -6397,6 +6502,25 @@ func (m *GetTaskResponse) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Now", wireType)
+			}
+			m.Now = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Now |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -6699,6 +6823,25 @@ func (m *ListTasksResponse) UnmarshalVT(dAtA []byte) error {
 			}
 			m.PreviousPaginationToken = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Now", wireType)
+			}
+			m.Now = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Now |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -7022,6 +7165,25 @@ func (m *RestartTasksResponse) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Now", wireType)
+			}
+			m.Now = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Now |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])

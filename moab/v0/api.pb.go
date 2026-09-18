@@ -24,10 +24,15 @@ const (
 type TaskState int32
 
 const (
-	TaskState_TASK_STATE_INVALID     TaskState = 0
-	TaskState_TASK_STATE_ENQUEUED    TaskState = 1
+	TaskState_TASK_STATE_INVALID TaskState = 0
+	// Waiting to be picked up; eligible once scheduled_at <= now.
+	TaskState_TASK_STATE_ENQUEUED TaskState = 1
+	// Picked up via Dequeue; must be reported via ReportStatus within
+	// keepalive_timeout_in_seconds or it is reclaimed back to ENQUEUED.
 	TaskState_TASK_STATE_IN_PROGRESS TaskState = 2
-	TaskState_TASK_STATE_DEAD        TaskState = 3
+	// Retries exhausted (or explicitly deleted while dead). Terminal unless
+	// restarted via RestartTasks.
+	TaskState_TASK_STATE_DEAD TaskState = 3
 )
 
 // Enum value maps for TaskState.
@@ -125,6 +130,10 @@ func (IntervalUnit) EnumDescriptor() ([]byte, []int) {
 	return file_proto_moab_v0_api_proto_rawDescGZIP(), []int{1}
 }
 
+// Which fields to overwrite on the existing task when dedupe_key matches a
+// live (ENQUEUED or IN_PROGRESS) duplicate. Empty means the duplicate is
+// skipped and the existing task is left untouched. Only meaningful when
+// dedupe_key is set.
 type EnqueueRequestEntry_OverwriteOnDuplicate int32
 
 const (
@@ -180,10 +189,15 @@ func (EnqueueRequestEntry_OverwriteOnDuplicate) EnumDescriptor() ([]byte, []int)
 type ReportStatusRequestEntry_Status int32
 
 const (
-	ReportStatusRequestEntry_STATUS_INVALID     ReportStatusRequestEntry_Status = 0
-	ReportStatusRequestEntry_STATUS_SUCCEEDED   ReportStatusRequestEntry_Status = 1
+	ReportStatusRequestEntry_STATUS_INVALID ReportStatusRequestEntry_Status = 0
+	// Removes the task.
+	ReportStatusRequestEntry_STATUS_SUCCEEDED ReportStatusRequestEntry_Status = 1
+	// Renews the task's keepalive lease without completing it — for
+	// long-running work that needs more than keepalive_timeout_in_seconds.
 	ReportStatusRequestEntry_STATUS_IN_PROGRESS ReportStatusRequestEntry_Status = 2
-	ReportStatusRequestEntry_STATUS_FAILED      ReportStatusRequestEntry_Status = 3
+	// Moves the task back to ENQUEUED (or to DEAD once retry_strategy is
+	// exhausted), incrementing attempts.
+	ReportStatusRequestEntry_STATUS_FAILED ReportStatusRequestEntry_Status = 3
 )
 
 // Enum value maps for ReportStatusRequestEntry_Status.
@@ -232,10 +246,13 @@ func (ReportStatusRequestEntry_Status) EnumDescriptor() ([]byte, []int) {
 type RestartTasksResponseEntry_Result int32
 
 const (
-	RestartTasksResponseEntry_RESULT_INVALID         RestartTasksResponseEntry_Result = 0
-	RestartTasksResponseEntry_RESULT_RESTARTED       RestartTasksResponseEntry_Result = 1
-	RestartTasksResponseEntry_RESULT_NOT_FOUND       RestartTasksResponseEntry_Result = 2
-	RestartTasksResponseEntry_RESULT_NOT_DEAD        RestartTasksResponseEntry_Result = 3
+	RestartTasksResponseEntry_RESULT_INVALID   RestartTasksResponseEntry_Result = 0
+	RestartTasksResponseEntry_RESULT_RESTARTED RestartTasksResponseEntry_Result = 1
+	RestartTasksResponseEntry_RESULT_NOT_FOUND RestartTasksResponseEntry_Result = 2
+	// The task exists but is not DEAD — only DEAD tasks can be restarted.
+	RestartTasksResponseEntry_RESULT_NOT_DEAD RestartTasksResponseEntry_Result = 3
+	// Restarting would violate dedupe_key's live-uniqueness: another live
+	// task already holds this task's dedupe_key.
 	RestartTasksResponseEntry_RESULT_DEDUPE_CONFLICT RestartTasksResponseEntry_Result = 4
 )
 
@@ -285,16 +302,26 @@ func (RestartTasksResponseEntry_Result) EnumDescriptor() ([]byte, []int) {
 }
 
 type CreateQueueRequest struct {
-	state                     protoimpl.MessageState `protogen:"open.v1"`
-	Name                      string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description               string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	KeepaliveTimeoutInSeconds int64                  `protobuf:"varint,3,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
-	RetryStrategy             *RetryStrategy         `protobuf:"bytes,4,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
-	DequeuingSettings         *DequeuingSettings     `protobuf:"bytes,5,opt,name=dequeuing_settings,json=dequeuingSettings,proto3" json:"dequeuing_settings,omitempty"`
-	DeadLetterQueueConfig     *DeadLetterQueueConfig `protobuf:"bytes,6,opt,name=dead_letter_queue_config,json=deadLetterQueueConfig,proto3" json:"dead_letter_queue_config,omitempty"`
-	ExpiresInSeconds          int64                  `protobuf:"varint,7,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Default per-task processing lease: how long a dequeued task may stay
+	// IN_PROGRESS before Moab reclaims it as abandoned. Overridable per task
+	// (EnqueueRequestEntry) or per schedule. Required, between [5, 60].
+	KeepaliveTimeoutInSeconds int64 `protobuf:"varint,3,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
+	// Default retry backoff for tasks in this queue; overridable per task or
+	// per schedule.
+	RetryStrategy         *RetryStrategy         `protobuf:"bytes,4,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
+	DequeuingSettings     *DequeuingSettings     `protobuf:"bytes,5,opt,name=dequeuing_settings,json=dequeuingSettings,proto3" json:"dequeuing_settings,omitempty"`
+	DeadLetterQueueConfig *DeadLetterQueueConfig `protobuf:"bytes,6,opt,name=dead_letter_queue_config,json=deadLetterQueueConfig,proto3" json:"dead_letter_queue_config,omitempty"`
+	// Default retention: a task that doesn't specify its own expires_at
+	// expires this many seconds after its scheduled_at. Required, between
+	// [5, 1209600] — every task expires eventually, there is no unlimited
+	// option. A per-task override cannot exceed this ceiling; it is clamped
+	// down, never rejected.
+	ExpiresInSeconds int64 `protobuf:"varint,7,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateQueueRequest) Reset() {
@@ -465,9 +492,12 @@ func (x *GetQueueRequest) GetQueueName() string {
 }
 
 type GetQueueResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Queue         *Queue                 `protobuf:"bytes,1,opt,name=queue,proto3" json:"queue,omitempty"`
-	Stats         *QueueStats            `protobuf:"bytes,3,opt,name=stats,proto3" json:"stats,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Queue *Queue                 `protobuf:"bytes,1,opt,name=queue,proto3" json:"queue,omitempty"`
+	Stats *QueueStats            `protobuf:"bytes,3,opt,name=stats,proto3" json:"stats,omitempty"`
+	// now is the server clock (Unix nanoseconds) at the moment stats was
+	// collected — a snapshot, not a stored attribute of the queue.
+	Now           int64 `protobuf:"varint,4,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -516,18 +546,33 @@ func (x *GetQueueResponse) GetStats() *QueueStats {
 	return nil
 }
 
+func (x *GetQueueResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
+}
+
 type UpdateQueueRequest struct {
-	state                     protoimpl.MessageState `protogen:"open.v1"`
-	QueueName                 string                 `protobuf:"bytes,1,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
-	Description               string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	QueueName   string                 `protobuf:"bytes,1,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// New default per-task processing lease: how long a dequeued task may stay
+	// IN_PROGRESS before Moab reclaims it as abandoned. Between [5, 60].
 	KeepaliveTimeoutInSeconds int64                  `protobuf:"varint,3,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
 	RetryStrategy             *RetryStrategy         `protobuf:"bytes,4,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
 	DequeuingSettings         *DequeuingSettings     `protobuf:"bytes,5,opt,name=dequeuing_settings,json=dequeuingSettings,proto3" json:"dequeuing_settings,omitempty"`
 	DeadLetterQueueConfig     *DeadLetterQueueConfig `protobuf:"bytes,6,opt,name=dead_letter_queue_config,json=deadLetterQueueConfig,proto3" json:"dead_letter_queue_config,omitempty"`
-	ExpiresInSeconds          int64                  `protobuf:"varint,7,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
-	ExpectedVersion           int64                  `protobuf:"varint,8,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	// New default retention: a task that doesn't specify its own expires_at
+	// expires this many seconds after its scheduled_at. Between
+	// [5, 1209600]; a per-task override exceeding this ceiling is clamped
+	// down, never rejected.
+	ExpiresInSeconds int64 `protobuf:"varint,7,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
+	// Optimistic concurrency: must equal the queue's current version or the
+	// update is rejected.
+	ExpectedVersion int64 `protobuf:"varint,8,opt,name=expected_version,json=expectedVersion,proto3" json:"expected_version,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateQueueRequest) Reset() {
@@ -905,17 +950,32 @@ func (x *EnqueueRequest) GetEntries() []*EnqueueRequestEntry {
 }
 
 type EnqueueRequestEntry struct {
-	state                     protoimpl.MessageState                     `protogen:"open.v1"`
-	Payload                   []byte                                     `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
-	ScheduledAt               int64                                      `protobuf:"varint,2,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
-	ExpiresAt                 int64                                      `protobuf:"varint,3,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	DedupeKey                 string                                     `protobuf:"bytes,4,opt,name=dedupe_key,json=dedupeKey,proto3" json:"dedupe_key,omitempty"`
-	KeepaliveTimeoutInSeconds int64                                      `protobuf:"varint,5,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
-	RetryStrategy             *RetryStrategy                             `protobuf:"bytes,6,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
-	OverwriteOnDuplicate      []EnqueueRequestEntry_OverwriteOnDuplicate `protobuf:"varint,7,rep,packed,name=overwrite_on_duplicate,json=overwriteOnDuplicate,proto3,enum=com.evrblk.moab.v0.EnqueueRequestEntry_OverwriteOnDuplicate" json:"overwrite_on_duplicate,omitempty"`
-	ThreadId                  string                                     `protobuf:"bytes,8,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Payload []byte                 `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
+	// Unix nanoseconds. 0 (or a past value) defaults to now, making the task
+	// immediately eligible for dequeuing; a future value delays visibility
+	// until then.
+	ScheduledAt int64 `protobuf:"varint,2,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
+	// Unix nanoseconds, an absolute deadline (not a duration). 0 defaults to
+	// scheduled_at + the queue's expires_in_seconds. Only enforced while
+	// ENQUEUED; inert once the task is IN_PROGRESS.
+	ExpiresAt int64 `protobuf:"varint,3,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	// At most one live (ENQUEUED or IN_PROGRESS) task with this key may exist
+	// in the queue at a time; a later Enqueue with the same key is deduplicated
+	// per overwrite_on_duplicate.
+	DedupeKey string `protobuf:"bytes,4,opt,name=dedupe_key,json=dedupeKey,proto3" json:"dedupe_key,omitempty"`
+	// Overrides the queue's default keepalive_timeout_in_seconds for this task.
+	KeepaliveTimeoutInSeconds int64 `protobuf:"varint,5,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
+	// Overrides the queue's default retry_strategy for this task.
+	RetryStrategy        *RetryStrategy                             `protobuf:"bytes,6,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
+	OverwriteOnDuplicate []EnqueueRequestEntry_OverwriteOnDuplicate `protobuf:"varint,7,rep,packed,name=overwrite_on_duplicate,json=overwriteOnDuplicate,proto3,enum=com.evrblk.moab.v0.EnqueueRequestEntry_OverwriteOnDuplicate" json:"overwrite_on_duplicate,omitempty"`
+	// Tasks sharing a thread_id are mutually exclusive: at most one member is
+	// IN_PROGRESS at a time, and the next to become eligible (the head) is
+	// whichever member has the earliest scheduled_at among the rest. Empty
+	// means the task is not threaded.
+	ThreadId      string `protobuf:"bytes,8,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *EnqueueRequestEntry) Reset() {
@@ -1005,8 +1065,15 @@ func (x *EnqueueRequestEntry) GetThreadId() string {
 }
 
 type EnqueueResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Tasks         []*Task                `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Tasks actually enqueued or modified. A deduplicated entry with no
+	// overwrite_on_duplicate is skipped and omitted here, not returned as an
+	// error.
+	Tasks []*Task `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
+	// now is the server clock (Unix nanoseconds) at the moment this response was
+	// produced. Use it (not your local clock) to compute remaining time against
+	// each task's scheduled_at/expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1048,10 +1115,19 @@ func (x *EnqueueResponse) GetTasks() []*Task {
 	return nil
 }
 
+func (x *EnqueueResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
+}
+
 type DequeueRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	QueueName     string                 `protobuf:"bytes,1,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
-	BatchSize     int32                  `protobuf:"varint,2,opt,name=batch_size,json=batchSize,proto3" json:"batch_size,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	QueueName string                 `protobuf:"bytes,1,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
+	// Maximum number of tasks to pick up at once, if that many are ready. 0
+	// defaults to 1.
+	BatchSize     int32 `protobuf:"varint,2,opt,name=batch_size,json=batchSize,proto3" json:"batch_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1101,8 +1177,17 @@ func (x *DequeueRequest) GetBatchSize() int32 {
 }
 
 type DequeueResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Tasks         []*Task                `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Only ENQUEUED tasks with scheduled_at <= now are eligible. An empty list
+	// is a successful response, not an error — it means none were ready, or
+	// dequeuing_settings currently blocks dequeuing (paused, or a
+	// concurrency/rate limit reached).
+	Tasks []*Task `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
+	// now is the server clock (Unix nanoseconds) at the moment this response was
+	// produced. Use it (not your local clock) to compute remaining time against
+	// each task's expires_at — this is the lease handoff, so getting this right
+	// matters.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1142,6 +1227,13 @@ func (x *DequeueResponse) GetTasks() []*Task {
 		return x.Tasks
 	}
 	return nil
+}
+
+func (x *DequeueResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type ReportStatusRequest struct {
@@ -1197,8 +1289,12 @@ func (x *ReportStatusRequest) GetEntries() []*ReportStatusRequestEntry {
 }
 
 type ReportStatusRequestEntry struct {
-	state         protoimpl.MessageState          `protogen:"open.v1"`
-	TaskId        string                          `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	TaskId string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	// Must match the task's current attempts counter (from Dequeue/GetTask).
+	// If a keepalive timeout has already reclaimed the task (and it may have
+	// been picked up by another worker), a report against the stale attempt
+	// is silently ignored.
 	Attempt       int32                           `protobuf:"varint,2,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	Status        ReportStatusRequestEntry_Status `protobuf:"varint,3,opt,name=status,proto3,enum=com.evrblk.moab.v0.ReportStatusRequestEntry_Status" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1433,8 +1529,12 @@ func (x *GetTaskRequest) GetTaskId() string {
 }
 
 type GetTaskResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Task          *Task                  `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Task  *Task                  `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	// now is the server clock (Unix nanoseconds) at the moment this response was
+	// produced. Use it (not your local clock) to compute remaining time against
+	// task.scheduled_at/expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1474,6 +1574,13 @@ func (x *GetTaskResponse) GetTask() *Task {
 		return x.Task
 	}
 	return nil
+}
+
+func (x *GetTaskResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type ListTasksRequest struct {
@@ -1551,8 +1658,12 @@ type ListTasksResponse struct {
 	Tasks                   []*Task                `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
 	NextPaginationToken     string                 `protobuf:"bytes,2,opt,name=next_pagination_token,json=nextPaginationToken,proto3" json:"next_pagination_token,omitempty"`
 	PreviousPaginationToken string                 `protobuf:"bytes,3,opt,name=previous_pagination_token,json=previousPaginationToken,proto3" json:"previous_pagination_token,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// now is the server clock (Unix nanoseconds) at the moment this response was
+	// produced. Use it (not your local clock) to compute remaining time against
+	// each task's scheduled_at/expires_at.
+	Now           int64 `protobuf:"varint,4,opt,name=now,proto3" json:"now,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListTasksResponse) Reset() {
@@ -1604,6 +1715,13 @@ func (x *ListTasksResponse) GetPreviousPaginationToken() string {
 		return x.PreviousPaginationToken
 	}
 	return ""
+}
+
+func (x *ListTasksResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type RestartTasksRequest struct {
@@ -1658,6 +1776,13 @@ func (x *RestartTasksRequest) GetEntries() []*RestartTasksRequestEntry {
 	return nil
 }
 
+// A restart is a birth, not a resume: it produces exactly the state a fresh
+// Enqueue of the same payload would — attempts resets to 0, it competes for
+// its thread's head like a new arrival, and it gets a brand-new
+// forward-looking expires_at, never the stale original deadline or an
+// extension of the retention deadline it had while DEAD. Only DEAD tasks can
+// be restarted, and the restart re-validates dedupe_key against current
+// state rather than assuming it is still free.
 type RestartTasksRequestEntry struct {
 	state  protoimpl.MessageState `protogen:"open.v1"`
 	TaskId string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
@@ -1721,8 +1846,12 @@ func (x *RestartTasksRequestEntry) GetExpiresAt() int64 {
 }
 
 type RestartTasksResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Entries       []*RestartTasksResponseEntry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
+	state   protoimpl.MessageState       `protogen:"open.v1"`
+	Entries []*RestartTasksResponseEntry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
+	// now is the server clock (Unix nanoseconds) at the moment this response was
+	// produced. Use it (not your local clock) to compute remaining time against
+	// a restarted task's scheduled_at/expires_at.
+	Now           int64 `protobuf:"varint,2,opt,name=now,proto3" json:"now,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1762,6 +1891,13 @@ func (x *RestartTasksResponse) GetEntries() []*RestartTasksResponseEntry {
 		return x.Entries
 	}
 	return nil
+}
+
+func (x *RestartTasksResponse) GetNow() int64 {
+	if x != nil {
+		return x.Now
+	}
+	return 0
 }
 
 type RestartTasksResponseEntry struct {
@@ -2537,18 +2673,34 @@ func (x *ListSchedulesResponse) GetPreviousPaginationToken() string {
 	return ""
 }
 
+// Task is one unit of work in a queue. ENQUEUED tasks compete for dequeuing
+// by scheduled_at (threaded tasks additionally compete within their thread);
+// Dequeue hands a task to a worker as IN_PROGRESS, which must report it via
+// ReportStatus within keepalive_timeout_in_seconds or it is reclaimed as
+// abandoned.
 type Task struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	QueueName     string                 `protobuf:"bytes,2,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
-	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	ScheduledAt   int64                  `protobuf:"varint,5,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
-	ExpiresAt     int64                  `protobuf:"varint,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	DedupeKey     string                 `protobuf:"bytes,7,opt,name=dedupe_key,json=dedupeKey,proto3" json:"dedupe_key,omitempty"`
-	Attempts      int32                  `protobuf:"varint,8,opt,name=attempts,proto3" json:"attempts,omitempty"`
-	ThreadId      string                 `protobuf:"bytes,9,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
-	State         TaskState              `protobuf:"varint,10,opt,name=state,proto3,enum=com.evrblk.moab.v0.TaskState" json:"state,omitempty"` // debug info payload
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Id        string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	QueueName string                 `protobuf:"bytes,2,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
+	Payload   []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
+	// Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Unix nanoseconds. While ENQUEUED, the task is not eligible for dequeuing
+	// until this instant.
+	ScheduledAt int64 `protobuf:"varint,5,opt,name=scheduled_at,json=scheduledAt,proto3" json:"scheduled_at,omitempty"`
+	// Unix nanoseconds; meaning depends on state. While ENQUEUED, a delivery
+	// deadline anchored at scheduled_at + the queue's expires_in_seconds. Inert
+	// while IN_PROGRESS — never evaluated as long as the lease is being
+	// renewed. While DEAD (if kept in a dead letter queue), a retention
+	// deadline instead, recomputed at the moment of death.
+	ExpiresAt int64  `protobuf:"varint,6,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	DedupeKey string `protobuf:"bytes,7,opt,name=dedupe_key,json=dedupeKey,proto3" json:"dedupe_key,omitempty"`
+	// Incremented on every FAILED report or keepalive-timeout reclaim. The
+	// task moves to DEAD once retry_strategy's attempts are exhausted.
+	Attempts int32 `protobuf:"varint,8,opt,name=attempts,proto3" json:"attempts,omitempty"`
+	// Empty for non-threaded tasks; see EnqueueRequestEntry.thread_id.
+	ThreadId      string    `protobuf:"bytes,9,opt,name=thread_id,json=threadId,proto3" json:"thread_id,omitempty"`
+	State         TaskState `protobuf:"varint,10,opt,name=state,proto3,enum=com.evrblk.moab.v0.TaskState" json:"state,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2653,23 +2805,42 @@ func (x *Task) GetState() TaskState {
 	return TaskState_TASK_STATE_INVALID
 }
 
+// Schedule periodically calls Enqueue into its queue on a cron schedule,
+// with payload, dedupe_key, expires_in_seconds, keepalive_timeout_in_seconds,
+// and retry_strategy taken from the schedule itself. dedupe_key is commonly
+// used to skip a firing while the previous one is still ENQUEUED or
+// IN_PROGRESS (see Unique Tasks).
 type Schedule struct {
-	state                     protoimpl.MessageState `protogen:"open.v1"`
-	Name                      string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description               string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	QueueName                 string                 `protobuf:"bytes,3,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
-	CreatedAt                 int64                  `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt                 int64                  `protobuf:"varint,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version                   int64                  `protobuf:"varint,6,opt,name=version,proto3" json:"version,omitempty"`
-	Cron                      string                 `protobuf:"bytes,7,opt,name=cron,proto3" json:"cron,omitempty"`
-	Payload                   []byte                 `protobuf:"bytes,8,opt,name=payload,proto3" json:"payload,omitempty"`
-	DedupeKey                 string                 `protobuf:"bytes,9,opt,name=dedupe_key,json=dedupeKey,proto3" json:"dedupe_key,omitempty"`
-	ExpiresInSeconds          int64                  `protobuf:"varint,10,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
-	KeepaliveTimeoutInSeconds int64                  `protobuf:"varint,11,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
-	RetryStrategy             *RetryStrategy         `protobuf:"bytes,12,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
-	Timezone                  string                 `protobuf:"bytes,13,opt,name=timezone,proto3" json:"timezone,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	QueueName   string                 `protobuf:"bytes,3,opt,name=queue_name,json=queueName,proto3" json:"queue_name,omitempty"`
+	// Creation / last-modification time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt int64 `protobuf:"varint,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Monotonic version, bumped on every successful update (even one with no
+	// effective changes). Pass as expected_version in UpdateSchedule for
+	// optimistic concurrency control.
+	Version int64 `protobuf:"varint,6,opt,name=version,proto3" json:"version,omitempty"`
+	// A 5-, 6-, or 7-segment cron expression (seconds and year segments
+	// optional); see Schedules docs for the full syntax.
+	Cron      string `protobuf:"bytes,7,opt,name=cron,proto3" json:"cron,omitempty"`
+	Payload   []byte `protobuf:"bytes,8,opt,name=payload,proto3" json:"payload,omitempty"`
+	DedupeKey string `protobuf:"bytes,9,opt,name=dedupe_key,json=dedupeKey,proto3" json:"dedupe_key,omitempty"`
+	// Overrides the queue's default expires_in_seconds for tasks this
+	// schedule enqueues. 0 means inherit the queue's default.
+	ExpiresInSeconds int64 `protobuf:"varint,10,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
+	// Overrides the queue's default keepalive_timeout_in_seconds for tasks
+	// this schedule enqueues. 0 means inherit the queue's default.
+	KeepaliveTimeoutInSeconds int64 `protobuf:"varint,11,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
+	// Overrides the queue's default retry_strategy for tasks this schedule
+	// enqueues.
+	RetryStrategy *RetryStrategy `protobuf:"bytes,12,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
+	// IANA timezone the cron expression is evaluated in (e.g.
+	// "America/Los_Angeles").
+	Timezone      string `protobuf:"bytes,13,opt,name=timezone,proto3" json:"timezone,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Schedule) Reset() {
@@ -2793,9 +2964,14 @@ func (x *Schedule) GetTimezone() string {
 	return ""
 }
 
+// RetryStrategy is the backoff schedule applied when a task fails (explicit
+// FAILED report or keepalive-timeout reclaim). Empty means no retries — a
+// single failure sends the task straight to DEAD.
 type RetryStrategy struct {
-	state                   protoimpl.MessageState `protogen:"open.v1"`
-	RetryIntervalsInSeconds []int64                `protobuf:"varint,1,rep,packed,name=retry_intervals_in_seconds,json=retryIntervalsInSeconds,proto3" json:"retry_intervals_in_seconds,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Delay before each successive retry, in seconds. The task moves to DEAD
+	// once retries are exhausted.
+	RetryIntervalsInSeconds []int64 `protobuf:"varint,1,rep,packed,name=retry_intervals_in_seconds,json=retryIntervalsInSeconds,proto3" json:"retry_intervals_in_seconds,omitempty"`
 	unknownFields           protoimpl.UnknownFields
 	sizeCache               protoimpl.SizeCache
 }
@@ -2837,21 +3013,33 @@ func (x *RetryStrategy) GetRetryIntervalsInSeconds() []int64 {
 	return nil
 }
 
+// Queue is the top-level container tasks live in. keepalive_timeout_in_seconds,
+// expires_in_seconds, retry_strategy, dequeuing_settings, and
+// dead_letter_queue_config are defaults every task inherits unless it (or its
+// schedule) overrides them.
 type Queue struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt   int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt   int64                  `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Version     int64                  `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
-	// default on queue level, override on task level
+	// Creation / last-modification time, Unix nanoseconds.
+	CreatedAt int64 `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt int64 `protobuf:"varint,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Monotonic version, bumped on every successful update. Pass as
+	// expected_version in UpdateQueue for optimistic concurrency control.
+	Version int64 `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`
+	// Default per-task processing lease, in seconds: how long a dequeued task
+	// may stay IN_PROGRESS before Moab reclaims it as abandoned. Overridable
+	// per task or per schedule.
 	KeepaliveTimeoutInSeconds int64                  `protobuf:"varint,6,opt,name=keepalive_timeout_in_seconds,json=keepaliveTimeoutInSeconds,proto3" json:"keepalive_timeout_in_seconds,omitempty"`
 	RetryStrategy             *RetryStrategy         `protobuf:"bytes,7,opt,name=retry_strategy,json=retryStrategy,proto3" json:"retry_strategy,omitempty"`
 	DequeuingSettings         *DequeuingSettings     `protobuf:"bytes,8,opt,name=dequeuing_settings,json=dequeuingSettings,proto3" json:"dequeuing_settings,omitempty"`
 	DeadLetterQueueConfig     *DeadLetterQueueConfig `protobuf:"bytes,9,opt,name=dead_letter_queue_config,json=deadLetterQueueConfig,proto3" json:"dead_letter_queue_config,omitempty"`
-	ExpiresInSeconds          int64                  `protobuf:"varint,10,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	// Default retention, in seconds: a task that doesn't specify its own
+	// expires_at expires this many seconds after its scheduled_at. Every task
+	// expires eventually — there is no unlimited option.
+	ExpiresInSeconds int64 `protobuf:"varint,10,opt,name=expires_in_seconds,json=expiresInSeconds,proto3" json:"expires_in_seconds,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Queue) Reset() {
@@ -2954,6 +3142,9 @@ func (x *Queue) GetExpiresInSeconds() int64 {
 	return 0
 }
 
+// DeadLetterQueueConfig controls what happens to a task once its
+// retry_strategy is exhausted. If unset (enable false), dead tasks are
+// deleted immediately instead of being retained.
 type DeadLetterQueueConfig struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
 	Enable  bool                   `protobuf:"varint,1,opt,name=enable,proto3" json:"enable,omitempty"`
@@ -3017,13 +3208,22 @@ func (x *DeadLetterQueueConfig) GetRetentionPeriodInSeconds() int64 {
 	return 0
 }
 
+// DequeuingSettings throttles how fast tasks leave ENQUEUED for IN_PROGRESS,
+// independent of how many workers are polling. When a limit is hit, Dequeue
+// returns a successful empty response rather than an error.
 type DequeuingSettings struct {
-	state              protoimpl.MessageState   `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Caps the number of tasks in IN_PROGRESS state at once. 0 means
+	// unlimited. A crashed worker's tasks still count until
+	// keepalive_timeout_in_seconds reclaims them.
 	MaxInProgressTasks int64                    `protobuf:"varint,1,opt,name=max_in_progress_tasks,json=maxInProgressTasks,proto3" json:"max_in_progress_tasks,omitempty"`
 	RateLimiting       *TokenBucketRateLimiting `protobuf:"bytes,2,opt,name=rate_limiting,json=rateLimiting,proto3" json:"rate_limiting,omitempty"`
-	DequeuingPaused    bool                     `protobuf:"varint,3,opt,name=dequeuing_paused,json=dequeuingPaused,proto3" json:"dequeuing_paused,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// Pauses dequeuing entirely: every Dequeue returns a successful empty
+	// response, as if the queue were empty. Does not affect enqueuing or the
+	// expiration GC sweep.
+	DequeuingPaused bool `protobuf:"varint,3,opt,name=dequeuing_paused,json=dequeuingPaused,proto3" json:"dequeuing_paused,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *DequeuingSettings) Reset() {
@@ -3077,6 +3277,11 @@ func (x *DequeuingSettings) GetDequeuingPaused() bool {
 	return false
 }
 
+// TokenBucketRateLimiting caps the aggregate dequeue rate across every
+// worker pulling from the queue. max_tokens is the bucket size, refilled
+// every interval/interval_unit; a full bucket can release max_tokens tasks
+// at once, so e.g. 10 tokens per 10 seconds bursts differently than 1 token
+// per second even though both average the same rate.
 type TokenBucketRateLimiting struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MaxTokens     int64                  `protobuf:"varint,1,opt,name=max_tokens,json=maxTokens,proto3" json:"max_tokens,omitempty"`
@@ -3137,13 +3342,17 @@ func (x *TokenBucketRateLimiting) GetIntervalUnit() IntervalUnit {
 	return IntervalUnit_INTERVAL_UNIT_INVALID
 }
 
+// QueueStats is a point-in-time snapshot of a queue's counters; see
+// GetQueueResponse.now for when it was taken.
 type QueueStats struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
 	EnqueuedTasksCount   int64                  `protobuf:"varint,1,opt,name=enqueued_tasks_count,json=enqueuedTasksCount,proto3" json:"enqueued_tasks_count,omitempty"`
 	InProgressTasksCount int64                  `protobuf:"varint,2,opt,name=in_progress_tasks_count,json=inProgressTasksCount,proto3" json:"in_progress_tasks_count,omitempty"`
 	DeadTasksCount       int64                  `protobuf:"varint,3,opt,name=dead_tasks_count,json=deadTasksCount,proto3" json:"dead_tasks_count,omitempty"`
-	ProcessedTasksCount  int64                  `protobuf:"varint,4,opt,name=processed_tasks_count,json=processedTasksCount,proto3" json:"processed_tasks_count,omitempty"`
-	ExpiredTasksCount    int64                  `protobuf:"varint,5,opt,name=expired_tasks_count,json=expiredTasksCount,proto3" json:"expired_tasks_count,omitempty"`
+	// Cumulative since the queue was created.
+	ProcessedTasksCount int64 `protobuf:"varint,4,opt,name=processed_tasks_count,json=processedTasksCount,proto3" json:"processed_tasks_count,omitempty"`
+	// Cumulative since the queue was created.
+	ExpiredTasksCount int64 `protobuf:"varint,5,opt,name=expired_tasks_count,json=expiredTasksCount,proto3" json:"expired_tasks_count,omitempty"`
 	// Age of the oldest task actually available to dequeue right now, not
 	// every ENQUEUED task: a non-head member of a thread whose head is busy
 	// (IN_PROGRESS) is excluded, since it cannot be dequeued until the head
@@ -3242,10 +3451,11 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\x05queue\x18\x01 \x01(\v2\x19.com.evrblk.moab.v0.QueueR\x05queue\"0\n" +
 	"\x0fGetQueueRequest\x12\x1d\n" +
 	"\n" +
-	"queue_name\x18\x01 \x01(\tR\tqueueName\"y\n" +
+	"queue_name\x18\x01 \x01(\tR\tqueueName\"\x8b\x01\n" +
 	"\x10GetQueueResponse\x12/\n" +
 	"\x05queue\x18\x01 \x01(\v2\x19.com.evrblk.moab.v0.QueueR\x05queue\x124\n" +
-	"\x05stats\x18\x03 \x01(\v2\x1e.com.evrblk.moab.v0.QueueStatsR\x05stats\"\xf3\x03\n" +
+	"\x05stats\x18\x03 \x01(\v2\x1e.com.evrblk.moab.v0.QueueStatsR\x05stats\x12\x10\n" +
+	"\x03now\x18\x04 \x01(\x03R\x03now\"\xf3\x03\n" +
 	"\x12UpdateQueueRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12 \n" +
@@ -3288,16 +3498,18 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\x1eOVERWRITE_ON_DUPLICATE_INVALID\x10\x00\x12\"\n" +
 	"\x1eOVERWRITE_ON_DUPLICATE_PAYLOAD\x10\x01\x12'\n" +
 	"#OVERWRITE_ON_DUPLICATE_SCHEDULED_AT\x10\x02\x12%\n" +
-	"!OVERWRITE_ON_DUPLICATE_EXPIRES_AT\x10\x03\"A\n" +
+	"!OVERWRITE_ON_DUPLICATE_EXPIRES_AT\x10\x03\"S\n" +
 	"\x0fEnqueueResponse\x12.\n" +
-	"\x05tasks\x18\x01 \x03(\v2\x18.com.evrblk.moab.v0.TaskR\x05tasks\"N\n" +
+	"\x05tasks\x18\x01 \x03(\v2\x18.com.evrblk.moab.v0.TaskR\x05tasks\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"N\n" +
 	"\x0eDequeueRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12\x1d\n" +
 	"\n" +
-	"batch_size\x18\x02 \x01(\x05R\tbatchSize\"A\n" +
+	"batch_size\x18\x02 \x01(\x05R\tbatchSize\"S\n" +
 	"\x0fDequeueResponse\x12.\n" +
-	"\x05tasks\x18\x01 \x03(\v2\x18.com.evrblk.moab.v0.TaskR\x05tasks\"|\n" +
+	"\x05tasks\x18\x01 \x03(\v2\x18.com.evrblk.moab.v0.TaskR\x05tasks\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"|\n" +
 	"\x13ReportStatusRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12F\n" +
@@ -3320,19 +3532,21 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\x0eGetTaskRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12\x17\n" +
-	"\atask_id\x18\x02 \x01(\tR\x06taskId\"?\n" +
+	"\atask_id\x18\x02 \x01(\tR\x06taskId\"Q\n" +
 	"\x0fGetTaskResponse\x12,\n" +
-	"\x04task\x18\x01 \x01(\v2\x18.com.evrblk.moab.v0.TaskR\x04task\"\xa7\x01\n" +
+	"\x04task\x18\x01 \x01(\v2\x18.com.evrblk.moab.v0.TaskR\x04task\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\xa7\x01\n" +
 	"\x10ListTasksRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12)\n" +
 	"\x10pagination_token\x18\x02 \x01(\tR\x0fpaginationToken\x12\x14\n" +
 	"\x05limit\x18\x03 \x01(\x05R\x05limit\x123\n" +
-	"\x05state\x18\x04 \x01(\x0e2\x1d.com.evrblk.moab.v0.TaskStateR\x05state\"\xb3\x01\n" +
+	"\x05state\x18\x04 \x01(\x0e2\x1d.com.evrblk.moab.v0.TaskStateR\x05state\"\xc5\x01\n" +
 	"\x11ListTasksResponse\x12.\n" +
 	"\x05tasks\x18\x01 \x03(\v2\x18.com.evrblk.moab.v0.TaskR\x05tasks\x122\n" +
 	"\x15next_pagination_token\x18\x02 \x01(\tR\x13nextPaginationToken\x12:\n" +
-	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\"|\n" +
+	"\x19previous_pagination_token\x18\x03 \x01(\tR\x17previousPaginationToken\x12\x10\n" +
+	"\x03now\x18\x04 \x01(\x03R\x03now\"|\n" +
 	"\x13RestartTasksRequest\x12\x1d\n" +
 	"\n" +
 	"queue_name\x18\x01 \x01(\tR\tqueueName\x12F\n" +
@@ -3341,9 +3555,10 @@ const file_proto_moab_v0_api_proto_rawDesc = "" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12!\n" +
 	"\fscheduled_at\x18\x02 \x01(\x03R\vscheduledAt\x12\x1d\n" +
 	"\n" +
-	"expires_at\x18\x03 \x01(\x03R\texpiresAt\"_\n" +
+	"expires_at\x18\x03 \x01(\x03R\texpiresAt\"q\n" +
 	"\x14RestartTasksResponse\x12G\n" +
-	"\aentries\x18\x01 \x03(\v2-.com.evrblk.moab.v0.RestartTasksResponseEntryR\aentries\"\xab\x02\n" +
+	"\aentries\x18\x01 \x03(\v2-.com.evrblk.moab.v0.RestartTasksResponseEntryR\aentries\x12\x10\n" +
+	"\x03now\x18\x02 \x01(\x03R\x03now\"\xab\x02\n" +
 	"\x19RestartTasksResponseEntry\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12L\n" +
 	"\x06result\x18\x02 \x01(\x0e24.com.evrblk.moab.v0.RestartTasksResponseEntry.ResultR\x06result\x12,\n" +

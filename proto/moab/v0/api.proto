@@ -28,15 +28,23 @@ service MoabApi {
   rpc ListSchedules(ListSchedulesRequest) returns (ListSchedulesResponse) {}
 }
 
-// Queues APIs
-
 message CreateQueueRequest {
   string name = 1;
   string description = 2;
+  // Default per-task processing lease: how long a dequeued task may stay
+  // IN_PROGRESS before Moab reclaims it as abandoned. Overridable per task
+  // (EnqueueRequestEntry) or per schedule. Required, between [5, 60].
   int64 keepalive_timeout_in_seconds = 3;
+  // Default retry backoff for tasks in this queue; overridable per task or
+  // per schedule.
   RetryStrategy retry_strategy = 4;
   DequeuingSettings dequeuing_settings = 5;
   DeadLetterQueueConfig dead_letter_queue_config = 6;
+  // Default retention: a task that doesn't specify its own expires_at
+  // expires this many seconds after its scheduled_at. Required, between
+  // [5, 1209600] — every task expires eventually, there is no unlimited
+  // option. A per-task override cannot exceed this ceiling; it is clamped
+  // down, never rejected.
   int64 expires_in_seconds = 7;
 }
 
@@ -51,16 +59,27 @@ message GetQueueRequest {
 message GetQueueResponse {
   Queue queue = 1;
   QueueStats stats = 3;
+  // now is the server clock (Unix nanoseconds) at the moment stats was
+  // collected — a snapshot, not a stored attribute of the queue.
+  int64 now = 4;
 }
 
 message UpdateQueueRequest {
   string queue_name = 1;
   string description = 2;
+  // New default per-task processing lease: how long a dequeued task may stay
+  // IN_PROGRESS before Moab reclaims it as abandoned. Between [5, 60].
   int64 keepalive_timeout_in_seconds = 3;
   RetryStrategy retry_strategy = 4;
   DequeuingSettings dequeuing_settings = 5;
   DeadLetterQueueConfig dead_letter_queue_config = 6;
+  // New default retention: a task that doesn't specify its own expires_at
+  // expires this many seconds after its scheduled_at. Between
+  // [5, 1209600]; a per-task override exceeding this ceiling is clamped
+  // down, never rejected.
   int64 expires_in_seconds = 7;
+  // Optimistic concurrency: must equal the queue's current version or the
+  // update is rejected.
   int64 expected_version = 8;
 }
 
@@ -85,14 +104,16 @@ message ListQueuesResponse {
   string previous_pagination_token = 3;
 }
 
-// Enqueue/Dequeue APIs
-
 message EnqueueRequest {
   string queue_name = 1;
   repeated EnqueueRequestEntry entries = 2; // TODO rename to tasks?
 }
 
 message EnqueueRequestEntry {
+  // Which fields to overwrite on the existing task when dedupe_key matches a
+  // live (ENQUEUED or IN_PROGRESS) duplicate. Empty means the duplicate is
+  // skipped and the existing task is left untouched. Only meaningful when
+  // dedupe_key is set.
   enum OverwriteOnDuplicate {
     OVERWRITE_ON_DUPLICATE_INVALID = 0;
     OVERWRITE_ON_DUPLICATE_PAYLOAD = 1;
@@ -101,26 +122,59 @@ message EnqueueRequestEntry {
   }
 
   bytes payload = 1;
+  // Unix nanoseconds. 0 (or a past value) defaults to now, making the task
+  // immediately eligible for dequeuing; a future value delays visibility
+  // until then.
   int64 scheduled_at = 2;
+  // Unix nanoseconds, an absolute deadline (not a duration). 0 defaults to
+  // scheduled_at + the queue's expires_in_seconds. Only enforced while
+  // ENQUEUED; inert once the task is IN_PROGRESS.
   int64 expires_at = 3;
+  // At most one live (ENQUEUED or IN_PROGRESS) task with this key may exist
+  // in the queue at a time; a later Enqueue with the same key is deduplicated
+  // per overwrite_on_duplicate.
   string dedupe_key = 4;
+  // Overrides the queue's default keepalive_timeout_in_seconds for this task.
   int64 keepalive_timeout_in_seconds = 5;
+  // Overrides the queue's default retry_strategy for this task.
   RetryStrategy retry_strategy = 6;
   repeated OverwriteOnDuplicate overwrite_on_duplicate = 7;
+  // Tasks sharing a thread_id are mutually exclusive: at most one member is
+  // IN_PROGRESS at a time, and the next to become eligible (the head) is
+  // whichever member has the earliest scheduled_at among the rest. Empty
+  // means the task is not threaded.
   string thread_id = 8;
 }
 
 message EnqueueResponse {
+  // Tasks actually enqueued or modified. A deduplicated entry with no
+  // overwrite_on_duplicate is skipped and omitted here, not returned as an
+  // error.
   repeated Task tasks = 1;
+  // now is the server clock (Unix nanoseconds) at the moment this response was
+  // produced. Use it (not your local clock) to compute remaining time against
+  // each task's scheduled_at/expires_at.
+  int64 now = 2;
 }
 
 message DequeueRequest {
   string queue_name = 1;
+  // Maximum number of tasks to pick up at once, if that many are ready. 0
+  // defaults to 1.
   int32 batch_size = 2;
 }
 
 message DequeueResponse {
+  // Only ENQUEUED tasks with scheduled_at <= now are eligible. An empty list
+  // is a successful response, not an error — it means none were ready, or
+  // dequeuing_settings currently blocks dequeuing (paused, or a
+  // concurrency/rate limit reached).
   repeated Task tasks = 1;
+  // now is the server clock (Unix nanoseconds) at the moment this response was
+  // produced. Use it (not your local clock) to compute remaining time against
+  // each task's expires_at — this is the lease handoff, so getting this right
+  // matters.
+  int64 now = 2;
 }
 
 message ReportStatusRequest {
@@ -131,12 +185,21 @@ message ReportStatusRequest {
 message ReportStatusRequestEntry {
   enum Status {
     STATUS_INVALID = 0;
+    // Removes the task.
     STATUS_SUCCEEDED = 1;
+    // Renews the task's keepalive lease without completing it — for
+    // long-running work that needs more than keepalive_timeout_in_seconds.
     STATUS_IN_PROGRESS = 2;
+    // Moves the task back to ENQUEUED (or to DEAD once retry_strategy is
+    // exhausted), incrementing attempts.
     STATUS_FAILED = 3;
   }
 
   string task_id = 1;
+  // Must match the task's current attempts counter (from Dequeue/GetTask).
+  // If a keepalive timeout has already reclaimed the task (and it may have
+  // been picked up by another worker), a report against the stale attempt
+  // is silently ignored.
   int32 attempt = 2;
   Status status = 3;
 }
@@ -157,6 +220,10 @@ message GetTaskRequest {
 
 message GetTaskResponse {
   Task task = 1;
+  // now is the server clock (Unix nanoseconds) at the moment this response was
+  // produced. Use it (not your local clock) to compute remaining time against
+  // task.scheduled_at/expires_at.
+  int64 now = 2;
 }
 
 message ListTasksRequest {
@@ -172,6 +239,10 @@ message ListTasksResponse {
   repeated Task tasks = 1;
   string next_pagination_token = 2;
   string previous_pagination_token = 3;
+  // now is the server clock (Unix nanoseconds) at the moment this response was
+  // produced. Use it (not your local clock) to compute remaining time against
+  // each task's scheduled_at/expires_at.
+  int64 now = 4;
 }
 
 message RestartTasksRequest {
@@ -179,6 +250,13 @@ message RestartTasksRequest {
   repeated RestartTasksRequestEntry entries = 2;
 }
 
+// A restart is a birth, not a resume: it produces exactly the state a fresh
+// Enqueue of the same payload would — attempts resets to 0, it competes for
+// its thread's head like a new arrival, and it gets a brand-new
+// forward-looking expires_at, never the stale original deadline or an
+// extension of the retention deadline it had while DEAD. Only DEAD tasks can
+// be restarted, and the restart re-validates dedupe_key against current
+// state rather than assuming it is still free.
 message RestartTasksRequestEntry {
   string task_id = 1;
   // 0 - now (mirrors EnqueueRequestEntry's scheduled_at).
@@ -189,6 +267,10 @@ message RestartTasksRequestEntry {
 
 message RestartTasksResponse {
   repeated RestartTasksResponseEntry entries = 1;
+  // now is the server clock (Unix nanoseconds) at the moment this response was
+  // produced. Use it (not your local clock) to compute remaining time against
+  // a restarted task's scheduled_at/expires_at.
+  int64 now = 2;
 }
 
 message RestartTasksResponseEntry {
@@ -196,7 +278,10 @@ message RestartTasksResponseEntry {
     RESULT_INVALID = 0;
     RESULT_RESTARTED = 1;
     RESULT_NOT_FOUND = 2;
+    // The task exists but is not DEAD — only DEAD tasks can be restarted.
     RESULT_NOT_DEAD = 3;
+    // Restarting would violate dedupe_key's live-uniqueness: another live
+    // task already holds this task's dedupe_key.
     RESULT_DEDUPE_CONFLICT = 4;
   }
 
@@ -211,8 +296,6 @@ message PurgeQueueRequest {
 }
 
 message PurgeQueueResponse {}
-
-// Schedules APIs
 
 message CreateScheduleRequest {
   string queue_name = 1;
@@ -277,65 +360,122 @@ message ListSchedulesResponse {
   string previous_pagination_token = 3;
 }
 
-// Main models
-
+// Task is one unit of work in a queue. ENQUEUED tasks compete for dequeuing
+// by scheduled_at (threaded tasks additionally compete within their thread);
+// Dequeue hands a task to a worker as IN_PROGRESS, which must report it via
+// ReportStatus within keepalive_timeout_in_seconds or it is reclaimed as
+// abandoned.
 message Task {
   string id = 1;
   string queue_name = 2;
   bytes payload = 3;
+  // Unix nanoseconds.
   int64 created_at = 4;
+  // Unix nanoseconds. While ENQUEUED, the task is not eligible for dequeuing
+  // until this instant.
   int64 scheduled_at = 5;
+  // Unix nanoseconds; meaning depends on state. While ENQUEUED, a delivery
+  // deadline anchored at scheduled_at + the queue's expires_in_seconds. Inert
+  // while IN_PROGRESS — never evaluated as long as the lease is being
+  // renewed. While DEAD (if kept in a dead letter queue), a retention
+  // deadline instead, recomputed at the moment of death.
   int64 expires_at = 6;
   string dedupe_key = 7;
+  // Incremented on every FAILED report or keepalive-timeout reclaim. The
+  // task moves to DEAD once retry_strategy's attempts are exhausted.
   int32 attempts = 8;
+  // Empty for non-threaded tasks; see EnqueueRequestEntry.thread_id.
   string thread_id = 9;
   TaskState state = 10;
-  // debug info payload
 }
 
 enum TaskState {
   TASK_STATE_INVALID = 0;
+  // Waiting to be picked up; eligible once scheduled_at <= now.
   TASK_STATE_ENQUEUED = 1;
+  // Picked up via Dequeue; must be reported via ReportStatus within
+  // keepalive_timeout_in_seconds or it is reclaimed back to ENQUEUED.
   TASK_STATE_IN_PROGRESS = 2;
+  // Retries exhausted (or explicitly deleted while dead). Terminal unless
+  // restarted via RestartTasks.
   TASK_STATE_DEAD = 3;
 }
 
+// Schedule periodically calls Enqueue into its queue on a cron schedule,
+// with payload, dedupe_key, expires_in_seconds, keepalive_timeout_in_seconds,
+// and retry_strategy taken from the schedule itself. dedupe_key is commonly
+// used to skip a firing while the previous one is still ENQUEUED or
+// IN_PROGRESS (see Unique Tasks).
 message Schedule {
   string name = 1;
   string description = 2;
   string queue_name = 3;
+  // Creation / last-modification time, Unix nanoseconds.
   int64 created_at = 4;
   int64 updated_at = 5;
+  // Monotonic version, bumped on every successful update (even one with no
+  // effective changes). Pass as expected_version in UpdateSchedule for
+  // optimistic concurrency control.
   int64 version = 6;
+  // A 5-, 6-, or 7-segment cron expression (seconds and year segments
+  // optional); see Schedules docs for the full syntax.
   string cron = 7;
   bytes payload = 8;
   string dedupe_key = 9;
+  // Overrides the queue's default expires_in_seconds for tasks this
+  // schedule enqueues. 0 means inherit the queue's default.
   int64 expires_in_seconds = 10;
+  // Overrides the queue's default keepalive_timeout_in_seconds for tasks
+  // this schedule enqueues. 0 means inherit the queue's default.
   int64 keepalive_timeout_in_seconds = 11;
+  // Overrides the queue's default retry_strategy for tasks this schedule
+  // enqueues.
   RetryStrategy retry_strategy = 12;
+  // IANA timezone the cron expression is evaluated in (e.g.
+  // "America/Los_Angeles").
   string timezone = 13;
 }
 
+// RetryStrategy is the backoff schedule applied when a task fails (explicit
+// FAILED report or keepalive-timeout reclaim). Empty means no retries — a
+// single failure sends the task straight to DEAD.
 message RetryStrategy {
+  // Delay before each successive retry, in seconds. The task moves to DEAD
+  // once retries are exhausted.
   repeated int64 retry_intervals_in_seconds = 1;
 }
 
+// Queue is the top-level container tasks live in. keepalive_timeout_in_seconds,
+// expires_in_seconds, retry_strategy, dequeuing_settings, and
+// dead_letter_queue_config are defaults every task inherits unless it (or its
+// schedule) overrides them.
 message Queue {
   string name = 1;
   string description = 2;
+  // Creation / last-modification time, Unix nanoseconds.
   int64 created_at = 3;
   int64 updated_at = 4;
+  // Monotonic version, bumped on every successful update. Pass as
+  // expected_version in UpdateQueue for optimistic concurrency control.
   int64 version = 5;
 
-  // default on queue level, override on task level
+  // Default per-task processing lease, in seconds: how long a dequeued task
+  // may stay IN_PROGRESS before Moab reclaims it as abandoned. Overridable
+  // per task or per schedule.
   int64 keepalive_timeout_in_seconds = 6;
   RetryStrategy retry_strategy = 7;
   DequeuingSettings dequeuing_settings = 8;
   DeadLetterQueueConfig dead_letter_queue_config = 9;
 
+  // Default retention, in seconds: a task that doesn't specify its own
+  // expires_at expires this many seconds after its scheduled_at. Every task
+  // expires eventually — there is no unlimited option.
   int64 expires_in_seconds = 10;
 }
 
+// DeadLetterQueueConfig controls what happens to a task once its
+// retry_strategy is exhausted. If unset (enable false), dead tasks are
+// deleted immediately instead of being retained.
 message DeadLetterQueueConfig {
   bool enable = 1;
   int64 max_size = 2; // 0 - unlimited
@@ -345,29 +485,41 @@ message DeadLetterQueueConfig {
   int64 retention_period_in_seconds = 3;
 }
 
-// message CompletedTasksSetConfig {
-//   bool enable = 1;
-//   int64 max_size = 2; // 0 - unlimited
-//   int64 retention_period = 3; // TODO units? 0 - unlimited
-// }
-
+// DequeuingSettings throttles how fast tasks leave ENQUEUED for IN_PROGRESS,
+// independent of how many workers are polling. When a limit is hit, Dequeue
+// returns a successful empty response rather than an error.
 message DequeuingSettings {
+  // Caps the number of tasks in IN_PROGRESS state at once. 0 means
+  // unlimited. A crashed worker's tasks still count until
+  // keepalive_timeout_in_seconds reclaims them.
   int64 max_in_progress_tasks = 1;
   TokenBucketRateLimiting rate_limiting = 2;
+  // Pauses dequeuing entirely: every Dequeue returns a successful empty
+  // response, as if the queue were empty. Does not affect enqueuing or the
+  // expiration GC sweep.
   bool dequeuing_paused = 3;
 }
 
+// TokenBucketRateLimiting caps the aggregate dequeue rate across every
+// worker pulling from the queue. max_tokens is the bucket size, refilled
+// every interval/interval_unit; a full bucket can release max_tokens tasks
+// at once, so e.g. 10 tokens per 10 seconds bursts differently than 1 token
+// per second even though both average the same rate.
 message TokenBucketRateLimiting {
   int64 max_tokens = 1;
   int64 interval = 2;
   IntervalUnit interval_unit = 3;
 }
 
+// QueueStats is a point-in-time snapshot of a queue's counters; see
+// GetQueueResponse.now for when it was taken.
 message QueueStats {
   int64 enqueued_tasks_count = 1;
   int64 in_progress_tasks_count = 2;
   int64 dead_tasks_count = 3;
+  // Cumulative since the queue was created.
   int64 processed_tasks_count = 4;
+  // Cumulative since the queue was created.
   int64 expired_tasks_count = 5;
   // Age of the oldest task actually available to dequeue right now, not
   // every ENQUEUED task: a non-head member of a thread whose head is busy
