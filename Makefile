@@ -60,29 +60,29 @@ generate-code:
 		--service-name=Grackle \
 		--go-package-path=github.com/evrblk/evrblk-go/grackle/v1beta \
 		--go-package-name=grackle \
-		--output-path=./grackle/v1beta/client.go \
+		--output-path=./grackle/v1beta/client_gen.go \
 		--proto-file-path=./proto/grackle/v1beta/api.proto
 	go run ./cmd/codegen \
 		--service-name=Banyan \
 		--go-package-path=github.com/evrblk/evrblk-go/banyan/v0 \
 		--go-package-name=banyan \
-		--output-path=./banyan/v0/client.go \
+		--output-path=./banyan/v0/client_gen.go \
 		--proto-file-path=./proto/banyan/v0/api.proto
 	go run ./cmd/codegen \
 		--service-name=IAM \
 		--go-package-path=github.com/evrblk/evrblk-go/iam/v0 \
 		--go-package-name=iam \
-		--output-path=./iam/v0/client.go \
+		--output-path=./iam/v0/client_gen.go \
 		--proto-file-path=./proto/iam/v0/api.proto
 	go run ./cmd/codegen \
 		--service-name=Moab \
 		--go-package-path=github.com/evrblk/evrblk-go/moab/v0 \
 		--go-package-name=moab \
-		--output-path=./moab/v0/client.go \
+		--output-path=./moab/v0/client_gen.go \
 		--proto-file-path=./proto/moab/v0/api.proto
 	go run ./cmd/codegen \
 		--service-name=MyAccount \
 		--go-package-path=github.com/evrblk/evrblk-go/myaccount/v0 \
 		--go-package-name=myaccount \
-		--output-path=./myaccount/v0/client.go \
+		--output-path=./myaccount/v0/client_gen.go \
 		--proto-file-path=./proto/myaccount/v0/api.proto

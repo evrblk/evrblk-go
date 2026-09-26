@@ -134,16 +134,14 @@ message EnqueueRequestEntry {
   // in the queue at a time; a later Enqueue with the same key is deduplicated
   // per overwrite_on_duplicate.
   string dedupe_key = 4;
-  // Overrides the queue's default keepalive_timeout_in_seconds for this task.
-  int64 keepalive_timeout_in_seconds = 5;
   // Overrides the queue's default retry_strategy for this task.
-  RetryStrategy retry_strategy = 6;
-  repeated OverwriteOnDuplicate overwrite_on_duplicate = 7;
+  RetryStrategy retry_strategy = 5;
+  repeated OverwriteOnDuplicate overwrite_on_duplicate = 6;
   // Tasks sharing a thread_id are mutually exclusive: at most one member is
   // IN_PROGRESS at a time, and the next to become eligible (the head) is
   // whichever member has the earliest scheduled_at among the rest. Empty
   // means the task is not threaded.
-  string thread_id = 8;
+  string thread_id = 7;
 }
 
 message EnqueueResponse {
@@ -162,6 +160,12 @@ message DequeueRequest {
   // Maximum number of tasks to pick up at once, if that many are ready. 0
   // defaults to 1.
   int32 batch_size = 2;
+  // Overrides the queue's default keepalive_timeout_in_seconds for every
+  // task this call dequeues: how long this worker gets before the lease is
+  // considered abandoned and the task reclaimed. 0 inherits the queue's
+  // default. This is the consumer's own call — it is the one that knows
+  // how long it needs to hold a task before reporting it.
+  int64 keepalive_timeout_in_seconds = 3;
 }
 
 message DequeueResponse {
@@ -199,12 +203,45 @@ message ReportStatusRequestEntry {
   // Must match the task's current attempts counter (from Dequeue/GetTask).
   // If a keepalive timeout has already reclaimed the task (and it may have
   // been picked up by another worker), a report against the stale attempt
-  // is silently ignored.
+  // is not applied - see the corresponding entry in ReportStatusResponse,
+  // whose Result is RESULT_STALE_ATTEMPT in that case.
   int32 attempt = 2;
   Status status = 3;
+  // Overrides the queue's default keepalive_timeout_in_seconds, extending
+  // the lease by this many seconds from now. Meaningful only when status
+  // == STATUS_IN_PROGRESS; ignored otherwise. 0 inherits the queue's
+  // default. Like DequeueRequest's field of the same name, this is the
+  // consumer's own call — it, not the server, knows how long it needs
+  // before its next heartbeat.
+  int64 keepalive_timeout_in_seconds = 4;
 }
 
-message ReportStatusResponse {}
+message ReportStatusResponse {
+  // Same length and order as the request's entries, one-to-one.
+  repeated ReportStatusResponseEntry entries = 1;
+}
+
+message ReportStatusResponseEntry {
+  enum Result {
+    RESULT_INVALID = 0;
+    // The status was applied: the task deleted (SUCCEEDED), retried or
+    // dead-lettered (FAILED), or its lease renewed (IN_PROGRESS).
+    RESULT_OK = 1;
+    // No task exists under this id (never did, or an earlier report/reclaim
+    // already deleted it).
+    RESULT_NOT_FOUND = 2;
+    // The task exists but is not IN_PROGRESS - already completed,
+    // dead-lettered, or re-enqueued by the time this report arrived.
+    RESULT_NOT_IN_PROGRESS = 3;
+    // Attempt didn't match the task's current attempts: its lease already
+    // lapsed and was reclaimed (and possibly redelivered) before this
+    // report arrived.
+    RESULT_STALE_ATTEMPT = 4;
+  }
+
+  string task_id = 1;
+  Result result = 2;
+}
 
 message DeleteTasksRequest {
   string queue_name = 1;
@@ -305,9 +342,8 @@ message CreateScheduleRequest {
   bytes payload = 5;
   string dedupe_key = 6;
   int64 expires_in_seconds = 7;
-  int64 keepalive_timeout_in_seconds = 8;
-  RetryStrategy retry_strategy = 9;
-  string timezone = 10;
+  RetryStrategy retry_strategy = 8;
+  string timezone = 9;
 }
 
 message CreateScheduleResponse {
@@ -331,10 +367,9 @@ message UpdateScheduleRequest {
   bytes payload = 5;
   string dedupe_key = 6;
   int64 expires_in_seconds = 7;
-  int64 keepalive_timeout_in_seconds = 8;
-  RetryStrategy retry_strategy = 9;
-  string timezone = 10;
-  int64 expected_version = 11;
+  RetryStrategy retry_strategy = 8;
+  string timezone = 9;
+  int64 expected_version = 10;
 }
 
 message UpdateScheduleResponse {
@@ -387,6 +422,12 @@ message Task {
   // Empty for non-threaded tasks; see EnqueueRequestEntry.thread_id.
   string thread_id = 9;
   TaskState state = 10;
+  // Unix nanoseconds; meaningful only while IN_PROGRESS (0 otherwise). The
+  // keepalive deadline: report this task via ReportStatus — SUCCEEDED,
+  // FAILED, or IN_PROGRESS to renew the lease — before this instant, or the
+  // server reclaims it as abandoned (see Queue/EnqueueRequestEntry's
+  // keepalive_timeout_in_seconds).
+  int64 visible_at = 11;
 }
 
 enum TaskState {
@@ -402,10 +443,9 @@ enum TaskState {
 }
 
 // Schedule periodically calls Enqueue into its queue on a cron schedule,
-// with payload, dedupe_key, expires_in_seconds, keepalive_timeout_in_seconds,
-// and retry_strategy taken from the schedule itself. dedupe_key is commonly
-// used to skip a firing while the previous one is still ENQUEUED or
-// IN_PROGRESS (see Unique Tasks).
+// with payload, dedupe_key, expires_in_seconds, and retry_strategy taken
+// from the schedule itself. dedupe_key is commonly used to skip a firing
+// while the previous one is still ENQUEUED or IN_PROGRESS (see Unique Tasks).
 message Schedule {
   string name = 1;
   string description = 2;
@@ -425,15 +465,12 @@ message Schedule {
   // Overrides the queue's default expires_in_seconds for tasks this
   // schedule enqueues. 0 means inherit the queue's default.
   int64 expires_in_seconds = 10;
-  // Overrides the queue's default keepalive_timeout_in_seconds for tasks
-  // this schedule enqueues. 0 means inherit the queue's default.
-  int64 keepalive_timeout_in_seconds = 11;
   // Overrides the queue's default retry_strategy for tasks this schedule
   // enqueues.
-  RetryStrategy retry_strategy = 12;
+  RetryStrategy retry_strategy = 11;
   // IANA timezone the cron expression is evaluated in (e.g.
   // "America/Los_Angeles").
-  string timezone = 13;
+  string timezone = 12;
 }
 
 // RetryStrategy is the backoff schedule applied when a task fails (explicit

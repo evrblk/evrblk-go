@@ -645,7 +645,7 @@ func (m *EnqueueRequestEntry) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.ThreadId)
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.ThreadId)))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x3a
 	}
 	if len(m.OverwriteOnDuplicate) > 0 {
 		var pksize2 int
@@ -666,7 +666,7 @@ func (m *EnqueueRequestEntry) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		}
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(pksize2))
 		i--
-		dAtA[i] = 0x3a
+		dAtA[i] = 0x32
 	}
 	if m.RetryStrategy != nil {
 		size, err := m.RetryStrategy.MarshalToSizedBufferVT(dAtA[:i])
@@ -676,12 +676,7 @@ func (m *EnqueueRequestEntry) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= size
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
 		i--
-		dAtA[i] = 0x32
-	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.KeepaliveTimeoutInSeconds))
-		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x2a
 	}
 	if len(m.DedupeKey) > 0 {
 		i -= len(m.DedupeKey)
@@ -789,6 +784,11 @@ func (m *DequeueRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.KeepaliveTimeoutInSeconds != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.KeepaliveTimeoutInSeconds))
+		i--
+		dAtA[i] = 0x18
 	}
 	if m.BatchSize != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.BatchSize))
@@ -937,6 +937,11 @@ func (m *ReportStatusRequestEntry) MarshalToSizedBufferVT(dAtA []byte) (int, err
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.KeepaliveTimeoutInSeconds != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.KeepaliveTimeoutInSeconds))
+		i--
+		dAtA[i] = 0x20
+	}
 	if m.Status != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Status))
 		i--
@@ -986,6 +991,63 @@ func (m *ReportStatusResponse) MarshalToSizedBufferVT(dAtA []byte) (int, error) 
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if len(m.Entries) > 0 {
+		for iNdEx := len(m.Entries) - 1; iNdEx >= 0; iNdEx-- {
+			size, err := m.Entries[iNdEx].MarshalToSizedBufferVT(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ReportStatusResponseEntry) MarshalVT() (dAtA []byte, err error) {
+	if m == nil {
+		return nil, nil
+	}
+	size := m.SizeVT()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBufferVT(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ReportStatusResponseEntry) MarshalToVT(dAtA []byte) (int, error) {
+	size := m.SizeVT()
+	return m.MarshalToSizedBufferVT(dAtA[:size])
+}
+
+func (m *ReportStatusResponseEntry) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
+	if m == nil {
+		return 0, nil
+	}
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.unknownFields != nil {
+		i -= len(m.unknownFields)
+		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.Result != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.Result))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.TaskId) > 0 {
+		i -= len(m.TaskId)
+		copy(dAtA[i:], m.TaskId)
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.TaskId)))
+		i--
+		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -1603,7 +1665,7 @@ func (m *CreateScheduleRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 		copy(dAtA[i:], m.Timezone)
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.Timezone)))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x4a
 	}
 	if m.RetryStrategy != nil {
 		size, err := m.RetryStrategy.MarshalToSizedBufferVT(dAtA[:i])
@@ -1613,12 +1675,7 @@ func (m *CreateScheduleRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 		i -= size
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
 		i--
-		dAtA[i] = 0x4a
-	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.KeepaliveTimeoutInSeconds))
-		i--
-		dAtA[i] = 0x40
+		dAtA[i] = 0x42
 	}
 	if m.ExpiresInSeconds != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.ExpiresInSeconds))
@@ -1836,14 +1893,14 @@ func (m *UpdateScheduleRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 	if m.ExpectedVersion != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.ExpectedVersion))
 		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x50
 	}
 	if len(m.Timezone) > 0 {
 		i -= len(m.Timezone)
 		copy(dAtA[i:], m.Timezone)
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.Timezone)))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x4a
 	}
 	if m.RetryStrategy != nil {
 		size, err := m.RetryStrategy.MarshalToSizedBufferVT(dAtA[:i])
@@ -1853,12 +1910,7 @@ func (m *UpdateScheduleRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 		i -= size
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
 		i--
-		dAtA[i] = 0x4a
-	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.KeepaliveTimeoutInSeconds))
-		i--
-		dAtA[i] = 0x40
+		dAtA[i] = 0x42
 	}
 	if m.ExpiresInSeconds != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.ExpiresInSeconds))
@@ -2174,6 +2226,11 @@ func (m *Task) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.VisibleAt != 0 {
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.VisibleAt))
+		i--
+		dAtA[i] = 0x58
+	}
 	if m.State != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.State))
 		i--
@@ -2272,7 +2329,7 @@ func (m *Schedule) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.Timezone)
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(len(m.Timezone)))
 		i--
-		dAtA[i] = 0x6a
+		dAtA[i] = 0x62
 	}
 	if m.RetryStrategy != nil {
 		size, err := m.RetryStrategy.MarshalToSizedBufferVT(dAtA[:i])
@@ -2282,12 +2339,7 @@ func (m *Schedule) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= size
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
 		i--
-		dAtA[i] = 0x62
-	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.KeepaliveTimeoutInSeconds))
-		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x5a
 	}
 	if m.ExpiresInSeconds != 0 {
 		i = protohelpers.EncodeVarint(dAtA, i, uint64(m.ExpiresInSeconds))
@@ -2975,9 +3027,6 @@ func (m *EnqueueRequestEntry) SizeVT() (n int) {
 	if l > 0 {
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.KeepaliveTimeoutInSeconds))
-	}
 	if m.RetryStrategy != nil {
 		l = m.RetryStrategy.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
@@ -3028,6 +3077,9 @@ func (m *DequeueRequest) SizeVT() (n int) {
 	}
 	if m.BatchSize != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.BatchSize))
+	}
+	if m.KeepaliveTimeoutInSeconds != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.KeepaliveTimeoutInSeconds))
 	}
 	n += len(m.unknownFields)
 	return n
@@ -3088,6 +3140,9 @@ func (m *ReportStatusRequestEntry) SizeVT() (n int) {
 	if m.Status != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.Status))
 	}
+	if m.KeepaliveTimeoutInSeconds != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.KeepaliveTimeoutInSeconds))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -3098,6 +3153,29 @@ func (m *ReportStatusResponse) SizeVT() (n int) {
 	}
 	var l int
 	_ = l
+	if len(m.Entries) > 0 {
+		for _, e := range m.Entries {
+			l = e.SizeVT()
+			n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+		}
+	}
+	n += len(m.unknownFields)
+	return n
+}
+
+func (m *ReportStatusResponseEntry) SizeVT() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.TaskId)
+	if l > 0 {
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	if m.Result != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.Result))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -3355,9 +3433,6 @@ func (m *CreateScheduleRequest) SizeVT() (n int) {
 	if m.ExpiresInSeconds != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.ExpiresInSeconds))
 	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.KeepaliveTimeoutInSeconds))
-	}
 	if m.RetryStrategy != nil {
 		l = m.RetryStrategy.SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
@@ -3448,9 +3523,6 @@ func (m *UpdateScheduleRequest) SizeVT() (n int) {
 	}
 	if m.ExpiresInSeconds != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.ExpiresInSeconds))
-	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.KeepaliveTimeoutInSeconds))
 	}
 	if m.RetryStrategy != nil {
 		l = m.RetryStrategy.SizeVT()
@@ -3595,6 +3667,9 @@ func (m *Task) SizeVT() (n int) {
 	if m.State != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.State))
 	}
+	if m.VisibleAt != 0 {
+		n += 1 + protohelpers.SizeOfVarint(uint64(m.VisibleAt))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -3640,9 +3715,6 @@ func (m *Schedule) SizeVT() (n int) {
 	}
 	if m.ExpiresInSeconds != 0 {
 		n += 1 + protohelpers.SizeOfVarint(uint64(m.ExpiresInSeconds))
-	}
-	if m.KeepaliveTimeoutInSeconds != 0 {
-		n += 1 + protohelpers.SizeOfVarint(uint64(m.KeepaliveTimeoutInSeconds))
 	}
 	if m.RetryStrategy != nil {
 		l = m.RetryStrategy.SizeVT()
@@ -5380,25 +5452,6 @@ func (m *EnqueueRequestEntry) UnmarshalVT(dAtA []byte) error {
 			m.DedupeKey = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field KeepaliveTimeoutInSeconds", wireType)
-			}
-			m.KeepaliveTimeoutInSeconds = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.KeepaliveTimeoutInSeconds |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryStrategy", wireType)
 			}
@@ -5434,7 +5487,7 @@ func (m *EnqueueRequestEntry) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 7:
+		case 6:
 			if wireType == 0 {
 				var v EnqueueRequestEntry_OverwriteOnDuplicate
 				for shift := uint(0); ; shift += 7 {
@@ -5503,7 +5556,7 @@ func (m *EnqueueRequestEntry) UnmarshalVT(dAtA []byte) error {
 			} else {
 				return fmt.Errorf("proto: wrong wireType = %d for field OverwriteOnDuplicate", wireType)
 			}
-		case 8:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ThreadId", wireType)
 			}
@@ -5737,6 +5790,25 @@ func (m *DequeueRequest) UnmarshalVT(dAtA []byte) error {
 				b := dAtA[iNdEx]
 				iNdEx++
 				m.BatchSize |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field KeepaliveTimeoutInSeconds", wireType)
+			}
+			m.KeepaliveTimeoutInSeconds = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.KeepaliveTimeoutInSeconds |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -6083,6 +6155,25 @@ func (m *ReportStatusRequestEntry) UnmarshalVT(dAtA []byte) error {
 					break
 				}
 			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field KeepaliveTimeoutInSeconds", wireType)
+			}
+			m.KeepaliveTimeoutInSeconds = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.KeepaliveTimeoutInSeconds |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -6134,6 +6225,142 @@ func (m *ReportStatusResponse) UnmarshalVT(dAtA []byte) error {
 			return fmt.Errorf("proto: ReportStatusResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Entries", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Entries = append(m.Entries, &ReportStatusResponseEntry{})
+			if err := m.Entries[len(m.Entries)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.unknownFields = append(m.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ReportStatusResponseEntry) UnmarshalVT(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return protohelpers.ErrIntOverflow
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ReportStatusResponseEntry: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ReportStatusResponseEntry: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TaskId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return protohelpers.ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TaskId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Result", wireType)
+			}
+			m.Result = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Result |= ReportStatusResponseEntry_Result(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -7721,25 +7948,6 @@ func (m *CreateScheduleRequest) UnmarshalVT(dAtA []byte) error {
 				}
 			}
 		case 8:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field KeepaliveTimeoutInSeconds", wireType)
-			}
-			m.KeepaliveTimeoutInSeconds = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.KeepaliveTimeoutInSeconds |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryStrategy", wireType)
 			}
@@ -7775,7 +7983,7 @@ func (m *CreateScheduleRequest) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 10:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timezone", wireType)
 			}
@@ -8361,25 +8569,6 @@ func (m *UpdateScheduleRequest) UnmarshalVT(dAtA []byte) error {
 				}
 			}
 		case 8:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field KeepaliveTimeoutInSeconds", wireType)
-			}
-			m.KeepaliveTimeoutInSeconds = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.KeepaliveTimeoutInSeconds |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryStrategy", wireType)
 			}
@@ -8415,7 +8604,7 @@ func (m *UpdateScheduleRequest) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 10:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timezone", wireType)
 			}
@@ -8447,7 +8636,7 @@ func (m *UpdateScheduleRequest) UnmarshalVT(dAtA []byte) error {
 			}
 			m.Timezone = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 11:
+		case 10:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ExpectedVersion", wireType)
 			}
@@ -9310,6 +9499,25 @@ func (m *Task) UnmarshalVT(dAtA []byte) error {
 					break
 				}
 			}
+		case 11:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VisibleAt", wireType)
+			}
+			m.VisibleAt = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protohelpers.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.VisibleAt |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := protohelpers.Skip(dAtA[iNdEx:])
@@ -9632,25 +9840,6 @@ func (m *Schedule) UnmarshalVT(dAtA []byte) error {
 				}
 			}
 		case 11:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field KeepaliveTimeoutInSeconds", wireType)
-			}
-			m.KeepaliveTimeoutInSeconds = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protohelpers.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.KeepaliveTimeoutInSeconds |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryStrategy", wireType)
 			}
@@ -9686,7 +9875,7 @@ func (m *Schedule) UnmarshalVT(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 13:
+		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timezone", wireType)
 			}
