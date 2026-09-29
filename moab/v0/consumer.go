@@ -223,18 +223,29 @@ func (c ConsumerConfig) Validate() error {
 
 // leaseInfo tracks one in-flight task's lease for heartbeatLoop and the
 // stale-report check in reportStatusLoop: the Attempt a heartbeat must
-// carry (matching what Dequeue handed out), and when the lease was last
-// renewed - by the original Dequeue, or by whichever heartbeat most
-// recently succeeded.
+// carry (matching what Dequeue handed out), when the lease was last renewed
+// - by the original Dequeue, or by whichever heartbeat most recently
+// succeeded - and when it was originally dequeued, which lastRenewal
+// overwrites on every renewal and so can't answer on its own (used only for
+// the oldest-in-flight-task-age metric).
 type leaseInfo struct {
 	attempt     int32
 	lastRenewal time.Time
+	dequeuedAt  time.Time
 }
 
 type taskCompletionStatus struct {
 	taskId  string
 	attempt int32
 	err     error
+}
+
+// bufferedTask pairs a dequeued task with when it was handed to bufCh, so a
+// worker can measure how long it sat there before being claimed (the
+// moab_consumer_buffer_duration_seconds metric).
+type bufferedTask struct {
+	task       *Task
+	enqueuedAt time.Time
 }
 
 // MoabConsumer pulls tasks off one queue and drives them through a
@@ -259,7 +270,7 @@ type MoabConsumer struct {
 	// whether it's still sitting in bufCh or already claimed by a worker.
 	leases   map[string]*leaseInfo
 	mu       sync.Mutex
-	bufCh    chan *Task
+	bufCh    chan bufferedTask
 	statusCh chan taskCompletionStatus
 }
 
@@ -275,11 +286,17 @@ func (c *MoabConsumer) Start(ctx context.Context, h HandlerFunc) {
 	c.mu.Lock()
 	c.leases = make(map[string]*leaseInfo)
 	c.mu.Unlock()
-	c.bufCh = make(chan *Task, c.config.BufferSize)
+	c.bufCh = make(chan bufferedTask, c.config.BufferSize)
 	// Buffered to one slot per worker so a worker's send can never block
 	// forever, even if it outlives ShutdownTimeout and the status reporter
 	// has already stopped reading from it.
 	c.statusCh = make(chan taskCompletionStatus, c.config.NumWorkers)
+
+	// The leases reset above didn't touch these gauges - without this, a
+	// restart would carry over a stale count/age from whatever the previous
+	// run left in flight.
+	consumerInFlightTasks.WithLabelValues(c.queueName).Set(0)
+	consumerOldestInFlightTaskAgeSeconds.WithLabelValues(c.queueName).Set(0)
 
 	var pollersWg, workersWg sync.WaitGroup
 
@@ -386,6 +403,23 @@ func (c *MoabConsumer) sendReportStatusBatch(batch []*ReportStatusRequestEntry) 
 	return reportStatusResult{batch: batch, resp: resp, err: err}
 }
 
+// logReportedStatuses logs one Info line for a ReportStatus batch that the
+// RPC call itself succeeded for, splitting task ids by the status they were
+// reported with. Per-entry rejections (a report that didn't actually take
+// effect) are logged separately, at Warn, by the caller.
+func (c *MoabConsumer) logReportedStatuses(batch []*ReportStatusRequestEntry) {
+	succeeded := make([]string, 0, len(batch))
+	failed := make([]string, 0, len(batch))
+	for _, e := range batch {
+		if e.Status == ReportStatusRequestEntry_STATUS_SUCCEEDED {
+			succeeded = append(succeeded, e.TaskId)
+		} else {
+			failed = append(failed, e.TaskId)
+		}
+	}
+	c.logger.Info("reported task status", "queue", c.queueName, "succeeded_task_ids", succeeded, "failed_task_ids", failed)
+}
+
 func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 	entries := make([]*ReportStatusRequestEntry, 0, c.config.ReportBatchSize)
 	sending := false
@@ -428,6 +462,7 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 				dropped := len(entries) - maxBuffered
 				c.logger.Error("dropping oldest buffered status reports to bound memory during a prolonged outage",
 					"queue", c.queueName, "dropped", dropped)
+				consumerDroppedStatusReportsTotal.WithLabelValues(c.queueName).Add(float64(dropped))
 				entries = entries[dropped:]
 			}
 			return
@@ -443,6 +478,7 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 				c.logger.Warn("status report was not applied", "queue", c.queueName, "task_id", e.TaskId, "result", e.Result)
 			}
 		}
+		c.logReportedStatuses(res.batch)
 	}
 
 	// applyResult is mergeResult plus the normal-operation retry policy:
@@ -478,6 +514,8 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 		c.mu.Unlock()
 
 		if ok {
+			consumerInFlightTasks.WithLabelValues(c.queueName).Dec()
+
 			if elapsed := time.Since(lease.lastRenewal); elapsed > c.config.KeepAliveTimeout {
 				c.logger.Warn("task handling exceeded keepalive timeout; status report may be rejected as stale",
 					"queue", c.queueName, "task_id", status.taskId, "elapsed", elapsed, "keep_alive_timeout", c.config.KeepAliveTimeout)
@@ -532,6 +570,7 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 							c.logger.Warn("status report was not applied", "queue", c.queueName, "task_id", e.TaskId, "result", e.Result)
 						}
 					}
+					c.logReportedStatuses(res.batch)
 				}
 			}
 			return
@@ -551,16 +590,33 @@ func (c *MoabConsumer) workerLoop(ctx context.Context, h HandlerFunc) {
 		case <-ctx.Done():
 			c.logger.Debug("worker: stopping, context cancelled", "queue", c.queueName)
 			return
-		case task := <-c.bufCh:
-			err := c.runHandler(ctx, h, task)
+		case bt := <-c.bufCh:
+			consumerBufferDuration.WithLabelValues(c.queueName).Observe(time.Since(bt.enqueuedAt).Seconds())
+
+			start := time.Now()
+			err := c.runHandler(ctx, h, bt.task)
+			duration := time.Since(start)
+
+			result := "succeeded"
+			if err != nil {
+				result = "failed"
+			}
+			consumerTasksProcessedTotal.WithLabelValues(c.queueName, result).Inc()
+			consumerHandlerDuration.WithLabelValues(c.queueName, result).Observe(duration.Seconds())
+
+			if err != nil {
+				c.logger.Info("handled task", "queue", c.queueName, "task_id", bt.task.Id, "attempt", bt.task.Attempts, "result", result, "duration", duration, "error", err)
+			} else {
+				c.logger.Info("handled task", "queue", c.queueName, "task_id", bt.task.Id, "attempt", bt.task.Attempts, "result", result, "duration", duration)
+			}
 
 			// Safe to send unconditionally and without a ctx.Done() escape:
 			// statusCh is buffered to hold one pending send per worker, so
 			// this never blocks even if it outlives ShutdownTimeout and the
 			// status reporter has already stopped reading.
 			c.statusCh <- taskCompletionStatus{
-				taskId:  task.Id,
-				attempt: task.Attempts,
+				taskId:  bt.task.Id,
+				attempt: bt.task.Attempts,
 				err:     err,
 			}
 		}
@@ -601,18 +657,26 @@ func (c *MoabConsumer) heartbeatLoop(drained <-chan struct{}) {
 // sweepHeartbeats renews the lease of every task in c.leases last renewed
 // at least interval ago, via one or more batched ReportStatus(IN_PROGRESS)
 // calls (chunked to ReportBatchSize entries each, the same cap
-// reportStatusLoop uses for its own batches).
+// reportStatusLoop uses for its own batches). It also updates the
+// oldest-in-flight-task-age gauge from the same scan, rather than running a
+// separate one just for that.
 func (c *MoabConsumer) sweepHeartbeats(interval time.Duration) {
 	now := time.Now()
 
 	c.mu.Lock()
 	due := make([]string, 0)
+	oldestDequeuedAt := now
 	for taskId, lease := range c.leases {
 		if now.Sub(lease.lastRenewal) >= interval {
 			due = append(due, taskId)
 		}
+		if lease.dequeuedAt.Before(oldestDequeuedAt) {
+			oldestDequeuedAt = lease.dequeuedAt
+		}
 	}
 	c.mu.Unlock()
+
+	consumerOldestInFlightTaskAgeSeconds.WithLabelValues(c.queueName).Set(now.Sub(oldestDequeuedAt).Seconds())
 
 	for len(due) > 0 {
 		n := min(len(due), int(c.config.ReportBatchSize))
@@ -682,6 +746,8 @@ func (c *MoabConsumer) sendHeartbeatBatch(taskIds []string) {
 		// again, and a handler still running locally for it has already
 		// lost the race - its eventual final report will be rejected too.
 		delete(c.leases, e.TaskId)
+		consumerInFlightTasks.WithLabelValues(c.queueName).Dec()
+		consumerHeartbeatRejectionsTotal.WithLabelValues(c.queueName).Inc()
 		c.logger.Warn("heartbeat rejected, lease no longer held by this consumer",
 			"queue", c.queueName, "task_id", e.TaskId, "result", e.Result)
 	}
@@ -706,6 +772,7 @@ func (c *MoabConsumer) pollLoop(ctx context.Context) {
 			cancel()
 
 			if err != nil {
+				consumerDequeueErrorsTotal.WithLabelValues(c.queueName).Inc()
 				c.logger.Error("failed to dequeue tasks", "queue", c.queueName, "error", err)
 				c.sleep(ctx, c.pollingIntervalWithJitter())
 				continue
@@ -714,26 +781,31 @@ func (c *MoabConsumer) pollLoop(ctx context.Context) {
 			if len(resp.Tasks) > 0 {
 				now := time.Now()
 
+				taskIds := make([]string, len(resp.Tasks))
 				c.mu.Lock()
 				for i := range resp.Tasks {
-					c.leases[resp.Tasks[i].Id] = &leaseInfo{attempt: resp.Tasks[i].Attempts, lastRenewal: now}
+					c.leases[resp.Tasks[i].Id] = &leaseInfo{attempt: resp.Tasks[i].Attempts, lastRenewal: now, dequeuedAt: now}
+					taskIds[i] = resp.Tasks[i].Id
 				}
 				c.mu.Unlock()
+				consumerInFlightTasks.WithLabelValues(c.queueName).Add(float64(len(resp.Tasks)))
+
+				c.logger.Info("dequeued tasks", "queue", c.queueName, "count", len(resp.Tasks), "task_ids", taskIds)
 
 				for i := range resp.Tasks {
 					// Workers may have already exited on ctx.Done(), in which
 					// case nothing will ever drain bufCh; an unconditional
 					// send here would block this loop forever.
 					select {
-					case c.bufCh <- resp.Tasks[i]:
+					case c.bufCh <- bufferedTask{task: resp.Tasks[i], enqueuedAt: now}:
 					case <-ctx.Done():
 						return
 					}
 				}
 			} else {
+				consumerEmptyDequeueResponsesTotal.WithLabelValues(c.queueName).Inc()
 				c.logger.Debug("consumer: empty dequeue response, sleeping", "queue", c.queueName)
 				c.sleep(ctx, c.pollingIntervalWithJitter())
-				// TODO emit metric for empty response
 			}
 		}
 	}
@@ -762,6 +834,7 @@ func (c *MoabConsumer) pollingIntervalWithJitter() time.Duration {
 func (c *MoabConsumer) runHandler(ctx context.Context, h HandlerFunc, task *Task) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
+			consumerTaskPanicsTotal.WithLabelValues(c.queueName).Inc()
 			c.logger.Error("panic in task handler", "queue", c.queueName, "task_id", task.Id, "panic", r, "stack", string(debug.Stack()))
 			err = fmt.Errorf("panic in task handler: %v", r)
 		}
