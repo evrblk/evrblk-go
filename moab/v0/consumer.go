@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"math/rand/v2"
 	"runtime/debug"
 	"sync"
 	"time"
@@ -44,8 +45,10 @@ type ConsumerConfig struct {
 	DequeueBatchSize int32
 
 	// ReportBatchSize is the max number of status entries batched into a
-	// single ReportStatus call.
-	ReportBatchSize int
+	// single ReportStatus call. int32, matching DequeueBatchSize, even
+	// though it's never itself put on the wire - kept consistent so the two
+	// batch-size knobs don't silently drift into different types.
+	ReportBatchSize int32
 
 	// ReportFlushInterval is the max time completed task statuses sit
 	// buffered before being flushed via ReportStatus, regardless of whether
@@ -260,7 +263,24 @@ type MoabConsumer struct {
 	statusCh chan taskCompletionStatus
 }
 
+// Start runs the consumer until ctx is cancelled, then returns once shutdown
+// finishes (or ShutdownTimeout elapses). It resets all leases/bufCh/statusCh
+// state at the top, so calling it again after a previous call has returned -
+// e.g. from a supervising retry loop - starts clean rather than resurfacing
+// whatever that previous run left behind. That reset assumes the previous
+// call has actually returned first: it must not run concurrently with, or
+// while stragglers from, a still-active or ShutdownTimeout-abandoned prior
+// call.
 func (c *MoabConsumer) Start(ctx context.Context, h HandlerFunc) {
+	c.mu.Lock()
+	c.leases = make(map[string]*leaseInfo)
+	c.mu.Unlock()
+	c.bufCh = make(chan *Task, c.config.BufferSize)
+	// Buffered to one slot per worker so a worker's send can never block
+	// forever, even if it outlives ShutdownTimeout and the status reporter
+	// has already stopped reading from it.
+	c.statusCh = make(chan taskCompletionStatus, c.config.NumWorkers)
+
 	var pollersWg, workersWg sync.WaitGroup
 
 	for i := 0; i < c.config.NumPollers; i++ {
@@ -332,33 +352,79 @@ func (c *MoabConsumer) Start(ctx context.Context, h HandlerFunc) {
 	<-heartbeatDone
 }
 
+// reportStatusResult is the outcome of one ReportStatus RPC attempt made on
+// batch, delivered back to reportStatusLoop's goroutine over a channel
+// rather than returned directly - see sendReportStatusBatch's doc comment
+// for why the call itself must never run on that goroutine.
+type reportStatusResult struct {
+	batch []*ReportStatusRequestEntry
+	resp  *ReportStatusResponse
+	err   error
+}
+
+// sendReportStatusBatch performs one ReportStatus RPC for batch. Always
+// called from a dedicated goroutine, never from reportStatusLoop's own
+// goroutine directly: that goroutine is also the only reader of
+// c.statusCh, and workers block sending on c.statusCh once it fills (sized
+// to only one pending completion per worker) - so a slow or failing
+// ReportStatus call sitting inline on that goroutine would stall every
+// worker, and backpressure from a full bufCh would in turn stall every
+// poller, for as long as the call takes to time out.
+//
+// Uses a context detached from Start's ctx (rather than a child of it) so a
+// flush triggered by ctx being cancelled - the shutdown flush in
+// reportStatusLoop - still gets a chance to go out instead of being
+// cancelled before it starts.
+func (c *MoabConsumer) sendReportStatusBatch(batch []*ReportStatusRequestEntry) reportStatusResult {
+	ctx, cancel := context.WithTimeout(context.Background(), c.config.ReportStatusTimeout)
+	defer cancel()
+
+	resp, err := c.moabClient.ReportStatus(ctx, &ReportStatusRequest{
+		QueueName: c.queueName,
+		Entries:   batch,
+	})
+	return reportStatusResult{batch: batch, resp: resp, err: err}
+}
+
 func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 	entries := make([]*ReportStatusRequestEntry, 0, c.config.ReportBatchSize)
+	sending := false
+	resultCh := make(chan reportStatusResult)
 
-	flush := func() {
-		if len(entries) == 0 {
+	// send hands whatever's pending off to sendReportStatusBatch on a
+	// background goroutine and returns immediately, so this loop keeps
+	// draining c.statusCh (and heartbeatLoop keeps renewing leases
+	// regardless) for as long as that RPC call is in flight. At most one
+	// send is ever outstanding at a time - a second call while sending is
+	// true is a no-op, since entries has nothing new to hand off until the
+	// first one's result comes back through resultCh.
+	send := func() {
+		if sending || len(entries) == 0 {
 			return
 		}
+		batch := entries
+		entries = make([]*ReportStatusRequestEntry, 0, c.config.ReportBatchSize)
+		sending = true
+		go func() {
+			resultCh <- c.sendReportStatusBatch(batch)
+		}()
+	}
 
-		req := &ReportStatusRequest{
-			QueueName: c.queueName,
-			Entries:   entries,
-		}
+	// mergeResult folds one RPC attempt's outcome back into entries, without
+	// deciding whether to retry - callers that want the normal retry cadence
+	// (every new arrival or tick, indefinitely) do that themselves; the
+	// shutdown path deliberately doesn't, see reportStatusLoop's drained
+	// case below.
+	mergeResult := func(res reportStatusResult) {
+		if res.err != nil {
+			// Prepended, not appended: these are older than whatever's
+			// accumulated in entries since this batch was taken, and
+			// maxBufferedReportEntriesMultiplier's trim below assumes the
+			// oldest entries sit at the front.
+			c.logger.Error("failed to report task status, will retry", "queue", c.queueName, "error", res.err, "count", len(res.batch))
+			entries = append(res.batch, entries...)
 
-		// Uses a context detached from ctx (rather than a child of it) so a
-		// flush triggered by ctx being cancelled - the shutdown flush below -
-		// still gets a chance to go out instead of being cancelled before it
-		// starts.
-		ctx2, cancel := context.WithTimeout(context.Background(), c.config.ReportStatusTimeout)
-		resp, err := c.moabClient.ReportStatus(ctx2, req)
-		cancel()
-		if err != nil {
-			// Left in entries for the next flush to retry, rather than
-			// vanishing unreported - see maxBufferedReportEntriesMultiplier's
-			// doc comment for why that's safe and how it's bounded.
-			c.logger.Error("failed to report task status, will retry", "queue", c.queueName, "error", err, "count", len(entries))
-
-			if maxBuffered := maxBufferedReportEntriesMultiplier * c.config.ReportBatchSize; len(entries) > maxBuffered {
+			if maxBuffered := maxBufferedReportEntriesMultiplier * int(c.config.ReportBatchSize); len(entries) > maxBuffered {
 				dropped := len(entries) - maxBuffered
 				c.logger.Error("dropping oldest buffered status reports to bound memory during a prolonged outage",
 					"queue", c.queueName, "dropped", dropped)
@@ -371,14 +437,25 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 		// batch - each entry's own Result says whether its report actually
 		// took effect. A non-OK one isn't something retrying would fix (the
 		// task's already gone, or this attempt is already stale), so it's
-		// still safe to drop below; just make it visible.
-		for _, e := range resp.Entries {
+		// still safe to drop; just make it visible.
+		for _, e := range res.resp.Entries {
 			if e.Result != ReportStatusResponseEntry_RESULT_OK {
 				c.logger.Warn("status report was not applied", "queue", c.queueName, "task_id", e.TaskId, "result", e.Result)
 			}
 		}
+	}
 
-		entries = entries[:0]
+	// applyResult is mergeResult plus the normal-operation retry policy:
+	// whatever's left in entries - freshly merged back in on failure, or
+	// simply accumulated while this batch was in flight - gets sent again
+	// immediately once it reaches ReportBatchSize, rather than waiting for
+	// the next tick.
+	applyResult := func(res reportStatusResult) {
+		sending = false
+		mergeResult(res)
+		if len(entries) >= int(c.config.ReportBatchSize) {
+			send()
+		}
 	}
 
 	handle := func(status taskCompletionStatus) {
@@ -407,8 +484,8 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 			}
 		}
 
-		if len(entries) >= c.config.ReportBatchSize {
-			flush()
+		if len(entries) >= int(c.config.ReportBatchSize) {
+			send()
 		}
 	}
 
@@ -433,12 +510,37 @@ func (c *MoabConsumer) reportStatusLoop(drained <-chan struct{}) {
 			}
 
 			c.logger.Debug("statusReporter: stopping, all workers drained", "queue", c.queueName)
-			flush()
+
+			// Let any send already in flight land - merging its result
+			// (including anything it puts back on failure) into entries -
+			// before deciding what's left to flush. Not looped through
+			// applyResult's own retry: at shutdown we get exactly one more
+			// attempt at whatever remains, not an indefinite retry loop
+			// against a server that may be the reason we're stuck.
+			if sending {
+				mergeResult(<-resultCh)
+				sending = false
+			}
+
+			if len(entries) > 0 {
+				res := c.sendReportStatusBatch(entries)
+				if res.err != nil {
+					c.logger.Error("failed to report task status during shutdown, giving up", "queue", c.queueName, "error", res.err, "count", len(entries))
+				} else {
+					for _, e := range res.resp.Entries {
+						if e.Result != ReportStatusResponseEntry_RESULT_OK {
+							c.logger.Warn("status report was not applied", "queue", c.queueName, "task_id", e.TaskId, "result", e.Result)
+						}
+					}
+				}
+			}
 			return
 		case <-ticker.C:
-			flush()
+			send()
 		case status := <-c.statusCh:
 			handle(status)
+		case res := <-resultCh:
+			applyResult(res)
 		}
 	}
 }
@@ -513,7 +615,7 @@ func (c *MoabConsumer) sweepHeartbeats(interval time.Duration) {
 	c.mu.Unlock()
 
 	for len(due) > 0 {
-		n := min(len(due), c.config.ReportBatchSize)
+		n := min(len(due), int(c.config.ReportBatchSize))
 		c.sendHeartbeatBatch(due[:n])
 		due = due[n:]
 	}
@@ -605,7 +707,7 @@ func (c *MoabConsumer) pollLoop(ctx context.Context) {
 
 			if err != nil {
 				c.logger.Error("failed to dequeue tasks", "queue", c.queueName, "error", err)
-				c.sleep(ctx, c.config.PollingInterval)
+				c.sleep(ctx, c.pollingIntervalWithJitter())
 				continue
 			}
 
@@ -630,7 +732,7 @@ func (c *MoabConsumer) pollLoop(ctx context.Context) {
 				}
 			} else {
 				c.logger.Debug("consumer: empty dequeue response, sleeping", "queue", c.queueName)
-				c.sleep(ctx, c.config.PollingInterval)
+				c.sleep(ctx, c.pollingIntervalWithJitter())
 				// TODO emit metric for empty response
 			}
 		}
@@ -642,6 +744,16 @@ func (c *MoabConsumer) sleep(ctx context.Context, d time.Duration) {
 	case <-time.After(d):
 	case <-ctx.Done():
 	}
+}
+
+// pollingIntervalWithJitter adds up to 50% random jitter on top of
+// PollingInterval. Without it, every poller backs off by the exact same
+// fixed duration after an error or an empty Dequeue response, so - with
+// NumPollers > 1, or many consumer instances sharing a queue - they'd all
+// retry in lockstep instead of staggered.
+func (c *MoabConsumer) pollingIntervalWithJitter() time.Duration {
+	d := c.config.PollingInterval
+	return d + rand.N(d/2+1)
 }
 
 // runHandler runs h, recovering a panic and turning it into an error so a
@@ -668,16 +780,13 @@ func NewMoabConsumer(moabClient MoabApi, queueName string, logger *slog.Logger, 
 		return nil, fmt.Errorf("invalid ConsumerConfig: %w", err)
 	}
 
+	// leases/bufCh/statusCh are left nil here - Start creates them fresh on
+	// every call (see its doc comment), so initializing them here too would
+	// just be redundant.
 	return &MoabConsumer{
 		moabClient: moabClient,
 		queueName:  queueName,
 		logger:     logger,
 		config:     config,
-		leases:     make(map[string]*leaseInfo),
-		bufCh:      make(chan *Task, config.BufferSize),
-		// Buffered to one slot per worker so a worker's send can never
-		// block forever, even if it outlives ShutdownTimeout and the
-		// status reporter has already stopped reading from it.
-		statusCh: make(chan taskCompletionStatus, config.NumWorkers),
 	}, nil
 }

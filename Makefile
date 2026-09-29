@@ -6,6 +6,9 @@ build: generate-proto generate-code
 	go fmt ./...
 	go vet ./...
 
+test:
+	go test --race ./...
+
 generate-proto:
 	@echo "Generating proto files..."
 	protoc --proto_path=. \
